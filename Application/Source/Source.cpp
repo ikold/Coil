@@ -1,6 +1,7 @@
 #include "Coil.h"
 
-class App : public Coil::Aplication
+class App : public cl::Application
 {
-
 };
+
+BindApplication(App)

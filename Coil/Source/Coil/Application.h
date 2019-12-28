@@ -13,6 +13,7 @@ namespace Coil
 		void Run();
 	};
 
+	Application* CreatApplication();
 }
 
 

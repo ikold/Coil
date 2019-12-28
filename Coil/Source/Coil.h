@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Coil/Application.h"
+
 #include "Coil/EntryPoint.h"
 
-#include "Coil/Aplication.h"
+
+namespace cl = Coil;
