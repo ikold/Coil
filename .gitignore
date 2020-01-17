@@ -356,3 +356,23 @@ MigrationBackup/
 
 # Filters
 *.filters
+
+
+
+## Ignore CodeLite
+*.workspace
+*.mk
+*.project
+
+.build-debug/
+.codelite/
+
+compile_commands.json
+compile_flags.txt
+
+Makefile
+
+# Projects specific files
+Application/Application.txt
+Coil/Coil.txt
+

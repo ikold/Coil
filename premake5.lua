@@ -1,6 +1,7 @@
 workspace "Coil"
 	architecture "x64"
-	
+	startproject "Application"
+
 	configurations
 	{
 		"Debug",
@@ -33,6 +34,11 @@ workspace "Coil"
 		{
 			"%{prj.name}/Source"
 		}
+
+		defines
+		{
+			"CL_BUILD_DLL"
+		}
 		
 		filter "system:windows"
 			cppdialect "C++17"
@@ -42,8 +48,17 @@ workspace "Coil"
 			defines
 			{
 				"CL_PLATFORM_WINDOWS",
-				"CL_BUILD_DLL",
 				"_CRT_SECURE_NO_WARNINGS"
+			}
+
+		filter "system:linux"
+			cppdialect "C++17"
+			systemversion "latest"
+			staticruntime "Off"
+			
+			defines
+			{
+				"CL_PLATFORM_LINUX"
 			}
 			
 		filter "configurations:Debug"
@@ -97,7 +112,19 @@ workspace "Coil"
 			{
 				{"{COPY} ../bin/" .. outputdir .. "/Coil/Coil.dll ../bin/" .. outputdir .. "/Application"}
 			}
+
+		filter "system:linux"
+			cppdialect "C++17"
+			systemversion "latest"
+			staticruntime "Off"
 			
+			defines
+			{
+				"CL_PLATFORM_LINUX"
+			}
+
+			debugenvs { "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(WorkspacePath)/bin/" .. outputdir .. "/Coil/" }
+
 		filter "configurations:Debug"
 			defines { "CL_DEBUG" }
 			symbols "On"

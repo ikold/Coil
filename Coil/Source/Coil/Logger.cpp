@@ -63,7 +63,7 @@ namespace Coil
 		Container.push_back(log);
 
 		// temp function for drawing log to console
-		printf("%s", LogParser::Compose(*log).c_str());
+		printf("%s\n", LogParser::Compose(*log).c_str());
 
 		return log;
 	}

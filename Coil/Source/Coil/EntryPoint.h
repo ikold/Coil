@@ -4,6 +4,7 @@
 
 #include "Logger.h"
 
+
 extern Coil::Application* Coil::CreatApplication();
 
 int main(int argc, char* argv[])
@@ -18,12 +19,21 @@ int main(int argc, char* argv[])
 	return 0;
 }
 
-#elif
+#elif CL_PLATFORM_LINUX
+
+#include "Logger.h"
 
 /*TO DO - others systems*/
-int main(int argc, char* gv)
+int main(int argc, char* argv[])
 {
+	Coil::Logger::Info("Creating Application");
+
+	auto app = Coil::CreatApplication();
+	app->Run();
+
+	delete app;
+	
 	return 0;
 }
 
-#endif // CL_PLATFORM_WINDOWS
+#endif
