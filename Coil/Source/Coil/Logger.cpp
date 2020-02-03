@@ -42,7 +42,7 @@ namespace Coil
 	std::string LogParser::Compose(const Log& log)
 	{
 		std::string s("[");
-		s.append(Date(log));
+		s.append(Time::getTimeStr(log.m_Date));
 		s.append("][");
 		s.append(Level(log.m_Level));
 		s.append("] ");

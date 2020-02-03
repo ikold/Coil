@@ -11,6 +11,9 @@ namespace Coil
 		virtual ~Application();
 		
 		void Run();
+		
+	private:
+		bool Running;
 	};
 
 	Application* CreatApplication();
