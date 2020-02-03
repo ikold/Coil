@@ -10,12 +10,12 @@ extern Coil::Application* Coil::CreatApplication();
 int main(int argc, char* argv[])
 {
 	Coil::Logger::Info("Creating Application");
-
+	
 	auto app = Coil::CreatApplication();
 	app->Run();
-
+	
 	delete app;
-
+	
 	return 0;
 }
 
@@ -23,14 +23,16 @@ int main(int argc, char* argv[])
 
 #include "Logger.h"
 
-/*TO DO - others systems*/
+
+extern Coil::Application* Coil::CreatApplication();
+
 int main(int argc, char* argv[])
 {
 	Coil::Logger::Info("Creating Application");
-
+	
 	auto app = Coil::CreatApplication();
 	app->Run();
-
+	
 	delete app;
 	
 	return 0;

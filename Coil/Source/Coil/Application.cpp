@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Application.h"
 
-#include "Coil/Time.h"
-#include "Coil/Logger.h"
+#include "Time.h"
+#include "Logger.h"
 
 
 namespace Coil
@@ -25,8 +25,10 @@ namespace Coil
 		
 		while (Running)
 		{
+			// computing of frame time
 			Time::Tick();
 			
+			// tmp
 			Running = false;
 		}
 	}

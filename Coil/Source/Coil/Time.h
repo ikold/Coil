@@ -3,50 +3,56 @@
 #include "Coil/Core.h"
 
 
+class TimestampToString;
 namespace Coil
 {
 	#define Timestamp ::std::time_t
 	
+	/*!
+		Static class responsible for all time operations
+	 */
 	class COIL_API Time
 	{
 	private:
 		Time() {};
 	public:
 		/*!	Method for geting current timestamp
+		
+			@return Timestamp	Timestamp with current date
 		*/
 		inline static Timestamp Now() { return std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());}
 		
-		static std::string getTimeStr(const Timestamp timestamp)
-		{
-			std::stringstream ss;
-			ss << std::put_time(std::localtime(&timestamp), "%Y-%m-%d %H:%M:%S");
-			return ss.str();
-		}
+		/*!	Formats string from timestamp
+			@param[in]	timestamp	Timestamp to be parsed to string
+			 
+			@return		std::string	Formated string
+		 */
+		static std::string TimestampToString(const Timestamp timestamp);
+		
 		
 		/*!	Method for calculating frame time
+			Should be called on begging of every frame
 		*/
 		static void Tick();
 		
 		/*!	Get interface for delta time
-
-			@return		float	precalculate delta time
+		
+			@return		float	precalculate delta time in ms
 		*/
 		inline static float DeltaTime() { return DeltaTimeV; }
 		
 		/*!	Get interface for fps
-		 * 
+		
 			@return		float	precalculated fps
 		*/
 		inline static float Fps() { return FpsV; }
 		
-		
-		
 	private:
-		static std::chrono::time_point<std::chrono::steady_clock> Last;
-		static std::chrono::time_point<std::chrono::steady_clock> Current;
+		static std::chrono::time_point<std::chrono::steady_clock> LastFrameTime;		/*!	Coresponds to the time point on the begging of last frame */
+		static std::chrono::time_point<std::chrono::steady_clock> CurrentFrameTime;		/*!	Coresponds to the time point on the begging of current frame */
 		
-		static float DeltaTimeV;
-		static float FpsV;
+		static float DeltaTimeV;	/*!	Precalculated time in ms between frames */
+		static float FpsV;			/*!	For benchmarking purpose */
 	};
 }
 
