@@ -4,6 +4,8 @@
 
 #include <sstream>
 
+#include <functional>
+
 #include <iomanip>
 
 #include <vector>
