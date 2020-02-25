@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Coil/Core.h"
+#include "Window.h"
 
 namespace Coil
 {
@@ -18,6 +19,8 @@ namespace Coil
 		
 	private:
 		bool Running;	/*!	Flag responsible of running of main loop */
+
+		std::unique_ptr<Window> AppWindow;
 	};
 
 

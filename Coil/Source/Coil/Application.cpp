@@ -1,15 +1,13 @@
 #include "pch.h"
 #include "Application.h"
 
-#include "Time.h"
-#include "Logger.h"
-
 
 namespace Coil
 {
 	Application::Application()
 		:Running(true)
 	{
+		AppWindow = std::unique_ptr<Window>(Window::Create());
 	}
 
 	Application::~Application()
@@ -28,8 +26,10 @@ namespace Coil
 			// computing of frame time
 			Time::Tick();
 			
+			AppWindow->OnUpdate();
+
 			// tmp
-			Running = false;
+			//Running = false;
 		}
 	}
 }

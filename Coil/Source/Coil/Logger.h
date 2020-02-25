@@ -99,6 +99,9 @@ namespace Coil
 			@param[in]	message
 		
 			@return		Log*	pointer to created Log
+
+
+			@todo parameters passing
 		*/
 		///@{
 		static inline Log* Fatal(const char* message)		{ return Container.Create(message, LogLevel::fatal); }

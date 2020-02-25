@@ -18,7 +18,7 @@ namespace Coil
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
-	enum EventCategory
+	enum class EventCategory
 	{
 		None =			0,
 		Application =	1 << 0,
@@ -46,7 +46,7 @@ namespace Coil
 
 		inline bool IsInCategory(EventCategory category) const
 		{
-			return GetCategoryFlags() & category;
+			return GetCategoryFlags() & (int)category;
 		}
 
 	protected:

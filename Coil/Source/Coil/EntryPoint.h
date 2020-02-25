@@ -2,9 +2,6 @@
 
 #ifdef CL_PLATFORM_WINDOWS
 
-#include "Logger.h"
-
-
 extern Coil::Application* Coil::CreatApplication();
 
 int main(int argc, char* argv[])
@@ -20,9 +17,6 @@ int main(int argc, char* argv[])
 }
 
 #elif CL_PLATFORM_LINUX
-
-#include "Logger.h"
-
 
 extern Coil::Application* Coil::CreatApplication();
 

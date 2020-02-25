@@ -11,7 +11,11 @@ workspace "Coil"
 	
 	
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
+
+	IncludeDir = {}
+	IncludeDir["GLFW"] = "Coil/Vendor/GLFW/include"
 	
+	include "Coil/Vendor"
 	
 	project "Coil"
 		location "Coil"
@@ -32,7 +36,14 @@ workspace "Coil"
 		
 		includedirs 
 		{
-			"%{prj.name}/Source"
+			"%{prj.name}/Source",
+			"%{IncludeDir.GLFW}"
+		}
+
+		links
+		{
+			"GLFW",
+			"opengl32.lib"
 		}
 
 		defines
