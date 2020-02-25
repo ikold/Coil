@@ -55,6 +55,11 @@ workspace "Coil"
 			cppdialect "C++17"
 			systemversion "latest"
 			staticruntime "Off"
+
+			postbuildcommands
+			{
+				{"xcopy /Q /Y /I ..\\bin\\" .. outputdir .. "\\Coil\\Coil.dll ..\\bin\\" .. outputdir .. "\\Application\\"}
+			}
 			
 			defines
 			{
@@ -117,11 +122,6 @@ workspace "Coil"
 			defines
 			{
 				"CL_PLATFORM_WINDOWS"
-			}
-			
-			postbuildcommands
-			{
-				{"{COPY} ../bin/" .. outputdir .. "/Coil/Coil.dll ../bin/" .. outputdir .. "/Application"}
 			}
 
 		filter "system:linux"

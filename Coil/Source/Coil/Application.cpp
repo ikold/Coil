@@ -29,7 +29,7 @@ namespace Coil
 			AppWindow->OnUpdate();
 
 			// tmp
-			//Running = false;
+			Running = false;
 		}
 	}
 }
