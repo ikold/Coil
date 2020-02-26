@@ -8,6 +8,7 @@ namespace Coil
 		:Running(true)
 	{
 		AppWindow = std::unique_ptr<Window>(Window::Create());
+		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
 	}
 
 	Application::~Application()
@@ -29,7 +30,21 @@ namespace Coil
 			AppWindow->OnUpdate();
 
 			// tmp
-			Running = false;
+			//Running = false;
 		}
+	}
+
+	void Application::OnEvent(Event& e)
+	{
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_METHOD(Application::OnWindowClosed));
+
+		Logger::Trace(e.ToString().c_str());
+	}
+
+	bool Application::OnWindowClosed(WindowCloseEvent& e)
+	{
+		Running = false;
+		return true;
 	}
 }

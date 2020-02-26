@@ -21,7 +21,7 @@ namespace Coil
 		}
 		
 		EVENT_CLASS_TYPE(MouseMoved)
-		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	private:
 		float MouseX, MouseY;
@@ -44,7 +44,7 @@ namespace Coil
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled)
-		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	private:
 		float XOffset, YOffset;
@@ -55,7 +55,7 @@ namespace Coil
 	public:
 		inline int GetMouseButton() const { return Button; }
 
-		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::MouseButton | EventCategory::Input)
+		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryMouseButton | EventCategoryInput)
 
 	protected:
 		MouseButtonEvent(int button)
@@ -64,7 +64,7 @@ namespace Coil
 		int Button;
 	};
 
-	class COIL_API MouseButtonPressedEvent : MouseButtonEvent
+	class COIL_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonPressedEvent(int button)
@@ -80,7 +80,7 @@ namespace Coil
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
 
-	class COIL_API MouseButtonReleasedEvent : MouseButtonEvent
+	class COIL_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonReleasedEvent(int button)

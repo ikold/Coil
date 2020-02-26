@@ -16,7 +16,11 @@ namespace Coil
 		/*!	Main loop of the application
 		*/
 		void Run();
-		
+
+		void OnEvent(Event& e);
+
+		bool OnWindowClosed(WindowCloseEvent& e);
+
 	private:
 		bool Running;	/*!	Flag responsible of running of main loop */
 

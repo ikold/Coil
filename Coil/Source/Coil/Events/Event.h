@@ -18,14 +18,14 @@ namespace Coil
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
-	enum class EventCategory
+	enum EventCategory
 	{
-		None =			0,
-		Application =	1 << 0,
-		Input =			1 << 1,
-		Keyboard =		1 << 2,
-		Mouse =			1 << 3,
-		MouseButton =	1 << 4
+		EventCategoryNone =			0,
+		EventCategoryApplication =	1 << 0,
+		EventCategoryInput =			1 << 1,
+		EventCategoryKeyboard =		1 << 2,
+		EventCategoryMouse =			1 << 3,
+		EventCategoryMouseButton =	1 << 4
 	};
 
 #define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() { return EventType::##type; }\
@@ -75,4 +75,7 @@ namespace Coil
 	private:
 		Event& EventToDispatch;
 	};
+
+#define BIND_EVENT_FN(fn) std::bind(&fn, std::placeholders::_1)
+#define BIND_EVENT_METHOD(fn) std::bind(&fn, this, std::placeholders::_1)
 }

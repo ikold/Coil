@@ -26,7 +26,7 @@ namespace Coil
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
-		GLFWwindow* Window;
+		GLFWwindow* WindowInstance;
 
 		struct WindowData
 		{
