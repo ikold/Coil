@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Coil/Core.h"
-#include "Window.h"
+
+#include "Coil/Layers/LayerStack.h"
+#include "Coil/Window.h"
 
 namespace Coil
 {
@@ -17,14 +19,18 @@ namespace Coil
 		*/
 		void Run();
 
-		void OnEvent(Event& e);
+		void OnEvent(Event& event);
 
-		bool OnWindowClosed(WindowCloseEvent& e);
+		bool OnWindowClosed(WindowCloseEvent& event);
 
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* overlay);
 	private:
 		bool Running;	/*!	Flag responsible of running of main loop */
 
 		std::unique_ptr<Window> AppWindow;
+
+		LayerStack AppLayerStack;
 	};
 
 

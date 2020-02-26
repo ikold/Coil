@@ -4,7 +4,6 @@
 namespace Coil
 {
 	static bool GLFWInitializated = false;
-	static int KeyRepeatCounter = 0;
 
 	static void GLFWErrorCallback(int error, const char* description)
 	{
@@ -68,6 +67,8 @@ namespace Coil
 			WindowCloseEvent event;
 			data.EventCallback(event);
 		});
+
+		static int KeyRepeatCounter = 0;
 
 		glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int key, int scancode, int action, int mods)
 		{

@@ -8,7 +8,6 @@
 
 namespace Coil
 {
-
 	enum class EventType
 	{
 		None = 0,
@@ -49,6 +48,7 @@ namespace Coil
 			return GetCategoryFlags() & (int)category;
 		}
 
+		inline bool IsHandled() { return Handled; }
 	protected:
 		bool Handled = false;
 	};

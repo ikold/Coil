@@ -137,7 +137,7 @@ workspace "Coil"
 			debugenvs { "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(WorkspacePath)/bin/" .. outputdir .. "/Coil/" }
 
 		filter "configurations:Debug"
-			defines { "CL_DEBUG" }
+			defines { "CL_DEBUG", "CL_ENABLE_ASSERTS" }
 			symbols "On"
 			
 		filter "configurations:Release"
