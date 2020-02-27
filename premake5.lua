@@ -13,6 +13,7 @@ workspace "Coil"
 
 	IncludeDir = {}
 	IncludeDir["GLFW"] = "Coil/Vendor/GLFW/include"
+	IncludeDir["GLAD"] = "Coil/Vendor/GLAD/include"
 	
 	include "Coil/Vendor"
 	
@@ -37,18 +38,21 @@ workspace "Coil"
 		includedirs 
 		{
 			"%{prj.name}/Source",
-			"%{IncludeDir.GLFW}"
+			"%{IncludeDir.GLFW}",
+			"%{IncludeDir.GLAD}"
 		}
 
 		links
 		{
 			"GLFW",
+			"GLAD",
 			"opengl32.lib"
 		}
 
 		defines
 		{
-			"CL_BUILD_DLL"
+			"CL_BUILD_DLL",
+			"GLFW_INCLUDE_NONE"
 		}
 		
 		filter "system:windows"

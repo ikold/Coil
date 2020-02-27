@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "WindowsWindow.h"
 
+#include "glad/glad.h"
+
+
 namespace Coil
 {
 	static bool GLFWInitializated = false;
@@ -48,6 +51,8 @@ namespace Coil
 
 		WindowInstance = glfwCreateWindow((int)Data.Width, (int)Data.Height, Data.Name.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(WindowInstance);
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		CL_CORE_ASSERT(status, "GLAD initialization failed!");
 		glfwSetWindowUserPointer(WindowInstance, &Data);
 		SetVSync(Data.VSync);
 

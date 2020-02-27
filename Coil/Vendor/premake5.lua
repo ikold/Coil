@@ -76,3 +76,44 @@ project "GLFW"
 	filter "configurations:Distribution"
 		runtime "Release"
 		optimize "On"
+
+
+project "GLAD"
+	location "GLAD"
+	kind "StaticLib"
+	language "C"
+	staticruntime "On"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("obj/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"GLAD/include/glad/glad.h",
+		"GLAD/include/KHR/khrplatform.h",
+		"GLAD/src/glad.c",
+	}
+
+	includedirs
+	{
+		"GLAD/include"
+	}
+
+	filter "system:linux"
+		systemversion "latest"
+		pic "On"
+
+	filter "system:windows"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "On"
+
+	filter "configurations:Distribution"
+		runtime "Release"
+		optimize "On"
