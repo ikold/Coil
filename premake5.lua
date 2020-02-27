@@ -9,7 +9,6 @@ workspace "Coil"
 		"Distribution"
 	}
 	
-	
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 	IncludeDir = {}
@@ -21,6 +20,7 @@ workspace "Coil"
 		location "Coil"
 		kind "SharedLib"
 		language "C++"
+		staticruntime "Off"
 		
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("obj/" .. outputdir .. "/%{prj.name}")
@@ -54,7 +54,6 @@ workspace "Coil"
 		filter "system:windows"
 			cppdialect "C++17"
 			systemversion "latest"
-			staticruntime "Off"
 
 			postbuildcommands
 			{
@@ -70,7 +69,6 @@ workspace "Coil"
 		filter "system:linux"
 			cppdialect "C++17"
 			systemversion "latest"
-			staticruntime "Off"
 			
 			defines
 			{
@@ -78,22 +76,39 @@ workspace "Coil"
 			}
 			
 		filter "configurations:Debug"
-			defines { "CL_DEBUG", "CL_ENABLE_ASSERTS" }
+			runtime "Debug"
 			symbols "On"
 			
+			defines
+			{
+				"CL_DEBUG",
+				"CL_ENABLE_ASSERTS"
+			}
+			
 		filter "configurations:Release"
-			defines { "CL_RELEASE" }
+			runtime "Release"
 			optimize "On"
+
+			defines
+			{
+				"CL_RELEASE"
+			}
 			
 		filter "configurations:Distribution"
-			defines { "CL_DIST" }
+			runtime "Release"
 			optimize "On"
+			
+			defines
+			{
+				"CL_DIST"
+			}
 			
 			
 	project "Application"
 		location "Application"
 		kind "ConsoleApp"
 		language "C++"
+		staticruntime "Off"
 		
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("obj/" .. outputdir .. "/%{prj.name}")
@@ -117,7 +132,6 @@ workspace "Coil"
 		filter "system:windows"
 			cppdialect "C++17"
 			systemversion "latest"
-			staticruntime "Off"
 			
 			defines
 			{
@@ -127,24 +141,41 @@ workspace "Coil"
 		filter "system:linux"
 			cppdialect "C++17"
 			systemversion "latest"
-			staticruntime "Off"
 			
 			defines
 			{
 				"CL_PLATFORM_LINUX"
 			}
 
-			debugenvs { "LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(WorkspacePath)/bin/" .. outputdir .. "/Coil/" }
+			debugenvs
+			{
+				"LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(WorkspacePath)/bin/" .. outputdir .. "/Coil/"
+			}
 
 		filter "configurations:Debug"
-			defines { "CL_DEBUG", "CL_ENABLE_ASSERTS" }
+			runtime "Debug"
 			symbols "On"
 			
+			defines
+			{
+				"CL_DEBUG",
+				"CL_ENABLE_ASSERTS"
+			}
+			
 		filter "configurations:Release"
-			defines { "CL_RELEASE" }
+			runtime "Release"
 			optimize "On"
+			
+			defines
+			{
+				"CL_RELEASE"
+			}
 			
 		filter "configurations:Distribution"
-			defines { "CL_DIST" }
+			runtime "Release"
 			optimize "On"
 			
+			defines
+			{
+				"CL_DIST"
+			}

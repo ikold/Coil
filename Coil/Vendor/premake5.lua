@@ -2,6 +2,7 @@ project "GLFW"
 	location "GLFW"
 	kind "StaticLib"
 	language "C"
+	staticruntime "On"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("obj/" .. outputdir .. "/%{prj.name}")
@@ -20,10 +21,8 @@ project "GLFW"
 	}
 
 	filter "system:linux"
-		pic "On"
-
 		systemversion "latest"
-		staticruntime "On"
+		pic "On"
 
 		files
 		{
@@ -46,7 +45,6 @@ project "GLFW"
 
 	filter "system:windows"
 		systemversion "latest"
-		staticruntime "On"
 
 		files
 		{
@@ -69,8 +67,12 @@ project "GLFW"
 
 	filter "configurations:Debug"
 		runtime "Debug"
-		symbols "on"
+		symbols "On"
 
 	filter "configurations:Release"
 		runtime "Release"
-		optimize "on"
+		optimize "On"
+
+	filter "configurations:Distribution"
+		runtime "Release"
+		optimize "On"
