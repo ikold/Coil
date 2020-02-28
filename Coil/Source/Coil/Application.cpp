@@ -4,9 +4,14 @@
 
 namespace Coil
 {
+	Application* Application::Instance = nullptr;
+
 	Application::Application()
 		:Running(true)
 	{
+		CL_ASSERT(!Instance, "Application instance already exist!")
+		Instance = this;
+
 		AppWindow = std::unique_ptr<Window>(Window::Create());
 		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
 	}
@@ -58,10 +63,12 @@ namespace Coil
 	void Application::PushLayer(Layer* layer)
 	{
 		AppLayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
 		AppLayerStack.PushOverlay(overlay);
+		overlay->OnAttach();
 	}
 }

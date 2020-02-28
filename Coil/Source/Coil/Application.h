@@ -25,12 +25,18 @@ namespace Coil
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
+
+		inline Window& GetWindow() { return *AppWindow; }
+
+		static inline Application& Get() { return *Instance; }
 	private:
 		bool Running;	/*!	Flag responsible of running of main loop */
 
 		std::unique_ptr<Window> AppWindow;
 
 		LayerStack AppLayerStack;
+
+		static Application* Instance;
 	};
 
 

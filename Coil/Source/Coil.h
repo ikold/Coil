@@ -6,4 +6,6 @@
 
 #include "Coil/EntryPoint.h"
 
+#include "Coil/ImGui/ImGuiLayer.h"
+
 namespace cl = Coil;

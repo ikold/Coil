@@ -117,3 +117,48 @@ project "GLAD"
 	filter "configurations:Distribution"
 		runtime "Release"
 		optimize "On"
+
+
+project "ImGui"
+	location "ImGui"
+	kind "StaticLib"
+	language "C++"
+	staticruntime "On"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("obj/" .. outputdir .. "/%{prj.name}")
+
+	files
+	{
+		"ImGui/imconfig.h",
+		"ImGui/imgui.h",
+		"ImGui/imgui.cpp",
+		"ImGui/imgui_draw.cpp",
+		"ImGui/imgui_internal.h",
+		"ImGui/imgui_widgets.cpp",
+		"ImGui/imgui_rectpack.h",
+		"ImGui/imgui_textedit.h",
+		"ImGui/imgui_truetype.h",
+		"ImGui/imgui_demo.cpp"
+	}
+
+	filter "system:linux"
+		cppdialect "C++17"
+		systemversion "latest"
+		pic "On"
+
+	filter "system:windows"
+		cppdialect "C++17"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "On"
+
+	filter "configurations:Distribution"
+		runtime "Release"
+		optimize "On"

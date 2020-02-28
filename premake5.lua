@@ -14,6 +14,7 @@ workspace "Coil"
 	IncludeDir = {}
 	IncludeDir["GLFW"] = "Coil/Vendor/GLFW/include"
 	IncludeDir["GLAD"] = "Coil/Vendor/GLAD/include"
+	IncludeDir["ImGui"] = "Coil/Vendor/ImGui"
 	
 	include "Coil/Vendor"
 	
@@ -39,13 +40,15 @@ workspace "Coil"
 		{
 			"%{prj.name}/Source",
 			"%{IncludeDir.GLFW}",
-			"%{IncludeDir.GLAD}"
+			"%{IncludeDir.GLAD}",
+			"%{IncludeDir.ImGui}"
 		}
 
 		links
 		{
 			"GLFW",
 			"GLAD",
+			"ImGui",
 			"opengl32.lib"
 		}
 
