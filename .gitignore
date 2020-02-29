@@ -376,3 +376,6 @@ Makefile
 Application/Application.txt
 Coil/Coil.txt
 
+# ImGui ini file
+imgui.ini
+
