@@ -2,8 +2,8 @@
 
 #include "Coil/Core.h"
 
+#include "Coil/PointerCointainer.h"
 #include "Coil/Time.h"
-
 
 namespace Coil
 {
@@ -19,23 +19,24 @@ namespace Coil
 		trace	= 1 << 5,
 	};
 
-
 	/*!	Struct for Logging system
 	*/
 	struct COIL_API Log
 	{
 	public:
-		Log(const char* message, LogLevel level)
-			:Message(message), Level(level), Date(Time::Now()) {}
+		Log(const char* message, LogLevel level);
 		
 		inline const char* GetMessage()		const { return Message;	}
 		inline const Timestamp GetDate()	const { return Date;	}
 		inline const LogLevel GetLevel()	const { return Level;	}
 		
+		inline const char* GetFormatedMessage() const { return FormatedMessage.c_str(); }
 	private:
 		const char* Message;
 		const Timestamp Date;	/*!	Date of creation of log */
 		const LogLevel Level;	/*!	Type of log */
+
+		std::string FormatedMessage;
 	};
 
 
@@ -62,27 +63,6 @@ namespace Coil
 		*/
 		static std::string Compose(const Log& log);
 	};
-
-
-	/*!	Class for storing logs
-	*/
-	class COIL_API LogContainer
-	{
-	public:
-		LogContainer() {};
-		~LogContainer();
-		
-		/*!	Creates new Log and push it on Container
-		
-			@param[in]	message
-			@param[in]	level
-		
-			@return		Log*	pointer to created log
-		*/
-		Log* Create(const char* message, LogLevel level);
-	private:
-		std::vector<Log*> Container;
-	};
 	
 	
 	/*!	Interface for creating and retrieving Logs
@@ -104,16 +84,27 @@ namespace Coil
 			@todo parameters passing
 		*/
 		///@{
-		static inline Log* Fatal(const char* message)		{ return Container.Create(message, LogLevel::fatal); }
-		static inline Log* Error(const char* message)		{ return Container.Create(message, LogLevel::error); }
-		static inline Log* Warning(const char* message)		{ return Container.Create(message, LogLevel::warning); }
-		static inline Log* Info(const char* message)		{ return Container.Create(message, LogLevel::info); }
-		static inline Log* Debug(const char* message)		{ return Container.Create(message, LogLevel::debug); }
-		static inline Log* Trace(const char* message)		{ return Container.Create(message, LogLevel::trace); }
+		static inline Log* Fatal(const char* message)		{ return Create(message, LogLevel::fatal); }
+		static inline Log* Error(const char* message)		{ return Create(message, LogLevel::error); }
+		static inline Log* Warning(const char* message)		{ return Create(message, LogLevel::warning); }
+		static inline Log* Info(const char* message)		{ return Create(message, LogLevel::info); }
+		static inline Log* Debug(const char* message)		{ return Create(message, LogLevel::debug); }
+		static inline Log* Trace(const char* message)		{ return Create(message, LogLevel::trace); }
 		///@}
+
+		/*!	Creates new Log and push it on Container
+
+			@param[in]	message
+			@param[in]	level
+
+			@return		Log*	pointer to created log
+		*/
+		static Log* Create(const char* message, LogLevel level);
+
+		static PointerContainer<Log>* GetBuffer() { return &Buffer; }
 		
 	private:
-		static LogContainer Container;
+		static PointerContainer<Log> Buffer;
 	};
 }
 

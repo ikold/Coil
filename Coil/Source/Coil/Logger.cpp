@@ -4,8 +4,14 @@
 
 namespace Coil
 {
-	LogContainer Logger::Container;
-	
+	PointerContainer<Log> Logger::Buffer;
+
+
+	Log::Log(const char* message, LogLevel level)
+		:Message(message), Level(level), Date(Time::Now())
+	{
+		FormatedMessage = LogParser::Compose(*this);
+	}
 	
 	std::string LogParser::Level(const LogLevel& level)
 	{
@@ -39,20 +45,10 @@ namespace Coil
 		return s;
 	}
 
-
-	LogContainer::~LogContainer()
+	Log* Logger::Create(const char* message, LogLevel level)
 	{
-		for (auto log : Container)
-			delete log;
-	}
-
-	Log* LogContainer::Create(const char* message, LogLevel level)
-	{
-		Container.push_back(new Log(message, level));
-		
-		// temp function for drawing log to console
-		printf("%s\n", LogParser::Compose(*Container.back()).c_str());
-		
-		return Container.back();
+		Log* log = new Log(message, level);
+		Buffer.Push(log);
+		return log;
 	}
 }

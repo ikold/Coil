@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "Application.h"
 
+#include "Coil/ImGui/ImGuiInterface.h"
+#include "Coil/ImGui/ImGuiLogWindow.h"
+
+#include <glad/glad.h>
 
 namespace Coil
 {
@@ -14,6 +18,10 @@ namespace Coil
 
 		AppWindow = std::unique_ptr<Window>(Window::Create());
 		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
+
+		AppWindow->SetVSync(false);
+
+		ImGuiInterface::CreatWindow<ImGuiLogWindow>("Log").BindBuffer(Logger::GetBuffer());
 	}
 
 	Application::~Application()
@@ -24,13 +32,15 @@ namespace Coil
 	{
 		Logger::Info("Initializating Application");
 		
-		
 		Logger::Info("Running Application");
-		
+
 		while (Running)
 		{
 			// computing of frame time
 			Time::Tick();
+
+			glClearColor(0, 0, 0, 0);
+			glClear(GL_COLOR_BUFFER_BIT);
 			
 			for (auto layer : AppLayerStack)
 				layer->OnUpdate();

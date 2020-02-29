@@ -5,6 +5,8 @@
 #include "GLFW/glfw3.h"
 #include "Coil/Application.h"
 
+#include "ImGuiInterface.h"
+
 namespace Coil
 {
 	ImGuiLayer::ImGuiLayer()
@@ -67,8 +69,7 @@ namespace Coil
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui::NewFrame();
 
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		ImGuiInterface::OnUpdate();
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
