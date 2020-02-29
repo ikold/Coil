@@ -27,10 +27,10 @@ namespace Coil
 		float MouseX, MouseY;
 	};
 
-	class COIL_API MouseScrollEvent : public Event
+	class COIL_API MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrollEvent(float x, float y)
+		MouseScrolledEvent(float x, float y)
 			: XOffset(x), YOffset(y) {}
 
 		inline float GetXOffset() const { return XOffset; }
@@ -39,7 +39,7 @@ namespace Coil
 		std::string ToString() const override
 		{
 			std::stringstream ss;
-			ss << "MouseScrollEvent: " << XOffset << ", " << YOffset;
+			ss << "MouseScrolledEvent: " << XOffset << ", " << YOffset;
 			return ss.str();
 		}
 
