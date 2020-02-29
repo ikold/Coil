@@ -16,8 +16,10 @@ workspace "Coil"
 	IncludeDir["GLAD"] = "Coil/Vendor/GLAD/include"
 	IncludeDir["ImGui"] = "Coil/Vendor/ImGui"
 	
-	include "Coil/Vendor"
-	
+	group "Dependencies"
+		include "Coil/Vendor"
+	group ""
+
 	project "Coil"
 		location "Coil"
 		kind "SharedLib"
@@ -64,7 +66,7 @@ workspace "Coil"
 
 			postbuildcommands
 			{
-				{"xcopy /Q /Y /I ..\\bin\\" .. outputdir .. "\\Coil\\Coil.dll ..\\bin\\" .. outputdir .. "\\Application\\"}
+				{"{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Application/\""}
 			}
 			
 			defines
