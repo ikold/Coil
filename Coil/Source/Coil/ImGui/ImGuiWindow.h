@@ -20,6 +20,11 @@ namespace Coil
 		int WindowSizeInLines() const;
 
 		virtual void Draw() const = 0;
+
+	protected:
+		bool* OpenFlag;
+		ImGuiWindowFlags Flags;
+
 	private:
 		const char* Name;
 		int Width;

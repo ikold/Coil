@@ -3,6 +3,7 @@
 
 #include "Coil/ImGui/ImGuiInterface.h"
 #include "Coil/ImGui/ImGuiLogWindow.h"
+#include "Coil/ImGui/ImGuiOverlay.h"
 
 #include <glad/glad.h>
 
@@ -21,7 +22,7 @@ namespace Coil
 
 		AppWindow->SetVSync(true);
 
-		ImGuiInterface::CreatWindow<ImGuiLogWindow>("Log").BindBuffer(Logger::GetBuffer());
+		ImGuiInterface::Creat<ImGuiLogWindow>("Log").BindBuffer(Logger::GetBuffer());
 	}
 
 	Application::~Application()
@@ -34,10 +35,36 @@ namespace Coil
 		
 		Logger::Info("Running Application");
 
+		std::string frameTime = "test";
+		std::stringstream ss;
+
+		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(&frameTime);
+
+		int counter = 0;
+		float frameTimeArray[60];
+
+
+
 		while (Running)
 		{
 			// computing of frame time
 			Time::Tick();
+
+			ss.str(std::string());
+
+			frameTimeArray[counter] = Time::DeltaTime();
+
+			if (++counter > 59)
+			{
+				counter = 0;
+				float sum = 0.f;
+				for (int i = 0; i < 60; ++i)
+					sum += frameTimeArray[i];
+
+				ss << (sum / 60)<< "ms";
+
+				frameTime = ss.str();
+			}
 
 			glClearColor(0, 0, 0, 0);
 			glClear(GL_COLOR_BUFFER_BIT);

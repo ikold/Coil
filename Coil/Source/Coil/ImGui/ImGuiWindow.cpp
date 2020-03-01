@@ -6,6 +6,8 @@ namespace Coil
 	ImGuiWindow::ImGuiWindow(const char* name, int width, int height)
 		: Name(name), Width(width), Height(height)
 	{
+		OpenFlag = nullptr;
+		Flags = 0;
 	}
 
 	ImGuiWindow::~ImGuiWindow()
@@ -15,7 +17,7 @@ namespace Coil
 	void ImGuiWindow::OnUpdate() const
 	{
 		ImGui::SetNextWindowSize(ImVec2(Width, Height), ImGuiCond_FirstUseEver);
-		ImGui::Begin(Name);
+		ImGui::Begin(Name, OpenFlag, Flags);
 		Draw();
 		ImGui::End();
 	}
