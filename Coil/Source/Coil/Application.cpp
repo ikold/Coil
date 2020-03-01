@@ -19,7 +19,7 @@ namespace Coil
 		AppWindow = std::unique_ptr<Window>(Window::Create());
 		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
 
-		AppWindow->SetVSync(false);
+		AppWindow->SetVSync(true);
 
 		ImGuiInterface::CreatWindow<ImGuiLogWindow>("Log").BindBuffer(Logger::GetBuffer());
 	}

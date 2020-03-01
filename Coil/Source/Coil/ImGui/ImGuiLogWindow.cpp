@@ -9,10 +9,19 @@ namespace Coil
 
 	void ImGuiLogWindow::Draw() const
 	{
-		for (auto log : *Buffer)
+		int skipedLines = TextTopCulling();
+		int linesToDraw = WindowSizeInLines();
+
+		auto it = Buffer->begin() + skipedLines;
+		auto end = Buffer->end();
+
+		if (end - it > linesToDraw)
+			end = it + linesToDraw;
+
+		for (; it != end; ++it)
 		{
 			ImVec4 color;
-			switch (log->GetLevel())
+			switch ((*it)->GetLevel())
 			{
 			case fatal:
 				color = ImVec4(0.9f, 0.1f, 0.1f, 1.f);
@@ -36,7 +45,9 @@ namespace Coil
 				color = ImVec4(1.f, 1.f, 1.f, 1.f);
 				break;
 			}
-			ImGui::TextColored(color, log->GetFormatedMessage());
+			ImGui::TextColored(color, (*it)->GetFormatedMessage());
 		}
+
+		TextBottomCulling(Buffer->size());
 	}
 }

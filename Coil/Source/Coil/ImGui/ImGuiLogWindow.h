@@ -21,7 +21,6 @@ namespace Coil
 
 	private:
 		PointerContainer<Log>* Buffer;
-		ImGuiTextFilter Filter;
 	};
 
 }
