@@ -45,7 +45,7 @@ namespace Coil
 				color = ImVec4(1.f, 1.f, 1.f, 1.f);
 				break;
 			}
-			ImGui::TextColored(color, (*it)->GetFormatedMessage());
+			ImGui::TextColored(color, (*it)->GetFormatedMessage()->CString());
 		}
 
 		TextBottomCulling(Buffer->size());

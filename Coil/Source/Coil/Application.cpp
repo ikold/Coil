@@ -7,6 +7,9 @@
 
 #include <glad/glad.h>
 
+#include "Coil/Utilities/String.h"
+
+
 namespace Coil
 {
 	Application* Application::Instance = nullptr;
@@ -42,7 +45,6 @@ namespace Coil
 
 		int counter = 0;
 		float frameTimeArray[60];
-
 
 
 		while (Running)

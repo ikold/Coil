@@ -7,45 +7,45 @@ namespace Coil
 	PointerContainer<Log> Logger::Buffer;
 
 
-	Log::Log(const char* message, LogLevel level)
+	Log::Log(const RString& message, LogLevel level)
 		:Message(message), Level(level), Date(Time::Now())
 	{
 		FormatedMessage = LogParser::Compose(*this);
 	}
 	
-	std::string LogParser::Level(const LogLevel& level)
+	RString LogParser::Level(const LogLevel& level)
 	{
 		switch (level)
 		{
 		case Coil::fatal:
-			return std::string("FATAL");
+			return RString("FATAL");
 		case Coil::error:
-			return std::string("ERROR");
+			return RString("ERROR");
 		case Coil::warning:
-			return std::string("WARNING");
+			return RString("WARNING");
 		case Coil::info:
-			return std::string("INFO");
+			return RString("INFO");
 		case Coil::debug:
-			return std::string("DEBUG");
+			return RString("DEBUG");
 		case Coil::trace:
-			return std::string("TRACE");
+			return RString("TRACE");
 		default:
-			return "";
+			return RString("");
 		}
 	}
 
-	std::string LogParser::Compose(const Log& log)
+	RString LogParser::Compose(const Log& log)
 	{
 		std::string s("[");
 		s.append(Time::TimestampToString(log.GetDate()));
 		s.append("][");
-		s.append(Level(log.GetLevel()));
+		s.append(Level(log.GetLevel())->CString());
 		s.append("] ");
-		s.append(log.GetMessage());
-		return s;
+		s.append(log.GetMessage()->CString());
+		return RString(s.c_str());
 	}
 
-	Log* Logger::Create(const char* message, LogLevel level)
+	Log* Logger::Create(const RString& message, LogLevel level)
 	{
 		Log* log = new Log(message, level);
 		Buffer.Push(log);

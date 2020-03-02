@@ -15,6 +15,8 @@
 #include <chrono>
 
 
+#include "Coil/Utilities/String.h"
+
 #include "Coil/Time.h"
 
 #include "Coil/Logger.h"
