@@ -15,8 +15,8 @@ namespace Coil
 
 		void OnUpdate() override;
 
-		inline unsigned int GetWidth() const override { return Data.Width; }
-		inline unsigned int GetHeight() const override { return Data.Height; }
+		inline uint32 GetWidth() const override { return Data.Width; }
+		inline uint32 GetHeight() const override { return Data.Height; }
 
 		inline void SetEventCallback(const EventCallbackFn& callback) override { Data.EventCallback = callback; }
 
@@ -32,7 +32,7 @@ namespace Coil
 		struct WindowData
 		{
 			RString Name;
-			unsigned int Width, Height;
+			uint32 Width, Height;
 			bool VSync;
 
 			EventCallbackFn EventCallback;

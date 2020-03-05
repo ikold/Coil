@@ -7,24 +7,24 @@ namespace Coil
 	class COIL_API KeyEvent : public Event
 	{
 	public:
-		inline int GetKeyCode() const { return KeyCode; }
+		inline int32 GetKeyCode() const { return KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 
 	protected:
-		KeyEvent(int keyCode)
+		KeyEvent(int32 keyCode)
 			: KeyCode(keyCode) {}
 
-		int KeyCode;
+		int32 KeyCode;
 	};
 
 	class COIL_API KeyPressedEvent : public KeyEvent
 	{
 	public:
-		KeyPressedEvent(int keyCode, int repeatCount)
+		KeyPressedEvent(int32 keyCode, int32 repeatCount)
 			: KeyEvent(keyCode), RepeatCount(repeatCount) {}
 
-		inline int GetRepeatCount() const { return RepeatCount; }
+		inline int32 GetRepeatCount() const { return RepeatCount; }
 
 		RString ToString() const override
 		{
@@ -36,13 +36,13 @@ namespace Coil
 		EVENT_CLASS_TYPE(KeyPressed)
 
 	private:
-		int RepeatCount;
+		int32 RepeatCount;
 	};
 
 	class COIL_API KeyReleasedEvent : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int keyCode)
+		KeyReleasedEvent(int32 keyCode)
 			: KeyEvent(keyCode) {}
 
 		RString ToString() const override
@@ -58,7 +58,7 @@ namespace Coil
 	class COIL_API KeyTypedEvent : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(int keyCode)
+		KeyTypedEvent(int32 keyCode)
 			: KeyEvent(keyCode)
 		{
 		}

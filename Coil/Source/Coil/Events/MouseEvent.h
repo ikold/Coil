@@ -7,11 +7,11 @@ namespace Coil
 	class COIL_API MouseMovedEvent : public Event
 	{
 	public:
-		MouseMovedEvent(float x, float y)
+		MouseMovedEvent(float32 x, float32 y)
 			: MouseX(x), MouseY(y) {}
 
-		inline float GetX() const { return MouseX; }
-		inline float GetY() const { return MouseY; }
+		inline float32 GetX() const { return MouseX; }
+		inline float32 GetY() const { return MouseY; }
 
 		RString ToString() const override
 		{
@@ -24,17 +24,17 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	private:
-		float MouseX, MouseY;
+		float32 MouseX, MouseY;
 	};
 
 	class COIL_API MouseScrolledEvent : public Event
 	{
 	public:
-		MouseScrolledEvent(float x, float y)
+		MouseScrolledEvent(float32 x, float32 y)
 			: XOffset(x), YOffset(y) {}
 
-		inline float GetXOffset() const { return XOffset; }
-		inline float GetYOffset() const { return YOffset; }
+		inline float32 GetXOffset() const { return XOffset; }
+		inline float32 GetYOffset() const { return YOffset; }
 
 		RString ToString() const override
 		{
@@ -47,27 +47,27 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 
 	private:
-		float XOffset, YOffset;
+		float32 XOffset, YOffset;
 	};
 
 	class COIL_API MouseButtonEvent : public Event
 	{
 	public:
-		inline int GetMouseButton() const { return Button; }
+		inline int32 GetMouseButton() const { return Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryMouseButton | EventCategoryInput)
 
 	protected:
-		MouseButtonEvent(int button)
+		MouseButtonEvent(int32 button)
 			: Button(button) {}
 
-		int Button;
+		int32 Button;
 	};
 
 	class COIL_API MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int button)
+		MouseButtonPressedEvent(int32 button)
 			: MouseButtonEvent(button) {}
 
 		RString ToString() const override
@@ -83,7 +83,7 @@ namespace Coil
 	class COIL_API MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int button)
+		MouseButtonReleasedEvent(int32 button)
 			: MouseButtonEvent(button) {}
 
 		RString ToString() const override

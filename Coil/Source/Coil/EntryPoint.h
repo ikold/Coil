@@ -4,7 +4,7 @@
 
 extern Coil::Application* Coil::CreatApplication();
 
-int main(int argc, char* argv[])
+int32 main(int32 argc, char8* argv[])
 {
 	Coil::Logger::Info("Creating Application");
 	
@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 
 extern Coil::Application* Coil::CreatApplication();
 
-int main(int argc, char* argv[])
+int32 main(int32 argc, char8* argv[])
 {
 	Coil::Logger::Info("Creating Application");
 	

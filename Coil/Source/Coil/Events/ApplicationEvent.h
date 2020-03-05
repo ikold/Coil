@@ -7,11 +7,11 @@ namespace Coil
 	class COIL_API WindowResizeEvent : public Event
 	{
 	public:
-		WindowResizeEvent(unsigned int width, unsigned int height)
+		WindowResizeEvent(uint32 width, uint32 height)
 			: Width(width), Height(height) {}
 
-		inline unsigned int GetWidth() const { return Width; }
-		inline unsigned int GetHeight() const { return Height; }
+		inline uint32 GetWidth() const { return Width; }
+		inline uint32 GetHeight() const { return Height; }
 
 		RString ToString() const override
 		{
@@ -24,7 +24,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
 	private:
-		unsigned int Width, Height;
+		uint32 Width, Height;
 	};
 
 	class COIL_API WindowCloseEvent : public Event
@@ -57,11 +57,11 @@ namespace Coil
 	class COIL_API WindowMovedEvent : public Event
 	{
 	public:
-		WindowMovedEvent(int x, int y)
+		WindowMovedEvent(int32 x, int32 y)
 			: PositionX(x), PositionY(y) {}
 
-		inline int GetPositionX() const { return PositionX; }
-		inline int GetPositionY() const { return PositionY; }
+		inline int32 GetPositionX() const { return PositionX; }
+		inline int32 GetPositionY() const { return PositionY; }
 
 		RString ToString() const override
 		{
@@ -74,7 +74,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategoryApplication)
 
 	private:
-		int PositionX, PositionY;
+		int32 PositionX, PositionY;
 	};
 
 	class COIL_API AppTickEvent : public Event

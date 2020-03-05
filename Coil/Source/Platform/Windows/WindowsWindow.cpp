@@ -8,7 +8,7 @@ namespace Coil
 {
 	static bool GLFWInitializated = false;
 
-	static void GLFWErrorCallback(int error, const char* description)
+	static void GLFWErrorCallback(int32 error, const char8* description)
 	{
 		Logger::Error(description);
 	}
@@ -40,7 +40,7 @@ namespace Coil
 
 		if (!GLFWInitializated)
 		{
-			int success = glfwInit();
+			int32 success = glfwInit();
 
 			CL_CORE_ASSERT(success, "GLFW initialization failed!");
 
@@ -49,14 +49,14 @@ namespace Coil
 			GLFWInitializated = true;
 		}
 
-		WindowInstance = glfwCreateWindow((int)Data.Width, (int)Data.Height, Data.Name->CString(), nullptr, nullptr);
+		WindowInstance = glfwCreateWindow((int32)Data.Width, (int32)Data.Height, Data.Name->CString(), nullptr, nullptr);
 		glfwMakeContextCurrent(WindowInstance);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		int32 status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		CL_CORE_ASSERT(status, "GLAD initialization failed!");
 		glfwSetWindowUserPointer(WindowInstance, &Data);
 		SetVSync(Data.VSync);
 
-		glfwSetWindowSizeCallback(WindowInstance, [](GLFWwindow* window, int width, int height)
+		glfwSetWindowSizeCallback(WindowInstance, [](GLFWwindow* window, int32 width, int32 height)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
@@ -73,9 +73,9 @@ namespace Coil
 			data.EventCallback(event);
 		});
 
-		static int KeyRepeatCounter = 0;
+		static int32 KeyRepeatCounter = 0;
 
-		glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int key, int scancode, int action, int mods)
+		glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int32 key, int32 scancode, int32 action, int32 mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			
@@ -102,7 +102,7 @@ namespace Coil
 			}
 		});
 
-		glfwSetCharCallback(WindowInstance, [](GLFWwindow* window, unsigned int keycode)
+		glfwSetCharCallback(WindowInstance, [](GLFWwindow* window, uint32 keycode)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
@@ -110,7 +110,7 @@ namespace Coil
 			data.EventCallback(event);
 		});
 
-		glfwSetMouseButtonCallback(WindowInstance, [](GLFWwindow* window, int button, int action, int mods)
+		glfwSetMouseButtonCallback(WindowInstance, [](GLFWwindow* window, int32 button, int32 action, int32 mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
@@ -131,19 +131,19 @@ namespace Coil
 			}
 		});
 
-		glfwSetScrollCallback(WindowInstance, [](GLFWwindow* window, double xOffset, double yOffset)
+		glfwSetScrollCallback(WindowInstance, [](GLFWwindow* window, float64 xOffset, float64 yOffset)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			MouseScrolledEvent event((float)xOffset, (float)yOffset);
+			MouseScrolledEvent event((float32)xOffset, (float32)yOffset);
 			data.EventCallback(event);
 		});
 
-		glfwSetCursorPosCallback(WindowInstance, [](GLFWwindow* window, double xPos, double yPos)
+		glfwSetCursorPosCallback(WindowInstance, [](GLFWwindow* window, float64 xPos, float64 yPos)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			MouseMovedEvent event((float)xPos, (float)yPos);
+			MouseMovedEvent event((float32)xPos, (float32)yPos);
 			data.EventCallback(event);
 		});
 	}
@@ -161,7 +161,7 @@ namespace Coil
 
 	void WindowsWindow::SetVSync(bool enable)
 	{
-		glfwSwapInterval((int)enable);
+		glfwSwapInterval((int32)enable);
 
 		Data.VSync = enable;
 	}

@@ -10,7 +10,7 @@ namespace Coil
 		Length = 0;
 	}
 
-	String::String(const char* text)
+	String::String(const char8* text)
 	{
 		Length = CStringLength(text);
 		Data = new char[Length + 1];
@@ -29,7 +29,7 @@ namespace Coil
 		delete[] Data;
 	}
 
-	String& String::operator=(const char* str)
+	String& String::operator=(const char8* str)
 	{
 		delete[] Data;
 
@@ -51,9 +51,9 @@ namespace Coil
 		return *this;
 	}
 
-	int String::CStringLength(const char* str)
+	int32 String::CStringLength(const char8* str)
 	{
-		int length = 0;
+		int32 length = 0;
 		while (*str++)
 			++length;
 
@@ -64,13 +64,13 @@ namespace Coil
 	RString::RString()
 	{
 		StringPointer = new String;
-		Counter = new int(1);
+		Counter = new int32(1);
 	}
 
 	RString::RString(const String& string)
 	{
 		StringPointer = new String(string);
-		Counter = new int(1);
+		Counter = new int32(1);
 	}
 
 	RString::RString(const RString& rString)
@@ -80,10 +80,10 @@ namespace Coil
 		++(*Counter);
 	}
 
-	RString::RString(const char* text)
+	RString::RString(const char8* text)
 	{
 		StringPointer = new String(text);
-		Counter = new int(1);
+		Counter = new int32(1);
 	}
 
 	RString::~RString()
@@ -91,11 +91,11 @@ namespace Coil
 		DerefencString();
 	}
 
-	RString& RString::operator=(const char* str)
+	RString& RString::operator=(const char8* str)
 	{
 		DerefencString();
 		StringPointer = new String(str);
-		Counter = new int(1);
+		Counter = new int32(1);
 		return *this;
 	}
 
@@ -103,7 +103,7 @@ namespace Coil
 	{
 		DerefencString();
 		StringPointer = new String(str);
-		Counter = new int(1);
+		Counter = new int32(1);
 		return *this;
 	}
 
@@ -111,7 +111,7 @@ namespace Coil
 	{
 		// Failsafe for self assigning
 		String* stringPointer = str.StringPointer;
-		int* counter = str.Counter;
+		int32* counter = str.Counter;
 		++(*counter);
 
 		DerefencString();
@@ -144,7 +144,7 @@ namespace Coil
 	{
 	}
 
-	SString::SString(const char* text)
+	SString::SString(const char8* text)
 		: String(text), Size(Length)
 	{
 	}
@@ -153,10 +153,10 @@ namespace Coil
 	{
 	}
 
-	void SString::Reserv(int size)
+	void SString::Reserv(int32 size)
 	{
 		Size = size;
-		char* newData = new char[size + 1];
+		char8* newData = new char[size + 1];
 		memcpy(newData, Data, Length + 1);
 		delete[] Data;
 		Data = newData;
@@ -167,14 +167,14 @@ namespace Coil
 		if (Length == Size)
 			return;
 
-		char* newData = new char[Length + 1];
+		char8* newData = new char[Length + 1];
 		memcpy(newData, Data, Length + 1);
 		delete[] Data;
 		Data = newData;
 
 	}
 
-	SString& SString::operator<<(const char* str)
+	SString& SString::operator<<(const char8* str)
 	{
 		Append(str, CStringLength(str));
 		return *this;
@@ -198,14 +198,14 @@ namespace Coil
 		return *this;
 	}
 
-	void SString::Append(const char* str, int size)
+	void SString::Append(const char8* str, int32 size)
 	{
 		if (Length + size <= Size)
 			memcpy(Data + Length, str, size + 1);
 		else
 		{
 			Size = Length + size;
-			char* newData = new char[Size + 1];
+			char8* newData = new char[Size + 1];
 
 			memcpy(newData, Data, Length);
 			memcpy(newData + Length, str, size + 1);

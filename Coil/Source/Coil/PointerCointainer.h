@@ -22,7 +22,7 @@ namespace Coil
 		inline typename std::vector<T*>::iterator begin() { return Container.begin();  }
 		inline typename std::vector<T*>::iterator end() { return Container.end(); }
 
-		inline int size() { return Container.size(); }
+		inline int32 size() { return Container.size(); }
 
 	private:
 		std::vector<T*> Container;

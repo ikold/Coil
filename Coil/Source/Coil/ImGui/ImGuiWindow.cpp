@@ -3,7 +3,7 @@
 
 namespace Coil
 {
-	ImGuiWindow::ImGuiWindow(const char* name, int width, int height)
+	ImGuiWindow::ImGuiWindow(const char8* name, int32 width, int32 height)
 		: Name(name), Width(width), Height(height)
 	{
 		OpenFlag = nullptr;
@@ -22,11 +22,11 @@ namespace Coil
 		ImGui::End();
 	}
 
-	int ImGuiWindow::TextTopCulling() const
+	int32 ImGuiWindow::TextTopCulling() const
 	{
-		int skipedLines = (int)(ImGui::GetScrollY() / fontHeight);
+		int32 skipedLines = (int32)(ImGui::GetScrollY() / fontHeight);
 
-		float topDummy = fontHeight * skipedLines - dummyDefaultOffset;
+		float32 topDummy = fontHeight * skipedLines - dummyDefaultOffset;
 
 		if (topDummy > 0.f)
 			ImGui::Dummy(ImVec2(0.0f, topDummy));
@@ -34,19 +34,19 @@ namespace Coil
 		return skipedLines;
 	}
 
-	int ImGuiWindow::TextBottomCulling(int linesTotal) const
+	int32 ImGuiWindow::TextBottomCulling(int32 linesTotal) const
 	{
-		float windowBottom = ImGui::GetScrollY() + ImGui::GetWindowSize().y;
+		float32 windowBottom = ImGui::GetScrollY() + ImGui::GetWindowSize().y;
 
-		float bottomDummy = fontHeight * (int)(linesTotal + 1 - (windowBottom / fontHeight));
+		float32 bottomDummy = fontHeight * (int32)(linesTotal + 1 - (windowBottom / fontHeight));
 
 		if (bottomDummy > 0.f)
 			ImGui::Dummy(ImVec2(0.0f, bottomDummy - dummyDefaultOffset));
 		return 0;
 	}
 
-	int ImGuiWindow::WindowSizeInLines() const
+	int32 ImGuiWindow::WindowSizeInLines() const
 	{
-		return (int)(ImGui::GetWindowSize().y  / fontHeight);
+		return (int32)(ImGui::GetWindowSize().y  / fontHeight);
 	}
 }

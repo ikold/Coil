@@ -21,17 +21,17 @@ namespace Coil
 	{
 		EventCategoryNone =			0,
 		EventCategoryApplication =	1 << 0,
-		EventCategoryInput =			1 << 1,
+		EventCategoryInput =		1 << 1,
 		EventCategoryKeyboard =		1 << 2,
-		EventCategoryMouse =			1 << 3,
+		EventCategoryMouse =		1 << 3,
 		EventCategoryMouseButton =	1 << 4
 	};
 
 #define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() { return EventType::##type; }\
 								virtual EventType GetType() const override { return GetStaticType(); }\
-								virtual const char* GetName() const override { return #type; }
+								virtual const char8* GetName() const override { return #type; }
 
-#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
+#define EVENT_CLASS_CATEGORY(category) virtual int32 GetCategoryFlags() const override { return category; }
 
 	class COIL_API Event
 	{
@@ -39,13 +39,13 @@ namespace Coil
 
 	public:
 		virtual EventType GetType() const = 0;
-		virtual const char* GetName() const = 0;
-		virtual int GetCategoryFlags() const = 0;
+		virtual const char8* GetName() const = 0;
+		virtual int32 GetCategoryFlags() const = 0;
 		virtual RString ToString() const { return GetName(); }
 
 		inline bool IsInCategory(EventCategory category) const
 		{
-			return GetCategoryFlags() & (int)category;
+			return GetCategoryFlags() & (int32)category;
 		}
 
 		inline bool IsHandled() { return Handled; }

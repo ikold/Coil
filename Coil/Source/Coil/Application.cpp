@@ -44,8 +44,8 @@ namespace Coil
 
 		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
-		int counter = 0;
-		float frameTimeArray[60];
+		int32 counter = 0;
+		float32 frameTimeArray[60];
 
 		while (Running)
 		{
@@ -57,8 +57,8 @@ namespace Coil
 			if (++counter > 59)
 			{
 				counter = 0;
-				float sum = 0.f;
-				for (int i = 0; i < 60; ++i)
+				float32 sum = 0.f;
+				for (int32 i = 0; i < 60; ++i)
 					sum += frameTimeArray[i];
 
 				std::stringstream ss;

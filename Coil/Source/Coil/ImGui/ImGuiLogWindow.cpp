@@ -9,8 +9,8 @@ namespace Coil
 
 	void ImGuiLogWindow::Draw() const
 	{
-		int skipedLines = TextTopCulling();
-		int linesToDraw = WindowSizeInLines();
+		int32 skipedLines = TextTopCulling();
+		int32 linesToDraw = WindowSizeInLines();
 
 		auto it = Buffer->begin() + skipedLines;
 		auto end = Buffer->end();

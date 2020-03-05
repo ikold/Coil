@@ -37,22 +37,22 @@ namespace Coil
 		
 		/*!	Get interface for delta time
 		
-			@return		float	precalculate delta time in ms
+			@return		float32	precalculate delta time in ms
 		*/
-		inline static float DeltaTime() { return DeltaTimeV; }
+		inline static float32 DeltaTime() { return DeltaTimeV; }
 		
 		/*!	Get interface for fps
 		
-			@return		float	precalculated fps
+			@return		float32	precalculated fps
 		*/
-		inline static float Fps() { return FpsV; }
+		inline static float32 Fps() { return FpsV; }
 		
 	private:
 		static std::chrono::time_point<std::chrono::steady_clock> LastFrameTime;		/*!	Coresponds to the time point on the begging of last frame */
 		static std::chrono::time_point<std::chrono::steady_clock> CurrentFrameTime;		/*!	Coresponds to the time point on the begging of current frame */
 		
-		static float DeltaTimeV;	/*!	Precalculated time in ms between frames */
-		static float FpsV;			/*!	For benchmarking purpose */
+		static float32 DeltaTimeV;	/*!	Precalculated time in ms between frames */
+		static float32 FpsV;			/*!	For benchmarking purpose */
 	};
 }
 

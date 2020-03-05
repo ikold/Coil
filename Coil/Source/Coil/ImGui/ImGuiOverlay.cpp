@@ -3,7 +3,7 @@
 
 namespace Coil
 {
-	ImGuiOverlay::ImGuiOverlay(const char* name, int width, int height)
+	ImGuiOverlay::ImGuiOverlay(const char8* name, int32 width, int32 height)
 		: ImGuiWindow(name, width, height)
 	{
 		Flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;

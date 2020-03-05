@@ -62,7 +62,7 @@ namespace Coil
 		ImGuiIO& io = ImGui::GetIO();
 
 		Application& app = Application::Get();
-		io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2((float32)app.GetWindow().GetWidth(), (float32)app.GetWindow().GetHeight());
 
 		io.DeltaTime = Time::DeltaTime() / 1000.f;
 
@@ -144,7 +144,7 @@ namespace Coil
 	bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& event)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.AddInputCharacter((unsigned int)event.GetKeyCode());
+		io.AddInputCharacter((uint32)event.GetKeyCode());
 
 		return false;
 	}
@@ -152,7 +152,7 @@ namespace Coil
 	bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent& event)
 	{
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2((float)event.GetWidth(), (float)event.GetHeight());
+		io.DisplaySize = ImVec2((float32)event.GetWidth(), (float32)event.GetHeight());
 		io.DisplayFramebufferScale = ImVec2(1.f, 1.f);
 
 		return false;
