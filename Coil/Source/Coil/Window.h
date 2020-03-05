@@ -12,11 +12,11 @@ namespace Coil
 {
 	struct WindowProps
 	{
-		std::string Name;
+		RString Name;
 		unsigned int Width;
 		unsigned int Height;
 
-		WindowProps(const std::string& name = "Coil Engine", unsigned int width = 1280, unsigned int height = 720)
+		WindowProps(const RString& name = "Coil Engine", unsigned int width = 1280, unsigned int height = 720)
 			:Name(name), Width(width), Height(height) {}
 	};
 

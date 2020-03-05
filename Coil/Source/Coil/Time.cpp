@@ -12,11 +12,11 @@ namespace Coil
 	float Time::FpsV = 0.f;
 	
 	
-	std::string Time::TimestampToString(const Timestamp timestamp)
+	RString Time::TimestampToString(const Timestamp timestamp)
 	{
 		std::stringstream ss;
 		ss << std::put_time(std::localtime(&timestamp), "%Y-%m-%d %H:%M:%S");
-		return ss.str();
+		return ss.str().c_str();
 	}
 	
 	void Time::Tick()

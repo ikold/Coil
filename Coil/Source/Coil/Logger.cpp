@@ -8,9 +8,8 @@ namespace Coil
 
 
 	Log::Log(const RString& message, LogLevel level)
-		:Message(message), Level(level), Date(Time::Now())
+		:Message(message), Level(level), Date(Time::Now()), FormatedMessage(LogParser::Compose(*this))
 	{
-		FormatedMessage = LogParser::Compose(*this);
 	}
 	
 	RString LogParser::Level(const LogLevel& level)
@@ -36,13 +35,10 @@ namespace Coil
 
 	RString LogParser::Compose(const Log& log)
 	{
-		std::string s("[");
-		s.append(Time::TimestampToString(log.GetDate()));
-		s.append("][");
-		s.append(Level(log.GetLevel())->CString());
-		s.append("] ");
-		s.append(log.GetMessage()->CString());
-		return RString(s.c_str());
+		SString sString;
+		sString.Reserv(64);
+		sString << "[" << Time::TimestampToString(log.GetDate()) << "][" << Level(log.GetLevel()) << "] " << log.GetMessage();
+		return RString(sString);
 	}
 
 	Log* Logger::Create(const RString& message, LogLevel level)

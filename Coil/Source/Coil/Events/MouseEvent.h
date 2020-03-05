@@ -13,11 +13,11 @@ namespace Coil
 		inline float GetX() const { return MouseX; }
 		inline float GetY() const { return MouseY; }
 
-		std::string ToString() const override
+		RString ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseMovedEvent: " << MouseX << ", " << MouseY;
-			return ss.str();
+			return ss.str().c_str();
 		}
 		
 		EVENT_CLASS_TYPE(MouseMoved)
@@ -36,11 +36,11 @@ namespace Coil
 		inline float GetXOffset() const { return XOffset; }
 		inline float GetYOffset() const { return YOffset; }
 
-		std::string ToString() const override
+		RString ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseScrolledEvent: " << XOffset << ", " << YOffset;
-			return ss.str();
+			return ss.str().c_str();
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled)
@@ -70,11 +70,11 @@ namespace Coil
 		MouseButtonPressedEvent(int button)
 			: MouseButtonEvent(button) {}
 
-		std::string ToString() const override
+		RString ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonPressedEvent: " << Button;
-			return ss.str();
+			return ss.str().c_str();
 		}
 
 		EVENT_CLASS_TYPE(MouseButtonPressed)
@@ -86,11 +86,11 @@ namespace Coil
 		MouseButtonReleasedEvent(int button)
 			: MouseButtonEvent(button) {}
 
-		std::string ToString() const override
+		RString ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseButtonReleasedEvent: " << Button;
-			return ss.str();
+			return ss.str().c_str();
 		}
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)

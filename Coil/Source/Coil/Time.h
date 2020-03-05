@@ -25,9 +25,9 @@ namespace Coil
 		/*!	Formats string from timestamp
 			@param[in]	timestamp	Timestamp to be parsed to string
 			 
-			@return		std::string	Formated string
+			@return		RString	Formated string
 		 */
-		static std::string TimestampToString(const Timestamp timestamp);
+		static RString TimestampToString(const Timestamp timestamp);
 		
 		
 		/*!	Method for calculating frame time

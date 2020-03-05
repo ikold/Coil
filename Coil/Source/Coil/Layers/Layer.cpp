@@ -3,7 +3,7 @@
 
 namespace Coil
 {
-	Layer::Layer(const std::string& name)
+	Layer::Layer(const RString& name)
 		: DebugName(name)
 	{
 	}

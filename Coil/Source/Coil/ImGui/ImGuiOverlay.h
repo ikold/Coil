@@ -12,13 +12,13 @@ namespace Coil
 		ImGuiOverlay(const char* name, int width, int height);
 		~ImGuiOverlay();
 
-		void BindTextBuffer(std::string* buffer) { TextBuffer = buffer; }
+		void BindTextBuffer(RString reference) { StringReference = reference; }
 
 	protected:
 		void Draw() const override;
 
 	private:
-		std::string* TextBuffer;
+		RString StringReference;
 	};
 
 }

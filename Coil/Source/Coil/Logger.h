@@ -52,7 +52,7 @@ namespace Coil
 		
 			@param[in]	level		Coil::LogLevel object to be parsed
 		
-			@return		std::string	LogLevel formated in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
+			@return		RString	LogLevel formated in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
 		*/
 		static RString Level(const LogLevel& level);
 		
@@ -60,7 +60,7 @@ namespace Coil
 		
 			@param[in]	log
 		
-			@return		std::string	currently in format "[YYYY-MM-DD hh-mm-ss][LogLevel]: Message" (e.g. "[2019-12-25 19:23:03][MESSAGE]: Example message")
+			@return		RString	currently in format "[YYYY-MM-DD hh-mm-ss][LogLevel]: Message" (e.g. "[2019-12-25 19:23:03][MESSAGE]: Example message")
 		*/
 		static RString Compose(const Log& log);
 	};

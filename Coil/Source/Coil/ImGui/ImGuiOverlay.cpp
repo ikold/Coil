@@ -17,6 +17,6 @@ namespace Coil
 	{
 		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
 		
-		ImGui::Text(TextBuffer->c_str());
+		ImGui::Text(StringReference->CString());
 	}
 }

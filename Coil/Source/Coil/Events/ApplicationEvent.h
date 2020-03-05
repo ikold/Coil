@@ -13,11 +13,11 @@ namespace Coil
 		inline unsigned int GetWidth() const { return Width; }
 		inline unsigned int GetHeight() const { return Height; }
 
-		std::string ToString() const override
+		RString ToString() const override
 		{
 			std::stringstream ss;
 			ss << "WindowResizeEvent: " << Width << ", " << Height;
-			return ss.str();
+			return ss.str().c_str();
 		}
 
 		EVENT_CLASS_TYPE(WindowResize)
@@ -63,11 +63,11 @@ namespace Coil
 		inline int GetPositionX() const { return PositionX; }
 		inline int GetPositionY() const { return PositionY; }
 
-		std::string ToString() const override
+		RString ToString() const override
 		{
 			std::stringstream ss;
 			ss << "WindowMovedEvent: " << PositionX << ", " << PositionY;
-			return ss.str();
+			return ss.str().c_str();
 		}
 
 		EVENT_CLASS_TYPE(WindowMoved)

@@ -31,7 +31,7 @@ namespace Coil
 
 		struct WindowData
 		{
-			std::string Name;
+			RString Name;
 			unsigned int Width, Height;
 			bool VSync;
 

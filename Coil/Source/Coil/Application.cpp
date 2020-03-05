@@ -38,21 +38,19 @@ namespace Coil
 		
 		Logger::Info("Running Application");
 
-		std::string frameTime = "test";
-		std::stringstream ss;
+		RString frameTime = "0 ms";
 
-		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(&frameTime);
+		RString ft = frameTime;
+
+		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
 		int counter = 0;
 		float frameTimeArray[60];
-
 
 		while (Running)
 		{
 			// computing of frame time
 			Time::Tick();
-
-			ss.str(std::string());
 
 			frameTimeArray[counter] = Time::DeltaTime();
 
@@ -63,19 +61,25 @@ namespace Coil
 				for (int i = 0; i < 60; ++i)
 					sum += frameTimeArray[i];
 
-				ss << (sum / 60)<< "ms";
+				std::stringstream ss;
+				ss << (sum / 60) << "ms";
 
-				frameTime = ss.str();
+				*frameTime = ss.str().c_str();
 			}
 
 			glClearColor(0, 0, 0, 0);
 			glClear(GL_COLOR_BUFFER_BIT);
 			
-			for (auto layer : AppLayerStack)
-				layer->OnUpdate();
-
-			AppWindow->OnUpdate();
+			Update();
 		}
+	}
+
+	void Application::Update()
+	{
+		for (auto layer : AppLayerStack)
+			layer->OnUpdate();
+
+		AppWindow->OnUpdate();
 	}
 
 	void Application::OnEvent(Event& event)

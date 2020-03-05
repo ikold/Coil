@@ -8,7 +8,7 @@ namespace Coil
 	class COIL_API Layer
 	{
 	public:
-		Layer(const std::string& name = "Layer");
+		Layer(const RString& name = "Layer");
 		virtual ~Layer();
 
 		virtual void OnAttach() {}
@@ -16,10 +16,10 @@ namespace Coil
 		virtual void OnUpdate() {}
 		virtual void OnEvent(Event& event) {}
 
-		inline const std::string& GetName() const { return DebugName; }
+		inline const RString& GetName() const { return DebugName; }
 
 	protected:
-		std::string DebugName;
+		RString DebugName;
 	};
 
 }

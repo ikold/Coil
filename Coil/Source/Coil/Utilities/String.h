@@ -12,22 +12,20 @@ namespace Coil
 		String(const String& string);
 		~String();
 
-		void Test()
-		{
-			;
-		}
+		inline char* CString() const { return Data; }
 
-		inline char* CString() { return Data; }
+		inline int GetLength() const { return Length; }
+
+		String& operator=(const char* str);
+		String& operator=(const String& str);
 
 	protected:
 		static int CStringLength(const char* str);
 
-		inline static void CStringCopy(const char* sStr, char* dStr) { while (*dStr++ = *sStr++); }
-
-	private:
+	protected:
 		char* Data;
 
-		int Size;
+		int Length;
 	};
 
 	class COIL_API RString
@@ -36,14 +34,18 @@ namespace Coil
 		RString();
 		RString(const String& string);
 		RString(const RString& rString);
-		RString(const char * text);
+		RString(const char* text);
 		~RString();
 
 		String* operator->() const { return Get(); }
 
-		RString& operator=(const RString& rString);
+		RString& operator=(const char* str);
+		RString& operator=(const String& str);
+		RString& operator=(const RString& str);
 
-		inline static RString Copy(const RString& rString);
+		inline String& operator*() const { return *Get(); }
+
+		static inline RString Copy(const RString& str);
 
 	private:
 		inline String* Get() const { return StringPointer; }
@@ -52,7 +54,29 @@ namespace Coil
 
 	private:
 		String* StringPointer;
-
 		int* Counter;
+	};
+
+	class COIL_API SString : public String
+	{
+	public:
+		SString();
+		SString(const char* text);
+		~SString();
+
+		void Reserv(int size);
+
+		void Shrink();
+
+		SString& operator<<(const char* str);
+		SString& operator<<(const String& str);
+		SString& operator<<(const RString& str);
+		SString& operator<<(const SString& str);
+
+	private:
+		void Append(const char* str, int size);
+
+	private:
+		int Size;
 	};
 }

@@ -19,6 +19,8 @@ namespace Coil
 		*/
 		void Run();
 
+		void Update();
+
 		void OnEvent(Event& event);
 
 		bool OnWindowClosed(WindowCloseEvent& event);

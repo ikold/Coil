@@ -49,7 +49,7 @@ namespace Coil
 			GLFWInitializated = true;
 		}
 
-		WindowInstance = glfwCreateWindow((int)Data.Width, (int)Data.Height, Data.Name.c_str(), nullptr, nullptr);
+		WindowInstance = glfwCreateWindow((int)Data.Width, (int)Data.Height, Data.Name->CString(), nullptr, nullptr);
 		glfwMakeContextCurrent(WindowInstance);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		CL_CORE_ASSERT(status, "GLAD initialization failed!");
