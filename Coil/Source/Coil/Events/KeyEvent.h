@@ -28,9 +28,7 @@ namespace Coil
 
 		RString ToString() const override
 		{
-			std::stringstream ss;
-			ss << "KeyPressedEvent: " << KeyCode << " (" << RepeatCount << " repeats)";
-			return ss.str().c_str();
+			return SString() << "KeyPressedEvent: " << KeyCode << " (" << RepeatCount << " repeats)";
 		}
 
 		EVENT_CLASS_TYPE(KeyPressed)
@@ -47,9 +45,7 @@ namespace Coil
 
 		RString ToString() const override
 		{
-			std::stringstream ss;
-			ss << "KeyReleasedEvent: " << KeyCode;
-			return ss.str().c_str();
+			return SString() << "KeyReleasedEvent: " << KeyCode;
 		}
 
 		EVENT_CLASS_TYPE(KeyReleased)
@@ -65,9 +61,7 @@ namespace Coil
 
 		RString ToString() const override
 		{
-			std::stringstream ss;
-			ss << "KeyTypedEvent: " << KeyCode;
-			return ss.str().c_str();
+			return SString() << "KeyTypedEvent: " << KeyCode;
 		}
 
 		EVENT_CLASS_TYPE(KeyTyped)

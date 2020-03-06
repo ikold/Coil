@@ -16,10 +16,80 @@ namespace Coil
 
 		inline int32 GetLength() const { return Length; }
 
+		void Reverse();
+
 		String& operator=(const char8* str);
 		String& operator=(const String& str);
 
+		static inline String Convert(const int8& value)		{ return Convert<int8>(value); };
+		static inline String Convert(const uint8& value)	{ return Convert<uint8>(value); };
+		static inline String Convert(const int16& value)	{ return Convert<int16>(value); };
+		static inline String Convert(const uint16& value)	{ return Convert<uint16>(value); };
+		static inline String Convert(const int32& value)	{ return Convert<int32>(value); };
+		static inline String Convert(const uint32& value)	{ return Convert<uint32>(value); };
+		static inline String Convert(const int64& value)	{ return Convert<int64>(value); };
+		static inline String Convert(const uint64& value)	{ return Convert<uint64>(value); };
+
 	protected:
+		template<typename T>
+		static typename std::enable_if<std::is_integral<T>::value, String>::type
+		Convert(const T& value)
+		{
+			SString reverseString;
+			reverseString.Reserve(20); // 20 - Maximum number of digits in 64 bit int
+
+			// using ~ bitwise operator for getting rid of negative sign
+			uint64 operationalValue = (value > 0) ? value : (1 + (uint64)~value);
+
+			do
+			{
+				switch (operationalValue % 10)
+				{
+				case 0:
+					reverseString << "0";
+					break;
+				case 1:
+					reverseString << "1";
+					break;
+				case 2:
+					reverseString << "2";
+					break;
+				case 3:
+					reverseString << "3";
+					break;
+				case 4:
+					reverseString << "4";
+					break;
+				case 5:
+					reverseString << "5";
+					break;
+				case 6:
+					reverseString << "6";
+					break;
+				case 7:
+					reverseString << "7";
+					break;
+				case 8:
+					reverseString << "8";
+					break;
+				case 9:
+					reverseString << "9";
+					break;
+				}
+
+				operationalValue /= 10;
+			} while (operationalValue);
+
+			// Adding '-' if needed, at end of string before revesing
+			if (value < 0)
+			{
+				reverseString << "-";
+			}
+
+			reverseString.Reverse();
+			return reverseString;
+		}
+
 		static int32 CStringLength(const char8* str);
 
 	protected:
@@ -64,7 +134,7 @@ namespace Coil
 		SString(const char8* text);
 		~SString();
 
-		void Reserv(int32 size);
+		void Reserve(int32 size);
 
 		void Shrink();
 
@@ -72,6 +142,15 @@ namespace Coil
 		SString& operator<<(const String& str);
 		SString& operator<<(const RString& str);
 		SString& operator<<(const SString& str);
+
+		SString& operator<<(const int8& value)		{ return *this << String::Convert(value); };
+		SString& operator<<(const uint8& value)		{ return *this << String::Convert(value); };
+		SString& operator<<(const int16& value)		{ return *this << String::Convert(value); };
+		SString& operator<<(const uint16& value)	{ return *this << String::Convert(value); };
+		SString& operator<<(const int32& value)		{ return *this << String::Convert(value); };
+		SString& operator<<(const uint32& value)	{ return *this << String::Convert(value); };
+		SString& operator<<(const int64& value)		{ return *this << String::Convert(value); };
+		SString& operator<<(const uint64& value)	{ return *this << String::Convert(value); };
 
 	private:
 		void Append(const char8* str, int32 size);

@@ -29,6 +29,21 @@ namespace Coil
 		delete[] Data;
 	}
 
+	void String::Reverse()
+	{
+		char* forwardIterator = Data;
+		char* backwardIterator = Data + Length - 1;
+		char tmp;
+		while (forwardIterator < backwardIterator)
+		{
+			tmp = *forwardIterator;
+			*forwardIterator = *backwardIterator;
+			*backwardIterator = tmp;
+			++forwardIterator;
+			--backwardIterator;
+		}
+	}
+
 	String& String::operator=(const char8* str)
 	{
 		delete[] Data;
@@ -153,7 +168,7 @@ namespace Coil
 	{
 	}
 
-	void SString::Reserv(int32 size)
+	void SString::Reserve(int32 size)
 	{
 		Size = size;
 		char8* newData = new char[size + 1];

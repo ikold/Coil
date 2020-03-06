@@ -72,9 +72,7 @@ namespace Coil
 
 		RString ToString() const override
 		{
-			std::stringstream ss;
-			ss << "MouseButtonPressedEvent: " << Button;
-			return ss.str().c_str();
+			return SString() << "MouseButtonPressedEvent: " << Button;
 		}
 
 		EVENT_CLASS_TYPE(MouseButtonPressed)
@@ -88,9 +86,7 @@ namespace Coil
 
 		RString ToString() const override
 		{
-			std::stringstream ss;
-			ss << "MouseButtonReleasedEvent: " << Button;
-			return ss.str().c_str();
+			return SString() << "MouseButtonReleasedEvent: " << Button;
 		}
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)

@@ -15,9 +15,7 @@ namespace Coil
 
 		RString ToString() const override
 		{
-			std::stringstream ss;
-			ss << "WindowResizeEvent: " << Width << ", " << Height;
-			return ss.str().c_str();
+			return SString() << "WindowResizeEvent: " << Width << ", " << Height;
 		}
 
 		EVENT_CLASS_TYPE(WindowResize)
@@ -65,9 +63,7 @@ namespace Coil
 
 		RString ToString() const override
 		{
-			std::stringstream ss;
-			ss << "WindowMovedEvent: " << PositionX << ", " << PositionY;
-			return ss.str().c_str();
+			return SString() << "WindowMovedEvent: " << PositionX << ", " << PositionY;
 		}
 
 		EVENT_CLASS_TYPE(WindowMoved)

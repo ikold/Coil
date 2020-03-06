@@ -36,7 +36,7 @@ namespace Coil
 	RString LogParser::Compose(const Log& log)
 	{
 		SString sString;
-		sString.Reserv(64);
+		sString.Reserve(64);
 		sString << "[" << Time::TimestampToString(log.GetDate()) << "][" << Level(log.GetLevel()) << "] " << log.GetMessage();
 		return RString(sString);
 	}
