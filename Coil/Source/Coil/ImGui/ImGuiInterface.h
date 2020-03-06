@@ -12,7 +12,7 @@ namespace Coil
 	public:
 		template<typename T>
 		static typename std::enable_if<std::is_base_of<ImGuiWindow, T>::value, T&>::type
-		Creat(const char8* name = "", int32 width = 512, int32 height = 256)
+		Creat(RString name = "", int32 width = 512, int32 height = 256)
 		{
 			T* window = new T(name, width, height);
 			Container.Push(window);

@@ -9,7 +9,7 @@ namespace Coil
 	class COIL_API ImGuiWindow
 	{
 	public:
-		ImGuiWindow(const char8* name, int32 width, int32 height);
+		ImGuiWindow(RString name, int32 width, int32 height);
 		~ImGuiWindow();
 
 		void OnUpdate() const;
@@ -26,7 +26,7 @@ namespace Coil
 		ImGuiWindowFlags Flags;
 
 	private:
-		const char8* Name;
+		RString Name;
 		int32 Width;
 		int32 Height;
 

@@ -7,12 +7,12 @@ namespace Coil
 	PointerContainer<Log> Logger::Buffer;
 
 
-	Log::Log(const RString& message, LogLevel level)
+	Log::Log(RString message, LogLevel level)
 		:Message(message), Level(level), Date(Time::Now()), FormatedMessage(LogParser::Compose(*this))
 	{
 	}
 	
-	RString LogParser::Level(const LogLevel& level)
+	RString LogParser::Level(LogLevel level)
 	{
 		switch (level)
 		{
@@ -41,7 +41,7 @@ namespace Coil
 		return RString(sString);
 	}
 
-	Log* Logger::Create(const RString& message, LogLevel level)
+	Log* Logger::Create(RString message, LogLevel level)
 	{
 		Log* log = new Log(message, level);
 		Buffer.Push(log);

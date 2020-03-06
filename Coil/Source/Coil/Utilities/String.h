@@ -21,19 +21,19 @@ namespace Coil
 		String& operator=(const char8* str);
 		String& operator=(const String& str);
 
-		static inline String Convert(const int8& value)		{ return Convert<int8>(value); };
-		static inline String Convert(const uint8& value)	{ return Convert<uint8>(value); };
-		static inline String Convert(const int16& value)	{ return Convert<int16>(value); };
-		static inline String Convert(const uint16& value)	{ return Convert<uint16>(value); };
-		static inline String Convert(const int32& value)	{ return Convert<int32>(value); };
-		static inline String Convert(const uint32& value)	{ return Convert<uint32>(value); };
-		static inline String Convert(const int64& value)	{ return Convert<int64>(value); };
-		static inline String Convert(const uint64& value)	{ return Convert<uint64>(value); };
+		static inline String Convert(int8 value)	{ return Convert<int8>(value); };
+		static inline String Convert(uint8 value)	{ return Convert<uint8>(value); };
+		static inline String Convert(int16 value)	{ return Convert<int16>(value); };
+		static inline String Convert(uint16 value)	{ return Convert<uint16>(value); };
+		static inline String Convert(int32 value)	{ return Convert<int32>(value); };
+		static inline String Convert(uint32 value)	{ return Convert<uint32>(value); };
+		static inline String Convert(int64 value)	{ return Convert<int64>(value); };
+		static inline String Convert(uint64 value)	{ return Convert<uint64>(value); };
 
 	protected:
 		template<typename T>
 		static typename std::enable_if<std::is_integral<T>::value, String>::type
-		Convert(const T& value)
+		Convert(T value)
 		{
 			SString reverseString;
 			reverseString.Reserve(20); // 20 - Maximum number of digits in 64 bit int
@@ -143,14 +143,14 @@ namespace Coil
 		SString& operator<<(const RString& str);
 		SString& operator<<(const SString& str);
 
-		SString& operator<<(const int8& value)		{ return *this << String::Convert(value); };
-		SString& operator<<(const uint8& value)		{ return *this << String::Convert(value); };
-		SString& operator<<(const int16& value)		{ return *this << String::Convert(value); };
-		SString& operator<<(const uint16& value)	{ return *this << String::Convert(value); };
-		SString& operator<<(const int32& value)		{ return *this << String::Convert(value); };
-		SString& operator<<(const uint32& value)	{ return *this << String::Convert(value); };
-		SString& operator<<(const int64& value)		{ return *this << String::Convert(value); };
-		SString& operator<<(const uint64& value)	{ return *this << String::Convert(value); };
+		SString& operator<<(int8 value)		{ return *this << String::Convert(value); };
+		SString& operator<<(uint8 value)	{ return *this << String::Convert(value); };
+		SString& operator<<(int16 value)	{ return *this << String::Convert(value); };
+		SString& operator<<(uint16 value)	{ return *this << String::Convert(value); };
+		SString& operator<<(int32 value)	{ return *this << String::Convert(value); };
+		SString& operator<<(uint32 value)	{ return *this << String::Convert(value); };
+		SString& operator<<(int64 value)	{ return *this << String::Convert(value); };
+		SString& operator<<(uint64 value)	{ return *this << String::Convert(value); };
 
 	private:
 		void Append(const char8* str, int32 size);

@@ -8,7 +8,7 @@ namespace Coil
 {
 	static bool GLFWInitializated = false;
 
-	static void GLFWErrorCallback(int32 error, const char8* description)
+	static void GLFWErrorCallback(int32 error, RString description)
 	{
 		Logger::Error(description);
 	}

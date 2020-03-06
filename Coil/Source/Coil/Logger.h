@@ -24,20 +24,20 @@ namespace Coil
 	struct COIL_API Log
 	{
 	public:
-		Log(const RString& message, LogLevel level);
+		Log(RString message, LogLevel level);
 		
-		inline const RString& GetMessage()	const { return Message;	}
-		inline const Timestamp GetDate()	const { return Date;	}
-		inline const LogLevel GetLevel()	const { return Level;	}
+		inline RString GetMessage()	const { return Message;	}
+		inline Timestamp GetDate()	const { return Date;	}
+		inline LogLevel GetLevel()	const { return Level;	}
 		
-		inline const RString& GetFormatedMessage() const { return FormatedMessage; }
+		inline RString GetFormatedMessage() const { return FormatedMessage; }
 
 	private:
 		const RString Message;
 		const Timestamp Date;	/*!	Date of creation of log */
 		const LogLevel Level;	/*!	Type of log */
 
-		RString FormatedMessage;
+		const RString FormatedMessage;
 	};
 
 
@@ -54,7 +54,7 @@ namespace Coil
 		
 			@return		RString	LogLevel formated in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
 		*/
-		static RString Level(const LogLevel& level);
+		static RString Level(LogLevel level);
 		
 		/*!	Creats console ready string from passed Log
 		
@@ -85,12 +85,12 @@ namespace Coil
 			@todo parameters passing
 		*/
 		///@{
-		static inline Log* Fatal(const RString& message)		{ return Create(message, LogLevel::fatal); }
-		static inline Log* Error(const RString& message)		{ return Create(message, LogLevel::error); }
-		static inline Log* Warning(const RString& message)		{ return Create(message, LogLevel::warning); }
-		static inline Log* Info(const RString& message)			{ return Create(message, LogLevel::info); }
-		static inline Log* Debug(const RString& message)		{ return Create(message, LogLevel::debug); }
-		static inline Log* Trace(const RString& message)		{ return Create(message, LogLevel::trace); }
+		static inline Log* Fatal(RString message)		{ return Create(message, LogLevel::fatal); }
+		static inline Log* Error(RString message)		{ return Create(message, LogLevel::error); }
+		static inline Log* Warning(RString message)		{ return Create(message, LogLevel::warning); }
+		static inline Log* Info(RString message)		{ return Create(message, LogLevel::info); }
+		static inline Log* Debug(RString message)		{ return Create(message, LogLevel::debug); }
+		static inline Log* Trace(RString message)		{ return Create(message, LogLevel::trace); }
 		///@}
 
 		static PointerContainer<Log>* GetBuffer() { return &Buffer; }
@@ -103,7 +103,7 @@ namespace Coil
 
 			@return		Log*	pointer to created log
 		*/
-		static Log* Create(const RString& message, LogLevel level);
+		static Log* Create(RString message, LogLevel level);
 		
 	private:
 		static PointerContainer<Log> Buffer;

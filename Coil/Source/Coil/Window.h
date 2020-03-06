@@ -16,7 +16,7 @@ namespace Coil
 		uint32 Width;
 		uint32 Height;
 
-		WindowProps(const RString& name = "Coil Engine", uint32 width = 1280, uint32 height = 720)
+		WindowProps(RString name = "Coil Engine", uint32 width = 1280, uint32 height = 720)
 			:Name(name), Width(width), Height(height) {}
 	};
 
