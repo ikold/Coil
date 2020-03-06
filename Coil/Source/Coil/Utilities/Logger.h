@@ -2,8 +2,7 @@
 
 #include "Coil/Core.h"
 
-#include "Coil/PointerCointainer.h"
-#include "Coil/Time.h"
+#include "Coil/Utilities/PointerCointainer.h"
 
 namespace Coil
 {

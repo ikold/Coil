@@ -17,7 +17,7 @@ namespace Coil
 	void ImGuiWindow::OnUpdate() const
 	{
 		ImGui::SetNextWindowSize(ImVec2(Width, Height), ImGuiCond_FirstUseEver);
-		ImGui::Begin(Name, OpenFlag, Flags);
+		ImGui::Begin(Name->CString(), OpenFlag, Flags);
 		Draw();
 		ImGui::End();
 	}

@@ -19,6 +19,6 @@
 
 #include "Coil/Utilities/String.h"
 
-#include "Coil/Time.h"
+#include "Coil/Utilities/Time.h"
 
-#include "Coil/Logger.h"
+#include "Coil/Utilities/Logger.h"
