@@ -2,6 +2,7 @@
 
 #include "Coil/Core.h"
 
+
 namespace Coil
 {
 	class COIL_API String
@@ -21,6 +22,7 @@ namespace Coil
 		String& operator=(const char8* str);
 		String& operator=(const String& str);
 
+
 		static inline String Convert(int8 value)	{ return Convert<int8>(value); };
 		static inline String Convert(uint8 value)	{ return Convert<uint8>(value); };
 		static inline String Convert(int16 value)	{ return Convert<int16>(value); };
@@ -29,6 +31,9 @@ namespace Coil
 		static inline String Convert(uint32 value)	{ return Convert<uint32>(value); };
 		static inline String Convert(int64 value)	{ return Convert<int64>(value); };
 		static inline String Convert(uint64 value)	{ return Convert<uint64>(value); };
+
+		static inline String Convert(float32 value, int fractionLength);
+		static inline String Convert(float64 value, int fractionLength);
 
 	protected:
 		template<typename T>
@@ -152,10 +157,17 @@ namespace Coil
 		SString& operator<<(int64 value)	{ return *this << String::Convert(value); };
 		SString& operator<<(uint64 value)	{ return *this << String::Convert(value); };
 
+		SString& operator<<(float32 value) { return *this << String::Convert(value, 3); };
+		SString& operator<<(float64 value) { return *this << String::Convert(value, 3); };
+
+
+		void SetFractionLength(int32 value) { FractionLength = value; }
+
 	private:
 		void Append(const char8* str, int32 size);
 
 	private:
 		int32 Size;
+		int32 FractionLength = 3;
 	};
 }

@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "String.h"
 
+#include "ryu/ryu.h"
+
+
 namespace Coil
 {
 	String::String()
@@ -64,6 +67,16 @@ namespace Coil
 		memcpy(Data, str.Data, Length + 1);
 
 		return *this;
+	}
+
+	inline String String::Convert(float32 value, int fractionLength)
+	{
+		return Convert((float64)value, fractionLength);
+	}
+
+	inline String String::Convert(float64 value, int fractionLength)
+	{
+		return d2fixed(value, fractionLength);
 	}
 
 	int32 String::CStringLength(const char8* str)

@@ -60,7 +60,7 @@ project "GLFW"
 		}
 
 		defines 
-		{ 
+		{
 			"_GLFW_WIN32",
 			"_CRT_SECURE_NO_WARNINGS"
 		}
@@ -149,6 +149,48 @@ project "ImGui"
 
 	filter "system:windows"
 		cppdialect "C++17"
+		systemversion "latest"
+
+	filter "configurations:Debug"
+		runtime "Debug"
+		symbols "On"
+
+	filter "configurations:Release"
+		runtime "Release"
+		optimize "On"
+
+	filter "configurations:Distribution"
+		runtime "Release"
+		optimize "On"
+		
+		
+project "Ryu"
+	location "Ryu"
+	kind "StaticLib"
+	language "C"
+	staticruntime "On"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("obj/" .. outputdir .. "/%{prj.name}")
+	
+	files
+	{
+		"Ryu/ryu/ryu.h",
+		"Ryu/ryu/d2fixed.c",
+		"Ryu/ryu/d2s.c",
+		"Ryu/ryu/f2s.c",
+	}
+	
+	includedirs
+	{
+		"Ryu"
+	}
+
+	filter "system:linux"
+		systemversion "latest"
+		pic "On"
+
+	filter "system:windows"
 		systemversion "latest"
 
 	filter "configurations:Debug"

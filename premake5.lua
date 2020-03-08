@@ -15,6 +15,7 @@ workspace "Coil"
 	IncludeDir["GLFW"] = "Coil/Vendor/GLFW/include"
 	IncludeDir["GLAD"] = "Coil/Vendor/GLAD/include"
 	IncludeDir["ImGui"] = "Coil/Vendor/ImGui"
+	IncludeDir["Ryu"] = "Coil/Vendor/Ryu"
 	
 	group "Dependencies"
 		include "Coil/Vendor"
@@ -43,7 +44,8 @@ workspace "Coil"
 			"%{prj.name}/Source",
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.GLAD}",
-			"%{IncludeDir.ImGui}"
+			"%{IncludeDir.ImGui}",
+			"%{IncludeDir.Ryu}"
 		}
 
 		links
@@ -51,6 +53,7 @@ workspace "Coil"
 			"GLFW",
 			"GLAD",
 			"ImGui",
+			"Ryu",
 			"opengl32.lib"
 		}
 

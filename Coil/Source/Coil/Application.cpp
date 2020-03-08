@@ -39,9 +39,6 @@ namespace Coil
 		Logger::Info("Running Application");
 
 		RString frameTime = "0 ms";
-
-		RString ft = frameTime;
-
 		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
 		int32 counter = 0;
@@ -61,10 +58,9 @@ namespace Coil
 				for (int32 i = 0; i < 60; ++i)
 					sum += frameTimeArray[i];
 
-				std::stringstream ss;
+				SString ss;
 				ss << (sum / 60) << "ms";
-
-				*frameTime = ss.str().c_str();
+				*frameTime = ss;
 			}
 
 			glClearColor(0, 0, 0, 0);
