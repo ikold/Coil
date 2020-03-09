@@ -79,6 +79,20 @@ namespace Coil
 		return d2fixed(value, fractionLength);
 	}
 
+	String String::Convert(void* address)
+	{
+		String addressString = Convert<uint64>((uint64)address, 16);
+
+		SString formatedAddress;
+		formatedAddress.Reserve(18);
+		formatedAddress << "0x";
+
+		for (int i = 16 - addressString.GetLength(); i > 0; --i)
+			formatedAddress << "0";
+
+		return formatedAddress << addressString;
+	}
+
 	int32 String::CStringLength(const char8* str)
 	{
 		int32 length = 0;

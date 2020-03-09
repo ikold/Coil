@@ -23,22 +23,24 @@ namespace Coil
 		String& operator=(const String& str);
 
 
-		static inline String Convert(int8 value)	{ return Convert<int8>(value); };
-		static inline String Convert(uint8 value)	{ return Convert<uint8>(value); };
-		static inline String Convert(int16 value)	{ return Convert<int16>(value); };
-		static inline String Convert(uint16 value)	{ return Convert<uint16>(value); };
-		static inline String Convert(int32 value)	{ return Convert<int32>(value); };
-		static inline String Convert(uint32 value)	{ return Convert<uint32>(value); };
-		static inline String Convert(int64 value)	{ return Convert<int64>(value); };
-		static inline String Convert(uint64 value)	{ return Convert<uint64>(value); };
+		static inline String Convert(int8 value, int base = 10)		{ return Convert<int8>(value, base); };
+		static inline String Convert(uint8 value, int base = 10)	{ return Convert<uint8>(value, base); };
+		static inline String Convert(int16 value, int base = 10)	{ return Convert<int16>(value, base); };
+		static inline String Convert(uint16 value, int base = 10)	{ return Convert<uint16>(value, base); };
+		static inline String Convert(int32 value, int base = 10)	{ return Convert<int32>(value, base); };
+		static inline String Convert(uint32 value, int base = 10)	{ return Convert<uint32>(value, base); };
+		static inline String Convert(int64 value, int base = 10)	{ return Convert<int64>(value, base); };
+		static inline String Convert(uint64 value, int base = 10)	{ return Convert<uint64>(value, base); };
 
 		static inline String Convert(float32 value, int fractionLength);
 		static inline String Convert(float64 value, int fractionLength);
 
+		static String Convert(void* address);
+
 	protected:
 		template<typename T>
 		static typename std::enable_if<std::is_integral<T>::value, String>::type
-		Convert(T value)
+		Convert(T value, int32 base)
 		{
 			SString reverseString;
 			reverseString.Reserve(20); // 20 - Maximum number of digits in 64 bit int
@@ -48,7 +50,7 @@ namespace Coil
 
 			do
 			{
-				switch (operationalValue % 10)
+				switch (operationalValue % base)
 				{
 				case 0:
 					reverseString << "0";
@@ -80,9 +82,27 @@ namespace Coil
 				case 9:
 					reverseString << "9";
 					break;
+				case 10:
+					reverseString << "A";
+					break;
+				case 11:
+					reverseString << "B";
+					break;
+				case 12:
+					reverseString << "C";
+					break;
+				case 13:
+					reverseString << "D";
+					break;
+				case 14:
+					reverseString << "E";
+					break;
+				case 15:
+					reverseString << "F";
+					break;
 				}
 
-				operationalValue /= 10;
+				operationalValue /= base;
 			} while (operationalValue);
 
 			// Adding '-' if needed, at end of string before revesing
@@ -143,6 +163,7 @@ namespace Coil
 
 		void Shrink();
 
+
 		SString& operator<<(const char8* str);
 		SString& operator<<(const String& str);
 		SString& operator<<(const RString& str);
@@ -159,6 +180,8 @@ namespace Coil
 
 		SString& operator<<(float32 value) { return *this << String::Convert(value, 3); };
 		SString& operator<<(float64 value) { return *this << String::Convert(value, 3); };
+
+		SString& operator<<(void* address) { return *this << String::Convert(address); };
 
 
 		void SetFractionLength(int32 value) { FractionLength = value; }
