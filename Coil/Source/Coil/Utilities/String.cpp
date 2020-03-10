@@ -2,6 +2,7 @@
 #include "String.h"
 
 #include "ryu/ryu.h"
+#include <cstdarg>
 
 
 namespace Coil
@@ -13,18 +14,79 @@ namespace Coil
 		Length = 0;
 	}
 
-	String::String(const char8* text)
-	{
-		Length = CStringLength(text);
-		Data = new char[Length + 1];
-		memcpy(Data, text, Length + 1);
-	}
-
 	String::String(const String& string)
 	{
 		Length = string.Length;
 		Data = new char[Length + 1];
 		memcpy(Data, string.Data, Length + 1);
+	}
+
+	String::String(const char8* text ...)
+	{
+		va_list args;
+		va_start(args, text);
+
+		int32 insert = false;
+		std::vector<int32> inserts;
+		std::vector<RString> insertsString;
+
+		for (int32 i = 0; text[i] != '\0'; ++i)
+		{
+			if (!insert)
+			{
+				switch (text[i])
+				{
+				case '\\':
+					++i;
+					break;
+				case '%':
+					inserts.push_back(i);
+					insert = true;
+					break;
+				}
+			}
+			else
+			{
+				switch (text[i])
+				{
+				case 's':
+					insertsString.push_back(va_arg(args, char8*));
+					break;
+				case 'd':
+					insertsString.push_back(String::Convert(va_arg(args, int32)));
+					break;
+				case 'f':
+					insertsString.push_back(String::Convert(va_arg(args, float64), 3));
+					break;
+				}
+
+				insert = false;
+			}
+		}
+		
+		va_end(args);
+
+
+		Length = CStringLength(text) - insertsString.size() * 2;
+
+		for (RString itr : insertsString)
+			Length += itr->GetLength();
+
+		Data = new char8[Length + 1];
+
+		int32 sourceOffset = 0;
+		int32 dataOffset = 0;
+
+		for (int i = 0; i < inserts.size(); ++i)
+		{
+			memcpy(Data + dataOffset, text + sourceOffset, inserts[i] - sourceOffset);
+			dataOffset += inserts[i] - sourceOffset;
+			sourceOffset += inserts[i] - sourceOffset + 2;
+			memcpy(Data + dataOffset, insertsString[i]->CString(), insertsString[i]->GetLength());
+			dataOffset += insertsString[i]->GetLength();
+		}
+
+		memcpy(Data + dataOffset, text + sourceOffset, Length - dataOffset + 1);
 	}
 
 	String::~String()

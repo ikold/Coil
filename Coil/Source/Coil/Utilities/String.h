@@ -9,7 +9,7 @@ namespace Coil
 	{
 	public:
 		String();
-		String(const char8* text);
+		String(const char8* text...);
 		String(const String& string);
 		~String();
 
