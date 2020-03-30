@@ -260,10 +260,8 @@ namespace Coil
 	void SString::Reserve(int32 size)
 	{
 		Size = size;
-		char8* newData = new char[size + 1];
-		memcpy(newData, Data, Length + 1);
-		delete[] Data;
-		Data = newData;
+		Data = (char8*)realloc(Data, Size + 1);
+		CL_ASSERT(Data, "Failed to reallocate memory");
 	}
 
 	void SString::Shrink()
@@ -271,11 +269,9 @@ namespace Coil
 		if (Length == Size)
 			return;
 
-		char8* newData = new char[Length + 1];
-		memcpy(newData, Data, Length + 1);
-		delete[] Data;
-		Data = newData;
-
+		Data = (char8*)realloc(Data, Length + 1);
+		CL_ASSERT(Data, "Failed to reallocate memory");
+		Size = Length;
 	}
 
 	SString& SString::operator<<(const char8* str)
@@ -309,13 +305,11 @@ namespace Coil
 		else
 		{
 			Size = Length + size;
-			char8* newData = new char[Size + 1];
 
-			memcpy(newData, Data, Length);
-			memcpy(newData + Length, str, size + 1);
+			Data = (char8*)realloc(Data, Size + 1);
+			CL_ASSERT(Data, "Failed to reallocate memory");
 
-			delete[] Data;
-			Data = newData;
+			memcpy(Data + Length, str, size + 1);
 		}
 		Length += size;
 	}
