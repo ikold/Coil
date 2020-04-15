@@ -111,6 +111,8 @@ namespace Coil
 				reverseString << "-";
 			}
 
+			reverseString.Shrink();
+
 			reverseString.Reverse();
 			return reverseString;
 		}

@@ -9,6 +9,7 @@
 
 #include "Coil/Utilities/String.h"
 
+#include "Coil/Input.h"
 
 namespace Coil
 {
@@ -34,12 +35,16 @@ namespace Coil
 
 	void Application::Run()
 	{
-		Logger::Info("Initializating Application");
+		Logger::Info("Initializating A\u2122pplication");
 		
 		Logger::Info("Running Application");
 
 		RString frameTime = "0 ms";
 		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
+
+		RString mousePosition = "0, 0";
+		ImGuiInterface::Creat<ImGuiOverlay>("mouse position").BindTextBuffer(mousePosition);
+
 
 		int32 counter = 0;
 		float32 frameTimeArray[60];
@@ -48,6 +53,10 @@ namespace Coil
 		{
 			// computing of frame time
 			Time::Tick();
+
+			auto [x, y] = Input::GetMousePosition();
+			*mousePosition = SString() << "x: " << x << " y: " << y;
+
 
 			frameTimeArray[counter] = Time::DeltaTime();
 

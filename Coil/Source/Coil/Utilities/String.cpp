@@ -260,8 +260,10 @@ namespace Coil
 	void SString::Reserve(int32 size)
 	{
 		Size = size;
-		Data = (char8*)realloc(Data, Size + 1);
-		CL_ASSERT(Data, "Failed to reallocate memory");
+		char8* tmp = (char8*)realloc(Data, Size + 1);
+		CL_ASSERT(tmp, "Failed to reallocate memory");
+		if (tmp)
+			Data = tmp;
 	}
 
 	void SString::Shrink()
@@ -269,8 +271,11 @@ namespace Coil
 		if (Length == Size)
 			return;
 
-		Data = (char8*)realloc(Data, Length + 1);
-		CL_ASSERT(Data, "Failed to reallocate memory");
+		char8* tmp = (char8*)realloc(Data, Length + 1);
+		CL_ASSERT(tmp, "Failed to reallocate memory");
+		if (tmp)
+			Data = tmp;
+
 		Size = Length;
 	}
 
@@ -306,8 +311,10 @@ namespace Coil
 		{
 			Size = Length + size;
 
-			Data = (char8*)realloc(Data, Size + 1);
-			CL_ASSERT(Data, "Failed to reallocate memory");
+			char8* tmp = (char8*)realloc(Data, Size + 1);
+			CL_ASSERT(tmp, "Failed to reallocate memory");
+			if (tmp)
+				Data = tmp;
 
 			memcpy(Data + Length, str, size + 1);
 		}

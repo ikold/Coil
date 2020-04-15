@@ -23,6 +23,8 @@ namespace Coil
 		void SetVSync(bool enable = true) override;
 		bool IsVSync() const override;
 
+		inline virtual void* GetNativeWindow() const override { return WindowInstance; };
+
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
