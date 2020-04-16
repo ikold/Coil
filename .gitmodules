@@ -7,3 +7,6 @@
 [submodule "Coil/Vendor/Ryu"]
 	path = Coil/Vendor/Ryu
 	url = https://github.com/ulfjack/ryu
+[submodule "Coil/Vendor/glm"]
+	path = Coil/Vendor/glm
+	url = https://github.com/g-truc/glm

@@ -16,6 +16,7 @@ workspace "Coil"
 	IncludeDir["GLAD"] = "Coil/Vendor/GLAD/include"
 	IncludeDir["ImGui"] = "Coil/Vendor/ImGui"
 	IncludeDir["Ryu"] = "Coil/Vendor/Ryu"
+	IncludeDir["glm"] = "Coil/Vendor/glm"
 	
 	group "Dependencies"
 		include "Coil/Vendor"
@@ -45,7 +46,8 @@ workspace "Coil"
 			"%{IncludeDir.GLFW}",
 			"%{IncludeDir.GLAD}",
 			"%{IncludeDir.ImGui}",
-			"%{IncludeDir.Ryu}"
+			"%{IncludeDir.Ryu}",
+			"%{IncludeDir.glm}"
 		}
 
 		links
