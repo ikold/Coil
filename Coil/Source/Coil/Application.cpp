@@ -35,14 +35,14 @@ namespace Coil
 
 	void Application::Run()
 	{
-		Logger::Info("Initializating A\u2122pplication");
+		Logger::Info("Initializating Application");
 		
 		Logger::Info("Running Application");
 
 		RString frameTime = "0 ms";
 		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
-		RString mousePosition = "0, 0";
+		RString mousePosition = "x: 0 y: 0";
 		ImGuiInterface::Creat<ImGuiOverlay>("mouse position").BindTextBuffer(mousePosition);
 
 
@@ -54,8 +54,11 @@ namespace Coil
 			// computing of frame time
 			Time::Tick();
 
-			auto [x, y] = Input::GetMousePosition();
-			*mousePosition = SString() << "x: " << x << " y: " << y;
+			if (!Input::IsKeyPressed(CL_KEY_TAB))
+			{
+				auto [x, y] = Input::GetMousePosition();
+				*mousePosition = String("x: %f y: %f", x, y);
+			}
 
 
 			frameTimeArray[counter] = Time::DeltaTime();

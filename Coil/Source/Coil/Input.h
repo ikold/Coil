@@ -2,6 +2,9 @@
 
 #include "Coil/Core.h"
 
+#include "Coil/KeyCodes.h"
+#include "Coil/MouseButtons.h"
+
 namespace Coil
 {
 	class COIL_API Input
