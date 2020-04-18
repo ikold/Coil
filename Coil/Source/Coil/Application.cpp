@@ -5,6 +5,8 @@
 #include "Coil/ImGui/ImGuiLogWindow.h"
 #include "Coil/ImGui/ImGuiOverlay.h"
 
+#include "Coil/ImGui/ImGuiLayer.h"
+
 #include <glad/glad.h>
 
 #include "Coil/Utilities/String.h"
@@ -27,6 +29,7 @@ namespace Coil
 		AppWindow->SetVSync(true);
 
 		ImGuiInterface::Creat<ImGuiLogWindow>("Log").BindBuffer(Logger::GetBuffer());
+		PushOverlay(new ImGuiLayer());
 	}
 
 	Application::~Application()
@@ -74,9 +77,6 @@ namespace Coil
 				ss << (sum / 60) << "ms";
 				*frameTime = ss;
 			}
-
-			glClearColor(0, 0, 0, 0);
-			glClear(GL_COLOR_BUFFER_BIT);
 			
 			Update();
 		}
@@ -84,8 +84,18 @@ namespace Coil
 
 	void Application::Update()
 	{
+		glClearColor(0, 0, 0, 0);
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		for (auto layer : AppLayerStack)
 			layer->OnUpdate();
+
+		ImGuiLayer::Begin();
+		ImGuiInterface::OnImGuiRender();
+
+		for (Layer* layer : AppLayerStack)
+			layer->OnImGuiRender();
+		ImGuiLayer::End();
 
 		AppWindow->OnUpdate();
 	}

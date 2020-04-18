@@ -2,8 +2,6 @@
 
 #include "Coil/Core.h"
 
-#include "imgui.h"
-
 namespace Coil
 {
 	class COIL_API ImGuiWindow
@@ -12,7 +10,7 @@ namespace Coil
 		ImGuiWindow(RString name, int32 width, int32 height);
 		~ImGuiWindow();
 
-		void OnUpdate() const;
+		void OnImGuiRender() const;
 
 	protected:
 		int32 TextTopCulling() const;
@@ -23,7 +21,7 @@ namespace Coil
 
 	protected:
 		bool* OpenFlag;
-		ImGuiWindowFlags Flags;
+		int Flags;
 
 	private:
 		RString Name;

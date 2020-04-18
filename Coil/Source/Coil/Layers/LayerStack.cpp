@@ -15,7 +15,8 @@ namespace Coil
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		LayerInsert = Layers.emplace(LayerInsert, layer);
+		Layers.emplace(Layers.begin() + LayerInsert, layer);
+		++LayerInsert;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
@@ -29,7 +30,7 @@ namespace Coil
 		if (it != Layers.end())
 		{
 			Layers.erase(it);
-			LayerInsert--;
+			--LayerInsert;
 		}
 	}
 

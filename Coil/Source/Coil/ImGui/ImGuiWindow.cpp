@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "ImGuiWindow.h"
 
+#include "examples/imgui_impl_opengl3.h"
+#include "examples/imgui_impl_glfw.h"
+
 namespace Coil
 {
 	ImGuiWindow::ImGuiWindow(RString name, int32 width, int32 height)
@@ -14,7 +17,7 @@ namespace Coil
 	{
 	}
 
-	void ImGuiWindow::OnUpdate() const
+	void ImGuiWindow::OnImGuiRender() const
 	{
 		ImGui::SetNextWindowSize(ImVec2(Width, Height), ImGuiCond_FirstUseEver);
 		ImGui::Begin(Name->CString(), OpenFlag, Flags);

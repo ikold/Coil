@@ -1,5 +1,8 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "ImGuiOverlay.h"
+
+#include "examples/imgui_impl_opengl3.h"
+#include "examples/imgui_impl_glfw.h"
 
 namespace Coil
 {
@@ -17,6 +20,6 @@ namespace Coil
 	{
 		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
 		
-		ImGui::Text(StringReference->CString());
+		ImGui::TextUnformatted(StringReference->CString());
 	}
 }

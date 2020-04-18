@@ -1,6 +1,10 @@
 #include "pch.h"
 #include "ImGuiLogWindow.h"
 
+#include "examples/imgui_impl_opengl3.h"
+#include "examples/imgui_impl_glfw.h"
+
+
 namespace Coil
 {
 	ImGuiLogWindow::~ImGuiLogWindow()

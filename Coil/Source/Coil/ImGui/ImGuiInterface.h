@@ -19,10 +19,10 @@ namespace Coil
 			return *window;
 		}
 
-		static void OnUpdate()
+		static void OnImGuiRender()
 		{
 			for (auto window : Container)
-				window->OnUpdate();
+				window->OnImGuiRender();
 		}
 
 	private:

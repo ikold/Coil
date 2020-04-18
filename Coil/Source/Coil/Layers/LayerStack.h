@@ -21,7 +21,7 @@ namespace Coil
 
 	private:
 		std::vector<Layer*> Layers;
-		std::vector<Layer*>::iterator LayerInsert;
+		uint32 LayerInsert = 0;
 	};
 
 }
