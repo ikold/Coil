@@ -58,6 +58,10 @@ namespace Coil
 				case 'f':
 					insertsString.push_back(String::Convert(va_arg(args, float64), 3));
 					break;
+				case '%':
+				default:
+					inserts.pop_back();
+					break;
 				}
 
 				insert = false;
