@@ -71,7 +71,9 @@ workspace "Coil"
 
 			postbuildcommands
 			{
-				{"{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Application/\""}
+				{"{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Application/\""},
+				{"{COPY} ../Resources \"../bin/" .. outputdir .. "/Application/Resources\""},
+				{"{COPY} ../Resources \"../Application/Resources\""}
 			}
 			
 			defines

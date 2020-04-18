@@ -379,3 +379,6 @@ Coil/Coil.txt
 # ImGui ini file
 imgui.ini
 
+# Copies of Resources
+Application/Resources
+
