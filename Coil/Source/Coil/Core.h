@@ -27,3 +27,5 @@
 	#define CL_ASSERT(x, message)
 	#define CL_CORE_ASSERT(x, message)
 #endif
+
+#define TDerives(base) std::enable_if_t<std::is_base_of<base, T>::value, int> = 0

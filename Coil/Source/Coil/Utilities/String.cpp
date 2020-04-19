@@ -21,6 +21,12 @@ namespace Coil
 		memcpy(Data, string.Data, Length + 1);
 	}
 
+	String::String(String&& string) noexcept
+		: Data(std::exchange(string.Data, nullptr)),
+		Length(string.Length)
+	{
+	}
+
 	String::String(const char8* text ...)
 	{
 		va_list args;
@@ -115,23 +121,17 @@ namespace Coil
 
 	String& String::operator=(const char8* str)
 	{
-		delete[] Data;
-
-		Length = CStringLength(str);
-		Data = new char[Length + 1];
-		memcpy(Data, str, Length + 1);
-
-		return *this;
+		return *this = String(str);
 	}
 
 	String& String::operator=(const String& str)
 	{
-		delete[] Data;
+		return *this = String(str);
+	}
 
-		Length = str.Length;
-		Data = new char[Length + 1];
-		memcpy(Data, str.Data, Length + 1);
-
+	String& String::operator=(String&& str) noexcept
+	{
+		swap(*this, str);
 		return *this;
 	}
 
@@ -175,12 +175,6 @@ namespace Coil
 		Counter = new int32(1);
 	}
 
-	RString::RString(const String& string)
-	{
-		StringPointer = new String(string);
-		Counter = new int32(1);
-	}
-
 	RString::RString(const RString& rString)
 	{
 		StringPointer = rString.StringPointer;
@@ -194,6 +188,13 @@ namespace Coil
 		Counter = new int32(1);
 	}
 
+	RString::RString(RString&& rString)
+		: StringPointer(std::move(rString.StringPointer)),
+		Counter(std::move(rString.Counter))
+	{
+		++(*Counter);
+	}
+
 	RString::~RString()
 	{
 		DerefencString();
@@ -201,31 +202,24 @@ namespace Coil
 
 	RString& RString::operator=(const char8* str)
 	{
-		DerefencString();
-		StringPointer = new String(str);
-		Counter = new int32(1);
-		return *this;
-	}
-
-	RString& RString::operator=(const String& str)
-	{
-		DerefencString();
-		StringPointer = new String(str);
-		Counter = new int32(1);
+		swap(*this, RString(str));
 		return *this;
 	}
 
 	RString& RString::operator=(const RString& str)
 	{
-		// Failsafe for self assigning
-		String* stringPointer = str.StringPointer;
-		int32* counter = str.Counter;
-		++(*counter);
+		return *this = RString(str);
+	}
 
-		DerefencString();
-		StringPointer = stringPointer;
-		Counter = counter;
+	RString& RString::operator=(RString&& str)
+	{
+		swap(*this, str);
 		return *this;
+	}
+
+	inline RString RString::Copy()
+	{
+		return RString(*StringPointer);
 	}
 
 	inline RString RString::Copy(const RString& str)
