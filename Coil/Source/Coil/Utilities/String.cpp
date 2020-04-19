@@ -140,9 +140,12 @@ namespace Coil
 		return Convert((float64)value, fractionLength);
 	}
 
-	inline String String::Convert(float64 value, int fractionLength)
+	String String::Convert(float64 value, int fractionLength)
 	{
-		return d2fixed(value, fractionLength);
+		char* fString = d2fixed(value, fractionLength);
+		String rString(fString);
+		delete[] fString;
+		return rString;
 	}
 
 	String String::Convert(void* address)

@@ -37,7 +37,7 @@ namespace Coil
 		static inline String Convert(uint64 value, int base = 10)	{ return Convert<uint64>(value, base); };
 
 		static inline String Convert(float32 value, int fractionLength);
-		static inline String Convert(float64 value, int fractionLength);
+		static String Convert(float64 value, int fractionLength);
 
 		static String Convert(void* address);
 
