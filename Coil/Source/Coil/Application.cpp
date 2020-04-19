@@ -42,12 +42,11 @@ namespace Coil
 		
 		Logger::Info("Running Application");
 
-		RString frameTime = "0 ms";
+		RString frameTime = PString("%f ms", 0.);
 		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
-		RString mousePosition = "x: 0 y: 0";
+		RString mousePosition = PString("x: %d y: %d", 0, 0);
 		ImGuiInterface::Creat<ImGuiOverlay>("mouse position").BindTextBuffer(mousePosition);
-
 
 		int32 counter = 0;
 		float32 frameTimeArray[60];
@@ -60,7 +59,8 @@ namespace Coil
 			if (!Input::IsKeyPressed(CL_KEY_TAB))
 			{
 				auto [x, y] = Input::GetMousePosition();
-				*mousePosition = String("x: %f y: %f", x, y);
+				mousePosition.Get<PString>()->Set(0, (int32)x);
+				mousePosition.Get<PString>()->Set(1, (int32)y);
 			}
 
 
@@ -73,9 +73,7 @@ namespace Coil
 				for (int32 i = 0; i < 60; ++i)
 					sum += frameTimeArray[i];
 
-				SString ss;
-				ss << (sum / 60) << "ms";
-				*frameTime = ss;
+				frameTime.Get<PString>()->Set(0, sum / 60);
 			}
 			
 			Update();

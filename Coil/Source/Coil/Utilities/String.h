@@ -247,4 +247,22 @@ namespace Coil
 		int32 Size;
 		int32 FractionLength = 3;
 	};
+
+	class COIL_API PString : public String
+	{
+	public:
+		PString(char8* text...);
+
+		int32 TypeToSize(char8 type) const;
+
+		void Set(int32 elementIndex, char8* text);
+		void Set(int32 elementIndex, int32 value);
+		void Set(int32 elementIndex, float64 value);
+
+	private:
+		// points at the end of the space
+		std::vector<int32> InsertIndex;
+		// uses char to denote the types e.g. 'd' for int64
+		std::vector<char8> InsertType;
+	};
 }
