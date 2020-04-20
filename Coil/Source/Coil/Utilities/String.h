@@ -5,13 +5,18 @@
 
 namespace Coil
 {
+	class SString;
+	class PString;
+
 	class COIL_API String
 	{
 	public:
 		String();
-		String(const char8* text...);
+		String(const char8* text);
 		String(const String& string);
 		String(String&& string) noexcept;
+
+		String(const PString& string);
 
 		~String();
 
@@ -260,6 +265,10 @@ namespace Coil
 		void Set(int32 elementIndex, float64 value);
 
 	private:
+		void CalculateLength();
+
+	private:
+		int32 Size;
 		// points at the end of the space
 		std::vector<int32> InsertIndex;
 		// uses char to denote the types e.g. 'd' for int64

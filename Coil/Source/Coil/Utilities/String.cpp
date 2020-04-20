@@ -27,76 +27,28 @@ namespace Coil
 	{
 	}
 
-	String::String(const char8* text ...)
+	String::String(const char8* text)
 	{
-		va_list args;
-		va_start(args, text);
+		Length = CStringLength(text);
+		Data = new char[Length + 1];
+		memcpy(Data, text, Length + 1);
+	}
 
-		int32 insert = false;
-		std::vector<int32> inserts;
-		std::vector<RString> insertsString;
+	String::String(const PString& string)
+	{
+		Length = string.GetLength();
+		Data = new char[Length + 1];
 
-		for (int32 i = 0; text[i] != '\0'; ++i)
+		char8* iteratorSrc = string.CString();
+		char8* iteratorDst = Data;
+		do
 		{
-			if (!insert)
+			if (*iteratorSrc != 127)
 			{
-				switch (text[i])
-				{
-				case '\\':
-					++i;
-					break;
-				case '%':
-					inserts.push_back(i);
-					insert = true;
-					break;
-				}
+				*iteratorDst = *iteratorSrc;
+				++iteratorDst;
 			}
-			else
-			{
-				switch (text[i])
-				{
-				case 's':
-					insertsString.push_back(va_arg(args, char8*));
-					break;
-				case 'd':
-					insertsString.push_back(String::Convert(va_arg(args, int32)));
-					break;
-				case 'f':
-					insertsString.push_back(String::Convert(va_arg(args, float64), 3));
-					break;
-				case '%':
-				default:
-					inserts.pop_back();
-					break;
-				}
-
-				insert = false;
-			}
-		}
-
-		va_end(args);
-
-
-		Length = CStringLength(text) - insertsString.size() * 2;
-
-		for (RString itr : insertsString)
-			Length += itr->GetLength();
-
-		Data = new char8[Length + 1];
-
-		int32 sourceOffset = 0;
-		int32 dataOffset = 0;
-
-		for (int i = 0; i < inserts.size(); ++i)
-		{
-			memcpy(Data + dataOffset, text + sourceOffset, inserts[i] - sourceOffset);
-			dataOffset += inserts[i] - sourceOffset;
-			sourceOffset += inserts[i] - sourceOffset + 2;
-			memcpy(Data + dataOffset, insertsString[i]->CString(), insertsString[i]->GetLength());
-			dataOffset += insertsString[i]->GetLength();
-		}
-
-		memcpy(Data + dataOffset, text + sourceOffset, Length - dataOffset + 1);
+		} while (*iteratorSrc++);
 	}
 
 	String::~String()
@@ -364,12 +316,12 @@ namespace Coil
 		}
 
 
-		Length = CStringLength(text) - InsertIndex.size() * 2;
+		Size = CStringLength(text) + 1 - InsertIndex.size() * 2;
 
 		for (char8 type : InsertType)
-			Length += TypeToSize(type);
+			Size += TypeToSize(type);
 
-		Data = new char8[Length + 1];
+		Data = new char8[Size];
 
 		int32 sourceOffset = 0;
 		int32 dataOffset = 0;
@@ -387,7 +339,7 @@ namespace Coil
 			paddingOffset += padingSize;
 		}
 
-		memcpy(Data + dataOffset, text + sourceOffset, Length - dataOffset + 1);
+		memcpy(Data + dataOffset, text + sourceOffset, Size - dataOffset);
 
 		int32 elementIndex = 0;
 		for (char8 type : InsertType)
@@ -431,6 +383,8 @@ namespace Coil
 		char8* index = Data + InsertIndex[elementIndex];
 		memset(index, 127, TypeToSize('s'));
 		memcpy(index, text, size);
+
+		CalculateLength();
 	}
 
 	void PString::Set(int32 elementIndex, int32 value)
@@ -505,6 +459,8 @@ namespace Coil
 		{
 			*iterator = '-';
 		}
+
+		CalculateLength();
 	}
 
 	void PString::Set(int32 elementIndex, float64 value)
@@ -517,5 +473,19 @@ namespace Coil
 		memcpy(index, fString, size);
 
 		delete[] fString;
+
+		CalculateLength();
+	}
+
+	void PString::CalculateLength()
+	{
+		Length = Size - 1;
+		char8* iterator = Data;
+		do
+		{
+			if (*iterator == 127)
+				--Length;
+		} while ((*iterator++));
+		int32 a = GetLength();
 	}
 }

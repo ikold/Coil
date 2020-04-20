@@ -9,8 +9,6 @@
 
 #include <glad/glad.h>
 
-#include "Coil/Utilities/String.h"
-
 #include "Coil/Input.h"
 
 namespace Coil
