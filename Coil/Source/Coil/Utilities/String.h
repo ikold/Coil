@@ -182,7 +182,7 @@ namespace Coil
 		template<class T, TDerives(String)>
 		RString& operator=(T&& str)
 		{
-			swap(*this, RString(str)) 
+			swap(*this, RString(str));
 			return *this;
 		}
 
