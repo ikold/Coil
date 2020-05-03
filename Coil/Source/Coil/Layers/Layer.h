@@ -22,6 +22,4 @@ namespace Coil
 	protected:
 		RString DebugName;
 	};
-
 }
-

@@ -4,8 +4,7 @@
 namespace Coil
 {
 	LayerStack::LayerStack()
-	{
-	}
+	{}
 
 	LayerStack::~LayerStack()
 	{

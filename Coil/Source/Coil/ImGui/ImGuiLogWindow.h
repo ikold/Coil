@@ -11,8 +11,8 @@ namespace Coil
 	public:
 		ImGuiLogWindow(RString name, int32 width, int32 height)
 			: ImGuiWindow(name, width, height), Buffer(nullptr)
-		{
-		}
+		{}
+
 		~ImGuiLogWindow();
 
 		void Draw() const override;
@@ -22,6 +22,4 @@ namespace Coil
 	private:
 		PointerContainer<Log>* Buffer;
 	};
-
 }
-

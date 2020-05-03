@@ -8,7 +8,8 @@ namespace Coil
 	{
 	public:
 		WindowResizeEvent(uint32 width, uint32 height)
-			: Width(width), Height(height) {}
+			: Width(width), Height(height)
+		{}
 
 		inline uint32 GetWidth() const { return Width; }
 		inline uint32 GetHeight() const { return Height; }
@@ -18,8 +19,8 @@ namespace Coil
 			return SString() << "WindowResizeEvent: " << Width << ", " << Height;
 		}
 
-		EVENT_CLASS_TYPE(WindowResize)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_TYPE(WindowResize);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 
 	private:
 		uint32 Width, Height;
@@ -30,8 +31,8 @@ namespace Coil
 	public:
 		WindowCloseEvent() {}
 
-		EVENT_CLASS_TYPE(WindowClose)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_TYPE(WindowClose);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 	};
 
 	class COIL_API WindowFocusEvent : public Event
@@ -39,8 +40,8 @@ namespace Coil
 	public:
 		WindowFocusEvent() {}
 
-		EVENT_CLASS_TYPE(WindowFocus)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_TYPE(WindowFocus);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 	};
 
 	class COIL_API WindowLostFocusEvent : public Event
@@ -48,15 +49,16 @@ namespace Coil
 	public:
 		WindowLostFocusEvent() {}
 
-		EVENT_CLASS_TYPE(WindowLostFocus)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_TYPE(WindowLostFocus);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 	};
 
 	class COIL_API WindowMovedEvent : public Event
 	{
 	public:
 		WindowMovedEvent(int32 x, int32 y)
-			: PositionX(x), PositionY(y) {}
+			: PositionX(x), PositionY(y)
+		{}
 
 		inline int32 GetPositionX() const { return PositionX; }
 		inline int32 GetPositionY() const { return PositionY; }
@@ -66,8 +68,8 @@ namespace Coil
 			return SString() << "WindowMovedEvent: " << PositionX << ", " << PositionY;
 		}
 
-		EVENT_CLASS_TYPE(WindowMoved)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_TYPE(WindowMoved);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 
 	private:
 		int32 PositionX, PositionY;
@@ -78,8 +80,8 @@ namespace Coil
 	public:
 		AppTickEvent() {}
 
-		EVENT_CLASS_TYPE(AppTick)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_TYPE(AppTick);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 	};
 
 	class COIL_API AppUpdateEvent : public Event
@@ -87,8 +89,8 @@ namespace Coil
 	public:
 		AppUpdateEvent() {}
 
-		EVENT_CLASS_TYPE(AppUpdate)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_TYPE(AppUpdate);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 	};
 
 	class COIL_API AppRenderEvent : public Event
@@ -96,7 +98,7 @@ namespace Coil
 	public:
 		AppRenderEvent() {}
 
-		EVENT_CLASS_TYPE(AppRender)
-		EVENT_CLASS_CATEGORY(EventCategoryApplication)
+		EVENT_CLASS_TYPE(AppRender);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
 	};
 }

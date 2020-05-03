@@ -13,13 +13,12 @@ namespace Coil
 	}
 
 	ImGuiOverlay::~ImGuiOverlay()
-	{
-	}
+	{}
 
 	void ImGuiOverlay::Draw() const
 	{
 		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
-		
+
 		ImGui::TextUnformatted(StringReference->CString());
 	}
 }

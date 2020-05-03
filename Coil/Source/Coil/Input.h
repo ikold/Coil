@@ -32,6 +32,4 @@ namespace Coil
 	private:
 		static Input* Instance;
 	};
-
 }
-

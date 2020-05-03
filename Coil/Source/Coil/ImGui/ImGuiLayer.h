@@ -19,6 +19,4 @@ namespace Coil
 		static void Begin();
 		static void End();
 	};
-
 }
-

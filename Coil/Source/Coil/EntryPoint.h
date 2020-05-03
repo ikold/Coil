@@ -7,12 +7,12 @@ extern Coil::Application* Coil::CreatApplication();
 int32 main(int32 argc, char8* argv[])
 {
 	Coil::Logger::Info("Creating Application");
-	
+
 	auto app = Coil::CreatApplication();
 	app->Run();
-	
+
 	delete app;
-	
+
 	return 0;
 }
 
@@ -23,12 +23,12 @@ extern Coil::Application* Coil::CreatApplication();
 int32 main(int32 argc, char8* argv[])
 {
 	Coil::Logger::Info("Creating Application");
-	
+
 	auto app = Coil::CreatApplication();
 	app->Run();
-	
+
 	delete app;
-	
+
 	return 0;
 }
 

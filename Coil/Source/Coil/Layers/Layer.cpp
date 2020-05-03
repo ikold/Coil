@@ -5,10 +5,8 @@ namespace Coil
 {
 	Layer::Layer(RString name)
 		: DebugName(name)
-	{
-	}
+	{}
 
 	Layer::~Layer()
-	{
-	}
+	{}
 }

@@ -20,6 +20,4 @@ namespace Coil
 	private:
 		RString StringReference;
 	};
-
 }
-

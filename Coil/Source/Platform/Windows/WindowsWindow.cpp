@@ -3,7 +3,6 @@
 
 #include "glad/glad.h"
 
-
 namespace Coil
 {
 	static bool GLFWInitializated = false;
@@ -78,27 +77,27 @@ namespace Coil
 		glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int32 key, int32 scancode, int32 action, int32 mods)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			
+
 			switch (action)
 			{
 			case GLFW_PRESS:
-				{
-					KeyPressedEvent event(key, KeyRepeatCounter = 0);
-					data.EventCallback(event);
-					break;
-				}
+			{
+				KeyPressedEvent event(key, KeyRepeatCounter = 0);
+				data.EventCallback(event);
+				break;
+			}
 			case GLFW_RELEASE:
-				{
-					KeyReleasedEvent event(key);
-					data.EventCallback(event);
-					break;
-				}
+			{
+				KeyReleasedEvent event(key);
+				data.EventCallback(event);
+				break;
+			}
 			case GLFW_REPEAT:
-				{
-					KeyPressedEvent event(key, ++KeyRepeatCounter);
-					data.EventCallback(event);
-					break;
-				}
+			{
+				KeyPressedEvent event(key, ++KeyRepeatCounter);
+				data.EventCallback(event);
+				break;
+			}
 			}
 		});
 
@@ -117,17 +116,17 @@ namespace Coil
 			switch (action)
 			{
 			case GLFW_PRESS:
-				{
-					MouseButtonPressedEvent event(button);
-					data.EventCallback(event);
-					break;
-				}
+			{
+				MouseButtonPressedEvent event(button);
+				data.EventCallback(event);
+				break;
+			}
 			case GLFW_RELEASE:
-				{
-					MouseButtonReleasedEvent event(button);
-					data.EventCallback(event);
-					break;
-				}
+			{
+				MouseButtonReleasedEvent event(button);
+				data.EventCallback(event);
+				break;
+			}
 			}
 		});
 

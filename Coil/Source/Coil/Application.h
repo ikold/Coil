@@ -14,7 +14,7 @@ namespace Coil
 	public:
 		Application();
 		virtual ~Application();
-		
+
 		/*!	Main loop of the application
 		*/
 		void Run();
@@ -51,7 +51,7 @@ namespace Coil
 
 /*!	Creates declaration of Coil::CreatApplication()
 	Use to bind client application with the engine
-	
+
 	@param app	child class of Coil::Aplication
 */
 #define BindApplication(app) Coil::Application* Coil::CreatApplication() { return new app; }

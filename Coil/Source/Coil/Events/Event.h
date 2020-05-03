@@ -19,12 +19,12 @@ namespace Coil
 
 	enum EventCategory
 	{
-		EventCategoryNone =			0,
-		EventCategoryApplication =	1 << 0,
-		EventCategoryInput =		1 << 1,
-		EventCategoryKeyboard =		1 << 2,
-		EventCategoryMouse =		1 << 3,
-		EventCategoryMouseButton =	1 << 4
+		EventCategoryNone = 0,
+		EventCategoryApplication = 1 << 0,
+		EventCategoryInput = 1 << 1,
+		EventCategoryKeyboard = 1 << 2,
+		EventCategoryMouse = 1 << 3,
+		EventCategoryMouseButton = 1 << 4
 	};
 
 #define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() { return EventType::##type; }\
@@ -59,7 +59,8 @@ namespace Coil
 		using EventFn = std::function<bool(T&)>;
 	public:
 		EventDispatcher(Event& event)
-			: EventToDispatch(event) {}
+			: EventToDispatch(event)
+		{}
 
 		template<typename T>
 		bool Dispatch(EventFn<T> func)

@@ -18,6 +18,4 @@ namespace Coil
 		virtual float GetMouseXImpl() override;
 		virtual float GetMouseYImpl() override;
 	};
-
 }
-

@@ -14,12 +14,11 @@ namespace Coil
 	}
 
 	ImGuiWindow::~ImGuiWindow()
-	{
-	}
+	{}
 
 	void ImGuiWindow::OnImGuiRender() const
 	{
-		ImGui::SetNextWindowSize(ImVec2(Width, Height), ImGuiCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2((float32)Width, (float32)Height), ImGuiCond_FirstUseEver);
 		ImGui::Begin(Name->CString(), OpenFlag, Flags);
 		Draw();
 		ImGui::End();
@@ -50,6 +49,6 @@ namespace Coil
 
 	int32 ImGuiWindow::WindowSizeInLines() const
 	{
-		return (int32)(ImGui::GetWindowSize().y  / fontHeight);
+		return (int32)(ImGui::GetWindowSize().y / fontHeight);
 	}
 }

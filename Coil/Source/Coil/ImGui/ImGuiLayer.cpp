@@ -15,12 +15,10 @@ namespace Coil
 {
 	ImGuiLayer::ImGuiLayer()
 		: Layer("ImGuiLayer")
-	{
-	}
+	{}
 
 	ImGuiLayer::~ImGuiLayer()
-	{
-	}
+	{}
 
 	void ImGuiLayer::OnAttach()
 	{
@@ -78,7 +76,7 @@ namespace Coil
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 
-		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2((float32)app.GetWindow().GetWidth(), (float32)app.GetWindow().GetHeight());
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
