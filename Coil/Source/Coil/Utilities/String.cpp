@@ -4,57 +4,73 @@
 #include "ryu/ryu.h"
 #include <cstdarg>
 
-
 namespace Coil
 {
 	String::String()
 	{
-		Data = new char[1];
-		*Data = '\0';
+		Data = new char[1]();
 		Length = 0;
 	}
 
 	String::String(const String& string)
 	{
 		Length = string.Length;
-		Data = new char[Length + 1];
-		memcpy(Data, string.Data, Length + 1);
+		Data = new char[(int64)Length + 1];
+		memcpy(Data, string.Data, (int64)Length + 1);
 	}
 
 	String::String(String&& string) noexcept
 		: Data(std::exchange(string.Data, nullptr)),
 		Length(string.Length)
-	{
-	}
+	{}
+
 
 	String::String(const char8* text)
 	{
 		Length = CStringLength(text);
-		Data = new char[Length + 1];
-		memcpy(Data, text, Length + 1);
+		Data = new char[(int64)Length + 1];
+		memcpy(Data, text, (int64)Length + 1);
 	}
 
-	String::String(const PString& string)
+	String::String(const char8* text, int32 length)
+		: Length(length)
 	{
-		Length = string.GetLength();
-		Data = new char[Length + 1];
-
-		char8* iteratorSrc = string.CString();
-		char8* iteratorDst = Data;
-		do
-		{
-			if (*iteratorSrc != 127)
-			{
-				*iteratorDst = *iteratorSrc;
-				++iteratorDst;
-			}
-		} while (*iteratorSrc++);
+		Data = new char[(int64)Length + 1];
+		memcpy(Data, text, (int64)Length + 1);
 	}
+
 
 	String::~String()
 	{
 		delete[] Data;
 	}
+
+
+	String& String::operator=(const String& string)
+	{
+		return *this = String(string);
+	}
+
+	String& String::operator=(String&& string) noexcept
+	{
+		swap(*this, string);
+		return *this;
+	}
+
+	String& String::operator=(const char8* string)
+	{
+		return *this = String(string);
+	}
+
+
+	void swap(String& left, String& right) noexcept
+	{
+		using std::swap;
+
+		swap(left.Data, right.Data);
+		swap(left.Length, right.Length);
+	}
+
 
 	void String::Reverse()
 	{
@@ -71,25 +87,82 @@ namespace Coil
 		}
 	}
 
-	String& String::operator=(const char8* str)
-	{
-		return *this = String(str);
-	}
 
-	String& String::operator=(const String& str)
+	String String::Convert(uint64 value, int32 base)
 	{
-		return *this = String(str);
-	}
+		SString reverseString;
+		reverseString.Reserve(20); // 20 - Maximum number of digits in 64 bit int
 
-	String& String::operator=(String&& str) noexcept
-	{
-		swap(*this, str);
-		return *this;
-	}
+		// using ~ bitwise operator for getting rid of negative sign
+		uint64 operationalValue = (value > 0) ? value : (1 + (uint64)~value);
 
-	inline String String::Convert(float32 value, int fractionLength)
-	{
-		return Convert((float64)value, fractionLength);
+		do
+		{
+			switch (operationalValue % base)
+			{
+			case 0:
+				reverseString << "0";
+				break;
+			case 1:
+				reverseString << "1";
+				break;
+			case 2:
+				reverseString << "2";
+				break;
+			case 3:
+				reverseString << "3";
+				break;
+			case 4:
+				reverseString << "4";
+				break;
+			case 5:
+				reverseString << "5";
+				break;
+			case 6:
+				reverseString << "6";
+				break;
+			case 7:
+				reverseString << "7";
+				break;
+			case 8:
+				reverseString << "8";
+				break;
+			case 9:
+				reverseString << "9";
+				break;
+			case 10:
+				reverseString << "A";
+				break;
+			case 11:
+				reverseString << "B";
+				break;
+			case 12:
+				reverseString << "C";
+				break;
+			case 13:
+				reverseString << "D";
+				break;
+			case 14:
+				reverseString << "E";
+				break;
+			case 15:
+				reverseString << "F";
+				break;
+			}
+
+			operationalValue /= base;
+		} while (operationalValue);
+
+		// Adding '-' if needed, at end of string before reversing
+		if (value < 0)
+		{
+			reverseString << "-";
+		}
+
+		reverseString.Shrink();
+
+		reverseString.Reverse();
+		return reverseString;
 	}
 
 	String String::Convert(float64 value, int fractionLength)
@@ -102,7 +175,7 @@ namespace Coil
 
 	String String::Convert(void* address)
 	{
-		String addressString = Convert<uint64>((uint64)address, 16);
+		String addressString = Convert((uint64)address, 16);
 
 		SString formatedAddress;
 		formatedAddress.Reserve(18);
@@ -114,106 +187,73 @@ namespace Coil
 		return formatedAddress << addressString;
 	}
 
-	int32 String::CStringLength(const char8* str)
+
+	int32 String::CStringLength(const char8* string)
 	{
 		int32 length = 0;
-		while (*str++)
+		while (*string++)
 			++length;
 
 		return length;
 	}
 
 
-	RString::RString()
-	{
-		StringPointer = new String;
-		Counter = new int32(1);
-	}
-
-	RString::RString(const RString& rString)
-	{
-		StringPointer = rString.StringPointer;
-		Counter = rString.Counter;
-		++(*Counter);
-	}
-
-	RString::RString(const char8* text)
-	{
-		StringPointer = new String(text);
-		Counter = new int32(1);
-	}
-
-	RString::RString(RString&& rString)
-		: StringPointer(std::move(rString.StringPointer)),
-		Counter(std::move(rString.Counter))
-	{
-		++(*Counter);
-	}
-
-	RString::~RString()
-	{
-		DerefencString();
-	}
-
-	RString& RString::operator=(const char8* str)
-	{
-		swap(*this, RString(str));
-		return *this;
-	}
-
-	RString& RString::operator=(const RString& str)
-	{
-		return *this = RString(str);
-	}
-
-	RString& RString::operator=(RString&& str)
-	{
-		swap(*this, str);
-		return *this;
-	}
-
-	inline RString RString::Copy()
-	{
-		return RString(*StringPointer);
-	}
-
-	inline RString RString::Copy(const RString& str)
-	{
-		return RString(*str);
-	}
-
-	void RString::DerefencString()
-	{
-		if (--(*Counter) == 0)
-		{
-			delete StringPointer;
-			delete Counter;
-		}
-
-		// Could be removed if reference assigment is assured
-		Counter = nullptr;
-		StringPointer = nullptr;
-	}
-
-
 	SString::SString()
 		: Size(Length)
+	{}
+
+	SString::SString(const SString& string)
+		: String(string.Data, string.Size),
+		Size(string.Size)
 	{
+		Length = string.Length;
 	}
+
+	SString::SString(SString&& string) noexcept
+		: String((String&&)string),
+		Size(string.Size)
+	{}
 
 	SString::SString(const char8* text)
-		: String(text), Size(Length)
-	{
-	}
+		: String(text),
+		Size(Length)
+	{}
+
+	SString::SString(const char8* text, int32 length)
+		: String(text, length),
+		Size(Length)
+	{}
+
 
 	SString::~SString()
+	{}
+
+
+	SString& SString::operator=(const SString& string)
 	{
+		return *this = SString(string);
+	}
+
+	SString& SString::operator=(SString&& string) noexcept
+	{
+		swap(*this, string);
+		return *this;
+	}
+
+
+	void swap(SString& left, SString& right) noexcept
+	{
+		using std::swap;
+
+		swap((String&)left, (String&)right);
+		swap(left.Size, right.Size);
 	}
 
 	void SString::Reserve(int32 size)
 	{
 		Size = size;
-		char8* tmp = (char8*)realloc(Data, Size + 1);
+		char8* tmp = (char8*)realloc(Data, (int64)Size + 1);
+
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
 			Data = tmp;
@@ -224,7 +264,8 @@ namespace Coil
 		if (Length == Size)
 			return;
 
-		char8* tmp = (char8*)realloc(Data, Length + 1);
+		char8* tmp = (char8*)realloc(Data, (int64)Length + 1);
+
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
 			Data = tmp;
@@ -232,47 +273,58 @@ namespace Coil
 		Size = Length;
 	}
 
-	SString& SString::operator<<(const char8* str)
+
+	SString& SString::operator<<(const char8* string)
 	{
-		Append(str, CStringLength(str));
+		Append(string, CStringLength(string));
 		return *this;
 	}
 
-	SString& SString::operator<<(const String& str)
+	SString& SString::operator<<(const String& string)
 	{
-		Append(str.CString(), str.GetLength());
+		Append(string.CString(), string.GetLength());
 		return *this;
 	}
 
-	SString& SString::operator<<(const RString& str)
-	{
-		Append(str->CString(), str->GetLength());
-		return *this;
-	}
 
-	SString& SString::operator<<(const SString& str)
-	{
-		Append(str.CString(), str.GetLength());
-		return *this;
-	}
-
-	void SString::Append(const char8* str, int32 size)
+	void SString::Append(const char8* string, int32 size)
 	{
 		if (Length + size <= Size)
-			memcpy(Data + Length, str, size + 1);
+			memcpy(Data + Length, string, (int64)size + 1);
 		else
 		{
 			Size = Length + size;
 
-			char8* tmp = (char8*)realloc(Data, Size + 1);
+			char8* tmp = (char8*)realloc(Data, (int64)Size + 1);
 			CL_ASSERT(tmp, "Failed to reallocate memory");
 			if (tmp)
 				Data = tmp;
 
-			memcpy(Data + Length, str, size + 1);
+			memcpy(Data + Length, string, (int64)size + 1);
 		}
 		Length += size;
 	}
+
+
+	PString::PString()
+		: Size(Length)
+	{}
+
+	PString::PString(const PString& string)
+		: String(string.Data, string.Size),
+		Size(string.Size),
+		InsertIndex(string.InsertIndex),
+		InsertType(string.InsertType)
+	{
+		Length = string.Length;
+	}
+
+	PString::PString(PString&& string) noexcept
+		: String((String&&)string),
+		Size(string.Size),
+		InsertIndex(std::move(string.InsertIndex)),
+		InsertType(std::move(string.InsertType))
+	{}
 
 	PString::PString(char8* text ...)
 	{
@@ -315,12 +367,12 @@ namespace Coil
 			}
 		}
 
-
-		Size = CStringLength(text) + 1 - InsertIndex.size() * 2;
+		Size = CStringLength(text) + 1 - (int32)InsertIndex.size() * 2;
 
 		for (char8 type : InsertType)
 			Size += TypeToSize(type);
 
+		delete[] Data;
 		Data = new char8[Size];
 
 		int32 sourceOffset = 0;
@@ -330,7 +382,7 @@ namespace Coil
 		for (int i = 0; i < InsertIndex.size(); ++i)
 		{
 			int32 padingSize = TypeToSize(InsertType[i]);
-			memcpy(Data + dataOffset, text + sourceOffset, InsertIndex[i] - sourceOffset);
+			memcpy(Data + dataOffset, text + sourceOffset, (int64)InsertIndex[i] - sourceOffset);
 			dataOffset += InsertIndex[i] - sourceOffset;
 			sourceOffset += InsertIndex[i] - sourceOffset + 2;
 			memset(Data + dataOffset, 127, padingSize);
@@ -339,7 +391,7 @@ namespace Coil
 			paddingOffset += padingSize;
 		}
 
-		memcpy(Data + dataOffset, text + sourceOffset, Size - dataOffset);
+		memcpy(Data + dataOffset, text + sourceOffset, (int64)Size - dataOffset);
 
 		int32 elementIndex = 0;
 		for (char8 type : InsertType)
@@ -363,18 +415,67 @@ namespace Coil
 		va_end(args);
 	}
 
+
+	PString::~PString()
+	{}
+
+
+	PString& PString::operator=(const PString& string)
+	{
+		return *this = PString(string);
+	}
+
+	PString& PString::operator=(PString&& string) noexcept
+	{
+		swap(*this, string);
+		return *this;
+	}
+
+
+	void swap(PString& left, PString& right) noexcept
+	{
+		using std::swap;
+
+		swap((String&)left, (String&)right);
+		swap(left.Size, right.Size);
+		swap(left.InsertIndex, right.InsertIndex);
+		swap(left.InsertType, right.InsertType);
+	}
+
+
+	String PString::ToString() const
+	{
+		int length = GetLength();
+		char8* newData = new char[(int64)Length + 1];
+
+		char8* iteratorSrc = Data;
+		char8* iteratorDst = newData;
+		do
+		{
+			if (*iteratorSrc != 127)
+			{
+				*iteratorDst = *iteratorSrc;
+				++iteratorDst;
+			}
+		} while (*iteratorSrc++);
+		return String(newData, length);
+	}
+
 	int32 PString::TypeToSize(char8 type) const
 	{
 		switch (type)
 		{
 		case 's':
-			return 32;
+			return 64;
 		case 'd':
 			return 12;
 		case 'f':
 			return 32;
 		}
+
+		return 0;
 	}
+
 
 	void PString::Set(int32 elementIndex, char8* text)
 	{
@@ -392,10 +493,10 @@ namespace Coil
 		char8* iterator = Data + InsertIndex[elementIndex];
 		memset(iterator, 127, TypeToSize('d'));
 
-		iterator += TypeToSize('d') - 1;
+		iterator += (int64)TypeToSize('d') - 1;
 
 		// using ~ bitwise operator for getting rid of negative sign
-		uint64 operationalValue = (value > 0)?value:(1 + (uint64)~value);
+		uint64 operationalValue = (value > 0) ? value : (1 + (uint64)~value);
 
 		do
 		{
@@ -454,7 +555,6 @@ namespace Coil
 			operationalValue /= 10;
 		} while (operationalValue);
 
-
 		if (value < 0)
 		{
 			*iterator = '-';
@@ -465,17 +565,14 @@ namespace Coil
 
 	void PString::Set(int32 elementIndex, float64 value)
 	{
-		char8* fString = d2fixed(value, 3);
-		int32 size = CStringLength(fString);
-
 		char8* index = Data + InsertIndex[elementIndex];
 		memset(index, 127, TypeToSize('f'));
-		memcpy(index, fString, size);
 
-		delete[] fString;
+		d2fixed_buffered_n(value, 3, index);
 
 		CalculateLength();
 	}
+
 
 	void PString::CalculateLength()
 	{

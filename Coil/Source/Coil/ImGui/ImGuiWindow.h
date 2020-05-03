@@ -7,7 +7,7 @@ namespace Coil
 	class COIL_API ImGuiWindow
 	{
 	public:
-		ImGuiWindow(RString name, int32 width, int32 height);
+		ImGuiWindow(RString<String> name, int32 width, int32 height);
 
 		virtual ~ImGuiWindow();
 
@@ -25,7 +25,7 @@ namespace Coil
 		int Flags;
 
 	private:
-		RString Name;
+		RString<String> Name;
 		int32 Width;
 		int32 Height;
 

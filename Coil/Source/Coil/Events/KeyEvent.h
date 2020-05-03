@@ -28,7 +28,7 @@ namespace Coil
 
 		inline int32 GetRepeatCount() const { return RepeatCount; }
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			return SString() << "KeyPressedEvent: " << KeyCode << " (" << RepeatCount << " repeats)";
 		}
@@ -46,7 +46,7 @@ namespace Coil
 			: KeyEvent(keyCode)
 		{}
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			return SString() << "KeyReleasedEvent: " << KeyCode;
 		}
@@ -61,7 +61,7 @@ namespace Coil
 			: KeyEvent(keyCode)
 		{}
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			return SString() << "KeyTypedEvent: " << KeyCode;
 		}

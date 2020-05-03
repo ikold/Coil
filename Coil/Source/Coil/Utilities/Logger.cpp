@@ -5,7 +5,7 @@ namespace Coil
 {
 	PointerContainer<Log> Logger::Buffer;
 
-	Log::Log(RString message, LogLevel level)
+	Log::Log(RString<String> message, LogLevel level)
 		: Message(message),
 		Level(level),
 		Date(Time::Now()),
@@ -15,7 +15,7 @@ namespace Coil
 		))
 	{}
 
-	RString LogParser::Level(LogLevel level)
+	RString<String> LogParser::Level(LogLevel level)
 	{
 		switch (level)
 		{
@@ -36,7 +36,7 @@ namespace Coil
 		}
 	}
 
-	RString LogParser::Compose(const Log& log)
+	RString<String> LogParser::Compose(const Log& log)
 	{
 		return PString("[%s][%s] %s",
 					   Time::TimestampToString(log.GetDate())->CString(),
@@ -45,7 +45,7 @@ namespace Coil
 		);
 	}
 
-	Log* Logger::Create(RString message, LogLevel level)
+	Log* Logger::Create(RString<String> message, LogLevel level)
 	{
 		Log* log = new Log(message, level);
 		Buffer.Push(log);

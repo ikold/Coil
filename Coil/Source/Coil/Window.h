@@ -12,11 +12,11 @@ namespace Coil
 {
 	struct WindowProps
 	{
-		RString Name;
+		RString<String> Name;
 		uint32 Width;
 		uint32 Height;
 
-		WindowProps(RString name = "Coil Engine", uint32 width = 1280, uint32 height = 720)
+		WindowProps(RString<String> name = "Coil Engine", uint32 width = 1280, uint32 height = 720)
 			:Name(name), Width(width), Height(height)
 		{}
 	};

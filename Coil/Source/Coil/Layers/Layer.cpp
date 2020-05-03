@@ -3,7 +3,7 @@
 
 namespace Coil
 {
-	Layer::Layer(RString name)
+	Layer::Layer(RString<String> name)
 		: DebugName(name)
 	{}
 

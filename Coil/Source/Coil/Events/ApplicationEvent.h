@@ -14,7 +14,7 @@ namespace Coil
 		inline uint32 GetWidth() const { return Width; }
 		inline uint32 GetHeight() const { return Height; }
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			return SString() << "WindowResizeEvent: " << Width << ", " << Height;
 		}
@@ -63,7 +63,7 @@ namespace Coil
 		inline int32 GetPositionX() const { return PositionX; }
 		inline int32 GetPositionY() const { return PositionY; }
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			return SString() << "WindowMovedEvent: " << PositionX << ", " << PositionY;
 		}

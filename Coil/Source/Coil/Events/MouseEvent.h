@@ -14,7 +14,7 @@ namespace Coil
 		inline float32 GetX() const { return MouseX; }
 		inline float32 GetY() const { return MouseY; }
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseMovedEvent: " << MouseX << ", " << MouseY;
@@ -38,7 +38,7 @@ namespace Coil
 		inline float32 GetXOffset() const { return XOffset; }
 		inline float32 GetYOffset() const { return YOffset; }
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			std::stringstream ss;
 			ss << "MouseScrolledEvent: " << XOffset << ", " << YOffset;
@@ -74,7 +74,7 @@ namespace Coil
 			: MouseButtonEvent(button)
 		{}
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			return SString() << "MouseButtonPressedEvent: " << Button;
 		}
@@ -89,7 +89,7 @@ namespace Coil
 			: MouseButtonEvent(button)
 		{}
 
-		RString ToString() const override
+		RString<String> ToString() const override
 		{
 			return SString() << "MouseButtonReleasedEvent: " << Button;
 		}

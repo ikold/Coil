@@ -8,7 +8,7 @@ namespace Coil
 	class COIL_API Layer
 	{
 	public:
-		Layer(RString name = "Layer");
+		Layer(RString<String> name = "Layer");
 		virtual ~Layer();
 
 		virtual void OnAttach() {}
@@ -17,9 +17,9 @@ namespace Coil
 		virtual void OnEvent(Event& event) {}
 		virtual void OnImGuiRender() {}
 
-		inline RString GetName() const { return DebugName; }
+		inline RString<String> GetName() const { return DebugName; }
 
 	protected:
-		RString DebugName;
+		RString<String> DebugName;
 	};
 }

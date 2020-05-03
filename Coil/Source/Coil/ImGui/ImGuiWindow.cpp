@@ -6,7 +6,7 @@
 
 namespace Coil
 {
-	ImGuiWindow::ImGuiWindow(RString name, int32 width, int32 height)
+	ImGuiWindow::ImGuiWindow(RString<String> name, int32 width, int32 height)
 		: Name(name), Width(width), Height(height)
 	{
 		OpenFlag = nullptr;

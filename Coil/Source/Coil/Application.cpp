@@ -11,6 +11,7 @@
 
 #include "Coil/Input.h"
 
+
 namespace Coil
 {
 	Application* Application::Instance = nullptr;
@@ -19,7 +20,7 @@ namespace Coil
 		:Running(true)
 	{
 		CL_ASSERT(!Instance, "Application instance already exist!")
-		Instance = this;
+			Instance = this;
 
 		AppWindow = std::unique_ptr<Window>(Window::Create());
 		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
@@ -31,20 +32,20 @@ namespace Coil
 	}
 
 	Application::~Application()
-	{
-	}
+	{}
 
 	void Application::Run()
 	{
-		Logger::Info("Initializating Application");
-		
+		Logger::Info("Initializing Application");
+
 		Logger::Info("Running Application");
 
 		RString frameTime = PString("%f ms", 0.);
 		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
 		RString mousePosition = PString("x: %d y: %d", 0, 0);
-		ImGuiInterface::Creat<ImGuiOverlay>("mouse position").BindTextBuffer(mousePosition);
+		Logger::Trace(mousePosition);
+		Logger::Trace(mousePosition->ToString());
 
 		int32 counter = 0;
 		float32 frameTimeArray[60];
@@ -57,10 +58,9 @@ namespace Coil
 			if (!Input::IsKeyPressed(CL_KEY_TAB))
 			{
 				auto [x, y] = Input::GetMousePosition();
-				mousePosition.Get<PString>()->Set(0, (int32)x);
-				mousePosition.Get<PString>()->Set(1, (int32)y);
+				mousePosition->Set(0, (int32)x);
+				mousePosition->Set(1, (int32)y);
 			}
-
 
 			frameTimeArray[counter] = Time::DeltaTime();
 
@@ -71,9 +71,9 @@ namespace Coil
 				for (int32 i = 0; i < 60; ++i)
 					sum += frameTimeArray[i];
 
-				frameTime.Get<PString>()->Set(0, sum / 60);
+				frameTime->Set(0, sum / 60);
 			}
-			
+
 			Update();
 		}
 	}
