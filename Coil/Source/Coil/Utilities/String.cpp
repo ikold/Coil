@@ -36,7 +36,8 @@ namespace Coil
 		: Length(length)
 	{
 		Data = new char[(int64)Length + 1];
-		memcpy(Data, text, (int64)Length + 1);
+		memcpy(Data, text, (int64)Length);
+		Data[Length] = '\0';
 	}
 
 
