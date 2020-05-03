@@ -40,10 +40,10 @@ namespace Coil
 
 		Logger::Info("Running Application");
 
-		RString frameTime = PString("%f ms", 0.);
+		RString frameTime = PString("%8f ms", 0.);
 		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
-		RString mousePosition = PString("x: %d y: %d", 0, 0);
+		RString mousePosition = PString("x: %6d y: %6d", 0, 0);
 		Logger::Trace(mousePosition);
 		Logger::Trace(mousePosition->ToString());
 

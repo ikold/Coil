@@ -159,22 +159,27 @@ namespace Coil
 		String ToString() const;
 
 
-		int32 TypeToSize(char8 type) const;
+		static int32 TypeToSize(char8 type);
 
 
-		void Set(int32 elementIndex, char8* text);
-		void Set(int32 elementIndex, int32 value);
-		void Set(int32 elementIndex, float64 value);
+		inline int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; };
+
+		void Set(int32 insertIndex, char8* text);
+		void Set(int32 insertIndex, int32 value);
+		void Set(int32 insertIndex, int32 value, int32 base);
+		void Set(int32 insertIndex, float64 value);
 
 	private:
-		void CalculateLength();
+		void RecalculateLength();
 
 	private:
 		int32 Size;
-		// points at the end of the space
+		// points at the beginning of insert padding
 		std::vector<int32> InsertIndex;
 		// uses characters to denote the types e.g. 'd' for int32
 		std::vector<char8> InsertType;
+		// size of insert padding
+		std::vector<int32> InsertSize;
 	};
 
 

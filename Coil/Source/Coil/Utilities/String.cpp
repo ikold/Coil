@@ -314,7 +314,8 @@ namespace Coil
 		: String(string.Data, string.Size),
 		Size(string.Size),
 		InsertIndex(string.InsertIndex),
-		InsertType(string.InsertType)
+		InsertType(string.InsertType),
+		InsertSize(string.InsertSize)
 	{
 		Length = string.Length;
 	}
@@ -323,27 +324,50 @@ namespace Coil
 		: String((String&&)string),
 		Size(string.Size),
 		InsertIndex(std::move(string.InsertIndex)),
-		InsertType(std::move(string.InsertType))
+		InsertType(std::move(string.InsertType)),
+		InsertSize(std::move(string.InsertSize))
 	{}
 
 	PString::PString(char8* text ...)
 	{
+		std::vector<Ambiguous> parameters;
+		std::vector<int32> insertSymbolSize;
+		std::vector<int32> insertSymbolIndex;
+
 		va_list args;
 		va_start(args, text);
 
 		int32 insert = false;
 
+		int32 insertIndexOffset = 0;
+
+		int32 srcSize = 0;
+
 		for (int32 i = 0; text[i] != '\0'; ++i)
 		{
+			++srcSize;
+
 			if (!insert)
 			{
 				switch (text[i])
 				{
-				case '\\':
-					++i;
-					break;
 				case '%':
-					InsertIndex.push_back(i);
+					// %% are escaped to %
+					if (text[i + 1] == '%')
+					{
+						insertSymbolIndex.push_back(++i);
+						insertSymbolSize.push_back(1);
+						--insertIndexOffset;
+						++srcSize;
+						break;
+					}
+
+					insertSymbolIndex.push_back(i);
+					insertSymbolSize.push_back(2);
+					InsertIndex.push_back(i + insertIndexOffset);
+					InsertSize.push_back(0);
+
+					parameters.push_back({});
 					insert = true;
 					break;
 				}
@@ -352,67 +376,127 @@ namespace Coil
 			{
 				switch (text[i])
 				{
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+				case '8':
+				case '9':
+					InsertSize.back() = InsertSize.back() * 10 + text[i] - '0';
+					++insertSymbolSize.back();
+					continue;
 				case 's':
+					InsertType.push_back(text[i]);
+					parameters.back().Char8Ptr = va_arg(args, char8*);
+					break;
+				case 'b':
 				case 'd':
+				case 'x':
+					InsertType.push_back(text[i]);
+					parameters.back().Int32 = va_arg(args, int32);
+					break;
 				case 'f':
 					InsertType.push_back(text[i]);
+					parameters.back().Float64 = va_arg(args, float64);
 					break;
-				case '%':
-				default:
-					InsertIndex.pop_back();
+				case 'S':
+					InsertType.push_back(text[i]);
+					parameters.back().Char8Ptr = va_arg(args, char8*);
+					InsertSize.back() += va_arg(args, int32);
+					break;
+				case 'B':
+				case 'D':
+				case 'X':
+					InsertType.push_back(text[i]);
+					parameters.back().Int32 = va_arg(args, int32);
+					InsertSize.back() += va_arg(args, int32);
+					break;
+				case 'F':
+					InsertType.push_back(text[i]);
+					parameters.back().Float64 = va_arg(args, float64);
+					InsertSize.back() += va_arg(args, int32);
 					break;
 				}
 
+				// if current insert size is 0, assigns default size
+				if (InsertSize.back() == 0)
+					InsertSize.back() = TypeToSize(InsertType.back());
+
+				insertIndexOffset += InsertSize.back() - insertSymbolSize.back();
 				insert = false;
 			}
 		}
 
-		Size = CStringLength(text) + 1 - (int32)InsertIndex.size() * 2;
+		va_end(args);
 
-		for (char8 type : InsertType)
-			Size += TypeToSize(type);
+		/*---------------------Size computation---------------------*/
+		Size = CStringLength(text);
+
+		for (int32 size : insertSymbolSize)
+			Size -= size;
+
+		for (int32 size : InsertSize)
+			Size += size;
+		/*----------------------------------------------------------*/
 
 		delete[] Data;
-		Data = new char8[Size];
+		Data = new char8[Size + 1];
 
-		int32 sourceOffset = 0;
+		// Clearing memory with zero length space character
+		memset(Data, 127, Size);
+
+		// Adding escape character
+		Data[Size] = '\0';
+
+
+		auto insertSymbolIndexItr = insertSymbolIndex.begin();
+		auto insertSymbolSizeItr = insertSymbolSize.begin();
+		auto insertTypeItr = InsertType.begin();
+		auto insertIndexItr = InsertIndex.begin();
+		auto insertSizeItr = InsertSize.begin();
+
 		int32 dataOffset = 0;
-		int32 paddingOffset = 0;
+		int32 symbolOffset = 0;
+		int32 sourceOffset = 0;
 
-		for (int i = 0; i < InsertIndex.size(); ++i)
+		for (int i = 0; i < insertSymbolIndex.size(); ++i)
 		{
-			int32 padingSize = TypeToSize(InsertType[i]);
-			memcpy(Data + dataOffset, text + sourceOffset, (int64)InsertIndex[i] - sourceOffset);
-			dataOffset += InsertIndex[i] - sourceOffset;
-			sourceOffset += InsertIndex[i] - sourceOffset + 2;
-			memset(Data + dataOffset, 127, padingSize);
-			dataOffset += padingSize;
-			InsertIndex[i] += paddingOffset - 2 * i;
-			paddingOffset += padingSize;
+			int copySize = *insertSymbolIndexItr - sourceOffset;
+			memcpy(Data + dataOffset, text + sourceOffset, copySize);
+			sourceOffset = *insertSymbolIndexItr++ + *insertSymbolSizeItr;
+
+			dataOffset += copySize + (*insertSymbolSizeItr++ == 1 ? 0 : *insertSizeItr++);
 		}
 
-		memcpy(Data + dataOffset, text + sourceOffset, (int64)Size - dataOffset);
+		memcpy(Data + dataOffset, text + sourceOffset, (int64)srcSize - sourceOffset);
 
-		int32 elementIndex = 0;
-		for (char8 type : InsertType)
+
+		for (int i = 0; i < InsertType.size(); ++i)
 		{
-			switch (type)
+			switch (InsertType[i])
 			{
 			case 's':
-				Set(elementIndex, va_arg(args, char8*));
+			case 'S':
+				Set(i, parameters[i].Char8Ptr);
 				break;
+			case 'b':
+			case 'B':
 			case 'd':
-				Set(elementIndex, va_arg(args, int32));
+			case 'D':
+			case 'x':
+			case 'X':
+				Set(i, parameters[i].Int32);
 				break;
 			case 'f':
-				Set(elementIndex, va_arg(args, float64));
+			case 'F':
+				Set(i, parameters[i].Float64);
 				break;
 			}
-
-			++elementIndex;
 		}
-
-		va_end(args);
 	}
 
 
@@ -440,6 +524,7 @@ namespace Coil
 		swap(left.Size, right.Size);
 		swap(left.InsertIndex, right.InsertIndex);
 		swap(left.InsertType, right.InsertType);
+		swap(left.InsertSize, right.InsertSize);
 	}
 
 
@@ -461,46 +546,55 @@ namespace Coil
 		return String(newData, length);
 	}
 
-	int32 PString::TypeToSize(char8 type) const
+	int32 PString::TypeToSize(char8 type)
 	{
 		switch (type)
 		{
 		case 's':
-			return 64;
+		case 'S':
+			return 16;
+		case 'b':
+		case 'B':
+			return 33;
 		case 'd':
-			return 12;
+		case 'D':
+			return 11;
+		case 'x':
+		case 'X':
+			return 9;
 		case 'f':
-			return 32;
+		case 'F':
+			return 16;
 		}
 
 		return 0;
 	}
 
 
-	void PString::Set(int32 elementIndex, char8* text)
+	void PString::Set(int32 parameterIndex, char8* text)
 	{
 		int32 size = CStringLength(text);
 
-		char8* index = Data + InsertIndex[elementIndex];
-		memset(index, 127, TypeToSize('s'));
+		char8* index = Data + InsertIndex[parameterIndex];
+		memset(index, 127, InsertSize[parameterIndex]);
 		memcpy(index, text, size);
 
-		CalculateLength();
+		RecalculateLength();
 	}
 
-	void PString::Set(int32 elementIndex, int32 value)
+	void PString::Set(int32 parameterIndex, int32 value, int32 base)
 	{
-		char8* iterator = Data + InsertIndex[elementIndex];
-		memset(iterator, 127, TypeToSize('d'));
+		char8* iterator = Data + InsertIndex[parameterIndex];
+		memset(iterator, 127, InsertSize[parameterIndex]);
 
-		iterator += (int64)TypeToSize('d') - 1;
+		iterator += (int64)InsertSize[parameterIndex] - 1;
 
 		// using ~ bitwise operator for getting rid of negative sign
 		uint64 operationalValue = (value > 0) ? value : (1 + (uint64)~value);
 
 		do
 		{
-			switch (operationalValue % 10)
+			switch (operationalValue % base)
 			{
 			case 0:
 				*iterator-- = '0';
@@ -552,7 +646,7 @@ namespace Coil
 				break;
 			}
 
-			operationalValue /= 10;
+			operationalValue /= base;
 		} while (operationalValue);
 
 		if (value < 0)
@@ -560,21 +654,40 @@ namespace Coil
 			*iterator = '-';
 		}
 
-		CalculateLength();
+		RecalculateLength();
 	}
 
-	void PString::Set(int32 elementIndex, float64 value)
+	void PString::Set(int32 parameterIndex, int32 value)
 	{
-		char8* index = Data + InsertIndex[elementIndex];
-		memset(index, 127, TypeToSize('f'));
+		switch (InsertType[parameterIndex])
+		{
+		case 'b':
+		case 'B':
+			Set(parameterIndex, value, 2);
+			break;
+		case 'd':
+		case 'D':
+			Set(parameterIndex, value, 10);
+			break;
+		case 'x':
+		case 'X':
+			Set(parameterIndex, value, 16);
+			break;
+		}
+	}
+
+	void PString::Set(int32 parameterIndex, float64 value)
+	{
+		char8* index = Data + InsertIndex[parameterIndex];
+		memset(index, 127, InsertSize[parameterIndex]);
 
 		d2fixed_buffered_n(value, 3, index);
 
-		CalculateLength();
+		RecalculateLength();
 	}
 
 
-	void PString::CalculateLength()
+	void PString::RecalculateLength()
 	{
 		Length = Size - 1;
 		char8* iterator = Data;
