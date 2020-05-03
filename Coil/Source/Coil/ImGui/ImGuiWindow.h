@@ -8,7 +8,8 @@ namespace Coil
 	{
 	public:
 		ImGuiWindow(RString name, int32 width, int32 height);
-		~ImGuiWindow();
+
+		virtual ~ImGuiWindow();
 
 		void OnImGuiRender() const;
 
@@ -31,6 +32,4 @@ namespace Coil
 		float32 fontHeight = 17.f;
 		float32 dummyDefaultOffset = 4.f;
 	};
-
 }
-

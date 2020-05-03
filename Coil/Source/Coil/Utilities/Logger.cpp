@@ -1,32 +1,35 @@
 #include "pch.h"
 #include "Logger.h"
 
-
 namespace Coil
 {
 	PointerContainer<Log> Logger::Buffer;
 
-
 	Log::Log(RString message, LogLevel level)
-		:Message(message), Level(level), Date(Time::Now()), FormatedMessage(LogParser::Compose(*this))
-	{
-	}
-	
+		: Message(message),
+		Level(level),
+		Date(Time::Now()),
+		Header(PString("[%s][%s]",
+					   Time::TimestampToString(GetDate())->CString(),
+					   LogParser::Level(GetLevel())->CString()
+		))
+	{}
+
 	RString LogParser::Level(LogLevel level)
 	{
 		switch (level)
 		{
-		case Coil::fatal:
+		case LogLevel::fatal:
 			return RString("FATAL");
-		case Coil::error:
+		case LogLevel::error:
 			return RString("ERROR");
-		case Coil::warning:
+		case LogLevel::warning:
 			return RString("WARNING");
-		case Coil::info:
+		case LogLevel::info:
 			return RString("INFO");
-		case Coil::debug:
+		case LogLevel::debug:
 			return RString("DEBUG");
-		case Coil::trace:
+		case LogLevel::trace:
 			return RString("TRACE");
 		default:
 			return RString("");
@@ -35,10 +38,11 @@ namespace Coil
 
 	RString LogParser::Compose(const Log& log)
 	{
-		SString sString;
-		sString.Reserve(64);
-		sString << "[" << Time::TimestampToString(log.GetDate()) << "][" << Level(log.GetLevel()) << "] " << log.GetMessage();
-		return RString(sString);
+		return PString("[%s][%s] %s",
+					   Time::TimestampToString(log.GetDate())->CString(),
+					   Level(log.GetLevel())->CString(),
+					   log.GetMessage()->CString()
+		);
 	}
 
 	Log* Logger::Create(RString message, LogLevel level)
