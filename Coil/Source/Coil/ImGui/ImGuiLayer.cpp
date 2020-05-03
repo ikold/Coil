@@ -34,6 +34,7 @@ namespace Coil
 
 		//Loads font with "zero-width space" in place of "return"
 		io.Fonts->AddFontFromFileTTF("Resources/Fonts/ProggyClean_ZeroWidthReturn.ttf", 13.0f);
+		io.Fonts->AddFontFromFileTTF("Resources/Fonts/ProggyClean_ZeroWidthReturn_Debug.ttf", 13.0f);
 
 		ImGui::StyleColorsDark();
 
