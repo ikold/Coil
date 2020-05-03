@@ -689,7 +689,7 @@ namespace Coil
 
 	void PString::RecalculateLength()
 	{
-		Length = Size - 1;
+		Length = Size;
 		char8* iterator = Data;
 		do
 		{
