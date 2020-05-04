@@ -7,14 +7,13 @@
 namespace Coil
 {
 	String::String()
-	{
-		Data = new char[1]();
-		Length = 0;
-	}
+		: Data(nullptr),
+		Length(0)
+	{}
 
 	String::String(const String& string)
+		: Length(string.Length)
 	{
-		Length = string.Length;
 		Data = new char[(int64)Length + 1];
 		memcpy(Data, string.Data, (int64)Length + 1);
 	}
@@ -26,8 +25,8 @@ namespace Coil
 
 
 	String::String(const char8* text)
+		: Length(CStringLength(text))
 	{
-		Length = CStringLength(text);
 		Data = new char[(int64)Length + 1];
 		memcpy(Data, text, (int64)Length + 1);
 	}
@@ -41,13 +40,13 @@ namespace Coil
 	}
 
 	String::String(char8** charPtr)
-		: Data(*charPtr)
-	{
-		Length = CStringLength(*charPtr);
-	}
+		: Data(*charPtr),
+		Length(CStringLength(*charPtr))
+	{}
 
 	String::String(char8** charPtr, int32 length)
-		: Data(*charPtr), Length(length)
+		: Data(*charPtr),
+		Length(length)
 	{}
 
 
@@ -71,6 +70,11 @@ namespace Coil
 	String& String::operator=(const char8* string)
 	{
 		return *this = String(string);
+	}
+
+	String & String::operator=(char8** charPtr)
+	{
+		return *this = String(charPtr);
 	}
 
 
@@ -232,6 +236,16 @@ namespace Coil
 
 	SString::SString(const char8* text, int32 length)
 		: String(text, length),
+		Size(Length)
+	{}
+
+	SString::SString(char8** charPtr)
+		: String(charPtr),
+		Size(Length)
+	{}
+
+	SString::SString(char8** charPtr, int32 length)
+		: String(charPtr, length),
 		Size(Length)
 	{}
 

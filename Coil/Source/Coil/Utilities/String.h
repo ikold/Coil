@@ -37,6 +37,8 @@ namespace Coil
 
 		String& operator=(const char8* string);
 
+		String& operator=(char8** charPtr);
+
 
 		friend void swap(String& left, String& right) noexcept;
 
@@ -79,6 +81,10 @@ namespace Coil
 		SString(const char8* text);
 
 		SString(const char8* text, int32 length);
+
+		SString(char8** charPtr);
+
+		SString(char8** charPtr, int32 length);
 
 
 		/** Destructor */
@@ -196,9 +202,9 @@ namespace Coil
 
 		/** Copy Constructor */
 		RString(const RString& rString)
+			: StringPointer(rString.StringPointer),
+			Counter(rString.Counter)
 		{
-			StringPointer = rString.StringPointer;
-			Counter = rString.Counter;
 			++(*Counter);
 		}
 
@@ -209,16 +215,14 @@ namespace Coil
 		{}
 
 		RString(const char8* text)
-		{
-			StringPointer = new String(text);
-			Counter = new int32(1);
-		}
+			: StringPointer(new TString(text)),
+			Counter(new int32(1))
+		{}
 
 		RString(const TString& string)
-		{
-			StringPointer = new TString(string);
-			Counter = new int32(1);
-		}
+			: StringPointer(new TString(string)),
+			Counter(new int32(1))
+		{}
 
 		RString(TString&& string)
 			: StringPointer(new TString(std::move(string))),
@@ -255,6 +259,12 @@ namespace Coil
 		RString& operator=(const TString& string)
 		{
 			swap(*this, RString(string));
+			return *this;
+		}
+
+		RString& operator=(TString&& string)
+		{
+			swap(*this, RString(std::move(string)));
 			return *this;
 		}
 
