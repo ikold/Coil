@@ -4,9 +4,6 @@
 
 namespace Coil
 {
-	class SString;
-	class PString;
-
 	class COIL_API String
 	{
 	public:
@@ -22,6 +19,10 @@ namespace Coil
 		String(const char8* text);
 
 		String(const char8* text, int32 length);
+
+		String(char8** charPtr);
+
+		String(char8** charPtr, int32 length);
 
 
 		/** Destructor */

@@ -40,6 +40,16 @@ namespace Coil
 		Data[Length] = '\0';
 	}
 
+	String::String(char8** charPtr)
+		: Data(*charPtr)
+	{
+		Length = CStringLength(*charPtr);
+	}
+
+	String::String(char8** charPtr, int32 length)
+		: Data(*charPtr), Length(length)
+	{}
+
 
 	String::~String()
 	{
@@ -445,7 +455,7 @@ namespace Coil
 		/*----------------------------------------------------------*/
 
 		delete[] Data;
-		Data = new char8[Size + 1];
+		Data = new char8[(int64)Size + 1];
 
 		// Clearing memory with zero length space character
 		memset(Data, 127, Size);
@@ -544,7 +554,7 @@ namespace Coil
 				++iteratorDst;
 			}
 		} while (*iteratorSrc++);
-		return String(newData, length);
+		return String(&newData, length);
 	}
 
 	int32 PString::TypeToSize(char8 type)
