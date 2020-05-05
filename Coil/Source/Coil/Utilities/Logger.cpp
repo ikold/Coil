@@ -7,8 +7,8 @@ namespace Coil
 
 	Log::Log(RString<String> message, LogLevel level)
 		: Message(message),
-		Level(level),
 		Date(Time::Now()),
+		Level(level),
 		Header(PString("[%20s][%8s]",
 					   Time::TimestampToString(GetDate())->CString(),
 					   LogParser::Level(GetLevel())->CString()

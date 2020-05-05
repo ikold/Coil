@@ -59,10 +59,10 @@ namespace Coil
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			data.Width = width;
-			data.Height = height;
+			data.Width = (uint32)width;
+			data.Height = (uint32)height;
 
-			WindowResizeEvent event(width, height);
+			WindowResizeEvent event((uint32)width, (uint32)height);
 			data.EventCallback(event);
 		});
 		glfwSetWindowCloseCallback(WindowInstance, [](GLFWwindow* window)

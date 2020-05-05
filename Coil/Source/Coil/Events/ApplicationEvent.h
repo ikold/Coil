@@ -16,11 +16,11 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			return SString() << "WindowResizeEvent: " << Width << ", " << Height;
+			return PString("WindowResizeEvent: %6d, %6d", Width, Height);
 		}
 
 		EVENT_CLASS_TYPE(WindowResize);
-		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+		EVENT_CLASS_CATEGORY(EventCategory::Application);
 
 	private:
 		uint32 Width, Height;
@@ -32,7 +32,7 @@ namespace Coil
 		WindowCloseEvent() {}
 
 		EVENT_CLASS_TYPE(WindowClose);
-		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
 	class COIL_API WindowFocusEvent : public Event
@@ -41,7 +41,7 @@ namespace Coil
 		WindowFocusEvent() {}
 
 		EVENT_CLASS_TYPE(WindowFocus);
-		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
 	class COIL_API WindowLostFocusEvent : public Event
@@ -50,7 +50,7 @@ namespace Coil
 		WindowLostFocusEvent() {}
 
 		EVENT_CLASS_TYPE(WindowLostFocus);
-		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
 	class COIL_API WindowMovedEvent : public Event
@@ -65,11 +65,11 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			return SString() << "WindowMovedEvent: " << PositionX << ", " << PositionY;
+			return PString("WindowMovedEvent: %6d, %6d", PositionX, PositionY);
 		}
 
 		EVENT_CLASS_TYPE(WindowMoved);
-		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+		EVENT_CLASS_CATEGORY(EventCategory::Application);
 
 	private:
 		int32 PositionX, PositionY;
@@ -81,7 +81,7 @@ namespace Coil
 		AppTickEvent() {}
 
 		EVENT_CLASS_TYPE(AppTick);
-		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
 	class COIL_API AppUpdateEvent : public Event
@@ -90,7 +90,7 @@ namespace Coil
 		AppUpdateEvent() {}
 
 		EVENT_CLASS_TYPE(AppUpdate);
-		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
 	class COIL_API AppRenderEvent : public Event
@@ -99,6 +99,6 @@ namespace Coil
 		AppRenderEvent() {}
 
 		EVENT_CLASS_TYPE(AppRender);
-		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 }

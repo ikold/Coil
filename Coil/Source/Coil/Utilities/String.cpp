@@ -2,7 +2,7 @@
 #include "String.h"
 
 #include "ryu/ryu.h"
-#include <cstdarg>
+#include <stdarg.h>
 
 namespace Coil
 {
@@ -14,8 +14,8 @@ namespace Coil
 	String::String(const String& string)
 		: Length(string.Length)
 	{
-		Data = new char[(int64)Length + 1];
-		memcpy(Data, string.Data, (int64)Length + 1);
+		Data = new char[(size_t)Length + 1];
+		memcpy(Data, string.Data, (size_t)Length + 1);
 	}
 
 	String::String(String&& string) noexcept
@@ -27,15 +27,15 @@ namespace Coil
 	String::String(const char8* text)
 		: Length(CStringLength(text))
 	{
-		Data = new char[(int64)Length + 1];
-		memcpy(Data, text, (int64)Length + 1);
+		Data = new char[(size_t)Length + 1];
+		memcpy(Data, text, (size_t)Length + 1);
 	}
 
 	String::String(const char8* text, int32 length)
 		: Length(length)
 	{
-		Data = new char[(int64)Length + 1];
-		memcpy(Data, text, (int64)Length);
+		Data = new char[(size_t)Length + 1];
+		memcpy(Data, text, (size_t)Length);
 		Data[Length] = '\0';
 	}
 
@@ -103,7 +103,7 @@ namespace Coil
 	}
 
 
-	String String::Convert(uint64 value, int32 base)
+	String String::Convert(int64 value, int32 base)
 	{
 		SString reverseString;
 		reverseString.Reserve(20); // 20 - Maximum number of digits in 64 bit int
@@ -180,9 +180,9 @@ namespace Coil
 		return reverseString;
 	}
 
-	String String::Convert(float64 value, int fractionLength)
+	String String::Convert(float64 value, int32 fractionLength)
 	{
-		char* fString = d2fixed(value, fractionLength);
+		char* fString = d2fixed(value, (uint32)fractionLength);
 		String rString(fString);
 		delete[] fString;
 		return rString;
@@ -190,7 +190,7 @@ namespace Coil
 
 	String String::Convert(void* address)
 	{
-		String addressString = Convert((uint64)address, 16);
+		String addressString = Convert((int64)address, 16);
 
 		SString formatedAddress;
 		formatedAddress.Reserve(18);
@@ -277,7 +277,7 @@ namespace Coil
 	void SString::Reserve(int32 size)
 	{
 		Size = size;
-		char8* tmp = (char8*)realloc(Data, (int64)Size + 1);
+		char8* tmp = (char8*)realloc(Data, (size_t)Size + 1);
 
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
@@ -289,7 +289,7 @@ namespace Coil
 		if (Length == Size)
 			return;
 
-		char8* tmp = (char8*)realloc(Data, (int64)Length + 1);
+		char8* tmp = (char8*)realloc(Data, (size_t)Length + 1);
 
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
@@ -315,17 +315,17 @@ namespace Coil
 	void SString::Append(const char8* string, int32 size)
 	{
 		if (Length + size <= Size)
-			memcpy(Data + Length, string, (int64)size + 1);
+			memcpy(Data + Length, string, (size_t)size + 1);
 		else
 		{
 			Size = Length + size;
 
-			char8* tmp = (char8*)realloc(Data, (int64)Size + 1);
+			char8* tmp = (char8*)realloc(Data, (size_t)Size + 1);
 			CL_ASSERT(tmp, "Failed to reallocate memory");
 			if (tmp)
 				Data = tmp;
 
-			memcpy(Data + Length, string, (int64)size + 1);
+			memcpy(Data + Length, string, (size_t)size + 1);
 		}
 		Length += size;
 	}
@@ -469,10 +469,10 @@ namespace Coil
 		/*----------------------------------------------------------*/
 
 		delete[] Data;
-		Data = new char8[(int64)Size + 1];
+		Data = new char8[(size_t)Size + 1];
 
 		// Clearing memory with zero length space character
-		memset(Data, 127, Size);
+		memset(Data, 127, (size_t)Size);
 
 		// Adding escape character
 		Data[Size] = '\0';
@@ -480,27 +480,24 @@ namespace Coil
 
 		auto insertSymbolIndexItr = insertSymbolIndex.begin();
 		auto insertSymbolSizeItr = insertSymbolSize.begin();
-		auto insertTypeItr = InsertType.begin();
-		auto insertIndexItr = InsertIndex.begin();
 		auto insertSizeItr = InsertSize.begin();
 
 		int32 dataOffset = 0;
-		int32 symbolOffset = 0;
 		int32 sourceOffset = 0;
 
-		for (int i = 0; i < insertSymbolIndex.size(); ++i)
+		for (int32 i = 0; i < insertSymbolIndex.size(); ++i)
 		{
 			int copySize = *insertSymbolIndexItr - sourceOffset;
-			memcpy(Data + dataOffset, text + sourceOffset, copySize);
+			memcpy(Data + dataOffset, text + sourceOffset, (size_t)copySize);
 			sourceOffset = *insertSymbolIndexItr++ + *insertSymbolSizeItr;
 
 			dataOffset += copySize + (*insertSymbolSizeItr++ == 1 ? 0 : *insertSizeItr++);
 		}
 
-		memcpy(Data + dataOffset, text + sourceOffset, (int64)srcSize - sourceOffset);
+		memcpy(Data + dataOffset, text + sourceOffset, (size_t)srcSize - sourceOffset);
 
 
-		for (int i = 0; i < InsertType.size(); ++i)
+		for (int32 i = 0; i < InsertType.size(); ++i)
 		{
 			switch (InsertType[i])
 			{
@@ -704,7 +701,7 @@ namespace Coil
 	void PString::Set(int32 parameterIndex, float64 value)
 	{
 		char8* index = Data + InsertIndex[parameterIndex];
-		memset(index, 127, InsertSize[parameterIndex]);
+		memset(index, 127, (size_t)InsertSize[parameterIndex]);
 
 		d2fixed_buffered_n(value, 3, index);
 
@@ -721,6 +718,5 @@ namespace Coil
 			if (*iterator == 127)
 				--Length;
 		} while ((*iterator++));
-		int32 a = GetLength();
 	}
 }

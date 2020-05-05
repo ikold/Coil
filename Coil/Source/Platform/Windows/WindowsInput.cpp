@@ -8,7 +8,7 @@ namespace Coil
 {
 	Input* Input::Instance = new WindowsInput();
 
-	bool WindowsInput::IsKeyPressedImpl(int keycode)
+	bool WindowsInput::IsKeyPressedImpl(int32 keycode)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
@@ -17,7 +17,7 @@ namespace Coil
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
-	bool WindowsInput::IsMouseButtonPressedImpl(int button)
+	bool WindowsInput::IsMouseButtonPressedImpl(int32 button)
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
@@ -26,23 +26,23 @@ namespace Coil
 		return state == GLFW_PRESS;
 	}
 
-	std::pair<float, float> WindowsInput::GetMousePositionImpl()
+	std::pair<float32, float32> WindowsInput::GetMousePositionImpl()
 	{
 		auto window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
-		double xpos, ypos;
+		float64 xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 
-		return { (float)xpos, (float)ypos };
+		return { (float32)xpos, (float32)ypos };
 	}
 
-	float WindowsInput::GetMouseXImpl()
+	float32 WindowsInput::GetMouseXImpl()
 	{
 		auto [x, y] = GetMousePositionImpl();
 		return x;
 	}
 
-	float WindowsInput::GetMouseYImpl()
+	float32 WindowsInput::GetMouseYImpl()
 	{
 		auto [x, y] = GetMousePositionImpl();
 		return y;

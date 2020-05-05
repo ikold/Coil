@@ -16,8 +16,8 @@ namespace Coil
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
 
-		std::vector<Layer*>::iterator begin() { return Layers.begin(); }
-		std::vector<Layer*>::iterator end() { return Layers.end(); }
+		inline std::vector<Layer*>::iterator begin() { return Layers.begin(); }
+		inline std::vector<Layer*>::iterator end() { return Layers.end(); }
 
 	private:
 		std::vector<Layer*> Layers;

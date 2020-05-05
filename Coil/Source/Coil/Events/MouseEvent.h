@@ -16,13 +16,11 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			std::stringstream ss;
-			ss << "MouseMovedEvent: " << MouseX << ", " << MouseY;
-			return ss.str().c_str();
+			return PString("MouseMovedEvent: %f, %f", MouseX, MouseY);
 		}
 
 		EVENT_CLASS_TYPE(MouseMoved);
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput);
+		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input);
 
 	private:
 		float32 MouseX, MouseY;
@@ -40,13 +38,11 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			std::stringstream ss;
-			ss << "MouseScrolledEvent: " << XOffset << ", " << YOffset;
-			return ss.str().c_str();
+			return PString("MouseScrolledEvent: %f, %f", XOffset, YOffset);
 		}
 
 		EVENT_CLASS_TYPE(MouseScrolled);
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput);
+		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input);
 
 	private:
 		float32 XOffset, YOffset;
@@ -57,7 +53,7 @@ namespace Coil
 	public:
 		inline int32 GetMouseButton() const { return Button; }
 
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryMouseButton | EventCategoryInput);
+		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::MouseButton | EventCategory::Input);
 
 	protected:
 		MouseButtonEvent(int32 button)
@@ -76,7 +72,7 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			return SString() << "MouseButtonPressedEvent: " << Button;
+			return PString("MouseButtonPressedEvent: %5d", Button);
 		}
 
 		EVENT_CLASS_TYPE(MouseButtonPressed);
@@ -91,7 +87,7 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			return SString() << "MouseButtonReleasedEvent: " << Button;
+			return PString("MouseButtonReleasedEvent: %5d", Button);
 		}
 
 		EVENT_CLASS_TYPE(MouseButtonReleased);

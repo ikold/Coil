@@ -51,9 +51,9 @@ namespace Coil
 		void Reverse();
 
 
-		static String Convert(float64 value, int fractionLength);
+		static String Convert(float64 value, int32 fractionLength);
 
-		static String Convert(uint64 value, int32 base = 10);
+		static String Convert(int64 value, int32 base = 10);
 
 		static String Convert(void* address);
 
@@ -109,14 +109,13 @@ namespace Coil
 		SString& operator<<(const char8* string);
 		SString& operator<<(const String& string);
 
-		SString& operator<<(int8 value) { return *this << String::Convert(value); };
-		SString& operator<<(uint8 value) { return *this << String::Convert(value); };
-		SString& operator<<(int16 value) { return *this << String::Convert(value); };
-		SString& operator<<(uint16 value) { return *this << String::Convert(value); };
-		SString& operator<<(int32 value) { return *this << String::Convert(value); };
-		SString& operator<<(uint32 value) { return *this << String::Convert(value); };
-		SString& operator<<(int64 value) { return *this << String::Convert(value); };
-		SString& operator<<(uint64 value) { return *this << String::Convert(value); };
+		SString& operator<<(int8 value) { return *this << String::Convert((int64)value); };
+		SString& operator<<(uint8 value) { return *this << String::Convert((int64)value); };
+		SString& operator<<(int16 value) { return *this << String::Convert((int64)value); };
+		SString& operator<<(uint16 value) { return *this << String::Convert((int64)value); };
+		SString& operator<<(int32 value) { return *this << String::Convert((int64)value); };
+		SString& operator<<(uint32 value) { return *this << String::Convert((int64)value); };
+		SString& operator<<(int64 value) { return *this << String::Convert((int64)value); };
 
 		SString& operator<<(float32 value) { return *this << String::Convert(value, 3); };
 		SString& operator<<(float64 value) { return *this << String::Convert(value, 3); };
@@ -124,7 +123,7 @@ namespace Coil
 		SString& operator<<(void* address) { return *this << String::Convert(address); };
 
 
-		void SetFractionLength(int32 value) { FractionLength = value; }
+		inline void SetFractionLength(int32 value) { FractionLength = value; }
 
 	private:
 		void Append(const char8* string, int32 size);

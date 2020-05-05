@@ -17,15 +17,18 @@ namespace Coil
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
-	enum EventCategory
+	namespace EventCategory
 	{
-		EventCategoryNone = 0,
-		EventCategoryApplication = 1 << 0,
-		EventCategoryInput = 1 << 1,
-		EventCategoryKeyboard = 1 << 2,
-		EventCategoryMouse = 1 << 3,
-		EventCategoryMouseButton = 1 << 4
-	};
+		enum Enum
+		{
+			None = 0,
+			Application = 1 << 0,
+			Input = 1 << 1,
+			Keyboard = 1 << 2,
+			Mouse = 1 << 3,
+			MouseButton = 1 << 4
+		};
+	}
 
 #define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() { return EventType::##type; }\
 								virtual EventType GetType() const override { return GetStaticType(); }\
@@ -43,12 +46,13 @@ namespace Coil
 		virtual int32 GetCategoryFlags() const = 0;
 		virtual RString<String> ToString() const { return GetName(); }
 
-		inline bool IsInCategory(EventCategory category) const
+		inline bool IsInCategory(EventCategory::Enum category) const
 		{
-			return GetCategoryFlags() & (int32)category;
+			return GetCategoryFlags() & category;
 		}
 
 		inline bool IsHandled() { return Handled; }
+
 	protected:
 		bool Handled = false;
 	};

@@ -89,7 +89,7 @@ namespace Coil
 		static inline Log* Trace(RString<String> message) { return Create(message, LogLevel::trace); }
 		///@}
 
-		static PointerContainer<Log>* GetBuffer() { return &Buffer; }
+		static inline PointerContainer<Log>* GetBuffer() { return &Buffer; }
 
 	private:
 		/*!	Creates new Log and push it on Container

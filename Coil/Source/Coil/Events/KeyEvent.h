@@ -9,7 +9,7 @@ namespace Coil
 	public:
 		inline int32 GetKeyCode() const { return KeyCode; }
 
-		EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput);
+		EVENT_CLASS_CATEGORY(EventCategory::Keyboard | EventCategory::Input);
 
 	protected:
 		KeyEvent(int32 keyCode)
@@ -30,7 +30,7 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			return SString() << "KeyPressedEvent: " << KeyCode << " (" << RepeatCount << " repeats)";
+			return PString("KeyPressedEvent: %4d (%4d repeats)", KeyCode, RepeatCount);
 		}
 
 		EVENT_CLASS_TYPE(KeyPressed);
@@ -48,7 +48,7 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			return SString() << "KeyReleasedEvent: " << KeyCode;
+			return PString("KeyReleasedEvent: %4d", KeyCode);
 		}
 
 		EVENT_CLASS_TYPE(KeyReleased);
@@ -63,7 +63,7 @@ namespace Coil
 
 		RString<String> ToString() const override
 		{
-			return SString() << "KeyTypedEvent: " << KeyCode;
+			return PString("KeyTypedEvent: %4d", KeyCode);
 		}
 
 		EVENT_CLASS_TYPE(KeyTyped);
