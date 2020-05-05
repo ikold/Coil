@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Time.h"
 
+#include <sstream>
+#include <iomanip>
 
 namespace Coil
 {

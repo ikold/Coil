@@ -2,8 +2,9 @@
 
 #include "Coil/Core.h"
 
+#include <ctime>
+#include <chrono>
 
-class TimestampToString;
 namespace Coil
 {
 #define Timestamp ::std::time_t
@@ -16,7 +17,7 @@ namespace Coil
 	private:
 		Time() {};
 	public:
-		/*!	Method for geting current timestamp
+		/*!	Method for getting current timestamp
 
 			@return Timestamp	Timestamp with current date
 		*/
@@ -37,7 +38,7 @@ namespace Coil
 
 		/*!	Get interface for delta time
 
-			@return		float32	precalculate delta time in ms
+			@return		float32	precalculated delta time in ms
 		*/
 		inline static float32 DeltaTime() { return DeltaTimeV; }
 
@@ -48,8 +49,8 @@ namespace Coil
 		inline static float32 Fps() { return FpsV; }
 
 	private:
-		static std::chrono::time_point<std::chrono::steady_clock> LastFrameTime;		/*!	Coresponds to the time point on the begging of last frame */
-		static std::chrono::time_point<std::chrono::steady_clock> CurrentFrameTime;		/*!	Coresponds to the time point on the begging of current frame */
+		static std::chrono::time_point<std::chrono::steady_clock> LastFrameTime;		/*!	Corresponds to the time point on the begging of last frame */
+		static std::chrono::time_point<std::chrono::steady_clock> CurrentFrameTime;		/*!	Corresponds to the time point on the begging of current frame */
 
 		static float32 DeltaTimeV;	/*!	Precalculated time in ms between frames */
 		static float32 FpsV;			/*!	For benchmarking purpose */

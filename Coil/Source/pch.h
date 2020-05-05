@@ -1,18 +1,6 @@
 #pragma once
 
-#include <string>
-
-#include <sstream>
-
-#include <functional>
-
-#include <iomanip>
-
 #include <vector>
-
-#include <stdio.h>
-
-#include <chrono>
 
 
 #include "Coil/Utilities/Types.h"
