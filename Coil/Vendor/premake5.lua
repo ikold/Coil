@@ -20,29 +20,6 @@ project "GLFW"
 		"GLFW/src/window.c"
 	}
 
-	filter "system:linux"
-		systemversion "latest"
-		pic "On"
-
-		files
-		{
-			"GLFW/src/x11_init.c",
-			"GLFW/src/x11_monitor.c",
-			"GLFW/src/x11_window.c",
-			"GLFW/src/xkb_unicode.c",
-			"GLFW/src/posix_time.c",
-			"GLFW/src/posix_thread.c",
-			"GLFW/src/glx_context.c",
-			"GLFW/src/egl_context.c",
-			"GLFW/src/osmesa_context.c",
-			"GLFW/src/linux_joystick.c"
-		}
-
-		defines
-		{
-			"_GLFW_X11"
-		}
-
 	filter "system:windows"
 		systemversion "latest"
 
@@ -98,11 +75,7 @@ project "GLAD"
 	{
 		"GLAD/include"
 	}
-
-	filter "system:linux"
-		systemversion "latest"
-		pic "On"
-
+	
 	filter "system:windows"
 		systemversion "latest"
 
@@ -142,11 +115,6 @@ project "ImGui"
 		"ImGui/imgui_demo.cpp"
 	}
 
-	filter "system:linux"
-		cppdialect "C++17"
-		systemversion "latest"
-		pic "On"
-
 	filter "system:windows"
 		cppdialect "C++17"
 		systemversion "latest"
@@ -185,11 +153,7 @@ project "Ryu"
 	{
 		"Ryu"
 	}
-
-	filter "system:linux"
-		systemversion "latest"
-		pic "On"
-
+	
 	filter "system:windows"
 		systemversion "latest"
 

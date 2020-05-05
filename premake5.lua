@@ -81,15 +81,6 @@ workspace "Coil"
 				"CL_PLATFORM_WINDOWS",
 				"_CRT_SECURE_NO_WARNINGS"
 			}
-
-		filter "system:linux"
-			cppdialect "C++17"
-			systemversion "latest"
-			
-			defines
-			{
-				"CL_PLATFORM_LINUX"
-			}
 			
 		filter "configurations:Debug"
 			runtime "Debug"
@@ -152,20 +143,6 @@ workspace "Coil"
 			defines
 			{
 				"CL_PLATFORM_WINDOWS"
-			}
-
-		filter "system:linux"
-			cppdialect "C++17"
-			systemversion "latest"
-			
-			defines
-			{
-				"CL_PLATFORM_LINUX"
-			}
-
-			debugenvs
-			{
-				"LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(WorkspacePath)/bin/" .. outputdir .. "/Coil/"
 			}
 
 		filter "configurations:Debug"
