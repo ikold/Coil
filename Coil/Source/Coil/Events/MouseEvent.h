@@ -4,7 +4,7 @@
 
 namespace Coil
 {
-	class COIL_API MouseMovedEvent : public Event
+	class MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float32 x, float32 y)
@@ -26,7 +26,7 @@ namespace Coil
 		float32 MouseX, MouseY;
 	};
 
-	class COIL_API MouseScrolledEvent : public Event
+	class MouseScrolledEvent : public Event
 	{
 	public:
 		MouseScrolledEvent(float32 x, float32 y)
@@ -48,7 +48,7 @@ namespace Coil
 		float32 XOffset, YOffset;
 	};
 
-	class COIL_API MouseButtonEvent : public Event
+	class MouseButtonEvent : public Event
 	{
 	public:
 		inline int32 GetMouseButton() const { return Button; }
@@ -63,7 +63,7 @@ namespace Coil
 		int32 Button;
 	};
 
-	class COIL_API MouseButtonPressedEvent : public MouseButtonEvent
+	class MouseButtonPressedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonPressedEvent(int32 button)
@@ -78,7 +78,7 @@ namespace Coil
 		EVENT_CLASS_TYPE(MouseButtonPressed);
 	};
 
-	class COIL_API MouseButtonReleasedEvent : public MouseButtonEvent
+	class MouseButtonReleasedEvent : public MouseButtonEvent
 	{
 	public:
 		MouseButtonReleasedEvent(int32 button)

@@ -23,7 +23,7 @@ namespace Coil
 		// updating current frame time
 		CurrentFrameTime = std::chrono::steady_clock::now();
 
-		// using 1/1000 ratio for calculatin delta to get precise time reading in ms
+		// using 1/1000 ratio for calculating delta to get precise time reading in ms
 		DeltaTimeV = std::chrono::duration<float32, std::ratio<1, 1000>>(CurrentFrameTime - LastFrameTime).count();
 
 		FpsV = 1000.f / DeltaTimeV;

@@ -11,7 +11,7 @@ namespace Coil
 	/*!
 		Static class responsible for all time operations
 	 */
-	class COIL_API Time
+	class Time
 	{
 	private:
 		Time() {};

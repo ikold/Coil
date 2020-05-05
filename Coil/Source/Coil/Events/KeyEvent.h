@@ -4,7 +4,7 @@
 
 namespace Coil
 {
-	class COIL_API KeyEvent : public Event
+	class KeyEvent : public Event
 	{
 	public:
 		inline int32 GetKeyCode() const { return KeyCode; }
@@ -19,7 +19,7 @@ namespace Coil
 		int32 KeyCode;
 	};
 
-	class COIL_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int32 keyCode, int32 repeatCount)
@@ -39,7 +39,7 @@ namespace Coil
 		int32 RepeatCount;
 	};
 
-	class COIL_API KeyReleasedEvent : public KeyEvent
+	class KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(int32 keyCode)
@@ -54,7 +54,7 @@ namespace Coil
 		EVENT_CLASS_TYPE(KeyReleased);
 	};
 
-	class COIL_API KeyTypedEvent : public KeyEvent
+	class KeyTypedEvent : public KeyEvent
 	{
 	public:
 		KeyTypedEvent(int32 keyCode)

@@ -5,7 +5,7 @@
 
 namespace Coil
 {
-	class COIL_API Layer
+	class Layer
 	{
 	public:
 		Layer(RString<String> name = "Layer");

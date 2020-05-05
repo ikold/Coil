@@ -96,6 +96,7 @@ project "ImGui"
 	location "ImGui"
 	kind "StaticLib"
 	language "C++"
+	cppdialect "C++17"
 	staticruntime "On"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -116,7 +117,6 @@ project "ImGui"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		systemversion "latest"
 
 	filter "configurations:Debug"

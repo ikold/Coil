@@ -6,7 +6,7 @@
 
 namespace Coil
 {
-	class COIL_API WindowsInput : public Input
+	class WindowsInput : public Input
 	{
 	protected:
 		virtual bool IsKeyPressedImpl(int32 keycode) override;

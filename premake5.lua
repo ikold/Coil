@@ -24,9 +24,10 @@ workspace "Coil"
 
 	project "Coil"
 		location "Coil"
-		kind "SharedLib"
+		kind "StaticLib"
 		language "C++"
-		staticruntime "Off"
+		cppdialect "C++17"
+		staticruntime "On"
 		
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("obj/" .. outputdir .. "/%{prj.name}")
@@ -66,20 +67,11 @@ workspace "Coil"
 		}
 		
 		filter "system:windows"
-			cppdialect "C++17"
 			systemversion "latest"
-
-			postbuildcommands
-			{
-				{"{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Application/\""},
-				{"{COPY} ../Resources \"../bin/" .. outputdir .. "/Application/Resources\""},
-				{"{COPY} ../Resources \"../Application/Resources\""}
-			}
 			
 			defines
 			{
-				"CL_PLATFORM_WINDOWS",
-				"_CRT_SECURE_NO_WARNINGS"
+				"CL_PLATFORM_WINDOWS"
 			}
 			
 		filter "configurations:Debug"
@@ -115,7 +107,8 @@ workspace "Coil"
 		location "Application"
 		kind "ConsoleApp"
 		language "C++"
-		staticruntime "Off"
+		cppdialect "C++17"
+		staticruntime "On"
 		
 		targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 		objdir ("obj/" .. outputdir .. "/%{prj.name}")
@@ -136,8 +129,13 @@ workspace "Coil"
 			"Coil"
 		}
 		
+		postbuildcommands
+		{
+			{"{COPY} ../Resources \"../bin/" .. outputdir .. "/Application/Resources\""},
+			{"{COPY} ../Resources \"../Application/Resources\""}
+		}
+		
 		filter "system:windows"
-			cppdialect "C++17"
 			systemversion "latest"
 			
 			defines

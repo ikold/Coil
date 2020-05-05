@@ -20,7 +20,7 @@ namespace Coil
 
 	/*!	Struct for Logging system
 	*/
-	struct COIL_API Log
+	struct Log
 	{
 	public:
 		Log(RString<String> message, LogLevel level);
@@ -43,7 +43,7 @@ namespace Coil
 
 		@todo pattern system
 	*/
-	class COIL_API LogParser
+	class LogParser
 	{
 	public:
 		/*!	Parser for LogLevel
@@ -65,7 +65,7 @@ namespace Coil
 
 	/*!	Interface for creating and retrieving Logs
 	*/
-	class COIL_API Logger
+	class Logger
 	{
 	private:
 		Logger();

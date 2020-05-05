@@ -7,7 +7,7 @@
 
 namespace Coil
 {
-	class COIL_API Input
+	class Input
 	{
 	public:
 		static inline bool IsKeyPressed(int32 keycode) { return Instance->IsKeyPressedImpl(keycode); }

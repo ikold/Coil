@@ -5,7 +5,7 @@
 
 namespace Coil
 {
-	class COIL_API LayerStack
+	class LayerStack
 	{
 	public:
 		LayerStack();

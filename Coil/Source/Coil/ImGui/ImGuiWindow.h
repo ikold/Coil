@@ -4,7 +4,7 @@
 
 namespace Coil
 {
-	class COIL_API ImGuiWindow
+	class ImGuiWindow
 	{
 	public:
 		ImGuiWindow(RString<String> name, int32 width, int32 height);

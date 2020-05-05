@@ -9,7 +9,7 @@ namespace Coil
 {
 	/*!	Class for application and it functionality
 	*/
-	class COIL_API Application
+	class Application
 	{
 	public:
 		Application();

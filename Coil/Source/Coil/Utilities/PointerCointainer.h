@@ -6,7 +6,7 @@
 namespace Coil
 {
 	template<typename T>
-	class COIL_API PointerContainer
+	class PointerContainer
 	{
 	public:
 		PointerContainer()

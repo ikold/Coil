@@ -6,7 +6,7 @@
 
 namespace Coil
 {
-	class COIL_API ImGuiOverlay : public ImGuiWindow
+	class ImGuiOverlay : public ImGuiWindow
 	{
 	public:
 		ImGuiOverlay(RString<String> name, int32 width, int32 height);

@@ -6,7 +6,7 @@
 
 namespace Coil
 {
-	class COIL_API ImGuiLogWindow : public ImGuiWindow
+	class ImGuiLogWindow : public ImGuiWindow
 	{
 	public:
 		ImGuiLogWindow(RString<String> name, int32 width, int32 height)

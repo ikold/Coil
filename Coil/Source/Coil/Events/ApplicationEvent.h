@@ -4,7 +4,7 @@
 
 namespace Coil
 {
-	class COIL_API WindowResizeEvent : public Event
+	class WindowResizeEvent : public Event
 	{
 	public:
 		WindowResizeEvent(uint32 width, uint32 height)
@@ -26,7 +26,7 @@ namespace Coil
 		uint32 Width, Height;
 	};
 
-	class COIL_API WindowCloseEvent : public Event
+	class WindowCloseEvent : public Event
 	{
 	public:
 		WindowCloseEvent() {}
@@ -35,7 +35,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
-	class COIL_API WindowFocusEvent : public Event
+	class WindowFocusEvent : public Event
 	{
 	public:
 		WindowFocusEvent() {}
@@ -44,7 +44,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
-	class COIL_API WindowLostFocusEvent : public Event
+	class WindowLostFocusEvent : public Event
 	{
 	public:
 		WindowLostFocusEvent() {}
@@ -53,7 +53,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
-	class COIL_API WindowMovedEvent : public Event
+	class WindowMovedEvent : public Event
 	{
 	public:
 		WindowMovedEvent(int32 x, int32 y)
@@ -75,7 +75,7 @@ namespace Coil
 		int32 PositionX, PositionY;
 	};
 
-	class COIL_API AppTickEvent : public Event
+	class AppTickEvent : public Event
 	{
 	public:
 		AppTickEvent() {}
@@ -84,7 +84,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
-	class COIL_API AppUpdateEvent : public Event
+	class AppUpdateEvent : public Event
 	{
 	public:
 		AppUpdateEvent() {}
@@ -93,7 +93,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategory::Application);
 	};
 
-	class COIL_API AppRenderEvent : public Event
+	class AppRenderEvent : public Event
 	{
 	public:
 		AppRenderEvent() {}

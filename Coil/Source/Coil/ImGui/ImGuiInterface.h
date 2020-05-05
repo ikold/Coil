@@ -7,7 +7,7 @@
 
 namespace Coil
 {
-	class COIL_API ImGuiInterface
+	class ImGuiInterface
 	{
 	public:
 		template<typename T>

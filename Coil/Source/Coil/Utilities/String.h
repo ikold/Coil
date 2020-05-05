@@ -4,7 +4,7 @@
 
 namespace Coil
 {
-	class COIL_API String
+	class String
 	{
 	public:
 		/** Default Constructor */
@@ -66,7 +66,7 @@ namespace Coil
 	};
 
 
-	class COIL_API SString : public String
+	class SString : public String
 	{
 	public:
 		/** Default Constructor */
@@ -134,7 +134,7 @@ namespace Coil
 	};
 
 
-	class COIL_API PString : public String
+	class PString : public String
 	{
 	public:
 		/** Default Constructor */
@@ -190,7 +190,7 @@ namespace Coil
 
 
 	template<class TString = String>
-	class COIL_API RString
+	class RString
 	{
 	public:
 		/** Default Constructor */

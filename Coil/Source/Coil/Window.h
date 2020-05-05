@@ -21,7 +21,7 @@ namespace Coil
 		{}
 	};
 
-	class COIL_API Window
+	class Window
 	{
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
