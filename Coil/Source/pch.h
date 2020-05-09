@@ -2,6 +2,7 @@
 
 #include <vector>
 
+#include <memory>
 
 #include "Coil/Utilities/Types.h"
 

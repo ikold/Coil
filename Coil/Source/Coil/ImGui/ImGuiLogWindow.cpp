@@ -14,6 +14,9 @@ namespace Coil
 		int32 skipedLines = TextTopCulling();
 		int32 linesToDraw = WindowSizeInLines();
 
+		if (Buffer->size() < skipedLines)
+			skipedLines = Buffer->size();
+
 		auto it = Buffer->begin() + skipedLines;
 		auto end = Buffer->end();
 
@@ -47,12 +50,18 @@ namespace Coil
 				color = ImVec4(1.f, 1.f, 1.f, 1.f);
 				break;
 			}
+
 			ImGui::PushStyleColor(ImGuiCol_Text, color);
 			ImGui::TextUnformatted((*it)->GetHeader()->CString());
 			ImGui::SameLine();
 			ImGui::TextUnformatted((*it)->GetMessage()->CString());
 			ImGui::PopStyleColor();
 		}
+
+		int tmp = WindowSizeInLines();
+
+		for (int i = 0; i < WindowSizeInLines(); ++i)
+			ImGui::TextUnformatted("");
 
 		TextBottomCulling(Buffer->size());
 	}

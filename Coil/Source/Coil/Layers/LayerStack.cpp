@@ -30,7 +30,6 @@ namespace Coil
 		auto it = std::find(Layers.begin(), Layers.end(), layer);
 		if (it != Layers.end())
 		{
-			layer->OnDetach();
 			Layers.erase(it);
 			--LayerInsertIndex;
 		}
@@ -40,9 +39,6 @@ namespace Coil
 	{
 		auto it = std::find(Layers.begin(), Layers.end(), overlay);
 		if (it != Layers.end())
-		{
-			overlay->OnDetach();
 			Layers.erase(it);
-		}
 	}
 }

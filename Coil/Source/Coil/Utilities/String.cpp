@@ -463,7 +463,7 @@ namespace Coil
 					InsertType.push_back(text[i]);
 					parameters.back().Float64 = va_arg(args, float64);
 					break;
-				case 'S':                                          \
+				case 'S':
 					InsertType.push_back(text[i]);
 					parameters.back().Char8Ptr = va_arg(args, char8*);
 					InsertSize.back() += va_arg(args, int32);

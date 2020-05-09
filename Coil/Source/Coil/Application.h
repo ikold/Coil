@@ -13,7 +13,7 @@ namespace Coil
 	{
 	public:
 		Application();
-		virtual ~Application();
+		virtual ~Application() {};
 
 		/*!	Main loop of the application
 		*/

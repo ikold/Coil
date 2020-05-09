@@ -2,6 +2,7 @@
 
 #include "Coil/Window.h"
 
+#include "Coil/Renderer/GraphicsContext.h"
 #include <GLFW/glfw3.h>
 
 namespace Coil
@@ -28,7 +29,9 @@ namespace Coil
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
+	private:
 		GLFWwindow* WindowInstance;
+		GraphicsContext* Context;
 
 		struct WindowData
 		{

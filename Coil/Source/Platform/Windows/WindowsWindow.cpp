@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WindowsWindow.h"
 
-#include "glad/glad.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Coil
 {
@@ -49,9 +49,11 @@ namespace Coil
 		}
 
 		WindowInstance = glfwCreateWindow((int32)Data.Width, (int32)Data.Height, Data.Name->CString(), nullptr, nullptr);
-		glfwMakeContextCurrent(WindowInstance);
-		int32 status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		CL_CORE_ASSERT(status, "GLAD initialization failed!");
+
+
+		Context = new OpenGLContext(WindowInstance);
+		Context->Init();
+
 		glfwSetWindowUserPointer(WindowInstance, &Data);
 		SetVSync(Data.VSync);
 
@@ -155,7 +157,7 @@ namespace Coil
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(WindowInstance);
+		Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enable)

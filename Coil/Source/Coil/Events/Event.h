@@ -2,8 +2,6 @@
 
 #include "Coil/Core.h"
 
-#include <string>
-#include <sstream>
 #include <functional>
 
 namespace Coil
