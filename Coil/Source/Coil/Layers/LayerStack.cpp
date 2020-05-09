@@ -14,12 +14,14 @@ namespace Coil
 
 	void LayerStack::PushLayer(Layer* layer)
 	{
-		Layers.emplace(Layers.begin() + LayerInsert, layer);
-		++LayerInsert;
+		layer->OnAttach();
+		Layers.emplace(Layers.begin() + LayerInsertIndex, layer);
+		++LayerInsertIndex;
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
 	{
+		overlay->OnAttach();
 		Layers.emplace_back(overlay);
 	}
 
@@ -28,8 +30,9 @@ namespace Coil
 		auto it = std::find(Layers.begin(), Layers.end(), layer);
 		if (it != Layers.end())
 		{
+			layer->OnDetach();
 			Layers.erase(it);
-			--LayerInsert;
+			--LayerInsertIndex;
 		}
 	}
 
@@ -37,6 +40,9 @@ namespace Coil
 	{
 		auto it = std::find(Layers.begin(), Layers.end(), overlay);
 		if (it != Layers.end())
+		{
+			overlay->OnDetach();
 			Layers.erase(it);
+		}
 	}
 }

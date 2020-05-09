@@ -21,6 +21,6 @@ namespace Coil
 
 	private:
 		std::vector<Layer*> Layers;
-		uint32 LayerInsert = 0;
+		uint32 LayerInsertIndex = 0;
 	};
 }
