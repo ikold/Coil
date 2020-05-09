@@ -21,10 +21,10 @@ namespace Coil
 		void Push(T* ptr) { Container.push_back(ptr); }
 		T* Pop() { Container.pop_back(); }
 
-		inline typename std::vector<T*>::iterator begin() { return Container.begin(); }
-		inline typename std::vector<T*>::iterator end() { return Container.end(); }
+		typename std::vector<T*>::iterator begin() { return Container.begin(); }
+		typename std::vector<T*>::iterator end() { return Container.end(); }
 
-		inline int32 size() { return (int32)Container.size(); }
+		int32 size() { return static_cast<int32>(Container.size()); }
 
 	private:
 		std::vector<T*> Container;

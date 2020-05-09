@@ -11,8 +11,8 @@ namespace Coil
 			: MouseX(x), MouseY(y)
 		{}
 
-		inline float32 GetX() const { return MouseX; }
-		inline float32 GetY() const { return MouseY; }
+		float32 GetX() const { return MouseX; }
+		float32 GetY() const { return MouseY; }
 
 		RString<String> ToString() const override
 		{
@@ -33,8 +33,8 @@ namespace Coil
 			: XOffset(x), YOffset(y)
 		{}
 
-		inline float32 GetXOffset() const { return XOffset; }
-		inline float32 GetYOffset() const { return YOffset; }
+		float32 GetXOffset() const { return XOffset; }
+		float32 GetYOffset() const { return YOffset; }
 
 		RString<String> ToString() const override
 		{
@@ -51,7 +51,7 @@ namespace Coil
 	class MouseButtonEvent : public Event
 	{
 	public:
-		inline int32 GetMouseButton() const { return Button; }
+		int32 GetMouseButton() const { return Button; }
 
 		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::MouseButton | EventCategory::Input);
 

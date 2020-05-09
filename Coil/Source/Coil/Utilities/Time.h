@@ -21,7 +21,7 @@ namespace Coil
 
 			@return Timestamp	Timestamp with current date
 		*/
-		inline static Timestamp Now() { return std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); }
+		static Timestamp Now() { return std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); }
 
 		/*!	Formats string from timestamp
 			@param[in]	timestamp	Timestamp to be parsed to string
@@ -40,13 +40,13 @@ namespace Coil
 
 			@return		float32	precalculated delta time in ms
 		*/
-		inline static float32 DeltaTime() { return DeltaTimeV; }
+		static float32 DeltaTime() { return DeltaTimeV; }
 
 		/*!	Get interface for fps
 
 			@return		float32	precalculated fps
 		*/
-		inline static float32 Fps() { return FpsV; }
+		static float32 Fps() { return FpsV; }
 
 	private:
 		static std::chrono::time_point<std::chrono::steady_clock> LastFrameTime;		/*!	Corresponds to the time point on the begging of last frame */

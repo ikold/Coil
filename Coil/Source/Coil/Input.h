@@ -10,14 +10,14 @@ namespace Coil
 	class Input
 	{
 	public:
-		static inline bool IsKeyPressed(int32 keycode) { return Instance->IsKeyPressedImpl(keycode); }
+		static bool IsKeyPressed(int32 keycode) { return Instance->IsKeyPressedImpl(keycode); }
 
-		static inline bool IsMouseButtonPressed(int32 button) { return Instance->IsMouseButtonPressedImpl(button); }
+		static bool IsMouseButtonPressed(int32 button) { return Instance->IsMouseButtonPressedImpl(button); }
 
-		static inline std::pair<float32, float32> GetMousePosition() { return Instance->GetMousePositionImpl(); }
+		static std::pair<float32, float32> GetMousePosition() { return Instance->GetMousePositionImpl(); }
 
-		static inline float32 GetMouseX() { return Instance->GetMouseXImpl(); }
-		static inline float32 GetMouseY() { return Instance->GetMouseYImpl(); }
+		static float32 GetMouseX() { return Instance->GetMouseXImpl(); }
+		static float32 GetMouseY() { return Instance->GetMouseYImpl(); }
 
 	protected:
 		virtual bool IsKeyPressedImpl(int32 keycode) = 0;

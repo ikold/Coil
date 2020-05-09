@@ -18,7 +18,7 @@ namespace Coil
 
 	void ImGuiWindow::OnImGuiRender() const
 	{
-		ImGui::SetNextWindowSize(ImVec2((float32)Width, (float32)Height), ImGuiCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float32>(Width), static_cast<float32>(Height)), ImGuiCond_FirstUseEver);
 		ImGui::Begin(Name->CString(), OpenFlag, Flags);
 		Draw();
 		ImGui::End();
@@ -26,7 +26,7 @@ namespace Coil
 
 	int32 ImGuiWindow::TextTopCulling() const
 	{
-		int32 skipedLines = (int32)(ImGui::GetScrollY() / fontHeight);
+		int32 skipedLines = static_cast<int32>(ImGui::GetScrollY() / fontHeight);
 
 		float32 topDummy = fontHeight * skipedLines - dummyDefaultOffset;
 
@@ -40,7 +40,7 @@ namespace Coil
 	{
 		float32 windowBottom = ImGui::GetScrollY() + ImGui::GetWindowSize().y;
 
-		float32 bottomDummy = fontHeight * (int32)(linesTotal + 1 - (windowBottom / fontHeight));
+		float32 bottomDummy = fontHeight * static_cast<int32>(linesTotal + 1 - (windowBottom / fontHeight));
 
 		if (bottomDummy > 0.f)
 			ImGui::Dummy(ImVec2(0.0f, bottomDummy - dummyDefaultOffset));
@@ -49,6 +49,6 @@ namespace Coil
 
 	int32 ImGuiWindow::WindowSizeInLines() const
 	{
-		return (int32)(ImGui::GetWindowSize().y / fontHeight);
+		return static_cast<int32>(ImGui::GetWindowSize().y / fontHeight);
 	}
 }

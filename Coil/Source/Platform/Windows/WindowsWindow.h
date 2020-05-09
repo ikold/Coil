@@ -15,15 +15,15 @@ namespace Coil
 
 		void OnUpdate() override;
 
-		inline uint32 GetWidth() const override { return Data.Width; }
-		inline uint32 GetHeight() const override { return Data.Height; }
+		uint32 GetWidth() const override { return Data.Width; }
+		uint32 GetHeight() const override { return Data.Height; }
 
-		inline void SetEventCallback(const EventCallbackFn& callback) override { Data.EventCallback = callback; }
+		void SetEventCallback(const EventCallbackFn& callback) override { Data.EventCallback = callback; }
 
 		void SetVSync(bool enable = true) override;
 		bool IsVSync() const override;
 
-		inline virtual void* GetNativeWindow() const override { return WindowInstance; };
+		void* GetNativeWindow() const override { return WindowInstance; };
 
 	private:
 		virtual void Init(const WindowProps& props);

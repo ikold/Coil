@@ -17,7 +17,7 @@ namespace Coil
 		virtual void OnEvent(Event& event) {}
 		virtual void OnImGuiRender() {}
 
-		inline RString<String> GetName() const { return DebugName; }
+		RString<String> GetName() const { return DebugName; }
 
 	protected:
 		RString<String> DebugName;

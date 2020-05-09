@@ -25,11 +25,11 @@ namespace Coil
 	public:
 		Log(RString<String> message, LogLevel level);
 
-		inline RString<String> GetMessage()	const { return Message; }
-		inline Timestamp GetDate()	const { return Date; }
-		inline LogLevel GetLevel()	const { return Level; }
+		RString<String> GetMessage()	const { return Message; }
+		Timestamp GetDate()	const { return Date; }
+		LogLevel GetLevel()	const { return Level; }
 
-		inline RString<String> GetHeader() const { return Header; }
+		RString<String> GetHeader() const { return Header; }
 
 	private:
 		const RString<String> Message;
@@ -81,15 +81,15 @@ namespace Coil
 			@todo parameters passing
 		*/
 		///@{
-		static inline Log* Fatal(RString<String> message) { return Create(message, LogLevel::fatal); }
-		static inline Log* Error(RString<String> message) { return Create(message, LogLevel::error); }
-		static inline Log* Warning(RString<String> message) { return Create(message, LogLevel::warning); }
-		static inline Log* Info(RString<String> message) { return Create(message, LogLevel::info); }
-		static inline Log* Debug(RString<String> message) { return Create(message, LogLevel::debug); }
-		static inline Log* Trace(RString<String> message) { return Create(message, LogLevel::trace); }
+		static Log* Fatal(RString<String> message) { return Create(message, LogLevel::fatal); }
+		static Log* Error(RString<String> message) { return Create(message, LogLevel::error); }
+		static Log* Warning(RString<String> message) { return Create(message, LogLevel::warning); }
+		static Log* Info(RString<String> message) { return Create(message, LogLevel::info); }
+		static Log* Debug(RString<String> message) { return Create(message, LogLevel::debug); }
+		static Log* Trace(RString<String> message) { return Create(message, LogLevel::trace); }
 		///@}
 
-		static inline PointerContainer<Log>* GetBuffer() { return &Buffer; }
+		static PointerContainer<Log>* GetBuffer() { return &Buffer; }
 
 	private:
 		/*!	Creates new Log and push it on Container

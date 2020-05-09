@@ -22,7 +22,7 @@ namespace Coil
 		
 		virtual void DrawIndex(const std::shared_ptr<VertexArray>& vertexArray) = 0;
 
-		inline static API GetAPI() { return sAPI; }
+		static API GetAPI() { return sAPI; }
 
 	private:
 		static API sAPI;

@@ -12,7 +12,7 @@ namespace Coil
 		ImGuiOverlay(RString<String> name, int32 width, int32 height);
 		~ImGuiOverlay();
 
-		inline void BindTextBuffer(RString<String> reference) { StringReference = reference; }
+		void BindTextBuffer(RString<String> reference) { StringReference = reference; }
 
 	protected:
 		void Draw() const override;

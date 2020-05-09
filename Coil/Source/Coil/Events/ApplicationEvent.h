@@ -11,8 +11,8 @@ namespace Coil
 			: Width(width), Height(height)
 		{}
 
-		inline uint32 GetWidth() const { return Width; }
-		inline uint32 GetHeight() const { return Height; }
+		uint32 GetWidth() const { return Width; }
+		uint32 GetHeight() const { return Height; }
 
 		RString<String> ToString() const override
 		{
@@ -60,8 +60,8 @@ namespace Coil
 			: PositionX(x), PositionY(y)
 		{}
 
-		inline int32 GetPositionX() const { return PositionX; }
-		inline int32 GetPositionY() const { return PositionY; }
+		int32 GetPositionX() const { return PositionX; }
+		int32 GetPositionY() const { return PositionY; }
 
 		RString<String> ToString() const override
 		{

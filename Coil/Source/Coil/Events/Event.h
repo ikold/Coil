@@ -44,12 +44,12 @@ namespace Coil
 		virtual int32 GetCategoryFlags() const = 0;
 		virtual RString<String> ToString() const { return GetName(); }
 
-		inline bool IsInCategory(EventCategory::Enum category) const
+		bool IsInCategory(EventCategory::Enum category) const
 		{
 			return GetCategoryFlags() & category;
 		}
 
-		inline bool IsHandled() { return Handled; }
+		bool IsHandled() { return Handled; }
 
 	protected:
 		bool Handled = false;
@@ -69,7 +69,7 @@ namespace Coil
 		{
 			if (EventToDispatch.GetType() == T::GetStaticType())
 			{
-				EventToDispatch.Handled = func(*(T*)&EventToDispatch);
+				EventToDispatch.Handled = func(*static_cast<T*>(&EventToDispatch));
 				return true;
 			}
 			return false;

@@ -43,11 +43,11 @@ namespace Coil
 		friend void swap(String& left, String& right) noexcept;
 
 
-		inline char8* CString() const { return Data; }
+		char8* CString() const { return Data; }
 
-		inline int32 GetLength() const { return Length; }
+		int32 GetLength() const { return Length; }
 
-		inline virtual int32 GetSize() const { return Length; }
+		virtual int32 GetSize() const { return Length; }
 
 
 		void Reverse();
@@ -111,23 +111,23 @@ namespace Coil
 		SString& operator<<(const char8* string);
 		SString& operator<<(const String& string);
 
-		SString& operator<<(int8 value) { return *this << String::Convert((int64)value); };
-		SString& operator<<(uint8 value) { return *this << String::Convert((int64)value); };
-		SString& operator<<(int16 value) { return *this << String::Convert((int64)value); };
-		SString& operator<<(uint16 value) { return *this << String::Convert((int64)value); };
-		SString& operator<<(int32 value) { return *this << String::Convert((int64)value); };
-		SString& operator<<(uint32 value) { return *this << String::Convert((int64)value); };
-		SString& operator<<(int64 value) { return *this << String::Convert((int64)value); };
+		SString& operator<<(int8 value) { return *this << Convert(static_cast<int64>(value)); };
+		SString& operator<<(uint8 value) { return *this << Convert(static_cast<int64>(value)); };
+		SString& operator<<(int16 value) { return *this << Convert(static_cast<int64>(value)); };
+		SString& operator<<(uint16 value) { return *this << Convert(static_cast<int64>(value)); };
+		SString& operator<<(int32 value) { return *this << Convert(static_cast<int64>(value)); };
+		SString& operator<<(uint32 value) { return *this << Convert(static_cast<int64>(value)); };
+		SString& operator<<(int64 value) { return *this << Convert(static_cast<int64>(value)); };
 
-		SString& operator<<(float32 value) { return *this << String::Convert(value, 3); };
-		SString& operator<<(float64 value) { return *this << String::Convert(value, 3); };
+		SString& operator<<(float32 value) { return *this << Convert(value, 3); };
+		SString& operator<<(float64 value) { return *this << Convert(value, 3); };
 
-		SString& operator<<(void* address) { return *this << String::Convert(address); };
+		SString& operator<<(void* address) { return *this << Convert(address); };
 
 
-		inline void SetFractionLength(int32 value) { FractionLength = value; }
+		void SetFractionLength(int32 value) { FractionLength = value; }
 
-		inline virtual int32 GetSize() const override { return Size; }
+		int32 GetSize() const override { return Size; }
 
 	private:
 		void Append(const char8* string, int32 size);
@@ -167,7 +167,7 @@ namespace Coil
 		friend void swap(PString& left, PString& right) noexcept;
 
 
-		inline virtual int32 GetSize() const override { return Size; }
+		int32 GetSize() const override { return Size; }
 
 
 		String ToString() const;
@@ -176,7 +176,7 @@ namespace Coil
 		static int32 TypeToSize(char8 type);
 
 
-		inline int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; };
+		int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; };
 
 		void Set(int32 insertIndex, char8* text);
 		void Set(int32 insertIndex, int32 value);
@@ -287,22 +287,22 @@ namespace Coil
 
 		TString* operator->() const { return Get(); }
 
-		inline TString& operator*() const { return *Get(); }
+		TString& operator*() const { return *Get(); }
 
 
 		template<class TCast>
-		operator RString<TCast>() const { return (RString<TCast>&) * this; }
+		operator RString<TCast>() const { return (RString<TCast>&)(*this); }
 
 
-		inline TString* Get() const { return static_cast<TString*>(StringPointer); }
+		TString* Get() const { return static_cast<TString*>(StringPointer); }
 
 
-		inline RString Copy() const
+		RString Copy() const
 		{
 			return RString(*Get());
 		}
 
-		static inline RString Copy(const RString& string)
+		static RString Copy(const RString& string)
 		{
 			return string.Copy();
 		}

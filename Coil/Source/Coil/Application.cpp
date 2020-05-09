@@ -196,8 +196,8 @@ namespace Coil
 			if (!Input::IsKeyPressed(CL_KEY_TAB))
 			{
 				auto [x, y] = Input::GetMousePosition();
-				mousePosition->Set(0, (int32)x);
-				mousePosition->Set(1, (int32)y);
+				mousePosition->Set(0, static_cast<int32>(x));
+				mousePosition->Set(1, static_cast<int32>(y));
 			}
 			else
 			{

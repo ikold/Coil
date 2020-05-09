@@ -11,11 +11,11 @@ namespace Coil
 		OpenGLVertexBuffer(float32* vertices, uint32 size);
 		virtual ~OpenGLVertexBuffer();
 
-		virtual void Bind() const override;
-		virtual void Unbind() const override;
+		void Bind() const override;
+		void Unbind() const override;
 
-		virtual void SetLayout(const BufferLayout& layout) override { Layout = layout; }
-		virtual const BufferLayout& GetLayout() const override { return Layout; }
+		void SetLayout(const BufferLayout& layout) override { Layout = layout; }
+		const BufferLayout& GetLayout() const override { return Layout; }
 
 	private:
 		uint32 RendererID;
@@ -29,10 +29,10 @@ namespace Coil
 		OpenGLIndexBuffer(uint32* indicies, uint32 count);
 		virtual ~OpenGLIndexBuffer();
 
-		virtual void Bind() const override;
-		virtual void Unbind() const override;
+		void Bind() const override;
+		void Unbind() const override;
 
-		virtual uint32 GetCount() const override { return Count; };
+		uint32 GetCount() const override { return Count; };
 
 	private:
 		uint32 RendererID;

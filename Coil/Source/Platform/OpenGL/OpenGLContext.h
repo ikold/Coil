@@ -14,8 +14,8 @@ namespace Coil
 		OpenGLContext(GLFWwindow* windowHandle);
 		~OpenGLContext();
 
-		virtual void Init() override;
-		virtual void SwapBuffers() override;
+		void Init() override;
+		void SwapBuffers() override;
 
 	private:
 		GLFWwindow* WindowHandle;

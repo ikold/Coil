@@ -3,5 +3,5 @@
 
 namespace Coil
 {
-	RendererAPI::API RendererAPI::sAPI = RendererAPI::API::OpenGL;
+	RendererAPI::API RendererAPI::sAPI = API::OpenGL;
 }

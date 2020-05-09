@@ -7,7 +7,7 @@ namespace Coil
 	class KeyEvent : public Event
 	{
 	public:
-		inline int32 GetKeyCode() const { return KeyCode; }
+		int32 GetKeyCode() const { return KeyCode; }
 
 		EVENT_CLASS_CATEGORY(EventCategory::Keyboard | EventCategory::Input);
 
@@ -26,7 +26,7 @@ namespace Coil
 			: KeyEvent(keyCode), RepeatCount(repeatCount)
 		{}
 
-		inline int32 GetRepeatCount() const { return RepeatCount; }
+		int32 GetRepeatCount() const { return RepeatCount; }
 
 		RString<String> ToString() const override
 		{

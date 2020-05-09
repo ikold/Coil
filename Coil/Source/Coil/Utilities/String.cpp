@@ -14,8 +14,8 @@ namespace Coil
 	String::String(const String& string)
 		: Length(string.Length)
 	{
-		Data = new char[(size_t)Length + 1];
-		memcpy(Data, string.Data, (size_t)Length + 1);
+		Data = new char[static_cast<size_t>(Length) + 1];
+		memcpy(Data, string.Data, static_cast<size_t>(Length) + 1);
 	}
 
 	String::String(String&& string) noexcept
@@ -27,15 +27,15 @@ namespace Coil
 	String::String(const char8* text)
 		: Length(CStringLength(text))
 	{
-		Data = new char[(size_t)Length + 1];
-		memcpy(Data, text, (size_t)Length + 1);
+		Data = new char[static_cast<size_t>(Length) + 1];
+		memcpy(Data, text, static_cast<size_t>(Length) + 1);
 	}
 
 	String::String(const char8* text, int32 length)
 		: Length(length)
 	{
-		Data = new char[(size_t)Length + 1];
-		memcpy(Data, text, (size_t)Length);
+		Data = new char[static_cast<size_t>(Length) + 1];
+		memcpy(Data, text, static_cast<size_t>(Length));
 		Data[Length] = '\0';
 	}
 
@@ -109,7 +109,7 @@ namespace Coil
 		reverseString.Reserve(20); // 20 - Maximum number of digits in 64 bit int
 
 		// using ~ bitwise operator for getting rid of negative sign
-		uint64 operationalValue = (value > 0) ? value : (1 + (uint64)~value);
+		uint64 operationalValue = (value > 0) ? value : (1 + static_cast<uint64>(~value));
 
 		do
 		{
@@ -182,7 +182,7 @@ namespace Coil
 
 	String String::Convert(float64 value, int32 fractionLength)
 	{
-		char* fString = d2fixed(value, (uint32)fractionLength);
+		char* fString = d2fixed(value, static_cast<uint32>(fractionLength));
 		String rString(fString);
 		delete[] fString;
 		return rString;
@@ -225,7 +225,7 @@ namespace Coil
 	}
 
 	SString::SString(SString&& string) noexcept
-		: String((String&&)string),
+		: String(static_cast<String&&>(string)),
 		Size(string.Size)
 	{}
 
@@ -270,14 +270,14 @@ namespace Coil
 	{
 		using std::swap;
 
-		swap((String&)left, (String&)right);
+		swap(static_cast<String&>(left), static_cast<String&>(right));
 		swap(left.Size, right.Size);
 	}
 
 	void SString::Reserve(int32 size)
 	{
 		Size = size;
-		char8* tmp = (char8*)realloc(Data, (size_t)Size + 1);
+		char8* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
@@ -289,7 +289,7 @@ namespace Coil
 		if (Length == Size)
 			return;
 
-		char8* tmp = (char8*)realloc(Data, (size_t)Length + 1);
+		char8* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Length) + 1));
 
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
@@ -315,17 +315,17 @@ namespace Coil
 	void SString::Append(const char8* string, int32 size)
 	{
 		if (Length + size <= Size)
-			memcpy(Data + Length, string, (size_t)size + 1);
+			memcpy(Data + Length, string, static_cast<size_t>(size) + 1);
 		else
 		{
 			Size = Length + size;
 
-			char8* tmp = (char8*)realloc(Data, (size_t)Size + 1);
+			char8* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 			CL_ASSERT(tmp, "Failed to reallocate memory");
 			if (tmp)
 				Data = tmp;
 
-			memcpy(Data + Length, string, (size_t)size + 1);
+			memcpy(Data + Length, string, static_cast<size_t>(size) + 1);
 		}
 		Length += size;
 	}
@@ -346,7 +346,7 @@ namespace Coil
 	}
 
 	PString::PString(PString&& string) noexcept
-		: String((String&&)string),
+		: String(static_cast<String&&>(string)),
 		Size(string.Size),
 		InsertIndex(std::move(string.InsertIndex)),
 		InsertType(std::move(string.InsertType)),
@@ -507,10 +507,10 @@ namespace Coil
 		/*----------------------------------------------------------*/
 
 		delete[] Data;
-		Data = new char8[(size_t)Size + 1];
+		Data = new char8[static_cast<size_t>(Size) + 1];
 
 		// Clearing memory with zero length space character
-		memset(Data, 127, (size_t)Size);
+		memset(Data, 127, static_cast<size_t>(Size));
 
 		// Adding escape character
 		Data[Size] = '\0';
@@ -527,7 +527,7 @@ namespace Coil
 		for (int32 i = 0; i < insertSymbolIndex.size(); ++i)
 		{
 			int copySize = *insertSymbolIndexItr - sourceOffset;
-			memcpy(Data + dataOffset, text + sourceOffset, (size_t)copySize);
+			memcpy(Data + dataOffset, text + sourceOffset, static_cast<size_t>(copySize));
 			sourceOffset = *insertSymbolIndexItr++ + *insertSymbolSizeItr++;
 
 			dataOffset += copySize;
@@ -538,7 +538,7 @@ namespace Coil
 			++insertReplaceItr;
 		}
 
-		memcpy(Data + dataOffset, text + sourceOffset, (size_t)srcSize - sourceOffset);
+		memcpy(Data + dataOffset, text + sourceOffset, static_cast<size_t>(srcSize) - sourceOffset);
 
 
 		for (int32 i = 0; i < InsertType.size(); ++i)
@@ -586,7 +586,7 @@ namespace Coil
 	{
 		using std::swap;
 
-		swap((String&)left, (String&)right);
+		swap(static_cast<String&>(left), static_cast<String&>(right));
 		swap(left.Size, right.Size);
 		swap(left.InsertIndex, right.InsertIndex);
 		swap(left.InsertType, right.InsertType);
@@ -597,7 +597,7 @@ namespace Coil
 	String PString::ToString() const
 	{
 		int length = GetLength();
-		char8* newData = new char[(int64)Length + 1];
+		char8* newData = new char[static_cast<int64>(Length) + 1];
 
 		char8* iteratorSrc = Data;
 		char8* iteratorDst = newData;
@@ -653,10 +653,10 @@ namespace Coil
 		char8* iterator = Data + InsertIndex[parameterIndex];
 		memset(iterator, 127, InsertSize[parameterIndex]);
 
-		iterator += (int64)InsertSize[parameterIndex] - 1;
+		iterator += static_cast<int64>(InsertSize[parameterIndex]) - 1;
 
 		// using ~ bitwise operator for getting rid of negative sign
-		uint64 operationalValue = (value > 0) ? value : (1 + (uint64)~value);
+		uint64 operationalValue = (value > 0) ? value : (1 + static_cast<uint64>(~value));
 
 		do
 		{
@@ -745,7 +745,7 @@ namespace Coil
 	void PString::Set(int32 parameterIndex, float64 value)
 	{
 		char8* index = Data + InsertIndex[parameterIndex];
-		memset(index, 127, (size_t)InsertSize[parameterIndex]);
+		memset(index, 127, static_cast<size_t>(InsertSize[parameterIndex]));
 
 		d2fixed_buffered_n(value, 3, index);
 

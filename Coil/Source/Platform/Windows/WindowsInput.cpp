@@ -33,7 +33,7 @@ namespace Coil
 		float64 xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);
 
-		return { (float32)xpos, (float32)ypos };
+		return { static_cast<float32>(xpos), static_cast<float32>(ypos) };
 	}
 
 	float32 WindowsInput::GetMouseXImpl()

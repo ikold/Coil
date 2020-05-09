@@ -28,9 +28,9 @@ namespace Coil
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
-		inline Window& GetWindow() { return *AppWindow; }
+		Window& GetWindow() { return *AppWindow; }
 
-		static inline Application& Get() { return *Instance; }
+		static Application& Get() { return *Instance; }
 	private:
 		bool Running;	/*!	Flag responsible of running of main loop */
 

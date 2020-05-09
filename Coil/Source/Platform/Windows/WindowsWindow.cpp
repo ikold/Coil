@@ -48,7 +48,7 @@ namespace Coil
 			GLFWInitializated = true;
 		}
 
-		WindowInstance = glfwCreateWindow((int32)Data.Width, (int32)Data.Height, Data.Name->CString(), nullptr, nullptr);
+		WindowInstance = glfwCreateWindow(static_cast<int32>(Data.Width), static_cast<int32>(Data.Height), Data.Name->CString(), nullptr, nullptr);
 
 
 		Context = new OpenGLContext(WindowInstance);
@@ -59,17 +59,17 @@ namespace Coil
 
 		glfwSetWindowSizeCallback(WindowInstance, [](GLFWwindow* window, int32 width, int32 height)
 		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			data.Width = (uint32)width;
-			data.Height = (uint32)height;
+			data.Width = static_cast<uint32>(width);
+			data.Height = static_cast<uint32>(height);
 
-			WindowResizeEvent event((uint32)width, (uint32)height);
+			WindowResizeEvent event(static_cast<uint32>(width), static_cast<uint32>(height));
 			data.EventCallback(event);
 		});
 		glfwSetWindowCloseCallback(WindowInstance, [](GLFWwindow* window)
 		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 			WindowCloseEvent event;
 			data.EventCallback(event);
 		});
@@ -78,7 +78,7 @@ namespace Coil
 
 		glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int32 key, int32 scancode, int32 action, int32 mods)
 		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
 			switch (action)
 			{
@@ -105,7 +105,7 @@ namespace Coil
 
 		glfwSetCharCallback(WindowInstance, [](GLFWwindow* window, uint32 keycode)
 		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
 			KeyTypedEvent event(keycode);
 			data.EventCallback(event);
@@ -113,7 +113,7 @@ namespace Coil
 
 		glfwSetMouseButtonCallback(WindowInstance, [](GLFWwindow* window, int32 button, int32 action, int32 mods)
 		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
 			switch (action)
 			{
@@ -134,17 +134,17 @@ namespace Coil
 
 		glfwSetScrollCallback(WindowInstance, [](GLFWwindow* window, float64 xOffset, float64 yOffset)
 		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			MouseScrolledEvent event((float32)xOffset, (float32)yOffset);
+			MouseScrolledEvent event(static_cast<float32>(xOffset), static_cast<float32>(yOffset));
 			data.EventCallback(event);
 		});
 
 		glfwSetCursorPosCallback(WindowInstance, [](GLFWwindow* window, float64 xPos, float64 yPos)
 		{
-			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			MouseMovedEvent event((float32)xPos, (float32)yPos);
+			MouseMovedEvent event(static_cast<float32>(xPos), static_cast<float32>(yPos));
 			data.EventCallback(event);
 		});
 	}
@@ -162,7 +162,7 @@ namespace Coil
 
 	void WindowsWindow::SetVSync(bool enable)
 	{
-		glfwSwapInterval((int32)enable);
+		glfwSwapInterval(static_cast<int32>(enable));
 
 		Data.VSync = enable;
 	}

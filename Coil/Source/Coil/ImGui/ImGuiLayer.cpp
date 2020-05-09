@@ -76,7 +76,7 @@ namespace Coil
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 
-		io.DisplaySize = ImVec2((float32)app.GetWindow().GetWidth(), (float32)app.GetWindow().GetHeight());
+		io.DisplaySize = ImVec2(static_cast<float32>(app.GetWindow().GetWidth()), static_cast<float32>(app.GetWindow().GetHeight()));
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

@@ -12,10 +12,10 @@ namespace Coil
 		OpenGLRendererAPI();
 		~OpenGLRendererAPI();
 
-		virtual void SetClearColor(const glm::vec4& color) override;
-		virtual void Clear() override;
+		void SetClearColor(const glm::vec4& color) override;
+		void Clear() override;
 
-		virtual void DrawIndex(const std::shared_ptr<VertexArray>& vertexArray) override;
+		void DrawIndex(const std::shared_ptr<VertexArray>& vertexArray) override;
 	};
 
 }

@@ -17,7 +17,7 @@ namespace Coil
 
 		void Draw() const override;
 
-		inline void BindBuffer(PointerContainer<Log>* buffer) { Buffer = buffer; }
+		void BindBuffer(PointerContainer<Log>* buffer) { Buffer = buffer; }
 
 	private:
 		PointerContainer<Log>* Buffer;

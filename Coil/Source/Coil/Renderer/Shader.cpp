@@ -12,7 +12,7 @@ namespace Coil
 
 		// Send the vertex shader source code to GL
 		const GLchar* source = vertexSource->CString();
-		glShaderSource(vertexShader, 1, &source, 0);
+		glShaderSource(vertexShader, 1, &source, nullptr);
 
 		// Compile the vertex shader
 		glCompileShader(vertexShader);
@@ -41,7 +41,7 @@ namespace Coil
 
 		// Send the fragment shader source code to GL
 		source = fragmentSource->CString();
-		glShaderSource(fragmentShader, 1, &source, 0);
+		glShaderSource(fragmentShader, 1, &source, nullptr);
 
 		// Compile the fragment shader
 		glCompileShader(fragmentShader);
@@ -80,7 +80,7 @@ namespace Coil
 
 		// Note the different functions here: glGetProgram* instead of glGetShader*.
 		GLint isLinked = 0;
-		glGetProgramiv(RendererID, GL_LINK_STATUS, (int*)&isLinked);
+		glGetProgramiv(RendererID, GL_LINK_STATUS, static_cast<int*>(&isLinked));
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
