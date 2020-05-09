@@ -120,12 +120,10 @@ namespace Coil
 	void Application::PushLayer(Layer* layer)
 	{
 		AppLayerStack.PushLayer(layer);
-		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
 		AppLayerStack.PushOverlay(overlay);
-		overlay->OnAttach();
 	}
 }
