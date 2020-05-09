@@ -358,6 +358,7 @@ namespace Coil
 		std::vector<Ambiguous> parameters;
 		std::vector<int32> insertSymbolSize;
 		std::vector<int32> insertSymbolIndex;
+		std::vector<int32> insertReplace;
 
 		va_list args;
 		va_start(args, text);
@@ -368,8 +369,25 @@ namespace Coil
 
 		int32 srcSize = 0;
 
+		int32 settingIndex = -1;
+
 		for (int32 i = 0; text[i] != '\0'; ++i)
 		{
+			if (text[i] == 127)
+			{
+				insertSymbolIndex.push_back(++i);
+				insertSymbolSize.push_back(1);
+				insertReplace.push_back(-1);
+				++srcSize;
+				while (text[i] == 127)
+				{
+					--insertIndexOffset;
+					++insertSymbolSize.back();
+					++i;
+					++srcSize;
+				}
+			}
+
 			++srcSize;
 
 			if (!insert)
@@ -382,6 +400,7 @@ namespace Coil
 					{
 						insertSymbolIndex.push_back(++i);
 						insertSymbolSize.push_back(1);
+						insertReplace.push_back(-1);
 						--insertIndexOffset;
 						++srcSize;
 						break;
@@ -399,6 +418,11 @@ namespace Coil
 			}
 			else
 			{
+				if (settingIndex != -1 && text[i] != '}')
+				{
+					++insertSymbolSize.back();
+					continue;
+				}
 				switch (text[i])
 				{
 				case '0':
@@ -414,6 +438,17 @@ namespace Coil
 					InsertSize.back() = InsertSize.back() * 10 + text[i] - '0';
 					++insertSymbolSize.back();
 					continue;
+
+				case '{':
+					++insertSymbolSize.back();
+					settingIndex = i;
+					continue;
+				case '}':
+					++insertSymbolSize.back();
+					// TO-DO pass settings and context
+					settingIndex = -1;
+					continue;
+
 				case 's':
 					InsertType.push_back(text[i]);
 					parameters.back().Char8Ptr = va_arg(args, char8*);
@@ -428,7 +463,7 @@ namespace Coil
 					InsertType.push_back(text[i]);
 					parameters.back().Float64 = va_arg(args, float64);
 					break;
-				case 'S':
+				case 'S':                                          \
 					InsertType.push_back(text[i]);
 					parameters.back().Char8Ptr = va_arg(args, char8*);
 					InsertSize.back() += va_arg(args, int32);
@@ -451,8 +486,11 @@ namespace Coil
 				if (InsertSize.back() == 0)
 					InsertSize.back() = TypeToSize(InsertType.back());
 
+				insertReplace.push_back(InsertIndex.size() - 1);
+
 				insertIndexOffset += InsertSize.back() - insertSymbolSize.back();
 				insert = false;
+				settingIndex = -1;
 			}
 		}
 
@@ -480,6 +518,7 @@ namespace Coil
 
 		auto insertSymbolIndexItr = insertSymbolIndex.begin();
 		auto insertSymbolSizeItr = insertSymbolSize.begin();
+		auto insertReplaceItr = insertReplace.begin();
 		auto insertSizeItr = InsertSize.begin();
 
 		int32 dataOffset = 0;
@@ -489,9 +528,14 @@ namespace Coil
 		{
 			int copySize = *insertSymbolIndexItr - sourceOffset;
 			memcpy(Data + dataOffset, text + sourceOffset, (size_t)copySize);
-			sourceOffset = *insertSymbolIndexItr++ + *insertSymbolSizeItr;
+			sourceOffset = *insertSymbolIndexItr++ + *insertSymbolSizeItr++;
 
-			dataOffset += copySize + (*insertSymbolSizeItr++ == 1 ? 0 : *insertSizeItr++);
+			dataOffset += copySize;
+
+			if (*insertReplaceItr != -1)
+				dataOffset += InsertSize[*insertReplaceItr];
+
+			++insertReplaceItr;
 		}
 
 		memcpy(Data + dataOffset, text + sourceOffset, (size_t)srcSize - sourceOffset);

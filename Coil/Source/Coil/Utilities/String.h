@@ -47,6 +47,8 @@ namespace Coil
 
 		inline int32 GetLength() const { return Length; }
 
+		inline virtual int32 GetSize() const { return Length; }
+
 
 		void Reverse();
 
@@ -125,6 +127,8 @@ namespace Coil
 
 		inline void SetFractionLength(int32 value) { FractionLength = value; }
 
+		inline virtual int32 GetSize() const override { return Size; }
+
 	private:
 		void Append(const char8* string, int32 size);
 
@@ -161,6 +165,10 @@ namespace Coil
 
 
 		friend void swap(PString& left, PString& right) noexcept;
+
+
+		inline virtual int32 GetSize() const override { return Size; }
+
 
 		String ToString() const;
 
