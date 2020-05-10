@@ -17,6 +17,8 @@
 
 #include "Coil/Utilities/File.h"
 
+#include "Coil/Renderer/OrthographicCamera.h"
+
 namespace Coil
 {
 	Application* Application::Instance = nullptr;
@@ -69,8 +71,8 @@ namespace Coil
 			vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
 			vertexBuffer->SetLayout({
-				{ ShaderDataType::Float3,	"position" },
-				{ ShaderDataType::Float4,	"color" }
+				{ ShaderDataType::Float3, "position" },
+				{ ShaderDataType::Float4, "color" }
 			});
 
 			vertexArray->AddVertexBuffer(vertexBuffer);
@@ -98,7 +100,7 @@ namespace Coil
 			vertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
 			vertexBuffer->SetLayout({
-				{ ShaderDataType::Float3,	"position" }
+				{ ShaderDataType::Float3, "position" }
 			});
 
 			squareVertexArray->AddVertexBuffer(vertexBuffer);
@@ -111,33 +113,33 @@ namespace Coil
 			squareVertexArray->SetIndexBuffer(indexBuffer);
 		}
 
-		const Shader vertexColorShader(
+		const std::shared_ptr<Shader> vertexColorShader = std::make_shared<Shader>(
 			File::Load("Resources/Shaders/VertexColor.vert"),
 			File::Load("Resources/Shaders/VertexColor.frag")
 		);
 
-		const Shader rainbowShader(
+		const std::shared_ptr<Shader> rainbowShader = std::make_shared<Shader>(
 			File::Load("Resources/Shaders/Rainbow.vert"),
 			File::Load("Resources/Shaders/Rainbow.frag")
 		);
 
+		OrthographicCamera camera(-1.f, 1.f, -1.f, 1.f);
+
+		camera.SetRotation(45.f);
+		
 		while (Running)
 		{
 			// computing of frame time
 			Time::Tick();
 
-			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
-			RenderCommand::Clear();
-
 			{
-				Renderer::BeginScene();
+				RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
+				RenderCommand::Clear();
 
-				rainbowShader.Bind();
-				Renderer::Submit(squareVertexArray);
+				Renderer::BeginScene(camera);
 
-
-				vertexColorShader.Bind();
-				Renderer::Submit(vertexArray);
+				Renderer::Submit(rainbowShader, squareVertexArray);
+				Renderer::Submit(vertexColorShader, vertexArray);
 
 				Renderer::EndScene();
 			}
@@ -147,6 +149,12 @@ namespace Coil
 				auto [x, y] = Input::GetMousePosition();
 				mousePosition->Set(0, static_cast<int32>(x));
 				mousePosition->Set(1, static_cast<int32>(y));
+
+				camera.SetPosition({
+					x / AppWindow->GetWidth() * -2 + 1,
+					y / AppWindow->GetHeight() * 2 - 1,
+					0.f
+				});
 			}
 			else
 			{

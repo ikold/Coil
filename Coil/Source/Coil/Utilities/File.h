@@ -2,6 +2,7 @@
 
 #include "Coil/Core.h"
 
+
 namespace Coil
 {
 	class File
@@ -11,6 +12,4 @@ namespace Coil
 
 		static RString<String> Load(RString<String> filePath);
 	};
-
 }
-

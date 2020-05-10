@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 
 namespace Coil
 {
@@ -12,6 +13,7 @@ namespace Coil
 		void Bind() const;
 		void Unbind() const;
 
+		void UploadUniformMat4(const RString<String> name, const glm::mat4& matrix) const;
 	private:
 		uint32 RendererID;
 	};
