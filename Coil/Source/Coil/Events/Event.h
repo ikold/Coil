@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include <functional>
 
 namespace Coil
@@ -39,17 +37,18 @@ namespace Coil
 		friend class EventDispatcher;
 
 	public:
-		virtual EventType GetType() const = 0;
-		virtual RString<String> GetName() const = 0;
-		virtual int32 GetCategoryFlags() const = 0;
-		virtual RString<String> ToString() const { return GetName(); }
+		virtual ~Event() = default;
+		[[nodiscard]] virtual EventType GetType() const = 0;
+		[[nodiscard]] virtual RString<String> GetName() const = 0;
+		[[nodiscard]] virtual int32 GetCategoryFlags() const = 0;
+		[[nodiscard]] virtual RString<String> ToString() const { return GetName(); }
 
-		bool IsInCategory(EventCategory::Enum category) const
+		[[nodiscard]] bool IsInCategory(EventCategory::Enum category) const
 		{
 			return GetCategoryFlags() & category;
 		}
 
-		bool IsHandled() { return Handled; }
+		[[nodiscard]] bool IsHandled() const { return Handled; }
 
 	protected:
 		bool Handled = false;

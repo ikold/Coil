@@ -1,15 +1,11 @@
 #include "Coil.h"
 
-class App : public cl::Application
+class App final : public cl::Application
 {
 public:
-	App()
-	{
-	}
+	App() = default;
 
-	~App()
-	{
-	}
+	~App() = default;
 };
 
 BindApplication(App)

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include "Coil/Layers/LayerStack.h"
 #include "Coil/Window.h"
 
@@ -13,7 +11,7 @@ namespace Coil
 	{
 	public:
 		Application();
-		virtual ~Application() {};
+		virtual ~Application() = default;
 
 		/*!	Main loop of the application
 		*/
@@ -28,7 +26,7 @@ namespace Coil
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
 
-		Window& GetWindow() { return *AppWindow; }
+		[[nodiscard]] Window& GetWindow() const { return *AppWindow; }
 
 		static Application& Get() { return *Instance; }
 	private:
@@ -45,13 +43,13 @@ namespace Coil
 	/*!	Method for creating new application
 		Should be defined by BindApplication(app)
 	*/
-	Application* CreatApplication();
+	Application* CreateApplication();
 }
 
 
-/*!	Creates declaration of Coil::CreatApplication()
+/*!	Creates declaration of Coil::CreateApplication()
 	Use to bind client application with the engine
 
-	@param app	child class of Coil::Aplication
+	@param app	child class of Coil::Application
 */
-#define BindApplication(app) Coil::Application* Coil::CreatApplication() { return new app; }
+#define BindApplication(app) Coil::Application* Coil::CreateApplication() { return new (app); }

@@ -1,13 +1,11 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include <ctime>
 #include <chrono>
 
 namespace Coil
 {
-#define Timestamp ::std::time_t
+	typedef std::time_t Timestamp;
 
 	/*!
 		Static class responsible for all time operations
@@ -15,7 +13,8 @@ namespace Coil
 	class Time
 	{
 	private:
-		Time() {};
+		Time() = default;
+		
 	public:
 		/*!	Method for getting current timestamp
 
@@ -26,7 +25,7 @@ namespace Coil
 		/*!	Formats string from timestamp
 			@param[in]	timestamp	Timestamp to be parsed to string
 
-			@return		RString	Formated string
+			@return		RString	Formatted string
 		 */
 		static RString<String> TimestampToString(const Timestamp& timestamp);
 
@@ -53,6 +52,6 @@ namespace Coil
 		static std::chrono::time_point<std::chrono::steady_clock> CurrentFrameTime;		/*!	Corresponds to the time point on the begging of current frame */
 
 		static float32 DeltaTimeV;	/*!	Precalculated time in ms between frames */
-		static float32 FpsV;			/*!	For benchmarking purpose */
+		static float32 FpsV;		/*!	For benchmarking purpose */
 	};
 }

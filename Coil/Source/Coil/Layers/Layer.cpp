@@ -1,12 +1,11 @@
 #include "pch.h"
 #include "Layer.h"
 
+#include <utility>
+
 namespace Coil
 {
 	Layer::Layer(RString<String> name)
-		: DebugName(name)
-	{}
-
-	Layer::~Layer()
+		: DebugName(std::move(name))
 	{}
 }

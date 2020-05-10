@@ -1,19 +1,17 @@
 ﻿#include "pch.h"
 #include "ImGuiOverlay.h"
 
-#include "examples/imgui_impl_opengl3.h"
-#include "examples/imgui_impl_glfw.h"
+#include <utility>
+
+#include "imgui.h"
 
 namespace Coil
 {
 	ImGuiOverlay::ImGuiOverlay(RString<String> name, int32 width, int32 height)
-		: ImGuiWindow(name, width, height)
+		: ImGuiWindow(std::move(name), width, height)
 	{
 		Flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
 	}
-
-	ImGuiOverlay::~ImGuiOverlay()
-	{}
 
 	void ImGuiOverlay::Draw() const
 	{

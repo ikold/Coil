@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Coil/Core.h"
+#include <utility>
+
 
 #include "Coil/Utilities/PointerCointainer.h"
 
@@ -25,11 +26,11 @@ namespace Coil
 	public:
 		Log(RString<String> message, LogLevel level);
 
-		RString<String> GetMessage()	const { return Message; }
-		Timestamp GetDate()	const { return Date; }
-		LogLevel GetLevel()	const { return Level; }
+		[[nodiscard]] RString<String> GetMessage()	const { return Message; }
+		[[nodiscard]] Timestamp GetDate()	const { return Date; }
+		[[nodiscard]] LogLevel GetLevel()	const { return Level; }
 
-		RString<String> GetHeader() const { return Header; }
+		[[nodiscard]] RString<String> GetHeader() const { return Header; }
 
 	private:
 		const RString<String> Message;
@@ -39,7 +40,7 @@ namespace Coil
 		const RString<String> Header;
 	};
 
-	/*!	Class responsible for log formating
+	/*!	Class responsible for log formatting
 
 		@todo pattern system
 	*/
@@ -50,7 +51,7 @@ namespace Coil
 
 			@param[in]	level		Coil::LogLevel object to be parsed
 
-			@return		RString	LogLevel formated in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
+			@return		RString	LogLevel formatted in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
 		*/
 		static RString<String> Level(LogLevel level);
 
@@ -67,12 +68,11 @@ namespace Coil
 	*/
 	class Logger
 	{
-	private:
-		Logger();
 	public:
+		Logger() = delete;
 
 		/*!	@defgroup	Logging methods
-			@brief		Methods pass parameters to Container.Create(message, level) to creat and store new Log
+			@brief		Methods pass parameters to Container.Create(message, level) to create and store new Log
 
 			@param[in]	message
 
@@ -81,12 +81,12 @@ namespace Coil
 			@todo parameters passing
 		*/
 		///@{
-		static Log* Fatal(RString<String> message) { return Create(message, LogLevel::fatal); }
-		static Log* Error(RString<String> message) { return Create(message, LogLevel::error); }
-		static Log* Warning(RString<String> message) { return Create(message, LogLevel::warning); }
-		static Log* Info(RString<String> message) { return Create(message, LogLevel::info); }
-		static Log* Debug(RString<String> message) { return Create(message, LogLevel::debug); }
-		static Log* Trace(RString<String> message) { return Create(message, LogLevel::trace); }
+		static Log* Fatal(RString<String> message) { return Create(std::move(message), LogLevel::fatal); }
+		static Log* Error(RString<String> message) { return Create(std::move(message), LogLevel::error); }
+		static Log* Warning(RString<String> message) { return Create(std::move(message), LogLevel::warning); }
+		static Log* Info(RString<String> message) { return Create(std::move(message), LogLevel::info); }
+		static Log* Debug(RString<String> message) { return Create(std::move(message), LogLevel::debug); }
+		static Log* Trace(RString<String> message) { return Create(std::move(message), LogLevel::trace); }
 		///@}
 
 		static PointerContainer<Log>* GetBuffer() { return &Buffer; }

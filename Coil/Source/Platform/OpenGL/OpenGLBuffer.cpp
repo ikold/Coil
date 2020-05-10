@@ -29,12 +29,12 @@ namespace Coil
 
 
 
-	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32* indicies, uint32 count)
+	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32* indices, uint32 count)
 		: Count(count)
 	{
 		glCreateBuffers(1, &RendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, RendererID);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32), indicies, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32), indices, GL_STATIC_DRAW);
 	}
 
 	OpenGLIndexBuffer::~OpenGLIndexBuffer()

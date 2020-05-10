@@ -12,13 +12,10 @@ namespace Coil
 		CL_CORE_ASSERT(windowHandle, "Window handle is null!")
 	}
 
-	OpenGLContext::~OpenGLContext()
-	{}
-
 	void OpenGLContext::Init()
 	{
 		glfwMakeContextCurrent(WindowHandle);
-		int32 status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		const int32 status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 		CL_CORE_ASSERT(status, "GLAD initialization failed!");
 	}
 

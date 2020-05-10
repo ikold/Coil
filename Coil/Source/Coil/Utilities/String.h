@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
 
 namespace Coil
 {
@@ -43,14 +42,14 @@ namespace Coil
 		friend void swap(String& left, String& right) noexcept;
 
 
-		char8* CString() const { return Data; }
+		[[nodiscard]] char8* CString() const { return Data; }
 
-		int32 GetLength() const { return Length; }
+		[[nodiscard]] int32 GetLength() const { return Length; }
 
-		virtual int32 GetSize() const { return Length; }
+		[[nodiscard]] virtual int32 GetSize() const { return Length; }
 
 
-		void Reverse();
+		void Reverse() const;
 
 
 		static String Convert(float64 value, int32 fractionLength);
@@ -68,7 +67,7 @@ namespace Coil
 	};
 
 
-	class SString : public String
+	class SString final : public String
 	{
 	public:
 		/** Default Constructor */
@@ -90,7 +89,7 @@ namespace Coil
 
 
 		/** Destructor */
-		~SString();
+		~SString() = default;
 
 
 		/** Copy assignment operator */
@@ -111,23 +110,23 @@ namespace Coil
 		SString& operator<<(const char8* string);
 		SString& operator<<(const String& string);
 
-		SString& operator<<(int8 value) { return *this << Convert(static_cast<int64>(value)); };
-		SString& operator<<(uint8 value) { return *this << Convert(static_cast<int64>(value)); };
-		SString& operator<<(int16 value) { return *this << Convert(static_cast<int64>(value)); };
-		SString& operator<<(uint16 value) { return *this << Convert(static_cast<int64>(value)); };
-		SString& operator<<(int32 value) { return *this << Convert(static_cast<int64>(value)); };
-		SString& operator<<(uint32 value) { return *this << Convert(static_cast<int64>(value)); };
-		SString& operator<<(int64 value) { return *this << Convert(static_cast<int64>(value)); };
+		SString& operator<<(int8 value) { return *this << Convert(static_cast<int64>(value)); }
+		SString& operator<<(uint8 value) { return *this << Convert(static_cast<int64>(value)); }
+		SString& operator<<(int16 value) { return *this << Convert(static_cast<int64>(value)); }
+		SString& operator<<(uint16 value) { return *this << Convert(static_cast<int64>(value)); }
+		SString& operator<<(int32 value) { return *this << Convert(static_cast<int64>(value)); }
+		SString& operator<<(uint32 value) { return *this << Convert(static_cast<int64>(value)); }
+		SString& operator<<(int64 value) { return *this << Convert(static_cast<int64>(value)); }
 
-		SString& operator<<(float32 value) { return *this << Convert(value, 3); };
-		SString& operator<<(float64 value) { return *this << Convert(value, 3); };
+		SString& operator<<(float32 value) { return *this << Convert(value, 3); }
+		SString& operator<<(float64 value) { return *this << Convert(value, 3); }
 
-		SString& operator<<(void* address) { return *this << Convert(address); };
+		SString& operator<<(void* address) { return *this << Convert(address); }
 
 
 		void SetFractionLength(int32 value) { FractionLength = value; }
 
-		int32 GetSize() const override { return Size; }
+		[[nodiscard]] int32 GetSize() const override { return Size; }
 
 	private:
 		void Append(const char8* string, int32 size);
@@ -138,7 +137,7 @@ namespace Coil
 	};
 
 
-	class PString : public String
+	class PString final : public String
 	{
 	public:
 		/** Default Constructor */
@@ -150,11 +149,11 @@ namespace Coil
 		/** Move Constructor */
 		PString(PString&& string) noexcept;
 
-		PString(char8* text...);
+		PString(const char8* text...);
 
 
 		/** Destructor */
-		~PString();
+		~PString() = default;
 
 
 		/** Copy assignment operator */
@@ -167,21 +166,21 @@ namespace Coil
 		friend void swap(PString& left, PString& right) noexcept;
 
 
-		int32 GetSize() const override { return Size; }
+		[[nodiscard]] int32 GetSize() const override { return Size; }
 
 
-		String ToString() const;
+		[[nodiscard]] String ToString() const;
 
 
 		static int32 TypeToSize(char8 type);
 
 
-		int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; };
+		[[nodiscard]] int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; }
 
-		void Set(int32 insertIndex, char8* text);
-		void Set(int32 insertIndex, int32 value);
-		void Set(int32 insertIndex, int32 value, int32 base);
-		void Set(int32 insertIndex, float64 value);
+		void Set(int32 parameterIndex, char8* text);
+		void Set(int32 parameterIndex, int32 value);
+		void Set(int32 parameterIndex, int32 value, int32 base);
+		void Set(int32 parameterIndex, float64 value);
 
 	private:
 		void RecalculateLength();
@@ -240,7 +239,7 @@ namespace Coil
 		/** Destructor */
 		~RString()
 		{
-			DerefencString();
+			DereferenceString();
 		}
 
 
@@ -294,10 +293,10 @@ namespace Coil
 		operator RString<TCast>() const { return (RString<TCast>&)(*this); }
 
 
-		TString* Get() const { return static_cast<TString*>(StringPointer); }
+		[[nodiscard]] TString* Get() const { return static_cast<TString*>(StringPointer); }
 
 
-		RString Copy() const
+		[[nodiscard]] RString Copy() const
 		{
 			return RString(*Get());
 		}
@@ -308,7 +307,7 @@ namespace Coil
 		}
 
 	protected:
-		void DerefencString()
+		void DereferenceString() const
 		{
 			if (Counter && --(*Counter) == 0)
 			{

@@ -1,16 +1,14 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include "Coil/Renderer/RendererAPI.h"
 
 namespace Coil
 {
-	class OpenGLRendererAPI : public RendererAPI
+	class OpenGLRendererAPI final : public RendererAPI
 	{
 	public:
-		OpenGLRendererAPI();
-		~OpenGLRendererAPI();
+		OpenGLRendererAPI() = default;
+		~OpenGLRendererAPI() = default;
 
 		void SetClearColor(const glm::vec4& color) override;
 		void Clear() override;

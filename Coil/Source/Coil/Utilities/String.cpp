@@ -2,7 +2,7 @@
 #include "String.h"
 
 #include "ryu/ryu.h"
-#include <stdarg.h>
+#include <cstdarg>
 
 namespace Coil
 {
@@ -87,14 +87,13 @@ namespace Coil
 	}
 
 
-	void String::Reverse()
+	void String::Reverse() const
 	{
-		char* forwardIterator = Data;
-		char* backwardIterator = Data + Length - 1;
-		char tmp;
+		char8* forwardIterator = Data;
+		char8* backwardIterator = Data + Length - 1;
 		while (forwardIterator < backwardIterator)
 		{
-			tmp = *forwardIterator;
+			const char8 tmp = *forwardIterator;
 			*forwardIterator = *backwardIterator;
 			*backwardIterator = tmp;
 			++forwardIterator;
@@ -163,6 +162,7 @@ namespace Coil
 			case 15:
 				reverseString << "F";
 				break;
+			default: ;
 			}
 
 			operationalValue /= base;
@@ -182,7 +182,7 @@ namespace Coil
 
 	String String::Convert(float64 value, int32 fractionLength)
 	{
-		char* fString = d2fixed(value, static_cast<uint32>(fractionLength));
+		char8* fString = d2fixed(value, static_cast<uint32>(fractionLength));
 		String rString(fString);
 		delete[] fString;
 		return rString;
@@ -190,16 +190,16 @@ namespace Coil
 
 	String String::Convert(void* address)
 	{
-		String addressString = Convert((int64)address, 16);
+		const String addressString = Convert(int64(address), 16);
 
-		SString formatedAddress;
-		formatedAddress.Reserve(18);
-		formatedAddress << "0x";
+		SString formattedAddress;
+		formattedAddress.Reserve(18);
+		formattedAddress << "0x";
 
-		for (int i = 16 - addressString.GetLength(); i > 0; --i)
-			formatedAddress << "0";
+		for (int32 i = 16 - addressString.GetLength(); i > 0; --i)
+			formattedAddress << "0";
 
-		return formatedAddress << addressString;
+		return formattedAddress << addressString;
 	}
 
 
@@ -250,10 +250,6 @@ namespace Coil
 	{}
 
 
-	SString::~SString()
-	{}
-
-
 	SString& SString::operator=(const SString& string)
 	{
 		return *this = SString(string);
@@ -277,7 +273,7 @@ namespace Coil
 	void SString::Reserve(int32 size)
 	{
 		Size = size;
-		char8* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
+		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
@@ -289,7 +285,7 @@ namespace Coil
 		if (Length == Size)
 			return;
 
-		char8* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Length) + 1));
+		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Length) + 1));
 
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
@@ -320,7 +316,7 @@ namespace Coil
 		{
 			Size = Length + size;
 
-			char8* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
+			auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 			CL_ASSERT(tmp, "Failed to reallocate memory");
 			if (tmp)
 				Data = tmp;
@@ -353,7 +349,7 @@ namespace Coil
 		InsertSize(std::move(string.InsertSize))
 	{}
 
-	PString::PString(char8* text ...)
+	PString::PString(const char8* text ...)
 	{
 		std::vector<Ambiguous> parameters;
 		std::vector<int32> insertSymbolSize;
@@ -414,6 +410,7 @@ namespace Coil
 					parameters.push_back({});
 					insert = true;
 					break;
+				default: ;
 				}
 			}
 			else
@@ -480,6 +477,8 @@ namespace Coil
 					parameters.back().Float64 = va_arg(args, float64);
 					InsertSize.back() += va_arg(args, int32);
 					break;
+				default:
+					CL_CORE_ASSERT(false, "Invalid PString format");
 				}
 
 				// if current insert size is 0, assigns default size
@@ -524,7 +523,7 @@ namespace Coil
 		int32 dataOffset = 0;
 		int32 sourceOffset = 0;
 
-		for (int32 i = 0; i < insertSymbolIndex.size(); ++i)
+		for (uint32 i = 0; i < insertSymbolIndex.size(); ++i)
 		{
 			int copySize = *insertSymbolIndexItr - sourceOffset;
 			memcpy(Data + dataOffset, text + sourceOffset, static_cast<size_t>(copySize));
@@ -541,7 +540,7 @@ namespace Coil
 		memcpy(Data + dataOffset, text + sourceOffset, static_cast<size_t>(srcSize) - sourceOffset);
 
 
-		for (int32 i = 0; i < InsertType.size(); ++i)
+		for (uint32 i = 0; i < InsertType.size(); ++i)
 		{
 			switch (InsertType[i])
 			{
@@ -561,13 +560,10 @@ namespace Coil
 			case 'F':
 				Set(i, parameters[i].Float64);
 				break;
+			default: ;
 			}
 		}
 	}
-
-
-	PString::~PString()
-	{}
 
 
 	PString& PString::operator=(const PString& string)
@@ -596,8 +592,8 @@ namespace Coil
 
 	String PString::ToString() const
 	{
-		int length = GetLength();
-		char8* newData = new char[static_cast<int64>(Length) + 1];
+		const int32 length = GetLength();
+		auto* newData = new char8[static_cast<int64>(Length) + 1];
 
 		char8* iteratorSrc = Data;
 		char8* iteratorDst = newData;
@@ -639,7 +635,7 @@ namespace Coil
 
 	void PString::Set(int32 parameterIndex, char8* text)
 	{
-		int32 size = CStringLength(text);
+		const int32 size = CStringLength(text);
 
 		char8* index = Data + InsertIndex[parameterIndex];
 		memset(index, 127, InsertSize[parameterIndex]);
@@ -710,6 +706,7 @@ namespace Coil
 			case 15:
 				*iterator-- = 'F';
 				break;
+			default: ;
 			}
 
 			operationalValue /= base;
@@ -739,6 +736,7 @@ namespace Coil
 		case 'X':
 			Set(parameterIndex, value, 16);
 			break;
+		default: ;
 		}
 	}
 
@@ -761,6 +759,6 @@ namespace Coil
 		{
 			if (*iterator == 127)
 				--Length;
-		} while ((*iterator++));
+		} while (*iterator++);
 	}
 }

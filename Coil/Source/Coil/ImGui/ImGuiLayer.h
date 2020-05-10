@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include "Coil/Layers/Layer.h"
 
 namespace Coil
@@ -10,7 +8,7 @@ namespace Coil
 	{
 	public:
 		ImGuiLayer();
-		~ImGuiLayer();
+		~ImGuiLayer() = default;
 
 		void OnAttach() override;
 		void OnDetach() override;

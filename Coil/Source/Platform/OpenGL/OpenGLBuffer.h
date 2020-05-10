@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
 #include "Coil/Renderer/Buffer.h"
 
 namespace Coil
@@ -15,10 +14,10 @@ namespace Coil
 		void Unbind() const override;
 
 		void SetLayout(const BufferLayout& layout) override { Layout = layout; }
-		const BufferLayout& GetLayout() const override { return Layout; }
+		[[nodiscard]] const BufferLayout& GetLayout() const override { return Layout; }
 
 	private:
-		uint32 RendererID;
+		uint32 RendererID{};
 		BufferLayout Layout;
 	};
 
@@ -26,16 +25,16 @@ namespace Coil
 	class OpenGLIndexBuffer : public IndexBuffer
 	{
 	public:
-		OpenGLIndexBuffer(uint32* indicies, uint32 count);
+		OpenGLIndexBuffer(uint32* indices, uint32 count);
 		virtual ~OpenGLIndexBuffer();
 
 		void Bind() const override;
 		void Unbind() const override;
 
-		uint32 GetCount() const override { return Count; };
+		[[nodiscard]] uint32 GetCount() const override { return Count; }
 
 	private:
-		uint32 RendererID;
+		uint32 RendererID{};
 		uint32 Count;
 	};
 }

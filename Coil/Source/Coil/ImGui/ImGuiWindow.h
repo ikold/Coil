@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
 
 namespace Coil
 {
@@ -9,14 +8,14 @@ namespace Coil
 	public:
 		ImGuiWindow(RString<String> name, int32 width, int32 height);
 
-		virtual ~ImGuiWindow();
+		virtual ~ImGuiWindow() = default;
 
 		void OnImGuiRender() const;
 
 	protected:
-		int32 TextTopCulling() const;
-		int32 TextBottomCulling(int32 linesTotal) const;
-		int32 WindowSizeInLines() const;
+		[[nodiscard]] int32 TextTopCulling() const;
+		void TextBottomCulling(int32 linesTotal) const;
+		[[nodiscard]] int32 WindowSizeInLines() const;
 
 		virtual void Draw() const = 0;
 
@@ -29,7 +28,7 @@ namespace Coil
 		int32 Width;
 		int32 Height;
 
-		float32 fontHeight = 17.f;
-		float32 dummyDefaultOffset = 4.f;
+		float32 FontHeight = 17.f;
+		float32 DummyDefaultOffset = 4.f;
 	};
 }

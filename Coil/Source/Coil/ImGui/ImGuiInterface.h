@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include "ImGuiWindow.h"
 #include "Coil/Utilities/PointerCointainer.h"
 
@@ -12,7 +10,7 @@ namespace Coil
 	public:
 		template<typename T>
 		static typename std::enable_if<std::is_base_of<ImGuiWindow, T>::value, T&>::type
-			Creat(RString<String> name = "", int32 width = 512, int32 height = 256)
+			Create(RString<String> name = "", int32 width = 512, int32 height = 256)
 		{
 			T* window = new T(name, width, height);
 			Container.Push(window);
@@ -21,7 +19,7 @@ namespace Coil
 
 		static void OnImGuiRender()
 		{
-			for (auto window : Container)
+			for (auto* window : Container)
 				window->OnImGuiRender();
 		}
 

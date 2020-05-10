@@ -16,9 +16,6 @@ namespace Coil
 		: Layer("ImGuiLayer")
 	{}
 
-	ImGuiLayer::~ImGuiLayer()
-	{}
-
 	void ImGuiLayer::OnAttach()
 	{
 		IMGUI_CHECKVERSION();
@@ -45,7 +42,7 @@ namespace Coil
 		}
 
 		Application& app = Application::Get();
-		GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
+		auto* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
@@ -83,10 +80,10 @@ namespace Coil
 
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			GLFWwindow* backupt_current_context = glfwGetCurrentContext();
+			GLFWwindow* backup_Current_Context = glfwGetCurrentContext();
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault();
-			glfwMakeContextCurrent(backupt_current_context);
+			glfwMakeContextCurrent(backup_Current_Context);
 		}
 	}
 }

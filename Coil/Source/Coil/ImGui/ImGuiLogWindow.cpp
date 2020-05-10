@@ -1,23 +1,21 @@
 #include "pch.h"
 #include "ImGuiLogWindow.h"
 
-#include "examples/imgui_impl_opengl3.h"
-#include "examples/imgui_impl_glfw.h"
+#include "imgui.h"
 
 namespace Coil
 {
-	ImGuiLogWindow::~ImGuiLogWindow()
-	{}
+	ImGuiLogWindow::~ImGuiLogWindow() = default;
 
 	void ImGuiLogWindow::Draw() const
 	{
-		int32 skipedLines = TextTopCulling();
-		int32 linesToDraw = WindowSizeInLines();
+		int32 skippedLines = TextTopCulling();
+		const int32 linesToDraw = WindowSizeInLines();
 
-		if (Buffer->size() < skipedLines)
-			skipedLines = Buffer->size();
+		if (Buffer->size() < skippedLines)
+			skippedLines = Buffer->size();
 
-		auto it = Buffer->begin() + skipedLines;
+		auto it = Buffer->begin() + skippedLines;
 		auto end = Buffer->end();
 
 		if (end - it > linesToDraw)
@@ -29,7 +27,7 @@ namespace Coil
 			switch ((*it)->GetLevel())
 			{
 			case LogLevel::fatal:
-				color = ImVec4(0.9f, 0.1f, 0.1f, 1.f);
+				color = ImVec4(0.95f, 0.1f, 0.1f, 1.f);
 				break;
 			case LogLevel::error:
 				color = ImVec4(0.9f, 0.1f, 0.1f, 1.f);
@@ -44,7 +42,7 @@ namespace Coil
 				color = ImVec4(0.3f, 1.f, 0.3f, 1.f);
 				break;
 			case LogLevel::trace:
-				color = ImVec4(1.f, 1.f, 1.f, 1.f);
+				color = ImVec4(.9f, .9f, .9f, 1.f);
 				break;
 			default:
 				color = ImVec4(1.f, 1.f, 1.f, 1.f);
@@ -58,9 +56,8 @@ namespace Coil
 			ImGui::PopStyleColor();
 		}
 
-		int tmp = WindowSizeInLines();
 
-		for (int i = 0; i < WindowSizeInLines(); ++i)
+		for (int32 i = 0; i < WindowSizeInLines(); ++i)
 			ImGui::TextUnformatted("");
 
 		TextBottomCulling(Buffer->size());

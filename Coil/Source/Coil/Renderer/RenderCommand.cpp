@@ -5,5 +5,5 @@
 
 namespace Coil
 {
-	RendererAPI* RenderCommand::sRenererAPI = new OpenGLRendererAPI();
+	RendererAPI* RenderCommand::sRendererAPI = new OpenGLRendererAPI();
 }

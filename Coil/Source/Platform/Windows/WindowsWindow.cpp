@@ -5,9 +5,9 @@
 
 namespace Coil
 {
-	static bool GLFWInitializated = false;
+	static bool GLFWInitialized = false;
 
-	static void GLFWErrorCallback(int32 error, const char* description)
+	static void GLFWErrorCallback([[maybe_unused]] int32 error, const char* description)
 	{
 		Logger::Error(description);
 	}
@@ -19,12 +19,12 @@ namespace Coil
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		Init(props);
+		WindowsWindow::Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
-		Shutdown();
+		WindowsWindow::Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
@@ -37,15 +37,15 @@ namespace Coil
 
 		Logger::Info("Creating window");
 
-		if (!GLFWInitializated)
+		if (!GLFWInitialized)
 		{
-			int32 success = glfwInit();
+			const int32 success = glfwInit();
 
 			CL_CORE_ASSERT(success, "GLFW initialization failed!");
 
 			glfwSetErrorCallback(GLFWErrorCallback);
 
-			GLFWInitializated = true;
+			GLFWInitialized = true;
 		}
 
 		WindowInstance = glfwCreateWindow(static_cast<int32>(Data.Width), static_cast<int32>(Data.Height), Data.Name->CString(), nullptr, nullptr);
@@ -74,9 +74,9 @@ namespace Coil
 			data.EventCallback(event);
 		});
 
-		static int32 KeyRepeatCounter = 0;
+		static int32 keyRepeatCounter = 0;
 
-		glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int32 key, int32 scancode, int32 action, int32 mods)
+		glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int32 key, [[maybe_unused]] int32 scancode, int32 action, [[maybe_unused]] int32 mods)
 		{
 			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
@@ -84,7 +84,7 @@ namespace Coil
 			{
 			case GLFW_PRESS:
 			{
-				KeyPressedEvent event(key, KeyRepeatCounter = 0);
+				KeyPressedEvent event(key, keyRepeatCounter = 0);
 				data.EventCallback(event);
 				break;
 			}
@@ -96,7 +96,7 @@ namespace Coil
 			}
 			case GLFW_REPEAT:
 			{
-				KeyPressedEvent event(key, ++KeyRepeatCounter);
+				KeyPressedEvent event(key, ++keyRepeatCounter);
 				data.EventCallback(event);
 				break;
 			}
@@ -111,7 +111,7 @@ namespace Coil
 			data.EventCallback(event);
 		});
 
-		glfwSetMouseButtonCallback(WindowInstance, [](GLFWwindow* window, int32 button, int32 action, int32 mods)
+		glfwSetMouseButtonCallback(WindowInstance, [](GLFWwindow* window, int32 button, int32 action, [[maybe_unused]] int32 mods)
 		{
 			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 

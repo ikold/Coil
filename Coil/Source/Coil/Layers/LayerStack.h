@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
 #include "Layer.h"
 
 namespace Coil

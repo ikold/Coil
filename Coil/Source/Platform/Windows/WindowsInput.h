@@ -1,12 +1,10 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include "Coil/Input.h"
 
 namespace Coil
 {
-	class WindowsInput : public Input
+	class WindowsInput final : public Input
 	{
 	protected:
 		bool IsKeyPressedImpl(int32 keycode) override;

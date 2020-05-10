@@ -1,12 +1,14 @@
 #include "pch.h"
 #include "Logger.h"
 
+#include <utility>
+
 namespace Coil
 {
 	PointerContainer<Log> Logger::Buffer;
 
 	Log::Log(RString<String> message, LogLevel level)
-		: Message(message),
+		: Message(std::move(message)),
 		Date(Time::Now()),
 		Level(level),
 		Header(PString("[%20s][%8s]",
@@ -47,7 +49,7 @@ namespace Coil
 
 	Log* Logger::Create(RString<String> message, LogLevel level)
 	{
-		Log* log = new Log(message, level);
+		Log* log = new Log(std::move(message), level);
 		Buffer.Push(log);
 		return log;
 	}

@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
-#include <vector>
 
 namespace Coil
 {
@@ -19,7 +17,7 @@ namespace Coil
 		}
 
 		void Push(T* ptr) { Container.push_back(ptr); }
-		T* Pop() { Container.pop_back(); }
+		T* Pop() { return Container.pop_back(); }
 
 		typename std::vector<T*>::iterator begin() { return Container.begin(); }
 		typename std::vector<T*>::iterator end() { return Container.end(); }

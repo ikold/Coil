@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
 #include "Coil/Renderer/GraphicsContext.h"
 
 
@@ -12,7 +11,7 @@ namespace Coil
 	{
 	public:
 		OpenGLContext(GLFWwindow* windowHandle);
-		~OpenGLContext();
+		~OpenGLContext() = default;
 
 		void Init() override;
 		void SwapBuffers() override;

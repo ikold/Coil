@@ -382,3 +382,4 @@ imgui.ini
 # Copies of Resources
 Application/Resources
 
+*.DotSettings

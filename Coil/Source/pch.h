@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Coil/Core.h"
+
 #include <vector>
 
 #include <memory>

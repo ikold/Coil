@@ -3,12 +3,11 @@
 
 namespace Coil
 {
-	LayerStack::LayerStack()
-	{}
+	LayerStack::LayerStack() = default;
 
 	LayerStack::~LayerStack()
 	{
-		for (Layer* layer : Layers)
+		for (auto* layer : Layers)
 			delete layer;
 	}
 
@@ -27,7 +26,7 @@ namespace Coil
 
 	void LayerStack::PopLayer(Layer* layer)
 	{
-		auto it = std::find(Layers.begin(), Layers.end(), layer);
+		const auto it = std::find(Layers.begin(), Layers.end(), layer);
 		if (it != Layers.end())
 		{
 			Layers.erase(it);
@@ -37,7 +36,7 @@ namespace Coil
 
 	void LayerStack::PopOverlay(Layer* overlay)
 	{
-		auto it = std::find(Layers.begin(), Layers.end(), overlay);
+		const auto it = std::find(Layers.begin(), Layers.end(), overlay);
 		if (it != Layers.end())
 			Layers.erase(it);
 	}

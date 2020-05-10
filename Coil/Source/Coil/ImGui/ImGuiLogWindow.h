@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Coil/Core.h"
+
+#include <utility>
+
 
 #include "ImGuiWindow.h"
 
@@ -10,7 +12,7 @@ namespace Coil
 	{
 	public:
 		ImGuiLogWindow(RString<String> name, int32 width, int32 height)
-			: ImGuiWindow(name, width, height), Buffer(nullptr)
+			: ImGuiWindow(std::move(name), width, height), Buffer(nullptr)
 		{}
 
 		~ImGuiLogWindow();

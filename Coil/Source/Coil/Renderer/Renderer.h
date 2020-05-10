@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include "RenderCommand.h"
 
 namespace Coil

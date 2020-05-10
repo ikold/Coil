@@ -7,7 +7,6 @@
 
 #include "Coil/ImGui/ImGuiLayer.h"
 
-#include <glad/glad.h>
 #include "Coil/Input.h"
 
 #include "Coil/Renderer/Shader.h"
@@ -31,7 +30,7 @@ namespace Coil
 
 		AppWindow->SetVSync(true);
 
-		ImGuiInterface::Creat<ImGuiLogWindow>("Log").BindBuffer(Logger::GetBuffer());
+		ImGuiInterface::Create<ImGuiLogWindow>("Log").BindBuffer(Logger::GetBuffer());
 		PushOverlay(new ImGuiLayer());
 	}
 
@@ -42,7 +41,7 @@ namespace Coil
 		Logger::Info("Running Application");
 
 		RString frameTime = PString("%8f ms", 0.);
-		ImGuiInterface::Creat<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
+		ImGuiInterface::Create<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
 		RString mousePosition = PString("x: %6d y: %6d", 0, 0);
 		Logger::Trace(mousePosition);
@@ -109,7 +108,7 @@ namespace Coil
 			squareVertexArray->SetIndexBuffer(indexBuffer);
 		}
 
-		Shader vertexColorShader(
+		const Shader vertexColorShader(
 			//vertex source
 			R"(
 			#version 330 core
@@ -143,7 +142,7 @@ namespace Coil
 			}
 		)");
 
-		Shader rainbowShader(
+		const Shader rainbowShader(
 			//vertex source
 			R"(
 			#version 330 core
@@ -210,8 +209,8 @@ namespace Coil
 			{
 				counter = 0;
 				float32 sum = 0.f;
-				for (int32 i = 0; i < 60; ++i)
-					sum += frameTimeArray[i];
+				for (auto i : frameTimeArray)
+					sum += i;
 
 				frameTime->Set(0, sum / 60);
 			}
@@ -222,13 +221,13 @@ namespace Coil
 
 	void Application::Update()
 	{
-		for (auto layer : AppLayerStack)
+		for (auto* layer : AppLayerStack)
 			layer->OnUpdate();
 
 		ImGuiLayer::Begin();
 		ImGuiInterface::OnImGuiRender();
 
-		for (Layer* layer : AppLayerStack)
+		for (auto* layer : AppLayerStack)
 			layer->OnImGuiRender();
 		ImGuiLayer::End();
 
@@ -243,13 +242,13 @@ namespace Coil
 
 		for (auto it = AppLayerStack.end(); it != AppLayerStack.begin();)
 		{
-			(*--it)->OnEvent(event);
+			(*(--it))->OnEvent(event);
 			if (event.IsHandled())
 				break;
 		}
 	}
 
-	bool Application::OnWindowClosed(WindowCloseEvent& event)
+	bool Application::OnWindowClosed([[maybe_unused]] WindowCloseEvent& event)
 	{
 		Logger::Info("Closing Application");
 		Running = false;

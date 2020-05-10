@@ -5,13 +5,6 @@
 
 namespace Coil
 {
-	OpenGLRendererAPI::OpenGLRendererAPI()
-	{
-	}
-
-	OpenGLRendererAPI::~OpenGLRendererAPI()
-	{
-	}
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4 & color)
 	{
 		glClearColor(color.r, color.g, color.b, color.a);

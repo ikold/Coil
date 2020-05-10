@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
 #include "Coil/Events/Event.h"
 
 namespace Coil
@@ -9,7 +8,7 @@ namespace Coil
 	{
 	public:
 		Layer(RString<String> name = "Layer");
-		virtual ~Layer();
+		virtual ~Layer() = default;
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
@@ -17,7 +16,7 @@ namespace Coil
 		virtual void OnEvent(Event& event) {}
 		virtual void OnImGuiRender() {}
 
-		RString<String> GetName() const { return DebugName; }
+		[[nodiscard]] RString<String> GetName() const { return DebugName; }
 
 	protected:
 		RString<String> DebugName;

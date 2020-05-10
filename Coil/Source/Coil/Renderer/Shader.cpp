@@ -8,7 +8,7 @@ namespace Coil
 	Shader::Shader(RString<String> vertexSource, RString<String> fragmentSource)
 	{
 		// Create an empty vertex shader handle
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		const GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 		// Send the vertex shader source code to GL
 		const GLchar* source = vertexSource->CString();
@@ -37,7 +37,7 @@ namespace Coil
 		}
 
 		// Create an empty fragment shader handle
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+		const GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
 
 		// Send the fragment shader source code to GL
 		source = fragmentSource->CString();

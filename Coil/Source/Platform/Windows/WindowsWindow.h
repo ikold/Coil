@@ -15,29 +15,29 @@ namespace Coil
 
 		void OnUpdate() override;
 
-		uint32 GetWidth() const override { return Data.Width; }
-		uint32 GetHeight() const override { return Data.Height; }
+		[[nodiscard]] uint32 GetWidth() const override { return Data.Width; }
+		[[nodiscard]] uint32 GetHeight() const override { return Data.Height; }
 
 		void SetEventCallback(const EventCallbackFn& callback) override { Data.EventCallback = callback; }
 
 		void SetVSync(bool enable = true) override;
-		bool IsVSync() const override;
+		[[nodiscard]] bool IsVSync() const override;
 
-		void* GetNativeWindow() const override { return WindowInstance; };
+		[[nodiscard]] void* GetNativeWindow() const override { return WindowInstance; }
 
 	private:
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
 
 	private:
-		GLFWwindow* WindowInstance;
-		GraphicsContext* Context;
+		GLFWwindow* WindowInstance{};
+		GraphicsContext* Context{};
 
 		struct WindowData
 		{
 			RString<String> Name;
-			uint32 Width, Height;
-			bool VSync;
+			uint32 Width{}, Height{};
+			bool VSync{};
 
 			EventCallbackFn EventCallback;
 		};

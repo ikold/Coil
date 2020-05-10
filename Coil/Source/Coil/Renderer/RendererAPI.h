@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 #include "VertexArray.h"
 #include <glm/glm.hpp>
 
@@ -10,6 +8,8 @@ namespace Coil
 	class RendererAPI
 	{
 	public:
+		virtual ~RendererAPI() = default;
+
 		enum class API
 		{
 			None = 0,

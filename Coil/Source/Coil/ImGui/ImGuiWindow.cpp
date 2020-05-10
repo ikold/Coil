@@ -1,20 +1,18 @@
 #include "pch.h"
 #include "ImGuiWindow.h"
 
-#include "examples/imgui_impl_opengl3.h"
-#include "examples/imgui_impl_glfw.h"
+#include <utility>
+
+#include "imgui.h"
 
 namespace Coil
 {
 	ImGuiWindow::ImGuiWindow(RString<String> name, int32 width, int32 height)
-		: Name(name), Width(width), Height(height)
+		: Name(std::move(name)), Width(width), Height(height)
 	{
 		OpenFlag = nullptr;
 		Flags = 0;
 	}
-
-	ImGuiWindow::~ImGuiWindow()
-	{}
 
 	void ImGuiWindow::OnImGuiRender() const
 	{
@@ -26,29 +24,28 @@ namespace Coil
 
 	int32 ImGuiWindow::TextTopCulling() const
 	{
-		int32 skipedLines = static_cast<int32>(ImGui::GetScrollY() / fontHeight);
+		const auto skippedLines = static_cast<int32>(ImGui::GetScrollY() / FontHeight);
 
-		float32 topDummy = fontHeight * skipedLines - dummyDefaultOffset;
+		const float32 topDummy = FontHeight * skippedLines - DummyDefaultOffset;
 
 		if (topDummy > 0.f)
 			ImGui::Dummy(ImVec2(0.0f, topDummy));
 
-		return skipedLines;
+		return skippedLines;
 	}
 
-	int32 ImGuiWindow::TextBottomCulling(int32 linesTotal) const
+	void ImGuiWindow::TextBottomCulling(int32 linesTotal) const
 	{
-		float32 windowBottom = ImGui::GetScrollY() + ImGui::GetWindowSize().y;
+		const float32 windowBottom = ImGui::GetScrollY() + ImGui::GetWindowSize().y;
 
-		float32 bottomDummy = fontHeight * static_cast<int32>(linesTotal + 1 - (windowBottom / fontHeight));
+		const float32 bottomDummy = FontHeight * (linesTotal + 1.f - windowBottom / FontHeight);
 
 		if (bottomDummy > 0.f)
-			ImGui::Dummy(ImVec2(0.0f, bottomDummy - dummyDefaultOffset));
-		return 0;
+			ImGui::Dummy(ImVec2(0.0f, bottomDummy - DummyDefaultOffset));
 	}
 
 	int32 ImGuiWindow::WindowSizeInLines() const
 	{
-		return static_cast<int32>(ImGui::GetWindowSize().y / fontHeight);
+		return static_cast<int32>(ImGui::GetWindowSize().y / FontHeight);
 	}
 }
