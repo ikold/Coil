@@ -7,8 +7,7 @@ namespace Coil
 	class PointerContainer
 	{
 	public:
-		PointerContainer()
-		{}
+		PointerContainer() = default;
 
 		~PointerContainer()
 		{

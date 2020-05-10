@@ -3,6 +3,7 @@
 
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
 
+
 namespace Coil
 {
 	RendererAPI* RenderCommand::sRendererAPI = new OpenGLRendererAPI();

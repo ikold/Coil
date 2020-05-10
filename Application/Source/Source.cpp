@@ -1,5 +1,6 @@
 #include "Coil.h"
 
+
 class App final : public cl::Application
 {
 public:
@@ -7,5 +8,6 @@ public:
 
 	~App() = default;
 };
+
 
 BindApplication(App)

@@ -5,6 +5,7 @@
 #include "Coil/Renderer/GraphicsContext.h"
 #include <GLFW/glfw3.h>
 
+
 namespace Coil
 {
 	class WindowsWindow : public Window
@@ -33,6 +34,7 @@ namespace Coil
 		GLFWwindow* WindowInstance{};
 		GraphicsContext* Context{};
 
+
 		struct WindowData
 		{
 			RString<String> Name;
@@ -41,6 +43,7 @@ namespace Coil
 
 			EventCallbackFn EventCallback;
 		};
+
 
 		WindowData Data;
 	};

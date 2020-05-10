@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
+
 namespace Coil
 {
 	VertexArray* VertexArray::Create()

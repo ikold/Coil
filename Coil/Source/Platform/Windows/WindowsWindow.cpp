@@ -3,6 +3,7 @@
 
 #include "Platform/OpenGL/OpenGLContext.h"
 
+
 namespace Coil
 {
 	static bool GLFWInitialized = false;
@@ -29,8 +30,8 @@ namespace Coil
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
-		Data.Name = props.Name;
-		Data.Width = props.Width;
+		Data.Name   = props.Name;
+		Data.Width  = props.Width;
 		Data.Height = props.Height;
 
 		Data.VSync = true;
@@ -61,7 +62,7 @@ namespace Coil
 		{
 			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			data.Width = static_cast<uint32>(width);
+			data.Width  = static_cast<uint32>(width);
 			data.Height = static_cast<uint32>(height);
 
 			WindowResizeEvent event(static_cast<uint32>(width), static_cast<uint32>(height));

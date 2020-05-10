@@ -4,11 +4,12 @@
 #include "ryu/ryu.h"
 #include <cstdarg>
 
+
 namespace Coil
 {
 	String::String()
 		: Data(nullptr),
-		Length(0)
+		  Length(0)
 	{}
 
 	String::String(const String& string)
@@ -20,7 +21,7 @@ namespace Coil
 
 	String::String(String&& string) noexcept
 		: Data(std::exchange(string.Data, nullptr)),
-		Length(string.Length)
+		  Length(string.Length)
 	{}
 
 
@@ -41,12 +42,12 @@ namespace Coil
 
 	String::String(char8** charPtr)
 		: Data(*charPtr),
-		Length(CStringLength(*charPtr))
+		  Length(CStringLength(*charPtr))
 	{}
 
 	String::String(char8** charPtr, int32 length)
 		: Data(*charPtr),
-		Length(length)
+		  Length(length)
 	{}
 
 
@@ -72,7 +73,7 @@ namespace Coil
 		return *this = String(string);
 	}
 
-	String & String::operator=(char8** charPtr)
+	String& String::operator=(char8** charPtr)
 	{
 		return *this = String(charPtr);
 	}
@@ -89,12 +90,12 @@ namespace Coil
 
 	void String::Reverse() const
 	{
-		char8* forwardIterator = Data;
+		char8* forwardIterator  = Data;
 		char8* backwardIterator = Data + Length - 1;
 		while (forwardIterator < backwardIterator)
 		{
-			const char8 tmp = *forwardIterator;
-			*forwardIterator = *backwardIterator;
+			const char8 tmp   = *forwardIterator;
+			*forwardIterator  = *backwardIterator;
 			*backwardIterator = tmp;
 			++forwardIterator;
 			--backwardIterator;
@@ -170,9 +171,7 @@ namespace Coil
 
 		// Adding '-' if needed, at end of string before reversing
 		if (value < 0)
-		{
 			reverseString << "-";
-		}
 
 		reverseString.Shrink();
 
@@ -219,34 +218,34 @@ namespace Coil
 
 	SString::SString(const SString& string)
 		: String(string.Data, string.Size),
-		Size(string.Size)
+		  Size(string.Size)
 	{
 		Length = string.Length;
 	}
 
 	SString::SString(SString&& string) noexcept
 		: String(static_cast<String&&>(string)),
-		Size(string.Size)
+		  Size(string.Size)
 	{}
 
 	SString::SString(const char8* text)
 		: String(text),
-		Size(Length)
+		  Size(Length)
 	{}
 
 	SString::SString(const char8* text, int32 length)
 		: String(text, length),
-		Size(Length)
+		  Size(Length)
 	{}
 
 	SString::SString(char8** charPtr)
 		: String(charPtr),
-		Size(Length)
+		  Size(Length)
 	{}
 
 	SString::SString(char8** charPtr, int32 length)
 		: String(charPtr, length),
-		Size(Length)
+		  Size(Length)
 	{}
 
 
@@ -272,7 +271,7 @@ namespace Coil
 
 	void SString::Reserve(int32 size)
 	{
-		Size = size;
+		Size      = size;
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 
 		CL_ASSERT(tmp, "Failed to reallocate memory");
@@ -333,20 +332,20 @@ namespace Coil
 
 	PString::PString(const PString& string)
 		: String(string.Data, string.Size),
-		Size(string.Size),
-		InsertIndex(string.InsertIndex),
-		InsertType(string.InsertType),
-		InsertSize(string.InsertSize)
+		  Size(string.Size),
+		  InsertIndex(string.InsertIndex),
+		  InsertType(string.InsertType),
+		  InsertSize(string.InsertSize)
 	{
 		Length = string.Length;
 	}
 
 	PString::PString(PString&& string) noexcept
 		: String(static_cast<String&&>(string)),
-		Size(string.Size),
-		InsertIndex(std::move(string.InsertIndex)),
-		InsertType(std::move(string.InsertType)),
-		InsertSize(std::move(string.InsertSize))
+		  Size(string.Size),
+		  InsertIndex(std::move(string.InsertIndex)),
+		  InsertType(std::move(string.InsertType)),
+		  InsertSize(std::move(string.InsertSize))
 	{}
 
 	PString::PString(const char8* text ...)
@@ -488,7 +487,7 @@ namespace Coil
 				insertReplace.push_back(InsertIndex.size() - 1);
 
 				insertIndexOffset += InsertSize.back() - insertSymbolSize.back();
-				insert = false;
+				insert       = false;
 				settingIndex = -1;
 			}
 		}
@@ -516,16 +515,15 @@ namespace Coil
 
 
 		auto insertSymbolIndexItr = insertSymbolIndex.begin();
-		auto insertSymbolSizeItr = insertSymbolSize.begin();
-		auto insertReplaceItr = insertReplace.begin();
-		auto insertSizeItr = InsertSize.begin();
-
-		int32 dataOffset = 0;
+		auto insertSymbolSizeItr  = insertSymbolSize.begin();
+		auto insertReplaceItr     = insertReplace.begin();
+		
+		int32 dataOffset   = 0;
 		int32 sourceOffset = 0;
 
 		for (uint32 i = 0; i < insertSymbolIndex.size(); ++i)
 		{
-			int copySize = *insertSymbolIndexItr - sourceOffset;
+			const int copySize = *insertSymbolIndexItr - sourceOffset;
 			memcpy(Data + dataOffset, text + sourceOffset, static_cast<size_t>(copySize));
 			sourceOffset = *insertSymbolIndexItr++ + *insertSymbolSizeItr++;
 
@@ -593,7 +591,7 @@ namespace Coil
 	String PString::ToString() const
 	{
 		const int32 length = GetLength();
-		auto* newData = new char8[static_cast<int64>(Length) + 1];
+		auto* newData      = new char8[static_cast<int64>(Length) + 1];
 
 		char8* iteratorSrc = Data;
 		char8* iteratorDst = newData;
@@ -753,7 +751,7 @@ namespace Coil
 
 	void PString::RecalculateLength()
 	{
-		Length = Size;
+		Length          = Size;
 		char8* iterator = Data;
 		do
 		{

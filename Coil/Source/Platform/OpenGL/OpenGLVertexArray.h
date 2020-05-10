@@ -2,6 +2,7 @@
 
 #include "Coil/Renderer/VertexArray.h"
 
+
 namespace Coil
 {
 	class OpenGLVertexArray : public VertexArray

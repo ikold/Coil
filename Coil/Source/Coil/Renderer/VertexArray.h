@@ -2,6 +2,7 @@
 
 #include "Coil/Renderer/Buffer.h"
 
+
 namespace Coil
 {
 	class VertexArray

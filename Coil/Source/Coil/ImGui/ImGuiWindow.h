@@ -28,7 +28,7 @@ namespace Coil
 		int32 Width;
 		int32 Height;
 
-		float32 FontHeight = 17.f;
+		float32 FontHeight         = 17.f;
 		float32 DummyDefaultOffset = 4.f;
 	};
 }

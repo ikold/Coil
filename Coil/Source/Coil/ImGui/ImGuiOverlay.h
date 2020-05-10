@@ -5,6 +5,7 @@
 
 #include "ImGuiWindow.h"
 
+
 namespace Coil
 {
 	class ImGuiOverlay final : public ImGuiWindow

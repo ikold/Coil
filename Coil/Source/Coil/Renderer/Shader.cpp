@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 
+
 namespace Coil
 {
 	Shader::Shader(RString<String> vertexSource, RString<String> fragmentSource)

@@ -3,6 +3,7 @@
 #include "ImGuiWindow.h"
 #include "Coil/Utilities/PointerCointainer.h"
 
+
 namespace Coil
 {
 	class ImGuiInterface

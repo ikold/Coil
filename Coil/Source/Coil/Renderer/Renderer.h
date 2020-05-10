@@ -2,9 +2,9 @@
 
 #include "RenderCommand.h"
 
+
 namespace Coil
 {
-
 	class Renderer
 	{
 	public:

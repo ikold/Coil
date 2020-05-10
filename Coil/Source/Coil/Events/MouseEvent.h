@@ -2,22 +2,21 @@
 
 #include "Event.h"
 
+
 namespace Coil
 {
 	class MouseMovedEvent final : public Event
 	{
 	public:
 		MouseMovedEvent(float32 x, float32 y)
-			: MouseX(x), MouseY(y)
+			: MouseX(x),
+			  MouseY(y)
 		{}
 
 		[[nodiscard]] float32 GetX() const { return MouseX; }
 		[[nodiscard]] float32 GetY() const { return MouseY; }
 
-		[[nodiscard]] RString<String> ToString() const override
-		{
-			return PString("MouseMovedEvent: %f, %f", MouseX, MouseY);
-		}
+		[[nodiscard]] RString<String> ToString() const override { return PString("MouseMovedEvent: %f, %f", MouseX, MouseY); }
 
 		EVENT_CLASS_TYPE(MouseMoved)
 		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
@@ -26,20 +25,19 @@ namespace Coil
 		float32 MouseX, MouseY;
 	};
 
+
 	class MouseScrolledEvent final : public Event
 	{
 	public:
 		MouseScrolledEvent(float32 x, float32 y)
-			: XOffset(x), YOffset(y)
+			: XOffset(x),
+			  YOffset(y)
 		{}
 
 		[[nodiscard]] float32 GetXOffset() const { return XOffset; }
 		[[nodiscard]] float32 GetYOffset() const { return YOffset; }
 
-		[[nodiscard]] RString<String> ToString() const override
-		{
-			return PString("MouseScrolledEvent: %f, %f", XOffset, YOffset);
-		}
+		[[nodiscard]] RString<String> ToString() const override { return PString("MouseScrolledEvent: %f, %f", XOffset, YOffset); }
 
 		EVENT_CLASS_TYPE(MouseScrolled)
 		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
@@ -47,6 +45,7 @@ namespace Coil
 	private:
 		float32 XOffset, YOffset;
 	};
+
 
 	class MouseButtonEvent : public Event
 	{
@@ -63,6 +62,7 @@ namespace Coil
 		int32 Button;
 	};
 
+
 	class MouseButtonPressedEvent final : public MouseButtonEvent
 	{
 	public:
@@ -70,13 +70,11 @@ namespace Coil
 			: MouseButtonEvent(button)
 		{}
 
-		[[nodiscard]] RString<String> ToString() const override
-		{
-			return PString("MouseButtonPressedEvent: %5d", Button);
-		}
+		[[nodiscard]] RString<String> ToString() const override { return PString("MouseButtonPressedEvent: %5d", Button); }
 
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
+
 
 	class MouseButtonReleasedEvent final : public MouseButtonEvent
 	{
@@ -85,10 +83,7 @@ namespace Coil
 			: MouseButtonEvent(button)
 		{}
 
-		[[nodiscard]] RString<String> ToString() const override
-		{
-			return PString("MouseButtonReleasedEvent: %5d", Button);
-		}
+		[[nodiscard]] RString<String> ToString() const override { return PString("MouseButtonReleasedEvent: %5d", Button); }
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};

@@ -2,6 +2,7 @@
 
 #include "Event.h"
 
+
 namespace Coil
 {
 	class KeyEvent : public Event
@@ -19,25 +20,25 @@ namespace Coil
 		int32 KeyCode;
 	};
 
+
 	class KeyPressedEvent final : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(int32 keyCode, int32 repeatCount)
-			: KeyEvent(keyCode), RepeatCount(repeatCount)
+			: KeyEvent(keyCode),
+			  RepeatCount(repeatCount)
 		{}
 
 		[[nodiscard]] int32 GetRepeatCount() const { return RepeatCount; }
 
-		[[nodiscard]] RString<String> ToString() const override
-		{
-			return PString("KeyPressedEvent: %4d (%4d repeats)", KeyCode, RepeatCount);
-		}
+		[[nodiscard]] RString<String> ToString() const override { return PString("KeyPressedEvent: %4d (%4d repeats)", KeyCode, RepeatCount); }
 
 		EVENT_CLASS_TYPE(KeyPressed)
 
 	private:
 		int32 RepeatCount;
 	};
+
 
 	class KeyReleasedEvent final : public KeyEvent
 	{
@@ -46,13 +47,11 @@ namespace Coil
 			: KeyEvent(keyCode)
 		{}
 
-		[[nodiscard]] RString<String> ToString() const override
-		{
-			return PString("KeyReleasedEvent: %4d", KeyCode);
-		}
+		[[nodiscard]] RString<String> ToString() const override { return PString("KeyReleasedEvent: %4d", KeyCode); }
 
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
+
 
 	class KeyTypedEvent final : public KeyEvent
 	{
@@ -61,10 +60,7 @@ namespace Coil
 			: KeyEvent(keyCode)
 		{}
 
-		[[nodiscard]] RString<String> ToString() const override
-		{
-			return PString("KeyTypedEvent: %4d", KeyCode);
-		}
+		[[nodiscard]] RString<String> ToString() const override { return PString("KeyTypedEvent: %4d", KeyCode); }
 
 		EVENT_CLASS_TYPE(KeyTyped)
 	};

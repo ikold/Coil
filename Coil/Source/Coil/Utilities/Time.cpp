@@ -4,6 +4,7 @@
 #include <sstream>
 #include <iomanip>
 
+
 namespace Coil
 {
 	// initialization of last frame time point with current time resulting in first frame time being time from start of program to first call of Time::Tick()

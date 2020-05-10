@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 
+
 namespace Coil
 {
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float32* vertices, uint32 size)
@@ -26,7 +27,6 @@ namespace Coil
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
-
 
 
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32* indices, uint32 count)

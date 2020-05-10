@@ -3,6 +3,7 @@
 
 #include <utility>
 
+
 namespace Coil
 {
 	Layer::Layer(RString<String> name)

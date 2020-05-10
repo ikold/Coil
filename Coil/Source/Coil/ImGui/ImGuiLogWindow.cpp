@@ -3,19 +3,19 @@
 
 #include "imgui.h"
 
+
 namespace Coil
 {
 	ImGuiLogWindow::~ImGuiLogWindow() = default;
 
-	void ImGuiLogWindow::Draw() const
-	{
-		int32 skippedLines = TextTopCulling();
+	void ImGuiLogWindow::Draw() const {
+		int32 skippedLines      = TextTopCulling();
 		const int32 linesToDraw = WindowSizeInLines();
 
 		if (Buffer->size() < skippedLines)
 			skippedLines = Buffer->size();
 
-		auto it = Buffer->begin() + skippedLines;
+		auto it  = Buffer->begin() + skippedLines;
 		auto end = Buffer->end();
 
 		if (end - it > linesToDraw)
@@ -26,26 +26,19 @@ namespace Coil
 			ImVec4 color;
 			switch ((*it)->GetLevel())
 			{
-			case LogLevel::fatal:
-				color = ImVec4(0.95f, 0.1f, 0.1f, 1.f);
+			case LogLevel::fatal: color = ImVec4(0.95f, 0.1f, 0.1f, 1.f);
 				break;
-			case LogLevel::error:
-				color = ImVec4(0.9f, 0.1f, 0.1f, 1.f);
+			case LogLevel::error: color = ImVec4(0.9f, 0.1f, 0.1f, 1.f);
 				break;
-			case LogLevel::warning:
-				color = ImVec4(0.8f, 0.4f, 0.3f, 1.f);
+			case LogLevel::warning: color = ImVec4(0.8f, 0.4f, 0.3f, 1.f);
 				break;
-			case LogLevel::info:
-				color = ImVec4(0.3f, 0.3f, 1.f, 1.f);
+			case LogLevel::info: color = ImVec4(0.3f, 0.3f, 1.f, 1.f);
 				break;
-			case LogLevel::debug:
-				color = ImVec4(0.3f, 1.f, 0.3f, 1.f);
+			case LogLevel::debug: color = ImVec4(0.3f, 1.f, 0.3f, 1.f);
 				break;
-			case LogLevel::trace:
-				color = ImVec4(.9f, .9f, .9f, 1.f);
+			case LogLevel::trace: color = ImVec4(.9f, .9f, .9f, 1.f);
 				break;
-			default:
-				color = ImVec4(1.f, 1.f, 1.f, 1.f);
+			default: color = ImVec4(1.f, 1.f, 1.f, 1.f);
 				break;
 			}
 

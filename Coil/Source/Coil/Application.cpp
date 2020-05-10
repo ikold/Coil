@@ -15,15 +15,16 @@
 
 #include "Coil/Renderer/Renderer.h"
 
+
 namespace Coil
 {
 	Application* Application::Instance = nullptr;
 
 	Application::Application()
-		:Running(true)
+		: Running(true)
 	{
 		CL_ASSERT(!Instance, "Application instance already exist!")
-			Instance = this;
+		Instance = this;
 
 		AppWindow = std::unique_ptr<Window>(Window::Create());
 		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
@@ -40,7 +41,7 @@ namespace Coil
 
 		Logger::Info("Running Application");
 
-		RString frameTime = PString("%8f ms", 0.);
+		RString frameTime = PString("%8f ms", 0.f);
 		ImGuiInterface::Create<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
 
 		RString mousePosition = PString("x: %6d y: %6d", 0, 0);
@@ -68,7 +69,7 @@ namespace Coil
 			vertexBuffer->SetLayout({
 				{ ShaderDataType::Float3,	"position" },
 				{ ShaderDataType::Float4,	"color" }
-									});
+			});
 
 			vertexArray->AddVertexBuffer(vertexBuffer);
 
@@ -96,7 +97,7 @@ namespace Coil
 
 			vertexBuffer->SetLayout({
 				{ ShaderDataType::Float3,	"position" }
-									});
+			});
 
 			squareVertexArray->AddVertexBuffer(vertexBuffer);
 
@@ -109,7 +110,6 @@ namespace Coil
 		}
 
 		const Shader vertexColorShader(
-			//vertex source
 			R"(
 			#version 330 core
 
@@ -126,7 +126,6 @@ namespace Coil
 				gl_Position = vec4(position, 1.0);
 			}
 		)",
-			//index source
 			R"(
 			#version 330 core
 
@@ -143,7 +142,6 @@ namespace Coil
 		)");
 
 		const Shader rainbowShader(
-			//vertex source
 			R"(
 			#version 330 core
 
@@ -157,7 +155,6 @@ namespace Coil
 				gl_Position = vec4(position, 1.0);
 			}
 		)",
-			//index source
 			R"(
 			#version 330 core
 
@@ -178,17 +175,17 @@ namespace Coil
 
 			RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
 			RenderCommand::Clear();
-			
+
 			{
 				Renderer::BeginScene();
-			
+
 				rainbowShader.Bind();
 				Renderer::Submit(squareVertexArray);
-			
-			
+
+
 				vertexColorShader.Bind();
 				Renderer::Submit(vertexArray);
-			
+
 				Renderer::EndScene();
 			}
 
@@ -207,7 +204,7 @@ namespace Coil
 
 			if (++counter > 59)
 			{
-				counter = 0;
+				counter     = 0;
 				float32 sum = 0.f;
 				for (auto i : frameTimeArray)
 					sum += i;

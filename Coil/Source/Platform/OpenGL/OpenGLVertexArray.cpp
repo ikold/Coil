@@ -3,6 +3,7 @@
 
 #include <glad/glad.h>
 
+
 namespace Coil
 {
 	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
@@ -55,18 +56,12 @@ namespace Coil
 		glBindVertexArray(RendererID);
 		vertexBuffer->Bind();
 
-		uint32 index = 0;
+		uint32 index       = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
 		{
 			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index,
-								  element.GetComponentCount(),
-								  ShaderDataTypeToOpenGLBaseType(element.Type),
-								  element.Normalized ? GL_TRUE : GL_FALSE,
-								  layout.GetStride(),
-								  reinterpret_cast<const void*>(element.Offset)
-			);
+			glVertexAttribPointer(index, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.Type), element.Normalized ? GL_TRUE : GL_FALSE, layout.GetStride(), reinterpret_cast<const void*>(element.Offset));
 			++index;
 		}
 

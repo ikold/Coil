@@ -5,6 +5,7 @@
 
 struct GLFWwindow;
 
+
 namespace Coil
 {
 	class OpenGLContext : public GraphicsContext

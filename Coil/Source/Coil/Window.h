@@ -2,11 +2,11 @@
 
 #include <utility>
 
-
 #include "Coil/Events/Event.h"
 #include "Coil/Events/ApplicationEvent.h"
 #include "Coil/Events/MouseEvent.h"
 #include "Coil/Events/KeyEvent.h"
+
 
 namespace Coil
 {
@@ -17,9 +17,12 @@ namespace Coil
 		uint32 Height;
 
 		WindowProps(RString<String> name = "Coil Engine", uint32 width = 1280, uint32 height = 720)
-			:Name(std::move(name)), Width(width), Height(height)
+			: Name(std::move(name)),
+			  Width(width),
+			  Height(height)
 		{}
 	};
+
 
 	class Window
 	{

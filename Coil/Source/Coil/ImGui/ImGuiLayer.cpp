@@ -10,6 +10,7 @@
 
 #include <GLFW/glfw3.h>
 
+
 namespace Coil
 {
 	ImGuiLayer::ImGuiLayer()
@@ -37,12 +38,12 @@ namespace Coil
 		ImGuiStyle& style = ImGui::GetStyle();
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			style.WindowRounding = 0.0f;
+			style.WindowRounding              = 0.0f;
 			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 		}
 
 		Application& app = Application::Get();
-		auto* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
+		auto* window     = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
 
 		ImGui_ImplGlfw_InitForOpenGL(window, true);
 		ImGui_ImplOpenGL3_Init("#version 410");
@@ -70,7 +71,7 @@ namespace Coil
 
 	void ImGuiLayer::End()
 	{
-		ImGuiIO& io = ImGui::GetIO();
+		ImGuiIO& io      = ImGui::GetIO();
 		Application& app = Application::Get();
 
 		io.DisplaySize = ImVec2(static_cast<float32>(app.GetWindow().GetWidth()), static_cast<float32>(app.GetWindow().GetHeight()));

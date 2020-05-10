@@ -2,6 +2,7 @@
 
 #include "RendererAPI.h"
 
+
 namespace Coil
 {
 	class RenderCommand
@@ -10,10 +11,8 @@ namespace Coil
 		static void SetClearColor(const glm::vec4& color) { sRendererAPI->SetClearColor(color); }
 		static void Clear() { sRendererAPI->Clear(); }
 
-		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray)	{ sRendererAPI->DrawIndex(vertexArray); }
+		static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) { sRendererAPI->DrawIndex(vertexArray); }
 	private:
 		static RendererAPI* sRendererAPI;
 	};
-
 }
-

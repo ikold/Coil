@@ -3,6 +3,7 @@
 #include "Coil/Layers/LayerStack.h"
 #include "Coil/Window.h"
 
+
 namespace Coil
 {
 	/*!	Class for application and it functionality

@@ -2,6 +2,7 @@
 
 #include "Layer.h"
 
+
 namespace Coil
 {
 	class LayerStack

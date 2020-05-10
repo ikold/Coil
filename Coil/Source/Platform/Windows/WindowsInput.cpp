@@ -4,6 +4,7 @@
 #include "Coil/Application.h"
 #include <GLFW/glfw3.h>
 
+
 namespace Coil
 {
 	Input* Input::Instance = new WindowsInput();

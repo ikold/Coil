@@ -2,6 +2,7 @@
 
 #include "Coil/Input.h"
 
+
 namespace Coil
 {
 	class WindowsInput final : public Input

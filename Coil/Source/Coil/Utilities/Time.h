@@ -3,9 +3,11 @@
 #include <ctime>
 #include <chrono>
 
+
 namespace Coil
 {
 	typedef std::time_t Timestamp;
+
 
 	/*!
 		Static class responsible for all time operations
@@ -14,7 +16,7 @@ namespace Coil
 	{
 	private:
 		Time() = default;
-		
+
 	public:
 		/*!	Method for getting current timestamp
 

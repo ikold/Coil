@@ -2,6 +2,7 @@
 
 #include "Coil/Layers/Layer.h"
 
+
 namespace Coil
 {
 	class ImGuiLayer : public Layer

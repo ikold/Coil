@@ -5,6 +5,7 @@
 
 #include "Coil/Utilities/PointerCointainer.h"
 
+
 namespace Coil
 {
 	/*!	Log level flags used for creating and filtering of logs
@@ -19,6 +20,7 @@ namespace Coil
 		trace = 1 << 5,
 	};
 
+
 	/*!	Struct for Logging system
 	*/
 	struct Log
@@ -26,9 +28,9 @@ namespace Coil
 	public:
 		Log(RString<String> message, LogLevel level);
 
-		[[nodiscard]] RString<String> GetMessage()	const { return Message; }
-		[[nodiscard]] Timestamp GetDate()	const { return Date; }
-		[[nodiscard]] LogLevel GetLevel()	const { return Level; }
+		[[nodiscard]] RString<String> GetMessage() const { return Message; }
+		[[nodiscard]] Timestamp GetDate() const { return Date; }
+		[[nodiscard]] LogLevel GetLevel() const { return Level; }
 
 		[[nodiscard]] RString<String> GetHeader() const { return Header; }
 
@@ -39,6 +41,7 @@ namespace Coil
 
 		const RString<String> Header;
 	};
+
 
 	/*!	Class responsible for log formatting
 
@@ -63,6 +66,7 @@ namespace Coil
 		*/
 		static RString<String> Compose(const Log& log);
 	};
+
 
 	/*!	Interface for creating and retrieving Logs
 	*/

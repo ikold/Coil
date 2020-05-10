@@ -203,13 +203,13 @@ namespace Coil
 		/** Default Constructor */
 		RString()
 			: StringPointer(nullptr),
-			Counter(nullptr)
+			  Counter(nullptr)
 		{}
 
 		/** Copy Constructor */
 		RString(const RString& rString)
 			: StringPointer(rString.StringPointer),
-			Counter(rString.Counter)
+			  Counter(rString.Counter)
 		{
 			++(*Counter);
 		}
@@ -217,22 +217,22 @@ namespace Coil
 		/** Move Constructor */
 		RString(RString&& rString) noexcept
 			: StringPointer(std::exchange(rString.StringPointer, nullptr)),
-			Counter(std::exchange(rString.Counter, nullptr))
+			  Counter(std::exchange(rString.Counter, nullptr))
 		{}
 
 		RString(const char8* text)
 			: StringPointer(new TString(text)),
-			Counter(new int32(1))
+			  Counter(new int32(1))
 		{}
 
 		RString(const TString& string)
 			: StringPointer(new TString(string)),
-			Counter(new int32(1))
+			  Counter(new int32(1))
 		{}
 
 		RString(TString&& string)
 			: StringPointer(new TString(std::move(string))),
-			Counter(new int32(1))
+			  Counter(new int32(1))
 		{}
 
 
