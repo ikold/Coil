@@ -8,21 +8,21 @@ namespace Coil
 	enum class EventType
 	{
 		None = 0,
-		
+
 		WindowClose,
 		WindowResize,
 		WindowFocus,
 		WindowLostFocus,
 		WindowMoved,
-		
+
 		AppTick,
 		AppUpdate,
 		AppRender,
-		
+
 		KeyPressed,
 		KeyReleased,
 		KeyTyped,
-		
+
 		MouseButtonPressed,
 		MouseButtonReleased,
 		MouseMoved,
@@ -94,8 +94,8 @@ namespace Coil
 	private:
 		Event& EventToDispatch;
 	};
+}
 
 
 #define BIND_EVENT_FN(fn) std::bind(&fn, std::placeholders::_1)
 #define BIND_EVENT_METHOD(fn) std::bind(&fn, this, std::placeholders::_1)
-}

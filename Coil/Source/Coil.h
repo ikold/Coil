@@ -3,9 +3,22 @@
 #include "pch.h"
 
 #include "Coil/Application.h"
+#include "Coil/Layers/Layer.h"
+
+#include "Coil/ImGui/ImGuiInterface.h"
+#include "Coil/ImGui/ImGuiLogWindow.h"
+#include "Coil/ImGui/ImGuiOverlay.h"
+
+#include "Coil/Renderer/Renderer.h"
+#include "Coil/Renderer/RenderCommand.h"
+
+#include "Coil/Renderer/Buffer.h"
+#include "Coil/Renderer/Shader.h"
+#include "Coil/Renderer/VertexArray.h"
+
+#include "Coil/Renderer/OrthographicCamera.h"
+
 
 #include "Coil/EntryPoint.h"
-
-#include "Coil/ImGui/ImGuiLayer.h"
 
 namespace cl = Coil;

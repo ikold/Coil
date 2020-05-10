@@ -18,9 +18,7 @@ namespace Coil
 		*/
 		void Run();
 
-		void Update();
-
-		void OnEvent(Event& event);
+		virtual void OnEvent(Event& event);
 
 		bool OnWindowClosed(WindowCloseEvent& event);
 
@@ -30,6 +28,7 @@ namespace Coil
 		[[nodiscard]] Window& GetWindow() const { return *AppWindow; }
 
 		static Application& Get() { return *Instance; }
+
 	private:
 		bool Running;	/*!	Flag responsible of running of main loop */
 

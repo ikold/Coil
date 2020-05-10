@@ -121,7 +121,8 @@ workspace "Coil"
 		
 		includedirs
 		{
-			"Coil/Source"
+			"Coil/Source",
+			"%{IncludeDir.glm}"
 		}
 		
 		links
