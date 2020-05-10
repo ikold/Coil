@@ -15,6 +15,7 @@
 
 #include "Coil/Renderer/Renderer.h"
 
+#include "Coil/Utilities/File.h"
 
 namespace Coil
 {
@@ -43,6 +44,7 @@ namespace Coil
 
 		RString frameTime = PString("%8f ms", 0.f);
 		ImGuiInterface::Create<ImGuiOverlay>("frame time").BindTextBuffer(frameTime);
+
 
 		RString mousePosition = PString("x: %6d y: %6d", 0, 0);
 		Logger::Trace(mousePosition);
@@ -110,63 +112,14 @@ namespace Coil
 		}
 
 		const Shader vertexColorShader(
-			R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 position;
-			layout(location = 1) in vec4 color;
-
-			out vec3 outPosition;
-			out vec4 vColor;
-
-			void main()
-			{
-				outPosition = position;
-				vColor = color;
-				gl_Position = vec4(position, 1.0);
-			}
-		)",
-			R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-
-			in vec3 outPosition;
-			in vec4 vColor;
-
-			void main()
-			{
-				color = vec4(outPosition * 0.5 + 0.5, 1.0);
-				color = vColor;
-			}
-		)");
+			File::Load("Resources/Shaders/VertexColor.vert"),
+			File::Load("Resources/Shaders/VertexColor.frag")
+		);
 
 		const Shader rainbowShader(
-			R"(
-			#version 330 core
-
-			layout(location = 0) in vec3 position;
-
-			out vec3 outPosition;
-
-			void main()
-			{
-				outPosition = position;
-				gl_Position = vec4(position, 1.0);
-			}
-		)",
-			R"(
-			#version 330 core
-
-			layout(location = 0) out vec4 color;
-
-			in vec3 outPosition;
-
-			void main()
-			{
-				color = vec4(outPosition * 0.5 + 0.5, 1.0);
-			}
-		)");
+			File::Load("Resources/Shaders/Rainbow.vert"),
+			File::Load("Resources/Shaders/Rainbow.frag")
+		);
 
 		while (Running)
 		{
