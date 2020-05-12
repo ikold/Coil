@@ -9,8 +9,6 @@ public:
 		  FrameTime(Coil::PString("%8f ms", 0.f)),
 		  MousePosition(Coil::PString("x: %6d y: %6d", 0, 0))
 	{
-		Coil::Application::Get().GetWindow().SetVSync(true);
-		
 		Coil::ImGuiInterface::Create<Coil::ImGuiLogWindow>("Log").BindBuffer(Coil::Logger::GetBuffer());
 
 		Coil::ImGuiInterface::Create<Coil::ImGuiOverlay>("frame time").BindTextBuffer(FrameTime);
@@ -83,7 +81,7 @@ public:
 	}
 
 	~ApplicationLayer() = default;
-
+	
 	void OnUpdate() override
 	{
 		{

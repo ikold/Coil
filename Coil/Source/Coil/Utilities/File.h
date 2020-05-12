@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Core.h"
-
 
 namespace Coil
 {
@@ -10,6 +8,6 @@ namespace Coil
 	public:
 		File() = delete;
 
-		static RString<String> Load(RString<String> filePath);
+		[[nodiscard]] static RString<String> Load(RString<String> filePath);
 	};
 }
