@@ -12,7 +12,7 @@ namespace Coil
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None:
-			CL_CORE_ASSERT(false, "RenderAPI::None unsuported!");
+			CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:

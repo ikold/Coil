@@ -1,131 +1,24 @@
 #include "pch.h"
 #include "Shader.h"
 
-#include <glad/glad.h>
-
-#include  <glm/gtc/type_ptr.hpp>
+#include "Renderer.h"
+#include "Platform/OpenGL/OpenGLShader.h"
 
 namespace Coil
 {
-	Shader::Shader(const RString<String>& vertexSource, const RString<String>& fragmentSource)
+	Shader* Shader::Create(const RString<String>& vertexSource, const RString<String>& fragmentSource)
 	{
-		// Create an empty vertex shader handle
-		const GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-		// Send the vertex shader source code to GL
-		const GLchar* source = vertexSource->CString();
-		glShaderSource(vertexShader, 1, &source, nullptr);
-
-		// Compile the vertex shader
-		glCompileShader(vertexShader);
-
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+		switch (Renderer::GetAPI())
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+		case RendererAPI::API::None:
+		CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
+			return nullptr;
 
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(vertexShader);
-
-			Logger::Error(infoLog.data());
-			CL_CORE_ASSERT(false, "Vertex shader compilation failure!");
-			return;
+		case RendererAPI::API::OpenGL:
+			return new OpenGLShader(vertexSource, fragmentSource);
 		}
 
-		// Create an empty fragment shader handle
-		const GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-		// Send the fragment shader source code to GL
-		source = fragmentSource->CString();
-		glShaderSource(fragmentShader, 1, &source, nullptr);
-
-		// Compile the fragment shader
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the shader anymore.
-			glDeleteShader(fragmentShader);
-			// Either of them. Don't leak shaders.
-			glDeleteShader(vertexShader);
-
-			Logger::Error(infoLog.data());
-			CL_CORE_ASSERT(false, "Fragment shader compilation failure!");
-			return;
-		}
-
-		// Vertex and fragment shaders are successfully compiled.
-		// Now time to link them together into a program.
-		// Get a program object.
-		RendererID = glCreateProgram();
-
-		// Attach our shaders to our program
-		glAttachShader(RendererID, vertexShader);
-		glAttachShader(RendererID, fragmentShader);
-
-		// Link our program
-		glLinkProgram(RendererID);
-
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
-		GLint isLinked = 0;
-		glGetProgramiv(RendererID, GL_LINK_STATUS, static_cast<int*>(&isLinked));
-		if (isLinked == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetProgramiv(RendererID, GL_INFO_LOG_LENGTH, &maxLength);
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(RendererID, maxLength, &maxLength, &infoLog[0]);
-
-			// We don't need the program anymore.
-			glDeleteProgram(RendererID);
-			// Don't leak shaders either.
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-
-			Logger::Error(infoLog.data());
-			CL_CORE_ASSERT(false, "Shader link failure!");
-			return;
-		}
-
-		// Always detach shaders after a successful link.
-		glDetachShader(RendererID, vertexShader);
-		glDetachShader(RendererID, fragmentShader);
-	}
-
-	Shader::~Shader()
-	{
-		glDeleteProgram(RendererID);
-	}
-
-	void Shader::Bind() const
-	{
-		glUseProgram(RendererID);
-	}
-
-	void Shader::Unbind() const
-	{
-		glUseProgram(0);
-	}
-
-	void Shader::UploadUniformMat4(const RString<String>& name, const glm::mat4& matrix) const
-	{
-		const GLint location = glGetUniformLocation(RendererID, name->CString());
-		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+		CL_CORE_ASSERT(false, "Unknown RendererAPI!");
+		return nullptr;
 	}
 }

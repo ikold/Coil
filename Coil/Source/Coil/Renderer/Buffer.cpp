@@ -11,7 +11,7 @@ namespace Coil
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::API::None: CL_CORE_ASSERT(false, "RenderAPI::None unsuported!");
+		case RendererAPI::API::None: CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(vertices, size);
@@ -25,7 +25,7 @@ namespace Coil
 	{
 		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::API::None: CL_CORE_ASSERT(false, "RenderAPI::None unsuported!");
+		case RendererAPI::API::None: CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indices, size);

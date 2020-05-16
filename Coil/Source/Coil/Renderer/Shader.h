@@ -1,20 +1,16 @@
 #pragma once
 
-#include <glm/glm.hpp>
 
 namespace Coil
 {
 	class Shader
 	{
 	public:
-		Shader(const RString<String>& vertexSource, const RString<String>& fragmentSource);
-		~Shader();
+		virtual ~Shader() = default;
 
-		void Bind() const;
-		void Unbind() const;
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 
-		void UploadUniformMat4(const RString<String>& name, const glm::mat4& matrix) const;
-	private:
-		uint32 RendererID;
+		static Shader* Create(const RString<String>& vertexSource, const RString<String>& fragmentSource);
 	};
 }

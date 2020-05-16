@@ -2,6 +2,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Platform/OpenGL/OpenGLShader.h"
 
 class ApplicationLayer final : public Coil::Layer
 {
@@ -71,15 +72,20 @@ public:
 			SquareVertexArray->SetIndexBuffer(indexBuffer);
 		}
 
-		VertexColorShader = std::make_shared<Coil::Shader>(
+		VertexColorShader.reset(Coil::Shader::Create(
 			Coil::File::Load("Resources/Shaders/VertexColor.vert"),
 			Coil::File::Load("Resources/Shaders/VertexColor.frag")
-		);
+		));
 
-		RainbowShader = std::make_shared<Coil::Shader>(
+		RainbowShader.reset(Coil::Shader::Create(
 			Coil::File::Load("Resources/Shaders/Rainbow.vert"),
 			Coil::File::Load("Resources/Shaders/Rainbow.frag")
-		);
+		));
+
+		ColorShader.reset(Coil::Shader::Create(
+			Coil::File::Load("Resources/Shaders/Color.vert"),
+			Coil::File::Load("Resources/Shaders/Color.frag")
+		));
 	}
 
 	~ApplicationLayer() = default;
@@ -91,12 +97,6 @@ public:
 			auto [x, y] = Coil::Input::GetMousePosition();
 			MousePosition->Set(0, static_cast<int32>(x));
 			MousePosition->Set(1, static_cast<int32>(y));
-
-			//Camera.SetPosition({
-			//	x / Coil::Application::Get().GetWindow().GetWidth() * -2 + 1,
-			//	y / Coil::Application::Get().GetWindow().GetHeight() * 2 - 1,
-			//	0.f
-			//});
 		}
 		else
 		{
@@ -146,16 +146,19 @@ public:
 
 			Coil::Renderer::BeginScene(Camera);
 
-
-			static glm::mat4 scale = glm::scale(glm::mat4(1.f), glm::vec3(0.1f));
-
-			for (int32 x = -10; x < 10; ++x)
+			ColorShader->Bind();
+			std::dynamic_pointer_cast<Coil::OpenGLShader>(ColorShader)->UploadUniformFloat3("uColor", SquareColor);
+			
+			for (int32 x = 0; x < 20; ++x)
 			{
-				for (int32 y = -10; y < 10; ++y)
+				for (int32 y = 0; y < 20; ++y)
 				{
+					static glm::mat4 scale = glm::scale(glm::mat4(1.f), glm::vec3(0.1f));
+					
 					glm::mat4 squareTransform = glm::translate(
-						glm::mat4(1.f), glm::vec3(x * 0.11f, y * 0.11f, 0.f)) * scale;
-					Coil::Renderer::Submit(RainbowShader, SquareVertexArray, squareTransform);
+						glm::mat4(1.f), glm::vec3((x - 10) * 0.11f, (y - 10) * 0.11f, 0.f)) * scale;
+
+					Coil::Renderer::Submit(ColorShader, SquareVertexArray, squareTransform);
 				}
 			}
 
@@ -170,10 +173,10 @@ public:
 	{
 		Coil::EventDispatcher dispatcher(event);
 	}
-
+	
 private:
 	std::shared_ptr<Coil::VertexArray> VertexArray, SquareVertexArray;
-	std::shared_ptr<Coil::Shader> RainbowShader, VertexColorShader;
+	std::shared_ptr<Coil::Shader> RainbowShader, VertexColorShader, ColorShader;
 	Coil::OrthographicCamera Camera;
 
 	Coil::RString<Coil::PString> FrameTime, MousePosition;
@@ -186,6 +189,8 @@ private:
 
 	int32 Counter = 0;
 	float32 FrameTimeArray[60]{};
+
+	glm::vec3 SquareColor = { 0.2f, 0.3f, 0.8f };
 };
 
 
