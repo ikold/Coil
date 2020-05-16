@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Application.h"
 
-#include "Coil/ImGui/ImGuiLayer.h"
-#include "Coil/ImGui/ImGuiInterface.h"
+#include "Coil/GUI/GUILayer.h"
+#include "Coil/GUI/GUI.h"
 
 
 namespace Coil
@@ -18,7 +18,7 @@ namespace Coil
 		AppWindow = std::unique_ptr<Window>(Window::Create());
 		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
 
-		PushOverlay(new ImGuiLayer());
+		PushOverlay(new GUILayer());
 	}
 
 	void Application::Run()
@@ -33,12 +33,8 @@ namespace Coil
 			for (auto* layer : AppLayerStack)
 				layer->OnUpdate();
 
-			ImGuiLayer::Begin();
-			ImGuiInterface::OnImGuiRender();
-
 			for (auto* layer : AppLayerStack)
 				layer->OnImGuiRender();
-			ImGuiLayer::End();
 
 			AppWindow->OnUpdate();
 		}

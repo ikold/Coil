@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "ImGuiLayer.h"
+#include "GUILayer.h"
 
 #include "Coil/Application.h"
 
@@ -10,14 +10,16 @@
 
 #include <GLFW/glfw3.h>
 
+#include "GUI.h"
+
 
 namespace Coil
 {
-	ImGuiLayer::ImGuiLayer()
-		: Layer("ImGuiLayer")
+	GUILayer::GUILayer()
+		: Layer("GUILayer")
 	{}
 
-	void ImGuiLayer::OnAttach()
+	void GUILayer::OnAttach()
 	{
 		IMGUI_CHECKVERSION();
 
@@ -29,7 +31,7 @@ namespace Coil
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
-		//Loads font with "zero-width space" in place of "return"
+		//Loads font with "zero-width space" in place of "return" character
 		io.Fonts->AddFontFromFileTTF("Resources/Fonts/ProggyClean_ZeroWidthReturn.ttf", 13.0f);
 		io.Fonts->AddFontFromFileTTF("Resources/Fonts/ProggyClean_ZeroWidthReturn_Debug.ttf", 13.0f);
 
@@ -49,27 +51,32 @@ namespace Coil
 		ImGui_ImplOpenGL3_Init("#version 410");
 	}
 
-	void ImGuiLayer::OnDetach()
+	void GUILayer::OnDetach()
 	{
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
 	}
 
-	void ImGuiLayer::OnImGuiRender()
+	void GUILayer::OnImGuiRender()
 	{
-		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		Begin();
+
+		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
+		
+		GUI::OnImGuiRender();
+
+		End();
 	}
 
-	void ImGuiLayer::Begin()
+	void GUILayer::Begin()
 	{
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
 	}
 
-	void ImGuiLayer::End()
+	void GUILayer::End()
 	{
 		ImGuiIO& io      = ImGui::GetIO();
 		Application& app = Application::Get();

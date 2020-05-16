@@ -5,9 +5,7 @@
 #include "Coil/Application.h"
 #include "Coil/Layers/Layer.h"
 
-#include "Coil/ImGui/ImGuiInterface.h"
-#include "Coil/ImGui/ImGuiLogWindow.h"
-#include "Coil/ImGui/ImGuiOverlay.h"
+#include "Coil/GUI/GUI.h"
 
 #include "Coil/Renderer/Renderer.h"
 #include "Coil/Renderer/RenderCommand.h"

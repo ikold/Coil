@@ -1,14 +1,16 @@
 #include "pch.h"
-#include "ImGuiLogWindow.h"
+#include "GUILogWindow.h"
 
 #include "imgui.h"
 
 
 namespace Coil
 {
-	ImGuiLogWindow::~ImGuiLogWindow() = default;
+	GUILogWindow::GUILogWindow(const GUIWindowProps& properties)
+		: GUIWindow(properties),
+		  Buffer(nullptr) {}
 
-	void ImGuiLogWindow::Draw() const {
+	void GUILogWindow::Draw() const {
 		int32 skippedLines      = TextTopCulling();
 		const int32 linesToDraw = WindowSizeInLines();
 
