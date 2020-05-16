@@ -22,6 +22,7 @@ namespace Coil
 
 	private:
 		uint32 RendererID{};
+		uint32 VertexBufferIndex = 0;
 		std::vector<Ref<VertexBuffer>> mVertexBuffer;
 		Ref<IndexBuffer> mIndexBuffer;
 	};

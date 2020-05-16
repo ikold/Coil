@@ -10,19 +10,19 @@ namespace Coil
 	{
 		switch (type)
 		{
-		case ShaderDataType::Float:		
-		case ShaderDataType::Float2:	
-		case ShaderDataType::Float3:	
-		case ShaderDataType::Float4:	
-		case ShaderDataType::Mat3:		
-		case ShaderDataType::Mat4:		return GL_FLOAT;
-			
+		case ShaderDataType::Float:
+		case ShaderDataType::Float2:
+		case ShaderDataType::Float3:
+		case ShaderDataType::Float4:
+		case ShaderDataType::Mat3:
+		case ShaderDataType::Mat4: return GL_FLOAT;
+
 		case ShaderDataType::Int:
 		case ShaderDataType::Int2:
 		case ShaderDataType::Int3:
-		case ShaderDataType::Int4:		return GL_INT;
-			
-		case ShaderDataType::Bool:		return GL_BOOL;
+		case ShaderDataType::Int4: return GL_INT;
+
+		case ShaderDataType::Bool: return GL_BOOL;
 		default:
 			CL_CORE_ASSERT(false, "Unknown ShaderDataType!");
 			return 0;
@@ -56,13 +56,17 @@ namespace Coil
 		glBindVertexArray(RendererID);
 		vertexBuffer->Bind();
 
-		uint32 index       = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(index);
-			glVertexAttribPointer(index, element.GetComponentCount(), ShaderDataTypeToOpenGLBaseType(element.Type), element.Normalized ? GL_TRUE : GL_FALSE, layout.GetStride(), reinterpret_cast<const void*>(element.Offset));
-			++index;
+			glEnableVertexAttribArray(VertexBufferIndex);
+			glVertexAttribPointer(VertexBufferIndex,
+								  element.GetComponentCount(),
+								  ShaderDataTypeToOpenGLBaseType(element.Type),
+								  element.Normalized ? GL_TRUE : GL_FALSE,
+								  layout.GetStride(),
+								  (const void*)(int64)element.Offset);
+			++VertexBufferIndex;
 		}
 
 		mVertexBuffer.push_back(vertexBuffer);
