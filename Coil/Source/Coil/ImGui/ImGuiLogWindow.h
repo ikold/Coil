@@ -12,8 +12,8 @@ namespace Coil
 	class ImGuiLogWindow : public ImGuiWindow
 	{
 	public:
-		ImGuiLogWindow(RString<String> name, int32 width, int32 height)
-			: ImGuiWindow(std::move(name), width, height),
+		ImGuiLogWindow(const RString<String>& name, int32 width, int32 height)
+			: ImGuiWindow(name, width, height),
 			  Buffer(nullptr)
 		{}
 

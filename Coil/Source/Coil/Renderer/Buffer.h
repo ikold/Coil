@@ -60,8 +60,8 @@ namespace Coil
 			  Normalized(false)
 		{}
 
-		BufferElement(ShaderDataType type, RString<String> name, bool normalized = false)
-			: Name(std::move(name)),
+		BufferElement(ShaderDataType type, const RString<String>& name, bool normalized = false)
+			: Name(name),
 			  Type(type),
 			  Size(ShaderDataTypeSize(type)),
 			  Offset(0),

@@ -8,6 +8,6 @@ namespace Coil
 	public:
 		File() = delete;
 
-		[[nodiscard]] static RString<String> Load(RString<String> filePath);
+		[[nodiscard]] static RString<String> Load(const RString<String>& filePath);
 	};
 }

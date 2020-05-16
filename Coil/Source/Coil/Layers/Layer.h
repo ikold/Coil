@@ -8,7 +8,7 @@ namespace Coil
 	class Layer
 	{
 	public:
-		Layer(RString<String> name = "Layer");
+		Layer(const RString<String>& name = "Layer");
 		virtual ~Layer() = default;
 
 		virtual void OnAttach() {}

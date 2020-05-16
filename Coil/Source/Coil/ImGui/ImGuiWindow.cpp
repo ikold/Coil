@@ -8,8 +8,8 @@
 
 namespace Coil
 {
-	ImGuiWindow::ImGuiWindow(RString<String> name, int32 width, int32 height)
-		: Name(std::move(name)),
+	ImGuiWindow::ImGuiWindow(const RString<String>& name, int32 width, int32 height)
+		: Name(name),
 		  Width(width),
 		  Height(height)
 	{

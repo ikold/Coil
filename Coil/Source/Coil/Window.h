@@ -16,8 +16,8 @@ namespace Coil
 		uint32 Width;
 		uint32 Height;
 
-		WindowProps(RString<String> name = "Coil Engine", uint32 width = 1280, uint32 height = 720)
-			: Name(std::move(name)),
+		WindowProps(const RString<String>& name = "Coil Engine", uint32 width = 1280, uint32 height = 720)
+			: Name(name),
 			  Width(width),
 			  Height(height)
 		{}

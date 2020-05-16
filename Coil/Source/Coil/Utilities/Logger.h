@@ -26,7 +26,7 @@ namespace Coil
 	struct Log
 	{
 	public:
-		Log(RString<String> message, LogLevel level);
+		Log(const RString<String>& message, LogLevel level);
 
 		[[nodiscard]] RString<String> GetMessage() const { return Message; }
 		[[nodiscard]] Timestamp GetDate() const { return Date; }
@@ -85,12 +85,12 @@ namespace Coil
 			@todo parameters passing
 		*/
 		///@{
-		static Log* Fatal(RString<String> message) { return Create(std::move(message), LogLevel::fatal); }
-		static Log* Error(RString<String> message) { return Create(std::move(message), LogLevel::error); }
-		static Log* Warning(RString<String> message) { return Create(std::move(message), LogLevel::warning); }
-		static Log* Info(RString<String> message) { return Create(std::move(message), LogLevel::info); }
-		static Log* Debug(RString<String> message) { return Create(std::move(message), LogLevel::debug); }
-		static Log* Trace(RString<String> message) { return Create(std::move(message), LogLevel::trace); }
+		static Log* Fatal(const RString<String>& message) { return Create(message, LogLevel::fatal); }
+		static Log* Error(const RString<String>& message) { return Create(message, LogLevel::error); }
+		static Log* Warning(const RString<String>& message) { return Create(message, LogLevel::warning); }
+		static Log* Info(const RString<String>& message) { return Create(message, LogLevel::info); }
+		static Log* Debug(const RString<String>& message) { return Create(message, LogLevel::debug); }
+		static Log* Trace(const RString<String>& message) { return Create(message, LogLevel::trace); }
 		///@}
 
 		static PointerContainer<Log>* GetBuffer() { return &Buffer; }
@@ -103,7 +103,7 @@ namespace Coil
 
 			@return		Log*	pointer to created log
 		*/
-		static Log* Create(RString<String> message, LogLevel level);
+		static Log* Create(const RString<String>& message, LogLevel level);
 
 	private:
 		static PointerContainer<Log> Buffer;

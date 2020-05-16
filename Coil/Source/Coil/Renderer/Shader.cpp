@@ -7,7 +7,7 @@
 
 namespace Coil
 {
-	Shader::Shader(RString<String> vertexSource, RString<String> fragmentSource)
+	Shader::Shader(const RString<String>& vertexSource, const RString<String>& fragmentSource)
 	{
 		// Create an empty vertex shader handle
 		const GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -123,9 +123,9 @@ namespace Coil
 		glUseProgram(0);
 	}
 
-	void Shader::UploadUniformMat4(const RString<String> name, const glm::mat4& matrix) const
+	void Shader::UploadUniformMat4(const RString<String>& name, const glm::mat4& matrix) const
 	{
-		GLint location = glGetUniformLocation(RendererID, name->CString());
+		const GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 }

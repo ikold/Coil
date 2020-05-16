@@ -6,7 +6,7 @@ namespace Coil
 	class ImGuiWindow
 	{
 	public:
-		ImGuiWindow(RString<String> name, int32 width, int32 height);
+		ImGuiWindow(const RString<String>& name, int32 width, int32 height);
 
 		virtual ~ImGuiWindow() = default;
 

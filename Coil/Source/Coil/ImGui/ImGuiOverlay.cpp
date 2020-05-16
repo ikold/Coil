@@ -8,8 +8,8 @@
 
 namespace Coil
 {
-	ImGuiOverlay::ImGuiOverlay(RString<String> name, int32 width, int32 height)
-		: ImGuiWindow(std::move(name), width, height)
+	ImGuiOverlay::ImGuiOverlay(const RString<String>& name, int32 width, int32 height)
+		: ImGuiWindow(name, width, height)
 	{
 		Flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
 	}

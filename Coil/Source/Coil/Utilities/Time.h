@@ -29,7 +29,7 @@ namespace Coil
 
 			@return		RString	Formatted string
 		 */
-		static RString<String> TimestampToString(const Timestamp& timestamp);
+		[[nodiscard]] static RString<String> TimestampToString(const Timestamp& timestamp);
 
 
 		/*!	Method for calculating frame time
