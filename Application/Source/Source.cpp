@@ -27,7 +27,7 @@ public:
 				0.0f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f
 			};
 
-			std::shared_ptr<Coil::VertexBuffer> vertexBuffer;
+			Coil::Ref<Coil::VertexBuffer> vertexBuffer;
 			vertexBuffer.reset(Coil::VertexBuffer::Create(vertices, sizeof(vertices)));
 
 			vertexBuffer->SetLayout({
@@ -39,7 +39,7 @@ public:
 
 			uint32 indices[3] = { 0, 1, 2 };
 
-			std::shared_ptr<Coil::IndexBuffer> indexBuffer;
+			Coil::Ref<Coil::IndexBuffer> indexBuffer;
 			indexBuffer.reset(Coil::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32)));
 
 			VertexArray->SetIndexBuffer(indexBuffer);
@@ -55,7 +55,7 @@ public:
 				-0.5f, 0.5f, 0.0f
 			};
 
-			std::shared_ptr<Coil::VertexBuffer> vertexBuffer;
+			Coil::Ref<Coil::VertexBuffer> vertexBuffer;
 			vertexBuffer.reset(Coil::VertexBuffer::Create(vertices, sizeof(vertices)));
 
 			vertexBuffer->SetLayout({
@@ -175,8 +175,8 @@ public:
 	}
 	
 private:
-	std::shared_ptr<Coil::VertexArray> VertexArray, SquareVertexArray;
-	std::shared_ptr<Coil::Shader> RainbowShader, VertexColorShader, ColorShader;
+	Coil::Ref<Coil::VertexArray> VertexArray, SquareVertexArray;
+	Coil::Ref<Coil::Shader> RainbowShader, VertexColorShader, ColorShader;
 	Coil::OrthographicCamera Camera;
 
 	Coil::RString<Coil::PString> FrameTime, MousePosition;

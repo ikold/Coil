@@ -14,6 +14,6 @@ namespace Coil
 		void SetClearColor(const glm::vec4& color) override;
 		void Clear() override;
 
-		void DrawIndex(const std::shared_ptr<VertexArray>& vertexArray) override;
+		void DrawIndex(const Ref<VertexArray>& vertexArray) override;
 	};
 }
