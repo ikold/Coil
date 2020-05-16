@@ -1,11 +1,13 @@
 #include "Coil.h"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 
 class ApplicationLayer final : public Coil::Layer
 {
 public:
 	ApplicationLayer()
-		: Camera(-16.f, 16.f, -9.f, 9.f),
+		: Camera(-1.6f, 1.6f, -0.9f, 0.9f),
 		  FrameTime(Coil::PString("%8f ms", 0.f)),
 		  MousePosition(Coil::PString("x: %6d y: %6d", 0, 0))
 	{
@@ -20,8 +22,8 @@ public:
 
 			float32 vertices[3 * 7] = {
 				-0.5f, -0.5f, 0.0f, 1.f, 0.f, 1.f, 1.f,
-				 0.5f, -0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f,
-				 0.0f,  0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f
+				0.5f, -0.5f, 0.0f, 0.f, 0.f, 1.f, 1.f,
+				0.0f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f
 			};
 
 			std::shared_ptr<Coil::VertexBuffer> vertexBuffer;
@@ -46,10 +48,10 @@ public:
 			SquareVertexArray.reset(Coil::VertexArray::Create());
 
 			float32 vertices[4 * 3] = {
-				-0.7f, -0.7f, 0.0f,
-				 0.7f, -0.7f, 0.0f,
-				 0.7f,  0.7f, 0.0f,
-				-0.7f,  0.7f, 0.0f
+				-0.5f, -0.5f, 0.0f,
+				0.5f, -0.5f, 0.0f,
+				0.5f, 0.5f, 0.0f,
+				-0.5f, 0.5f, 0.0f
 			};
 
 			std::shared_ptr<Coil::VertexBuffer> vertexBuffer;
@@ -81,21 +83,9 @@ public:
 	}
 
 	~ApplicationLayer() = default;
-	
+
 	void OnUpdate() override
 	{
-		{
-			Coil::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
-			Coil::RenderCommand::Clear();
-
-			Coil::Renderer::BeginScene(Camera);
-
-			Coil::Renderer::Submit(RainbowShader, SquareVertexArray);
-			Coil::Renderer::Submit(VertexColorShader, VertexArray);
-
-			Coil::Renderer::EndScene();
-		}
-
 		if (!Coil::Input::IsKeyPressed(CL_KEY_TAB))
 		{
 			auto [x, y] = Coil::Input::GetMousePosition();
@@ -126,15 +116,16 @@ public:
 			CameraPosition.y -= CameraSpeed * Coil::Time::DeltaTime();
 
 
-		if (Coil::Input::IsKeyPressed(CL_KEY_A))
+		if (Coil::Input::IsKeyPressed(CL_KEY_Q))
 			CameraRotation -= CameraRotationSpeed * (Coil::Time::DeltaTime() / 1000);
 
-		if (Coil::Input::IsKeyPressed(CL_KEY_D))
+		if (Coil::Input::IsKeyPressed(CL_KEY_E))
 			CameraRotation += CameraRotationSpeed * (Coil::Time::DeltaTime() / 1000);
 
 
 		Camera.SetPosition(CameraPosition);
 		Camera.SetRotation(CameraRotation);
+
 
 		FrameTimeArray[Counter] = Coil::Time::DeltaTime();
 
@@ -146,6 +137,32 @@ public:
 				sum += i;
 
 			FrameTime->Set(0, sum / 60);
+		}
+
+
+		{
+			Coil::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
+			Coil::RenderCommand::Clear();
+
+			Coil::Renderer::BeginScene(Camera);
+
+
+			static glm::mat4 scale = glm::scale(glm::mat4(1.f), glm::vec3(0.1f));
+
+			for (int32 x = -10; x < 10; ++x)
+			{
+				for (int32 y = -10; y < 10; ++y)
+				{
+					glm::mat4 squareTransform = glm::translate(
+						glm::mat4(1.f), glm::vec3(x * 0.11f, y * 0.11f, 0.f)) * scale;
+					Coil::Renderer::Submit(RainbowShader, SquareVertexArray, squareTransform);
+				}
+			}
+
+
+			Coil::Renderer::Submit(VertexColorShader, VertexArray);
+
+			Coil::Renderer::EndScene();
 		}
 	}
 
