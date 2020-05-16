@@ -6,6 +6,7 @@
 #include "GUIOverlay.h"
 
 #include "Components/GUIText.h"
+#include "Components/GUITextInput.h"
 #include "Components/GUIColorPicker.h"
 
 
@@ -58,6 +59,11 @@ namespace Coil
 		static Ref<GUIText> Text(const RString<String>& stringReference)
 		{
 			return std::make_shared<GUIText>(stringReference);
+		}
+
+		static Ref<GUITextInput> TextInput(const RString<String>& label, const RString<BString>& inputBuffer)
+		{
+			return std::make_shared<GUITextInput>(label, inputBuffer);
 		}
 
 		static Ref<GUIColorPicker> ColorPicker(const RString<String>& name = "Color picker", const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(1.f))

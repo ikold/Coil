@@ -19,8 +19,13 @@ public:
 
 		SquareColor = std::make_shared<glm::vec3>(0.2f);
 
+		Coil::RString buffer = Coil::BString("Input test");
+		buffer->Expand(8);
+		Coil::Logger::Info(buffer);
+
 		Coil::GUI::ComponentWindow({ "Name" }, {
-			Coil::GUI::ColorPicker("", SquareColor)
+			Coil::GUI::ColorPicker("", SquareColor),
+			Coil::GUI::TextInput("Input", buffer)
 		});
 
 		Coil::Logger::Trace(MousePosition);
@@ -158,7 +163,7 @@ public:
 			Coil::RenderCommand::Clear();
 
 			Coil::Renderer::BeginScene(Camera);
-
+			
 			ColorShader->Bind();
 			std::dynamic_pointer_cast<Coil::OpenGLShader>(ColorShader)->UploadUniformFloat3("uColor", *SquareColor);
 
