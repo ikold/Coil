@@ -163,9 +163,11 @@ public:
 			Coil::RenderCommand::Clear();
 
 			Coil::Renderer::BeginScene(Camera);
+
+			static Coil::RString<Coil::String> uColor = "uColor";
 			
 			ColorShader->Bind();
-			std::dynamic_pointer_cast<Coil::OpenGLShader>(ColorShader)->UploadUniformFloat3("uColor", *SquareColor);
+			std::dynamic_pointer_cast<Coil::OpenGLShader>(ColorShader)->UploadUniformFloat3(uColor, *SquareColor);
 
 			for (int32 x = 0; x < 20; ++x)
 			{
