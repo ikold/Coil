@@ -14,7 +14,7 @@ namespace Coil
 
 		void BindTextBuffer(const RString<String>& textBuffer) { TextBuffer = textBuffer; }
 
-		[[nodiscard]] RString<String> RetrieveTextBuffer() const { return TextBuffer; }
+		[[nodiscard]] const RString<String>& RetrieveTextBuffer() const { return TextBuffer; }
 
 	private:
 		RString<String> TextBuffer;

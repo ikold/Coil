@@ -2,13 +2,15 @@
 
 #include "GUIComponent.h"
 
+#include <glm/vec2.hpp>
+
 
 namespace Coil
 {
-	class GUITextInput : public GUIComponent
+	class GUIMultiLineTextInput : public GUIComponent
 	{
 	public:
-		GUITextInput(const RString<String>& label, const RString<BString>& inputBuffer);
+		GUIMultiLineTextInput(const RString<String>& label, const RString<BString>& inputBuffer, const Ref<glm::vec2>& dimensions);
 
 		void Draw() const override;
 
@@ -19,5 +21,6 @@ namespace Coil
 
 	private:
 		RString<BString> InputBuffer;
+		Ref<glm::vec2> Dimensions;
 	};
 }

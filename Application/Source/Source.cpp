@@ -11,7 +11,8 @@ public:
 	ApplicationLayer()
 		: Camera(-1.6f, 1.6f, -0.9f, 0.9f),
 		  FrameTime(Coil::PString("%8f ms", 0.f)),
-		  MousePosition(Coil::PString("x: %6d y: %6d", 0, 0))
+		  MousePosition(Coil::PString("x: %6d y: %6d", 0, 0)),
+		  FrameIterator(FrameTimeArray->begin())
 	{
 		Coil::GUI::LogWindow({ "Log" })->BindBuffer(Coil::Logger::GetBuffer());
 
@@ -20,12 +21,23 @@ public:
 		SquareColor = std::make_shared<glm::vec3>(0.2f);
 
 		Coil::RString buffer = Coil::BString("Input test");
-		buffer->Expand(8);
 		Coil::Logger::Info(buffer);
+		buffer->Expand(1);
+		Coil::RString multiLineBuffer = Coil::BString("Multiline\nInput\ntest");
+		Coil::Logger::Info(multiLineBuffer);
 
 		Coil::GUI::ComponentWindow({ "Name" }, {
-			Coil::GUI::ColorPicker("", SquareColor),
-			Coil::GUI::TextInput("Input", buffer)
+			Coil::GUI::ColorPicker("Square Color", SquareColor),
+			Coil::GUI::TextInput("Input", buffer),
+			Coil::GUI::MultiLineTextInput("", multiLineBuffer),
+			Coil::GUI::Text("Camera Rotation"),
+			Coil::GUI::FloatSlider("Camera Rotation", CameraRotation, -180.f, 180.f),
+			Coil::GUI::PlotLine("Frame time", FrameTimeArray, 0.f, 50.f, std::make_shared<glm::vec2>(0.f, 32.f)),
+			Coil::GUI::Button("Button", [] { Coil::Logger::Info("First Button pressed!"); }),
+			Coil::GUI::SameLine(),
+			Coil::GUI::Button("Button", [] { Coil::Logger::Info("Second Button pressed!"); }),
+			Coil::GUI::SameLine(),
+			Coil::GUI::Button("Button", [] { Coil::Logger::Info("Third Button pressed!"); }),
 		});
 
 		Coil::Logger::Trace(MousePosition);
@@ -133,29 +145,16 @@ public:
 		if (Coil::Input::IsKeyPressed(CL_KEY_UP))
 			CameraPosition.y -= CameraSpeed * Coil::Time::DeltaTime();
 
-
-		if (Coil::Input::IsKeyPressed(CL_KEY_Q))
-			CameraRotation -= CameraRotationSpeed * (Coil::Time::DeltaTime() / 1000);
-
-		if (Coil::Input::IsKeyPressed(CL_KEY_E))
-			CameraRotation += CameraRotationSpeed * (Coil::Time::DeltaTime() / 1000);
-
-
 		Camera.SetPosition(CameraPosition);
-		Camera.SetRotation(CameraRotation);
+		Camera.SetRotation(*CameraRotation);
 
 
-		FrameTimeArray[Counter] = Coil::Time::DeltaTime();
+		*FrameIterator = Coil::Time::DeltaTime();
 
-		if (++Counter > 59)
-		{
-			Counter     = 0;
-			float32 sum = 0.f;
-			for (auto i : FrameTimeArray)
-				sum += i;
+		if (++FrameIterator >= FrameTimeArray->end())
+			FrameIterator = FrameTimeArray->begin();
 
-			FrameTime->Set(0, sum / 60);
-		}
+		FrameTime->Set(0, Coil::Time::DeltaTime());
 
 
 		{
@@ -165,7 +164,7 @@ public:
 			Coil::Renderer::BeginScene(Camera);
 
 			static Coil::RString<Coil::String> uColor = "uColor";
-			
+
 			ColorShader->Bind();
 			std::dynamic_pointer_cast<Coil::OpenGLShader>(ColorShader)->UploadUniformFloat3(uColor, *SquareColor);
 
@@ -203,13 +202,13 @@ private:
 	Coil::RString<Coil::PString> FrameTime, MousePosition;
 
 	glm::vec3 CameraPosition = glm::vec3(0);
-	float32 CameraSpeed      = 0.01f;
+	float32 CameraSpeed      = 0.001f;
 
-	float32 CameraRotation      = 0;
-	float32 CameraRotationSpeed = 50.f;
+	Coil::Ref<float32> CameraRotation = std::make_shared<float32>(0);
 
-	int32 Counter = 0;
-	float32 FrameTimeArray[60]{};
+	int32 Counter                                  = 0;
+	Coil::Ref<std::vector<float32>> FrameTimeArray = std::make_shared<std::vector<float32>>(120, 0);
+	std::vector<float32>::iterator FrameIterator;
 
 	Coil::Ref<glm::vec3> SquareColor;
 };
