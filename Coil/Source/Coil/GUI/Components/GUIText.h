@@ -2,6 +2,7 @@
 
 #include "GUIComponent.h"
 
+
 namespace Coil
 {
 	class GUIText : public GUIComponent

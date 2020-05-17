@@ -11,7 +11,7 @@
 
 
 namespace Coil
-{	
+{
 	class GUI
 	{
 	public:
@@ -46,14 +46,12 @@ namespace Coil
 		}
 
 
-
 		static GUIOverlay* Overlay(const GUIWindowProps& properties = {})
 		{
 			auto* window = new GUIOverlay(properties);
 			Container.Push(window);
 			return window;
 		}
-		
 
 
 		static Ref<GUIText> Text(const RString<String>& stringReference)
@@ -61,17 +59,25 @@ namespace Coil
 			return std::make_shared<GUIText>(stringReference);
 		}
 
-		static Ref<GUITextInput> TextInput(const RString<String>& label, const RString<BString>& inputBuffer)
+		static Ref<GUITextInput> TextInput(const RString<String>& label = "", const RString<BString>& inputBuffer = BString(""))
 		{
-			return std::make_shared<GUITextInput>(label, inputBuffer);
+			return std::make_shared<GUITextInput>(MakeUniqueLabel(label), inputBuffer);
 		}
 
-		static Ref<GUIColorPicker> ColorPicker(const RString<String>& name = "Color picker", const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(1.f))
+		static Ref<GUIColorPicker> ColorPicker(const RString<String>& label = "", const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(1.f))
 		{
-			return std::make_shared<GUIColorPicker>(name, vec3Ref);
+			return std::make_shared<GUIColorPicker>(MakeUniqueLabel(label), vec3Ref);
+		}
+
+
+		static RString<> MakeUniqueLabel(const RString<>& label)
+		{
+			return PString("%S##%d", label->CString(), label->GetSize(), LabelID++).ToString();
 		}
 
 	private:
 		static PointerContainer<GUIWindow> Container;
+
+		static int32 LabelID;
 	};
 }
