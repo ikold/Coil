@@ -110,8 +110,10 @@ namespace Coil
 		void RecalculateLength();
 		
 		[[nodiscard]] int32 GetSize() const override { return Size; }
-
 		
+		[[nodiscard]] char8* GetBuffer() const { return Data; }
+
+
 	private:
 		int32 Size;
 	};

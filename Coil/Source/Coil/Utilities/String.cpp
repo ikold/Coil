@@ -275,7 +275,7 @@ namespace Coil
 
 	void BString::Expand(uint32 size)
 	{
-		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size + size) + 1));
+		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + size + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
 		{
