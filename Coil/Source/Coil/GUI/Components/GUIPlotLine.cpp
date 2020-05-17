@@ -6,15 +6,14 @@
 
 namespace Coil
 {
-	GUIPlotLine::GUIPlotLine(const RString<> label, const Ref<std::vector<float32>> dataBuffer, float32 scaleMin, float32 scaleMax, const Ref<glm::vec2>& dimensions)
-		: GUIComponent(label),
+	GUIPlotLine::GUIPlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>> dataBuffer, float32 scaleMin, float32 scaleMax)
+		: GUIComponent(properties),
 		  DataBuffer(dataBuffer),
 		  ScaleMin(scaleMin),
-		  ScaleMax(scaleMax),
-		  Dimensions(dimensions) {}
+		  ScaleMax(scaleMax) {}
 
 	void GUIPlotLine::Draw() const
 	{
-		ImGui::PlotLines(Label->CString(), DataBuffer->_Unchecked_begin(), DataBuffer->size(), 0, nullptr, ScaleMin, ScaleMax, { Dimensions->x, Dimensions->y });
+		ImGui::PlotLines(Properties.Label->CString(), DataBuffer->_Unchecked_begin(), DataBuffer->size(), 0, nullptr, ScaleMin, ScaleMax, { Properties.Width, Properties.Height });
 	}
 }

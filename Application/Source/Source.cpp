@@ -27,17 +27,17 @@ public:
 		Coil::Logger::Info(multiLineBuffer);
 
 		Coil::GUI::ComponentWindow({ "Name" }, {
-			Coil::GUI::ColorPicker("Square Color", SquareColor),
-			Coil::GUI::TextInput("Input", buffer),
-			Coil::GUI::MultiLineTextInput("", multiLineBuffer),
+			Coil::GUI::Text("Square Color"),
+			Coil::GUI::ColorPicker(SquareColor),
+			Coil::GUI::TextInput(buffer),
+			Coil::GUI::MultiLineTextInput({"", -1.f}, multiLineBuffer),
 			Coil::GUI::Text("Camera Rotation"),
-			Coil::GUI::FloatSlider("Camera Rotation", CameraRotation, -180.f, 180.f),
-			Coil::GUI::PlotLine("Frame time", FrameTimeArray, 0.f, 50.f, std::make_shared<glm::vec2>(0.f, 32.f)),
-			Coil::GUI::Button("Button", [] { Coil::Logger::Info("First Button pressed!"); }),
-			Coil::GUI::SameLine(),
-			Coil::GUI::Button("Button", [] { Coil::Logger::Info("Second Button pressed!"); }),
-			Coil::GUI::SameLine(),
-			Coil::GUI::Button("Button", [] { Coil::Logger::Info("Third Button pressed!"); }),
+			Coil::GUI::FloatSlider(CameraRotation, -180.f, 180.f),
+			Coil::GUI::Text("Frame Time"),
+			Coil::GUI::PlotLine({ "", 0, 32.f }, FrameTimeArray, 0.f, 50.f),
+			Coil::GUI::Button({ "Button" }, [] { Coil::Logger::Info("First Button pressed!"); }),
+			Coil::GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Second Button pressed!"); }),
+			Coil::GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Third Button pressed!"); }),
 		});
 
 		Coil::Logger::Trace(MousePosition);
@@ -193,7 +193,7 @@ public:
 	{
 		Coil::EventDispatcher dispatcher(event);
 	}
-
+	
 private:
 	Coil::Ref<Coil::VertexArray> VertexArray, SquareVertexArray;
 	Coil::Ref<Coil::Shader> RainbowShader, VertexColorShader, ColorShader, TextureShader;

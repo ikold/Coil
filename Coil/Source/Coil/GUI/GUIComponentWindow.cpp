@@ -12,6 +12,9 @@ namespace Coil
 	void GUIComponentWindow::Draw() const
 	{
 		for (const auto& component : Components)
+		{
+			component->SetUp();
 			component->Draw();
+		}
 	}
 }

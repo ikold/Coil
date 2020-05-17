@@ -8,7 +8,7 @@ namespace Coil
 	class GUITextInput : public GUIComponent
 	{
 	public:
-		GUITextInput(const RString<String>& label, const RString<BString>& inputBuffer);
+		GUITextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer);
 
 		void Draw() const override;
 

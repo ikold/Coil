@@ -8,7 +8,7 @@ namespace Coil
 	class GUIFloatSlider : public GUIComponent
 	{
 	public:
-		GUIFloatSlider(const RString<>& label, const Ref<float32>& floatRef, float32 minValue = 0.f, float32 maxValue = 1.f);
+		GUIFloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef, float32 minValue = 0.f, float32 maxValue = 1.f);
 
 		void Draw() const override;
 

@@ -5,7 +5,7 @@
 namespace Coil
 {
 	PointerContainer<GUIWindow> GUI::Container;
-	int32 GUI::LabelID = 0;
+
 
 	void GUI::OnImGuiRender()
 	{
@@ -43,50 +43,39 @@ namespace Coil
 		return window;
 	}
 
-	Ref<GUISameLine> GUI::SameLine()
+
+	Ref<GUIButton> GUI::Button(const GUIComponentProps& properties, void (* callback)())
 	{
-		return std::make_shared<GUISameLine>();
+		return std::make_shared<GUIButton>(properties, callback);
 	}
 
-
-	Ref<GUIButton> GUI::Button(const RString<String>& label, void (* callback)())
+	Ref<GUIText> GUI::Text(const GUIComponentProps& properties, const RString<String>& stringReference)
 	{
-		return std::make_shared<GUIButton>(MakeUniqueLabel(label), callback);
+		return std::make_shared<GUIText>(properties, stringReference);
 	}
 
-	Ref<GUIText> GUI::Text(const RString<String>& stringReference)
+	Ref<GUITextInput> GUI::TextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer)
 	{
-		return std::make_shared<GUIText>(stringReference);
+		return std::make_shared<GUITextInput>(properties, inputBuffer);
 	}
 
-	Ref<GUITextInput> GUI::TextInput(const RString<String>& label, const RString<BString>& inputBuffer)
+	Ref<GUIMultiLineTextInput> GUI::MultiLineTextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer)
 	{
-		return std::make_shared<GUITextInput>(MakeUniqueLabel(label), inputBuffer);
+		return std::make_shared<GUIMultiLineTextInput>(properties, inputBuffer);
 	}
 
-	Ref<GUIMultiLineTextInput> GUI::MultiLineTextInput(const RString<String>& label, const RString<BString>& inputBuffer, const Ref<glm::vec2>& dimensions)
+	Ref<GUIFloatSlider> GUI::FloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef, float32 minValue, float32 maxValue)
 	{
-		return std::make_shared<GUIMultiLineTextInput>(MakeUniqueLabel(label), inputBuffer, dimensions);
+		return std::make_shared<GUIFloatSlider>(properties, floatRef, minValue, maxValue);
 	}
 
-	Ref<GUIFloatSlider> GUI::FloatSlider(const RString<>& label, const Ref<float32>& floatRef, float32 minValue, float32 maxValue)
+	Ref<GUIColorPicker> GUI::ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref)
 	{
-		return std::make_shared<GUIFloatSlider>(MakeUniqueLabel(label), floatRef, minValue, maxValue);
+		return std::make_shared<GUIColorPicker>(properties, vec3Ref);
 	}
 
-	Ref<GUIColorPicker> GUI::ColorPicker(const RString<String>& label, const Ref<glm::vec3>& vec3Ref)
+	Ref<GUIPlotLine> GUI::PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer, float32 scaleMin, float32 scaleMax)
 	{
-		return std::make_shared<GUIColorPicker>(MakeUniqueLabel(label), vec3Ref);
-	}
-
-	Ref<GUIPlotLine> GUI::PlotLine(const RString<String>& label, const Ref<std::vector<float32>>& dataBuffer, float32 scaleMin, float32 scaleMax, const Ref<glm::vec2>& dimensions)
-	{
-		return std::make_shared<GUIPlotLine>(MakeUniqueLabel(label), dataBuffer, scaleMin, scaleMax, dimensions);
-	}
-
-
-	RString<> GUI::MakeUniqueLabel(const RString<>& label)
-	{
-		return PString("%S##%d", label->CString(), label->GetSize(), LabelID++).ToString();
+		return std::make_shared<GUIPlotLine>(properties, dataBuffer, scaleMin, scaleMax);
 	}
 }

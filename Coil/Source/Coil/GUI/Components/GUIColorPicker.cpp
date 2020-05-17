@@ -7,12 +7,12 @@
 
 namespace Coil
 {
-	GUIColorPicker::GUIColorPicker(const RString<String>& label, const Ref<glm::vec3>& vec3Ref)
-		: GUIComponent(label),
+	GUIColorPicker::GUIColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref)
+		: GUIComponent(properties),
 		  Vec3Ref(vec3Ref) {}
 
 	void GUIColorPicker::Draw() const
 	{
-		ImGui::ColorEdit3(Label->CString(), value_ptr(*Vec3Ref));
+		ImGui::ColorEdit3(Properties.Label->CString(), value_ptr(*Vec3Ref));
 	}
 }

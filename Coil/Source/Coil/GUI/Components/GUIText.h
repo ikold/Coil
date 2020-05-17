@@ -8,7 +8,7 @@ namespace Coil
 	class GUIText : public GUIComponent
 	{
 	public:
-		GUIText(const RString<String>& textBuffer);
+		GUIText(const GUIComponentProps& properties, const RString<String>& textBuffer);
 
 		void Draw() const override;
 

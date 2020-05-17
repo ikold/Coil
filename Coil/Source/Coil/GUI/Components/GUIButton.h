@@ -8,7 +8,7 @@ namespace Coil
 	class GUIButton : public GUIComponent
 	{
 	public:
-		GUIButton(RString<> label, void (*callback)());
+		GUIButton(const GUIComponentProps& properties, void (*callback)());
 
 		void Draw() const override;
 

@@ -6,14 +6,13 @@
 
 namespace Coil
 {
-	GUIMultiLineTextInput::GUIMultiLineTextInput(const RString<String>& label, const RString<BString>& inputBuffer, const Ref<glm::vec2>& dimensions)
-		: GUIComponent(label),
-		  InputBuffer(inputBuffer),
-		  Dimensions(dimensions) {}
+	GUIMultiLineTextInput::GUIMultiLineTextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer)
+		: GUIComponent(properties),
+		  InputBuffer(inputBuffer) {}
 
 	void GUIMultiLineTextInput::Draw() const
 	{
-		ImGui::InputTextMultiline(Label->CString(), InputBuffer->GetBuffer(), InputBuffer->GetSize() + 1, { Dimensions->x, Dimensions->y }, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
+		ImGui::InputTextMultiline(Properties.Label->CString(), InputBuffer->GetBuffer(), InputBuffer->GetSize() + 1, { Properties.Width, Properties.Height }, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
 		{
 			auto string = *static_cast<RString<BString>*>(data->UserData);
 

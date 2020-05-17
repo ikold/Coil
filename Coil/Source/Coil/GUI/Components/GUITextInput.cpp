@@ -6,13 +6,13 @@
 
 namespace Coil
 {
-	GUITextInput::GUITextInput(const RString<String>& label, const RString<BString>& inputBuffer)
-		: GUIComponent(label),
+	GUITextInput::GUITextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer)
+		: GUIComponent(properties),
 		  InputBuffer(inputBuffer) {}
 
 	void GUITextInput::Draw() const
 	{
-		ImGui::InputText(Label->CString(), InputBuffer->GetBuffer(), InputBuffer->GetSize() + 1, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
+		ImGui::InputText(Properties.Label->CString(), InputBuffer->GetBuffer(), InputBuffer->GetSize() + 1, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
 		{
 			auto string = *static_cast<RString<BString>*>(data->UserData);
 

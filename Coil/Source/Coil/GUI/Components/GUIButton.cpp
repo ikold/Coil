@@ -6,13 +6,13 @@
 
 namespace Coil
 {
-	GUIButton::GUIButton(const RString<> label, void (*callback)())
-		: GUIComponent(label),
+	GUIButton::GUIButton(const GUIComponentProps& properties, void (*callback)())
+		: GUIComponent(properties),
 		  Callback(callback) {}
 
 	void GUIButton::Draw() const
 	{
-		if (ImGui::Button(Label->CString()))
+		if (ImGui::Button(Properties.Label->CString()))
 			Callback();
 	}
 }

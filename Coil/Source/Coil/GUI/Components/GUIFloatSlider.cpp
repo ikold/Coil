@@ -6,14 +6,14 @@
 
 namespace Coil
 {
-	GUIFloatSlider::GUIFloatSlider(const RString<>& label, const Ref<float32>& floatRef, float32 minValue, float32 maxValue)
-		: GUIComponent(label),
+	GUIFloatSlider::GUIFloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef, float32 minValue, float32 maxValue)
+		: GUIComponent(properties),
 		  FloatRef(floatRef),
 		  MinValue(minValue),
 		  MaxValue(maxValue) {}
 
 	void GUIFloatSlider::Draw() const
 	{
-		ImGui::SliderFloat(Label->CString(), &*FloatRef, MinValue, MaxValue);
+		ImGui::SliderFloat(Properties.Label->CString(), &*FloatRef, MinValue, MaxValue);
 	}
 }

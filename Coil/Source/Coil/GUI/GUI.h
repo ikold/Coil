@@ -5,7 +5,6 @@
 
 #include "GUIOverlay.h"
 
-#include "Components/GUISameLine.h"
 #include "Components/GUIButton.h"
 #include "Components/GUIText.h"
 #include "Components/GUITextInput.h"
@@ -32,28 +31,36 @@ namespace Coil
 
 		static GUIOverlay* Overlay(const GUIWindowProps& properties = {});
 
-		
-		static Ref<GUISameLine> SameLine();
-		
-		static Ref<GUIButton> Button(const RString<String>& label, void (*callback)());
 
-		static Ref<GUIText> Text(const RString<String>& stringReference);
+		static Ref<GUIButton> Button(const GUIComponentProps& properties, void (*callback)());
 
-		static Ref<GUITextInput> TextInput(const RString<String>& label = "", const RString<BString>& inputBuffer = BString(""));
+		static Ref<GUIText> Text(const GUIComponentProps& properties, const RString<String>& stringReference);
 
-		static Ref<GUIMultiLineTextInput> MultiLineTextInput(const RString<String>& label = "", const RString<BString>& inputBuffer = BString(""), const Ref<glm::vec2>& dimensions = std::make_shared<glm::vec2>(0, 0));
+		static Ref<GUITextInput> TextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer = BString(""));
 
-		static Ref<GUIFloatSlider> FloatSlider(const RString<>& label = "", const Ref<float32>& floatRef = std::make_shared<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f);
+		static Ref<GUIMultiLineTextInput> MultiLineTextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer = BString(""));
 
-		static Ref<GUIColorPicker> ColorPicker(const RString<String>& label = "", const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(0));
+		static Ref<GUIFloatSlider> FloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef = std::make_shared<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f);
 
-		static Ref<GUIPlotLine> PlotLine(const RString<String>& label = "", const Ref<std::vector<float32>>& dataBuffer = std::make_shared<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max(), const Ref<glm::vec2>& dimensions = std::make_shared<glm::vec2>(0, 0));
+		static Ref<GUIColorPicker> ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(0));
 
+		static Ref<GUIPlotLine> PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer = std::make_shared<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max());
 
-		static RString<> MakeUniqueLabel(const RString<>& label);
+		static Ref<GUIButton> Button(void (*callback)()) { return Button({}, callback); }
+
+		static Ref<GUIText> Text(const RString<String>& stringReference) { return Text({}, stringReference); }
+
+		static Ref<GUITextInput> TextInput(const RString<BString>& inputBuffer = BString("")) { return TextInput({}, inputBuffer); }
+
+		static Ref<GUIMultiLineTextInput> MultiLineTextInput(const RString<BString>& inputBuffer = BString("")) { return MultiLineTextInput({}, inputBuffer); }
+
+		static Ref<GUIFloatSlider> FloatSlider(const Ref<float32>& floatRef = std::make_shared<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f) { return FloatSlider({}, floatRef, minValue, maxValue); }
+
+		static Ref<GUIColorPicker> ColorPicker(const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(0)) { return ColorPicker({}, vec3Ref); }
+
+		static Ref<GUIPlotLine> PlotLine(const Ref<std::vector<float32>>& dataBuffer = std::make_shared<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max()) { return PlotLine({}, dataBuffer, scaleMin, scaleMax); }
 
 	private:
 		static PointerContainer<GUIWindow> Container;
-		static int32 LabelID;
 	};
 }
