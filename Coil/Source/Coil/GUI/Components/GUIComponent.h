@@ -8,7 +8,6 @@ namespace Coil
 		RString<String> Label;
 		float32 Width;
 		float32 Height;
-		bool LabelObove;
 		bool SameLine;
 
 		GUIComponentProps(const RString<>& label = "", float32 width = 0, float32 height = 0, bool sameLine = false)

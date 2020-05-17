@@ -17,7 +17,8 @@ workspace "Coil"
 	IncludeDir["ImGui"] = "Coil/Vendor/ImGui"
 	IncludeDir["Ryu"] = "Coil/Vendor/Ryu"
 	IncludeDir["glm"] = "Coil/Vendor/glm"
-	
+	IncludeDir["stb_image"] = "Coil/Vendor/stb_image"
+
 	group "Dependencies"
 		include "Coil/Vendor"
 	group ""
@@ -38,7 +39,9 @@ workspace "Coil"
 		files
 		{
 			"%{prj.name}/Source/**.h",
-			"%{prj.name}/Source/**.cpp"
+			"%{prj.name}/Source/**.cpp",
+			"%{prj.name}/Vendor/stb_image/**.h",
+			"%{prj.name}/Vendor/stb_image/**.cpp"
 		}
 		
 		includedirs 
@@ -48,7 +51,8 @@ workspace "Coil"
 			"%{IncludeDir.GLAD}",
 			"%{IncludeDir.ImGui}",
 			"%{IncludeDir.Ryu}",
-			"%{IncludeDir.glm}"
+			"%{IncludeDir.glm}",
+			"%{IncludeDir.stb_image}"
 		}
 
 		links

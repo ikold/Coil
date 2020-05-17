@@ -12,6 +12,7 @@
 
 #include "Coil/Renderer/Buffer.h"
 #include "Coil/Renderer/Shader.h"
+#include "Coil//Renderer/Texture.h"
 #include "Coil/Renderer/VertexArray.h"
 
 #include "Coil/Renderer/OrthographicCamera.h"

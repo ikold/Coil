@@ -6,7 +6,7 @@
 
 namespace Coil
 {
-	Shader* Shader::Create(const RString<String>& vertexSource, const RString<String>& fragmentSource)
+	Ref<Shader> Shader::Create(const RString<String>& vertexSource, const RString<String>& fragmentSource)
 	{
 		switch (Renderer::GetAPI())
 		{
@@ -15,7 +15,7 @@ namespace Coil
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return new OpenGLShader(vertexSource, fragmentSource);
+			return std::make_shared<OpenGLShader>(vertexSource, fragmentSource);
 		}
 
 		CL_CORE_ASSERT(false, "Unknown RendererAPI!");

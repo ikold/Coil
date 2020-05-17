@@ -11,5 +11,5 @@ out vec2 vTextureCoordinates;
 void main()
 {
 	vTextureCoordinates = aTextureCoordinates;
-	gl_Position = uViewProjection * uTransform * vec4(aPosition, 1.0);
+	gl_Position = uViewProjection * uTransform * vec4(aPosition, 1.0);	
 }

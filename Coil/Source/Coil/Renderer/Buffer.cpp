@@ -7,28 +7,28 @@
 
 namespace Coil
 {
-	VertexBuffer* VertexBuffer::Create(float32* vertices, uint32 size)
+	Ref<VertexBuffer> VertexBuffer::Create(float32* vertices, uint32 size)
 	{
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None: CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
 			return nullptr;
 
-		case RendererAPI::API::OpenGL: return new OpenGLVertexBuffer(vertices, size);
+		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLVertexBuffer>(vertices, size);
 		}
 
 		CL_CORE_ASSERT(false, "Unknown RendererAPI!");
 		return nullptr;
 	}
 
-	IndexBuffer* IndexBuffer::Create(uint32* indices, uint32 size)
+	Ref<IndexBuffer> IndexBuffer::Create(uint32* indices, uint32 size)
 	{
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None: CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
 			return nullptr;
 
-		case RendererAPI::API::OpenGL: return new OpenGLIndexBuffer(indices, size);
+		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLIndexBuffer>(indices, size);
 		}
 
 		CL_CORE_ASSERT(false, "Unknown RendererAPI!");

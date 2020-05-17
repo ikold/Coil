@@ -1,22 +1,22 @@
 #include "pch.h"
-#include "VertexArray.h"
+#include "Texture.h"
 
 #include "Renderer.h"
-#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLTexture.h"
 
 
 namespace Coil
 {
-	Ref<VertexArray> VertexArray::Create()
+	Ref<Texture2D> Texture2D::Create(const RString<>& path)
 	{
 		switch (Renderer::GetAPI())
 		{
 		case RendererAPI::API::None:
-			CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
+		CL_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
 			return nullptr;
 
 		case RendererAPI::API::OpenGL:
-			return std::make_shared<OpenGLVertexArray>();
+			return std::make_shared<OpenGLTexture2D>(path);
 		}
 
 		CL_CORE_ASSERT(false, "Unknown RendererAPI!");

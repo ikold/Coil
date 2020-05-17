@@ -30,7 +30,7 @@ public:
 			Coil::GUI::Text("Square Color"),
 			Coil::GUI::ColorPicker(SquareColor),
 			Coil::GUI::TextInput(buffer),
-			Coil::GUI::MultiLineTextInput({"", -1.f}, multiLineBuffer),
+			Coil::GUI::MultiLineTextInput({ "", -1.f }, multiLineBuffer),
 			Coil::GUI::Text("Camera Rotation"),
 			Coil::GUI::FloatSlider(CameraRotation, -180.f, 180.f),
 			Coil::GUI::Text("Frame Time"),
@@ -43,7 +43,7 @@ public:
 		Coil::Logger::Trace(MousePosition);
 
 		{
-			VertexArray.reset(Coil::VertexArray::Create());
+			VertexArray = Coil::VertexArray::Create();
 
 			float32 vertices[3 * 7] = {
 				-0.5f, -0.5f, 0.0f, 1.f, 0.f, 1.f, 1.f,
@@ -51,8 +51,7 @@ public:
 				0.0f, 0.5f, 0.0f, 1.f, 1.f, 0.f, 1.f
 			};
 
-			Coil::Ref<Coil::VertexBuffer> vertexBuffer;
-			vertexBuffer.reset(Coil::VertexBuffer::Create(vertices, sizeof(vertices)));
+			Coil::Ref<Coil::VertexBuffer> vertexBuffer = Coil::VertexBuffer::Create(vertices, sizeof(vertices));
 
 			vertexBuffer->SetLayout({
 				{ Coil::ShaderDataType::Float3, "position" },
@@ -63,14 +62,13 @@ public:
 
 			uint32 indices[3] = { 0, 1, 2 };
 
-			Coil::Ref<Coil::IndexBuffer> indexBuffer;
-			indexBuffer.reset(Coil::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32)));
+			Coil::Ref<Coil::IndexBuffer> indexBuffer = Coil::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32));
 
 			VertexArray->SetIndexBuffer(indexBuffer);
 		}
 
 		{
-			SquareVertexArray.reset(Coil::VertexArray::Create());
+			SquareVertexArray = Coil::VertexArray::Create();
 
 			float32 vertices[4 * 5] = {
 				-0.5f, -0.5f, 0.f, 0.f, 0.f,
@@ -79,8 +77,7 @@ public:
 				-0.5f, 0.5f, 0.f, 0.f, 1.f
 			};
 
-			Coil::Ref<Coil::VertexBuffer> vertexBuffer;
-			vertexBuffer.reset(Coil::VertexBuffer::Create(vertices, sizeof(vertices)));
+			Coil::Ref<Coil::VertexBuffer> vertexBuffer = Coil::VertexBuffer::Create(vertices, sizeof(vertices));
 
 			vertexBuffer->SetLayout({
 				{ Coil::ShaderDataType::Float3, "position" },
@@ -91,31 +88,35 @@ public:
 
 			uint32 indices[6] = { 0, 1, 2, 0, 2, 3 };
 
-			std::shared_ptr<Coil::IndexBuffer> indexBuffer;
-			indexBuffer.reset(Coil::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32)));
+			std::shared_ptr<Coil::IndexBuffer> indexBuffer = Coil::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32));
 
 			SquareVertexArray->SetIndexBuffer(indexBuffer);
 		}
 
-		VertexColorShader.reset(Coil::Shader::Create(
+		VertexColorShader = Coil::Shader::Create(
 			Coil::File::Load("Resources/Shaders/VertexColor.vert"),
 			Coil::File::Load("Resources/Shaders/VertexColor.frag")
-		));
+		);
 
-		RainbowShader.reset(Coil::Shader::Create(
+		RainbowShader = Coil::Shader::Create(
 			Coil::File::Load("Resources/Shaders/Rainbow.vert"),
 			Coil::File::Load("Resources/Shaders/Rainbow.frag")
-		));
+		);
 
-		ColorShader.reset(Coil::Shader::Create(
+		ColorShader = Coil::Shader::Create(
 			Coil::File::Load("Resources/Shaders/Color.vert"),
 			Coil::File::Load("Resources/Shaders/Color.frag")
-		));
+		);
 
-		TextureShader.reset(Coil::Shader::Create(
+		TextureShader = Coil::Shader::Create(
 			Coil::File::Load("Resources/Shaders/Texture.vert"),
 			Coil::File::Load("Resources/Shaders/Texture.frag")
-		));
+		);
+
+		Texture = Coil::Texture2D::Create("Resources/Textures/Colorgrid.png");
+
+		TextureShader->Bind();
+		std::dynamic_pointer_cast<Coil::OpenGLShader>(TextureShader)->UploadUniformInt("uTexture", 0);
 	}
 
 	~ApplicationLayer() = default;
@@ -181,6 +182,7 @@ public:
 				}
 			}
 
+			Texture->Bind();
 			Coil::Renderer::Submit(TextureShader, SquareVertexArray);
 
 			//Coil::Renderer::Submit(VertexColorShader, VertexArray);
@@ -193,10 +195,12 @@ public:
 	{
 		Coil::EventDispatcher dispatcher(event);
 	}
-	
+
 private:
 	Coil::Ref<Coil::VertexArray> VertexArray, SquareVertexArray;
 	Coil::Ref<Coil::Shader> RainbowShader, VertexColorShader, ColorShader, TextureShader;
+	Coil::Ref<Coil::Texture2D> Texture;
+
 	Coil::OrthographicCamera Camera;
 
 	Coil::RString<Coil::PString> FrameTime, MousePosition;
