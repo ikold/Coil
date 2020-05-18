@@ -33,6 +33,8 @@ public:
 			Coil::GUI::MultiLineTextInput({ "", -1.f }, multiLineBuffer),
 			Coil::GUI::Text("Camera Rotation"),
 			Coil::GUI::FloatSlider(CameraRotation, -180.f, 180.f),
+			Coil::GUI::Text("Camera Zoom"),
+			Coil::GUI::FloatSlider(CameraScale, 0.1f, 2.f),
 			Coil::GUI::Text("Frame Time"),
 			Coil::GUI::PlotLine({ "", 0, 32.f }, FrameTimeArray, 0.f, 50.f),
 			Coil::GUI::Button({ "Button" }, [] { Coil::Logger::Info("First Button pressed!"); }),
@@ -135,20 +137,35 @@ public:
 		}
 
 		if (Coil::Input::IsKeyPressed(CL_KEY_LEFT))
-			CameraPosition.x += CameraSpeed * Coil::Time::DeltaTime();
+		{
+			CameraPosition.x -= CameraSpeed * Coil::Time::DeltaTime() * glm::cos(glm::radians(*CameraRotation));
+			CameraPosition.y -= CameraSpeed * Coil::Time::DeltaTime() * glm::sin(glm::radians(*CameraRotation));
+		}
 
 		if (Coil::Input::IsKeyPressed(CL_KEY_RIGHT))
-			CameraPosition.x -= CameraSpeed * Coil::Time::DeltaTime();
+		{
+			CameraPosition.x += CameraSpeed * Coil::Time::DeltaTime() * glm::cos(glm::radians(*CameraRotation));
+			CameraPosition.y += CameraSpeed * Coil::Time::DeltaTime() * glm::sin(glm::radians(*CameraRotation));
+		}
 
 		if (Coil::Input::IsKeyPressed(CL_KEY_DOWN))
-			CameraPosition.y += CameraSpeed * Coil::Time::DeltaTime();
+		{
+			CameraPosition.x += CameraSpeed * Coil::Time::DeltaTime() * glm::sin(glm::radians(*CameraRotation));
+			CameraPosition.y -= CameraSpeed * Coil::Time::DeltaTime() * glm::cos(glm::radians(*CameraRotation));
+		}
 
 		if (Coil::Input::IsKeyPressed(CL_KEY_UP))
-			CameraPosition.y -= CameraSpeed * Coil::Time::DeltaTime();
+		{
+			CameraPosition.x -= CameraSpeed * Coil::Time::DeltaTime() * glm::sin(glm::radians(*CameraRotation));
+			CameraPosition.y += CameraSpeed * Coil::Time::DeltaTime() * glm::cos(glm::radians(*CameraRotation));
+		}
 
+		*CameraScale    = Coil::Math::Truncate(*CameraScale, 0.1f, 2.f);
+		*CameraRotation = Coil::Math::WrapCycle(*CameraRotation, 360.f, -180.f, 180.f);
+
+		Camera.SetScale(glm::vec3(*CameraScale));
 		Camera.SetPosition(CameraPosition);
 		Camera.SetRotation(*CameraRotation);
-
 
 		*FrameIterator = Coil::Time::DeltaTime();
 
@@ -194,6 +211,16 @@ public:
 	void OnEvent(Coil::Event& event) override
 	{
 		Coil::EventDispatcher dispatcher(event);
+
+		dispatcher.Dispatch<Coil::MouseScrolledEvent>([&](Coil::MouseScrolledEvent& event) -> bool
+		{
+			if (Coil::Input::IsKeyPressed(CL_KEY_LEFT_CONTROL) && Coil::Input::IsKeyPressed(CL_KEY_LEFT_ALT))
+				*CameraRotation += event.GetYOffset() * 5.f;
+			else
+				*CameraScale -= event.GetYOffset() * 0.1f;
+
+			return false;
+		});
 	}
 
 private:
@@ -209,8 +236,8 @@ private:
 	float32 CameraSpeed      = 0.001f;
 
 	Coil::Ref<float32> CameraRotation = std::make_shared<float32>(0);
+	Coil::Ref<float32> CameraScale    = std::make_shared<float32>(1);
 
-	int32 Counter                                  = 0;
 	Coil::Ref<std::vector<float32>> FrameTimeArray = std::make_shared<std::vector<float32>>(120, 0);
 	std::vector<float32>::iterator FrameIterator;
 

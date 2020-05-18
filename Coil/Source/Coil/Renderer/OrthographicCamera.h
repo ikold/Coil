@@ -16,8 +16,9 @@ namespace Coil
 		[[nodiscard]] const glm::mat4& GetViewProjectionMatrix() const { return ViewProjectionMatrix; }
 
 		void SetPosition(const glm::vec3& position);
+		void SetScale(const glm::vec3& scale);
 		void SetRotation(float32 rotation);
-
+		
 	private:
 		void RecalculateViewMatrix();
 
@@ -27,6 +28,7 @@ namespace Coil
 		glm::mat4 ViewProjectionMatrix{};
 
 		glm::vec3 Position;
+		glm::vec3 Scale;
 		float32 Rotation;
 	};
 }
