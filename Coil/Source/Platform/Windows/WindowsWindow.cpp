@@ -49,6 +49,7 @@ namespace Coil
 			GLFWInitialized = true;
 		}
 
+		glfwWindowHint(GLFW_SAMPLES, 4);
 		WindowInstance = glfwCreateWindow(static_cast<int32>(Data.Width), static_cast<int32>(Data.Height), Data.Name->CString(), nullptr, nullptr);
 
 

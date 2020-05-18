@@ -15,6 +15,8 @@ namespace Coil
 		void OnDetach() override;
 		void OnImGuiRender() override;
 
+		void OnEvent(Event& event) override;
+		
 		static void Begin();
 		static void End();
 	};

@@ -63,10 +63,27 @@ namespace Coil
 		Begin();
 
 		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
-		
+
 		GUI::OnImGuiRender();
 
 		End();
+	}
+
+	void GUILayer::OnEvent(Event& event)
+	{
+		EventDispatcher dispatcher(event);
+
+		dispatcher.Dispatch<MouseScrolledEvent>([](MouseScrolledEvent& event) -> bool
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			return io.WantCaptureMouse;
+		});
+
+		dispatcher.Dispatch<MouseButtonPressedEvent>([](MouseButtonPressedEvent& event) -> bool
+		{
+			ImGuiIO& io = ImGui::GetIO();
+			return io.WantCaptureMouse;
+		});
 	}
 
 	void GUILayer::Begin()

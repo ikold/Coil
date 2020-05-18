@@ -2,7 +2,8 @@
 #include "Application.h"
 
 #include "Coil/GUI/GUILayer.h"
-#include "Coil/GUI/GUI.h"
+
+#include "Coil/Renderer/Renderer.h"
 
 
 namespace Coil
@@ -45,6 +46,7 @@ namespace Coil
 		EventDispatcher dispatcher(event);
 
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_METHOD(Application::OnWindowClosed));
+		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_METHOD(Application::OnWindowResize));
 
 		for (auto it = AppLayerStack.end(); it != AppLayerStack.begin();)
 		{
@@ -59,6 +61,13 @@ namespace Coil
 		Logger::Info("Closing Application");
 		Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& event)
+	{
+		RenderCommand::SetViewport(0, 0, event.GetWidth(), event.GetHeight());
+
+		return false;
 	}
 
 	void Application::PushLayer(Layer* layer)

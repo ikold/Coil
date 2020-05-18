@@ -21,6 +21,7 @@ namespace Coil
 		void OnEvent(Event& event);
 
 		bool OnWindowClosed(WindowCloseEvent& event);
+		bool OnWindowResize(WindowResizeEvent& event);
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
