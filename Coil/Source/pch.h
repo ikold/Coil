@@ -6,6 +6,8 @@
 
 #include <memory>
 
+#include <functional>
+
 #include "Coil/Utilities/Types.h"
 
 #include "Coil/Utilities/Math.h"

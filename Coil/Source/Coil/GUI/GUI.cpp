@@ -44,7 +44,7 @@ namespace Coil
 	}
 
 
-	Ref<GUIButton> GUI::Button(const GUIComponentProps& properties, void (* callback)())
+	Ref<GUIButton> GUI::Button(const GUIComponentProps& properties, const std::function<void()>& callback)
 	{
 		return std::make_shared<GUIButton>(properties, callback);
 	}

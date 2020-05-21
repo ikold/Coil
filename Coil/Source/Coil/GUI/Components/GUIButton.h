@@ -8,16 +8,15 @@ namespace Coil
 	class GUIButton : public GUIComponent
 	{
 	public:
-		GUIButton(const GUIComponentProps& properties, void (*callback)());
+		GUIButton(const GUIComponentProps& properties, const std::function<void()>& callback);
 
 		void Draw() const override;
 
-		void BindCallback(void (*callback)()) { Callback = callback; }
+		void BindCallback(const std::function<void()>& callback) { Callback = callback; }
 
-		typedef void (*CallbackPtr)();
-		[[nodiscard]] CallbackPtr RetrieveCallback() const { return Callback; }
+		[[nodiscard]] const std::function<void()>& RetrieveCallback() const { return Callback; }
 
 	private:
-		void (*Callback)();
+		std::function<void()> Callback;
 	};
 }

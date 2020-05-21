@@ -22,7 +22,7 @@ namespace Coil
 
 		static void OnImGuiRender();
 
-		static GUILogWindow* LogWindow(const GUIWindowProps& properties = {});
+		static GUILogWindow* LogWindow(const GUIWindowProps& properties = { "Log" });
 
 		static GUIComponentWindow* ComponentWindow(const GUIWindowProps& properties, const std::vector<Ref<GUIComponent>>& components);
 
@@ -31,8 +31,9 @@ namespace Coil
 
 		static GUIOverlay* Overlay(const GUIWindowProps& properties = {});
 
+		static Ref<GUIButton> Button(const GUIComponentProps& properties, const std::function<void()>& callback);
 
-		static Ref<GUIButton> Button(const GUIComponentProps& properties, void (*callback)());
+		static Ref<GUIButton> Button(const std::function<void()>& callback) { return Button({}, callback); }
 
 		static Ref<GUIText> Text(const GUIComponentProps& properties, const RString<String>& stringReference);
 
@@ -45,8 +46,6 @@ namespace Coil
 		static Ref<GUIColorPicker> ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(0));
 
 		static Ref<GUIPlotLine> PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer = std::make_shared<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max());
-
-		static Ref<GUIButton> Button(void (*callback)()) { return Button({}, callback); }
 
 		static Ref<GUIText> Text(const RString<String>& stringReference) { return Text({}, stringReference); }
 
