@@ -11,12 +11,16 @@ public:
 	ApplicationLayer()
 		: Camera(-1.6f, 1.6f, -0.9f, 0.9f),
 		  FrameTime(Coil::PString("%8f ms", 0.f)),
-		  MousePosition(Coil::PString("x: %6d y: %6d", 0, 0)),
-		  FrameIterator(FrameTimeArray->begin())
+		  MousePosition(Coil::PString("mouse x: %6d y: %6d", 0, 0)),
+		  FrameIterator(FrameTimeArray->begin()),
+		  CameraString(Coil::PString("camera x: %6f y: %6f", 0, 0))
 	{
+		Coil::GUI::LogWindow({ "Log##12" })->BindBuffer(Coil::Logger::GetBuffer());
 		Coil::GUI::LogWindow({ "Log" })->BindBuffer(Coil::Logger::GetBuffer());
 
 		Coil::GUI::Overlay({ "frame time" })->BindTextBuffer(FrameTime);
+
+		Coil::Logger::Debug(Coil::PString("%d, %d", Coil::Application::Get().GetWindow().GetWidth(), Coil::Application::Get().GetWindow().GetHeight()));
 
 		SquareColor = std::make_shared<glm::vec3>(0.2f);
 
@@ -37,12 +41,13 @@ public:
 			Coil::GUI::FloatSlider(CameraScale, 0.1f, 2.f),
 			Coil::GUI::Text("Frame Time"),
 			Coil::GUI::PlotLine({ "", 0, 32.f }, FrameTimeArray, 0.f, 50.f),
-			Coil::GUI::Button({ "Button" }, [] { Coil::Logger::Info("First Button pressed!"); }),
+			Coil::GUI::Button({ "Reset camera position" }, [&] { Camera.SetPosition({ 0.f, 0.f, 0.f }); }),
 			Coil::GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Second Button pressed!"); }),
 			Coil::GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Third Button pressed!"); }),
 		});
 
 		Coil::Logger::Trace(MousePosition);
+		Coil::Logger::Trace(CameraString);
 
 		{
 			VertexArray = Coil::VertexArray::Create();
@@ -136,38 +141,38 @@ public:
 			Coil::Logger::Info("Tab is pressed!");
 		}
 
+		float32 relativeCameraSpeed = CameraSpeed * Coil::Time::DeltaTime();
+
 		if (Coil::Input::IsKeyPressed(CL_KEY_LEFT))
 		{
-			CameraPosition.x -= CameraSpeed * Coil::Time::DeltaTime() * glm::cos(glm::radians(*CameraRotation));
-			CameraPosition.y -= CameraSpeed * Coil::Time::DeltaTime() * glm::sin(glm::radians(*CameraRotation));
+			Camera.MoveRelativePosition({ -relativeCameraSpeed, 0.f, 0.f });
 		}
 
 		if (Coil::Input::IsKeyPressed(CL_KEY_RIGHT))
 		{
-			CameraPosition.x += CameraSpeed * Coil::Time::DeltaTime() * glm::cos(glm::radians(*CameraRotation));
-			CameraPosition.y += CameraSpeed * Coil::Time::DeltaTime() * glm::sin(glm::radians(*CameraRotation));
+			Camera.MoveRelativePosition({ relativeCameraSpeed, 0.f, 0.f });
 		}
 
 		if (Coil::Input::IsKeyPressed(CL_KEY_DOWN))
 		{
-			CameraPosition.x += CameraSpeed * Coil::Time::DeltaTime() * glm::sin(glm::radians(*CameraRotation));
-			CameraPosition.y -= CameraSpeed * Coil::Time::DeltaTime() * glm::cos(glm::radians(*CameraRotation));
+			Camera.MoveRelativePosition({ 0.f, relativeCameraSpeed, 0.f });
 		}
 
 		if (Coil::Input::IsKeyPressed(CL_KEY_UP))
 		{
-			CameraPosition.x -= CameraSpeed * Coil::Time::DeltaTime() * glm::sin(glm::radians(*CameraRotation));
-			CameraPosition.y += CameraSpeed * Coil::Time::DeltaTime() * glm::cos(glm::radians(*CameraRotation));
+			Camera.MoveRelativePosition({ 0.f, -relativeCameraSpeed, 0.f });
 		}
 
 		*CameraScale    = Coil::Math::Truncate(*CameraScale, 0.1f, 2.f);
 		*CameraRotation = Coil::Math::WrapCycle(*CameraRotation, 360.f, -180.f, 180.f);
 
 		Camera.SetScale(glm::vec3(*CameraScale));
-		Camera.SetPosition(CameraPosition);
 		Camera.SetRotation(*CameraRotation);
 
 		*FrameIterator = Coil::Time::DeltaTime();
+
+		CameraString->Set(0, Camera.GetPosition().x);
+		CameraString->Set(1, Camera.GetPosition().y);
 
 		if (++FrameIterator >= FrameTimeArray->end())
 			FrameIterator = FrameTimeArray->begin();
@@ -186,14 +191,22 @@ public:
 			ColorShader->Bind();
 			std::dynamic_pointer_cast<Coil::OpenGLShader>(ColorShader)->UploadUniformFloat3(uColor, *SquareColor);
 
-			for (int32 x = 0; x < 20; ++x)
+			const int32 gridHeight = 20;
+			const int32 gridWidth  = 40;
+
+			TimeIteration += Coil::Time::DeltaTime() / 1000.f * 0.5f;
+
+			while (TimeIteration > 4.f)
+				TimeIteration -= 4.f;
+
+			for (int32 x = -gridWidth / 2; x < (gridWidth - gridWidth / 2); ++x)
 			{
-				for (int32 y = 0; y < 20; ++y)
+				for (int32 y = -gridHeight / 2; y < (gridHeight - gridHeight / 2); ++y)
 				{
 					static glm::mat4 scale = glm::scale(glm::mat4(1.f), glm::vec3(0.1f));
 
 					glm::mat4 squareTransform = glm::translate(
-						glm::mat4(1.f), glm::vec3((x - 10) * 0.11f, (y - 10) * 0.11f, 0.f)) * scale;
+						glm::mat4(1.f), glm::vec3((x - TimeIteration) * 0.11f, (y + TimeIteration / 4) * 0.11f, 0.f)) * scale;
 
 					Coil::Renderer::Submit(ColorShader, SquareVertexArray, squareTransform);
 				}
@@ -221,6 +234,25 @@ public:
 
 			return false;
 		});
+
+		dispatcher.Dispatch<Coil::MouseMovedEvent>([&](Coil::MouseMovedEvent& event) -> bool
+		{
+			if (Coil::Input::IsMouseButtonPressed(CL_MOUSE_BUTTON_MIDDLE))
+			{
+				const uint32 windowWidth  = Coil::Application::Get().GetWindow().GetWidth();
+				const uint32 windowHeight = Coil::Application::Get().GetWindow().GetHeight();
+
+				Camera.MoveRelativePosition({
+					(LastMouseEvent.GetX() - event.GetX()) / windowWidth * 2 * 1.6f,
+					(LastMouseEvent.GetY() - event.GetY()) / windowHeight * 2 * 0.9f,
+					0.f
+				});
+			}
+
+			LastMouseEvent = event;
+
+			return false;
+		});
 	}
 
 private:
@@ -232,8 +264,9 @@ private:
 
 	Coil::RString<Coil::PString> FrameTime, MousePosition;
 
-	glm::vec3 CameraPosition = glm::vec3(0);
-	float32 CameraSpeed      = 0.001f;
+	float32 CameraSpeed = 0.001f;
+
+	float32 TimeIteration = 0.f;
 
 	Coil::Ref<float32> CameraRotation = std::make_shared<float32>(0);
 	Coil::Ref<float32> CameraScale    = std::make_shared<float32>(1);
@@ -242,6 +275,10 @@ private:
 	std::vector<float32>::iterator FrameIterator;
 
 	Coil::Ref<glm::vec3> SquareColor;
+
+	Coil::MouseMovedEvent LastMouseEvent = Coil::MouseMovedEvent(0, 0);
+
+	Coil::RString<Coil::PString> CameraString;
 };
 
 
