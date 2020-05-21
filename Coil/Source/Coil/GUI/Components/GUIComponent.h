@@ -11,7 +11,7 @@ namespace Coil
 		bool SameLine;
 
 		GUIComponentProps(const RString<>& label = "", float32 width = 0, float32 height = 0, bool sameLine = false)
-			: Label(PString("%s##%d", label->CString(), LabelID++)),
+			: Label(PString("%S##%d", label->CString(), label->GetSize(), LabelID++)),
 			  Width(width),
 			  Height(height),
 			  SameLine(sameLine) {}
