@@ -7,7 +7,12 @@ namespace Coil
 {
 	Renderer::SceneData* Renderer::sSceneData = new Renderer::SceneData;
 
-	void Renderer::BeginScene(const OrthographicCamera& camera)
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
+
+	void Renderer::BeginScene(OrthographicCamera& camera)
 	{
 		sSceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}

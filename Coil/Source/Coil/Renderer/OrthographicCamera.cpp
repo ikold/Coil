@@ -15,22 +15,56 @@ namespace Coil
 		RecalculateViewMatrix();
 	}
 
+	const glm::mat4& OrthographicCamera::GetViewProjectionMatrix()
+	{
+		if (!ProjectionMatrixIsValid)
+			RecalculateViewMatrix();
+
+		return ViewProjectionMatrix;
+	}
+
 	void OrthographicCamera::SetPosition(const glm::vec3& position)
 	{
+		ProjectionMatrixIsValid = false;
+		
 		Position = position;
-		RecalculateViewMatrix();
 	}
 
 	void OrthographicCamera::SetScale(const glm::vec3& scale)
 	{
+		ProjectionMatrixIsValid = false;
+		
 		Scale = scale;
-		RecalculateViewMatrix();
 	}
 
 	void OrthographicCamera::SetRotation(float32 rotation)
 	{
+		ProjectionMatrixIsValid = false;
+
 		Rotation = rotation;
-		RecalculateViewMatrix();
+	}
+
+	void OrthographicCamera::MovePosition(const glm::vec3& position)
+	{
+		ProjectionMatrixIsValid = false;
+
+		Position.x += position.x;
+		Position.y += position.y;
+		Position.z += position.z;
+	}
+
+	void OrthographicCamera::MoveRelativePosition(const glm::vec3& position)
+	{
+		ProjectionMatrixIsValid = false;
+
+		const float32 rSin = glm::sin(glm::radians(Rotation));
+		const float32 rCos = glm::cos(glm::radians(Rotation));
+
+		Position.x += Scale.x * (rCos * position.x + rSin * position.y);
+
+		Position.y += Scale.y * (rSin * position.x - rCos * position.y);
+
+		Position.z += Scale.z * position.z;
 	}
 
 	void OrthographicCamera::RecalculateViewMatrix()
@@ -39,9 +73,11 @@ namespace Coil
 		const glm::mat4 translation = glm::translate(glm::mat4(1.f), Position);
 		const glm::mat4 rotation    = glm::rotate(glm::mat4(1.f), glm::radians(Rotation), glm::vec3(0.f, 0.f, 1.f));
 
-		glm::mat4 transform = scale * translation * rotation;
+		glm::mat4 transform = translation * rotation * scale;
 
 		ViewMatrix           = glm::inverse(transform);
 		ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
+
+		ProjectionMatrixIsValid = true;
 	}
 }

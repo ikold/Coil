@@ -8,6 +8,8 @@ namespace Coil
 	class RenderCommand
 	{
 	public:
+		static void Init() { sRendererAPI->Init(); }
+
 		static void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height) { sRendererAPI->SetViewport(x, y, width, height); }
 
 		static void SetClearColor(const glm::vec4& color) { sRendererAPI->SetClearColor(color); }
