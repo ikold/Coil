@@ -6,14 +6,23 @@
 
 namespace Coil
 {
-	class OpenGLShader : public Shader
+	class OpenGLShader final : public Shader
 	{
 	public:
-		OpenGLShader(const RString<String>& vertexSource, const RString<String>& fragmentSource);
+		OpenGLShader(const RString<>& name, const RString<>& vertexSource, const RString<>& fragmentSource);
+		OpenGLShader(const RString<>& filePath);
+
 		~OpenGLShader();
+
+		static std::unordered_map<uint32, RString<>> PreProcess(const RString<>& source);
+
+		void Compile(const std::unordered_map<uint32, RString<>>& shaderSources);
 
 		void Bind() const override;
 		void Unbind() const override;
+
+
+		const RString<>& GetName() const override { return Name; };
 
 
 		void UploadUniformInt(const RString<String>& name, int32 value) const;
@@ -28,5 +37,6 @@ namespace Coil
 
 	private:
 		uint32 RendererID;
+		RString<> Name;
 	};
 }

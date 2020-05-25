@@ -100,25 +100,10 @@ public:
 			SquareVertexArray->SetIndexBuffer(indexBuffer);
 		}
 
-		VertexColorShader = Coil::Shader::Create(
-			Coil::File::Load("Resources/Shaders/VertexColor.vert"),
-			Coil::File::Load("Resources/Shaders/VertexColor.frag")
-		);
-
-		RainbowShader = Coil::Shader::Create(
-			Coil::File::Load("Resources/Shaders/Rainbow.vert"),
-			Coil::File::Load("Resources/Shaders/Rainbow.frag")
-		);
-
-		ColorShader = Coil::Shader::Create(
-			Coil::File::Load("Resources/Shaders/Color.vert"),
-			Coil::File::Load("Resources/Shaders/Color.frag")
-		);
-
-		TextureShader = Coil::Shader::Create(
-			Coil::File::Load("Resources/Shaders/Texture.vert"),
-			Coil::File::Load("Resources/Shaders/Texture.frag")
-		);
+		VertexColorShader = Coil::Shader::Create("Resources/Shaders/VertexColor.glsl");
+		RainbowShader     = Coil::Shader::Create("Resources/Shaders/Rainbow.glsl");
+		ColorShader       = Coil::Shader::Create("Resources/Shaders/Color.glsl");
+		TextureShader     = Coil::Shader::Create("Resources/Shaders/Texture.glsl");
 
 		Texture = Coil::Texture2D::Create("Resources/Textures/Colorgrid.png");
 

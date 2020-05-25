@@ -4,9 +4,13 @@
 
 #include <vector>
 
+#include <array>
+
 #include <memory>
 
 #include <functional>
+
+#include <unordered_map>
 
 #include "Coil/Utilities/Types.h"
 

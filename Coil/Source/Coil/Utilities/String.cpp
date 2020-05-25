@@ -102,6 +102,11 @@ namespace Coil
 		}
 	}
 
+	bool String::operator==(const String& string) const
+	{
+		return strcmp(Data, string.Data);
+	}
+
 
 	String String::Convert(int64 value, int32 base)
 	{

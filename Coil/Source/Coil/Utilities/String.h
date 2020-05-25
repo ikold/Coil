@@ -52,6 +52,9 @@ namespace Coil
 		void Reverse() const;
 
 
+		bool operator==(const String& string) const;
+
+
 		static String Convert(float64 value, int32 fractionLength);
 
 		static String Convert(int64 value, int32 base = 10);
@@ -100,17 +103,17 @@ namespace Coil
 
 
 		friend void swap(BString& left, BString& right) noexcept;
-		
+
 		void SetSize(int32 size);
 
 		void SetLength(int32 length) { Length = length; }
-		
+
 		void Expand(uint32 size);
 
 		void RecalculateLength();
-		
+
 		[[nodiscard]] int32 GetSize() const override { return Size; }
-		
+
 		[[nodiscard]] char8* GetBuffer() const { return Data; }
 
 
@@ -341,6 +344,12 @@ namespace Coil
 		TString& operator*() const { return *Get(); }
 
 
+		bool operator==(const RString<TString>& string) const
+		{
+			return strcmp(Get()->CString(), string->CString());
+		}
+
+
 		template<class TCast>
 		operator RString<TCast>() const { return (RString<TCast>&)(*this); }
 
@@ -371,5 +380,59 @@ namespace Coil
 	protected:
 		String* StringPointer;
 		int32* Counter;
+	};
+}
+
+
+namespace std
+{
+	template<>
+	struct hash<Coil::String>
+	{
+		size_t operator()(Coil::String const& s) const noexcept
+		{
+			size_t h1 = std::hash<char8*>{}(s.CString());
+			size_t h2 = std::hash<int32>{}(s.GetLength());
+			return h1 ^ (h2 << 1);
+		}
+	};
+
+
+	template<>
+	struct hash<Coil::SString>
+	{
+		size_t operator()(Coil::SString const& s) const noexcept
+		{
+			size_t h1 = std::hash<char8*>{}(s.CString());
+			size_t h2 = std::hash<int32>{}(s.GetLength());
+			size_t h3 = std::hash<int32>{}(s.GetSize());
+			return h1 ^ (h2 << 1) ^ (h3 << 2);
+		}
+	};
+
+
+	template<>
+	struct hash<Coil::PString>
+	{
+		size_t operator()(Coil::PString const& s) const noexcept
+		{
+			size_t h1 = std::hash<char8*>{}(s.CString());
+			size_t h2 = std::hash<int32>{}(s.GetLength());
+			size_t h3 = std::hash<int32>{}(s.GetSize());
+			return h1 ^ (h2 << 1) ^ (h3 << 2);
+		}
+	};
+
+
+	template<class TString>
+	struct hash<Coil::RString<TString>>
+	{
+		size_t operator()(Coil::RString<TString> const& s) const noexcept
+		{
+			size_t h1 = std::hash<char8*>{}(s->CString());
+			size_t h2 = std::hash<int32>{}(s->GetLength());
+			size_t h3 = std::hash<int32>{}(s->GetSize());
+			return h1 ^ (h2 << 1) ^ (h3 << 2);
+		}
 	};
 }
