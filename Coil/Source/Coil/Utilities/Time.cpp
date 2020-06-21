@@ -14,7 +14,7 @@ namespace Coil
 	float32 Time::DeltaTimeV;
 	float32 Time::FpsV = 0.f;
 
-	RString<String> Time::TimestampToString(const Timestamp& timestamp)
+	RString<> Time::TimestampToString(const Timestamp& timestamp)
 	{
 		std::stringstream ss;
 		ss << std::put_time(std::localtime(&timestamp), "%Y-%m-%d %H:%M:%S");

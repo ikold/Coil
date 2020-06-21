@@ -16,7 +16,7 @@ namespace Coil
 		[[nodiscard]] float32 GetX() const { return MouseX; }
 		[[nodiscard]] float32 GetY() const { return MouseY; }
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("MouseMovedEvent: %f, %f", MouseX, MouseY); }
+		[[nodiscard]] RString<> ToString() const override { return PString("MouseMovedEvent: %f, %f", MouseX, MouseY); }
 
 		EVENT_CLASS_TYPE(MouseMoved)
 		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
@@ -37,7 +37,7 @@ namespace Coil
 		[[nodiscard]] float32 GetXOffset() const { return XOffset; }
 		[[nodiscard]] float32 GetYOffset() const { return YOffset; }
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("MouseScrolledEvent: %f, %f", XOffset, YOffset); }
+		[[nodiscard]] RString<> ToString() const override { return PString("MouseScrolledEvent: %f, %f", XOffset, YOffset); }
 
 		EVENT_CLASS_TYPE(MouseScrolled)
 		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::Input)
@@ -70,7 +70,7 @@ namespace Coil
 			: MouseButtonEvent(button)
 		{}
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("MouseButtonPressedEvent: %5d", Button); }
+		[[nodiscard]] RString<> ToString() const override { return PString("MouseButtonPressedEvent: %5d", Button); }
 
 		EVENT_CLASS_TYPE(MouseButtonPressed)
 	};
@@ -83,7 +83,7 @@ namespace Coil
 			: MouseButtonEvent(button)
 		{}
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("MouseButtonReleasedEvent: %5d", Button); }
+		[[nodiscard]] RString<> ToString() const override { return PString("MouseButtonReleasedEvent: %5d", Button); }
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};

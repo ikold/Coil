@@ -46,7 +46,7 @@ namespace Coil
 
 #define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() { return EventType::##type; }\
 								virtual EventType GetType() const override { return GetStaticType(); }\
-								virtual RString<String> GetName() const override { return #type; }
+								virtual RString<> GetName() const override { return #type; }
 
 #define EVENT_CLASS_CATEGORY(category) virtual int32 GetCategoryFlags() const override { return category; }
 
@@ -58,9 +58,9 @@ namespace Coil
 	public:
 		virtual ~Event() = default;
 		[[nodiscard]] virtual EventType GetType() const = 0;
-		[[nodiscard]] virtual RString<String> GetName() const = 0;
+		[[nodiscard]] virtual RString<> GetName() const = 0;
 		[[nodiscard]] virtual int32 GetCategoryFlags() const = 0;
-		[[nodiscard]] virtual RString<String> ToString() const { return GetName(); }
+		[[nodiscard]] virtual RString<> ToString() const { return GetName(); }
 
 		[[nodiscard]] bool IsInCategory(EventCategory::Enum category) const { return GetCategoryFlags() & category; }
 

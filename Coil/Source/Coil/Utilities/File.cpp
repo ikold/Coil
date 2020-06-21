@@ -23,7 +23,7 @@ namespace Coil
 	}
 
 
-	RString<String> File::Load(const RString<String>& filePath)
+	RString<> File::Load(const RString<>& filePath)
 	{
 		std::ifstream fileStream(filePath->CString());
 
@@ -50,7 +50,7 @@ namespace Coil
 		return String("");
 	}
 
-	Binary File::LoadBinary(const RString<String>& filePath)
+	Binary File::LoadBinary(const RString<>& filePath)
 	{
 		std::ifstream fileStream(filePath->CString(), std::ios::in | std::ios::binary | std::ios::ate);
 

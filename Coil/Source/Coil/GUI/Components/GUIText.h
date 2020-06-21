@@ -8,15 +8,15 @@ namespace Coil
 	class GUIText : public GUIComponent
 	{
 	public:
-		GUIText(const GUIComponentProps& properties, const RString<String>& textBuffer);
+		GUIText(const GUIComponentProps& properties, const RString<>& textBuffer);
 
 		void Draw() const override;
 
-		void BindTextBuffer(const RString<String>& textBuffer) { TextBuffer = textBuffer; }
+		void BindTextBuffer(const RString<>& textBuffer) { TextBuffer = textBuffer; }
 
-		[[nodiscard]] const RString<String>& RetrieveTextBuffer() const { return TextBuffer; }
+		[[nodiscard]] const RString<>& RetrieveTextBuffer() const { return TextBuffer; }
 
 	private:
-		RString<String> TextBuffer;
+		RString<> TextBuffer;
 	};
 }

@@ -3,22 +3,17 @@
 
 namespace Coil
 {
-	static int DefaultNameId = 0;
-
-
 	struct GUIWindowProps
 	{
-		RString<String> Name;
-		int32 Width;
-		int32 Height;
+		RString<> Name = PString("Window %d", DefaultNameId++).ToString();
+		int32 Width    = 512;
+		int32 Height   = 256;
 
-		GUIWindowProps(const RString<String>& name = PString("Window %d", DefaultNameId++).ToString(), int32 width = 512, int32 height = 256)
-			: Name(name),
-			Width(width),
-			Height(height)
-		{}
+
+		inline static int DefaultNameId = 0;
 	};
-	
+
+
 	class GUIWindow
 	{
 	public:
@@ -38,7 +33,7 @@ namespace Coil
 
 	protected:
 		GUIWindowProps Properties;
-		
+
 		bool* OpenFlag;
 		int Flags;
 

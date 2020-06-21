@@ -6,8 +6,6 @@
 
 namespace Coil
 {
-	int32 GUIComponentProps::LabelID = 0;
-
 	void GUIComponent::SetUp() const
 	{
 		if (Properties.SameLine)

@@ -17,7 +17,7 @@ namespace Coil
 		void Bind(uint32 slot = 0) const override;
 
 	private:
-		RString<String> Path;
+		RString<> Path;
 		uint32 Width, Height;
 		uint32 RendererID;
 	};

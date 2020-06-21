@@ -1,7 +1,5 @@
 #pragma once
 
-#include <utility>
-
 #include "Coil/Events/Event.h"
 #include "Coil/Events/ApplicationEvent.h"
 #include "Coil/Events/MouseEvent.h"
@@ -12,15 +10,9 @@ namespace Coil
 {
 	struct WindowProps
 	{
-		RString<String> Name;
-		uint32 Width;
-		uint32 Height;
-
-		WindowProps(const RString<String>& name = "Coil Engine", uint32 width = 1280, uint32 height = 720)
-			: Name(name),
-			  Width(width),
-			  Height(height)
-		{}
+		RString<> Name = "Coil Engine";
+		uint32 Width   = 1280;
+		uint32 Height  = 720;
 	};
 
 

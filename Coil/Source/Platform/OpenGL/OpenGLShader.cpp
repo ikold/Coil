@@ -158,43 +158,43 @@ namespace Coil
 	}
 
 
-	void OpenGLShader::UploadUniformInt(const RString<String>& name, int32 value) const
+	void OpenGLShader::UploadUniformInt(const RString<>& name, int32 value) const
 	{
 		GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniform1i(location, value);
 	}
 
-	void OpenGLShader::UploadUniformFloat(const RString<String>& name, float32 value) const
+	void OpenGLShader::UploadUniformFloat(const RString<>& name, float32 value) const
 	{
 		GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniform1f(location, value);
 	}
 
-	void OpenGLShader::UploadUniformFloat2(const RString<String>& name, const glm::vec2& vector) const
+	void OpenGLShader::UploadUniformFloat2(const RString<>& name, const glm::vec2& vector) const
 	{
 		GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniform2f(location, vector.x, vector.y);
 	}
 
-	void OpenGLShader::UploadUniformFloat3(const RString<String>& name, const glm::vec3& vector) const
+	void OpenGLShader::UploadUniformFloat3(const RString<>& name, const glm::vec3& vector) const
 	{
 		GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniform3f(location, vector.x, vector.y, vector.z);
 	}
 
-	void OpenGLShader::UploadUniformFloat4(const RString<String>& name, const glm::vec4& vector) const
+	void OpenGLShader::UploadUniformFloat4(const RString<>& name, const glm::vec4& vector) const
 	{
 		GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniform4f(location, vector.x, vector.y, vector.z, vector.w);
 	}
 
-	void OpenGLShader::UploadUniformMat3(const RString<String>& name, const glm::mat3& matrix) const
+	void OpenGLShader::UploadUniformMat3(const RString<>& name, const glm::mat3& matrix) const
 	{
 		GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	void OpenGLShader::UploadUniformMat4(const RString<String>& name, const glm::mat4& matrix) const
+	void OpenGLShader::UploadUniformMat4(const RString<>& name, const glm::mat4& matrix) const
 	{
 		GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));

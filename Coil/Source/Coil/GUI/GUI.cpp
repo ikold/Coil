@@ -49,7 +49,7 @@ namespace Coil
 		return std::make_shared<GUIButton>(properties, callback);
 	}
 
-	Ref<GUIText> GUI::Text(const GUIComponentProps& properties, const RString<String>& stringReference)
+	Ref<GUIText> GUI::Text(const GUIComponentProps& properties, const RString<>& stringReference)
 	{
 		return std::make_shared<GUIText>(properties, stringReference);
 	}

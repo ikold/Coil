@@ -1,23 +1,21 @@
 #include "pch.h"
 #include "Logger.h"
 
-#include <utility>
-
 
 namespace Coil
 {
 	PointerContainer<Log> Logger::Buffer;
 
-	Log::Log(const RString<String>& message, LogLevel level)
+	Log::Log(const RString<>& message, LogLevel level)
 		: Message(message),
 		  Date(Time::Now()),
 		  Level(level),
 		  Header(PString("[%20s][%8s]",
-						 Time::TimestampToString(GetDate())->CString(),
-						 LogParser::Level(GetLevel())->CString()))
+			  Time::TimestampToString(GetDate())->CString(),
+			  LogParser::Level(GetLevel())->CString()))
 	{}
 
-	RString<String> LogParser::Level(LogLevel level)
+	RString<> LogParser::Level(LogLevel level)
 	{
 		switch (level)
 		{
@@ -31,15 +29,15 @@ namespace Coil
 		}
 	}
 
-	RString<String> LogParser::Compose(const Log& log)
+	RString<> LogParser::Compose(const Log& log)
 	{
 		return PString("[%20s][%8s]",
-					   Time::TimestampToString(log.GetDate())->CString(),
-					   Level(log.GetLevel())->CString()
+			Time::TimestampToString(log.GetDate())->CString(),
+			Level(log.GetLevel())->CString()
 		);
 	}
 
-	Log* Logger::Create(const RString<String>& message, LogLevel level)
+	Log* Logger::Create(const RString<>& message, LogLevel level)
 	{
 		Log* log = new Log(message, level);
 		Buffer.Push(log);

@@ -14,7 +14,7 @@ namespace Coil
 		GUIOverlay(const GUIWindowProps& properties);
 		~GUIOverlay() = default;
 
-		void BindTextBuffer(const RString<String>& reference) { StringReference = reference; }
+		void BindTextBuffer(const RString<>& reference) { StringReference = reference; }
 
 	protected:
 		void SetUp() const override;
@@ -22,6 +22,6 @@ namespace Coil
 		void Draw() const override;
 
 	private:
-		RString<String> StringReference;
+		RString<> StringReference;
 	};
 }

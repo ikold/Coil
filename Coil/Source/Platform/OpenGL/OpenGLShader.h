@@ -25,15 +25,15 @@ namespace Coil
 		const RString<>& GetName() const override { return Name; };
 
 
-		void UploadUniformInt(const RString<String>& name, int32 value) const;
-		void UploadUniformFloat(const RString<String>& name, float32 value) const;
+		void UploadUniformInt(const RString<>& name, int32 value) const;
+		void UploadUniformFloat(const RString<>& name, float32 value) const;
 
-		void UploadUniformFloat2(const RString<String>& name, const glm::vec2& vector) const;
-		void UploadUniformFloat3(const RString<String>& name, const glm::vec3& vector) const;
-		void UploadUniformFloat4(const RString<String>& name, const glm::vec4& vector) const;
+		void UploadUniformFloat2(const RString<>& name, const glm::vec2& vector) const;
+		void UploadUniformFloat3(const RString<>& name, const glm::vec3& vector) const;
+		void UploadUniformFloat4(const RString<>& name, const glm::vec4& vector) const;
 
-		void UploadUniformMat3(const RString<String>& name, const glm::mat3& matrix) const;
-		void UploadUniformMat4(const RString<String>& name, const glm::mat4& matrix) const;
+		void UploadUniformMat3(const RString<>& name, const glm::mat3& matrix) const;
+		void UploadUniformMat4(const RString<>& name, const glm::mat4& matrix) const;
 
 	private:
 		uint32 RendererID;

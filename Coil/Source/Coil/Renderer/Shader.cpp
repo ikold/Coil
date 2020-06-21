@@ -23,7 +23,7 @@ namespace Coil
 		return nullptr;
 	}
 
-	Ref<Shader> Shader::Create(const RString<>& name, const RString<String>& vertexSource, const RString<String>& fragmentSource)
+	Ref<Shader> Shader::Create(const RString<>& name, const RString<>& vertexSource, const RString<>& fragmentSource)
 	{
 		switch (Renderer::GetAPI())
 		{

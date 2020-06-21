@@ -24,8 +24,8 @@ namespace Coil
 	{
 		shader->Bind();
 
-		static RString<String> uViewProjection = "uViewProjection";
-		static RString<String> uTransform = "uTransform";
+		static RString<> uViewProjection = "uViewProjection";
+		static RString<> uTransform = "uTransform";
 		
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4(uViewProjection, sSceneData->ViewProjectionMatrix);
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4(uTransform, transform);

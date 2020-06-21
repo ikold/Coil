@@ -1,8 +1,5 @@
 #pragma once
 
-#include <utility>
-
-
 #include "Coil/Utilities/PointerCointainer.h"
 
 
@@ -26,20 +23,20 @@ namespace Coil
 	struct Log
 	{
 	public:
-		Log(const RString<String>& message, LogLevel level);
+		Log(const RString<>& message, LogLevel level);
 
-		[[nodiscard]] RString<String> GetMessage() const { return Message; }
+		[[nodiscard]] RString<> GetMessage() const { return Message; }
 		[[nodiscard]] Timestamp GetDate() const { return Date; }
 		[[nodiscard]] LogLevel GetLevel() const { return Level; }
 
-		[[nodiscard]] RString<String> GetHeader() const { return Header; }
+		[[nodiscard]] RString<> GetHeader() const { return Header; }
 
 	private:
-		const RString<String> Message;
+		const RString<> Message;
 		const Timestamp Date;	/*!	Date of creation of log */
 		const LogLevel Level;	/*!	Type of log */
 
-		const RString<String> Header;
+		const RString<> Header;
 	};
 
 
@@ -56,7 +53,7 @@ namespace Coil
 
 			@return		RString	LogLevel formatted in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
 		*/
-		static RString<String> Level(LogLevel level);
+		static RString<> Level(LogLevel level);
 
 		/*!	Creates console ready string from passed Log
 
@@ -64,7 +61,7 @@ namespace Coil
 
 			@return		RString	currently in format "[YYYY-MM-DD hh-mm-ss][LogLevel]: Message" (e.g. "[2019-12-25 19:23:03][MESSAGE]: Example message")
 		*/
-		static RString<String> Compose(const Log& log);
+		static RString<> Compose(const Log& log);
 	};
 
 
@@ -85,12 +82,12 @@ namespace Coil
 			@todo parameters passing
 		*/
 		///@{
-		static Log* Fatal(const RString<String>& message) { return Create(message, LogLevel::fatal); }
-		static Log* Error(const RString<String>& message) { return Create(message, LogLevel::error); }
-		static Log* Warning(const RString<String>& message) { return Create(message, LogLevel::warning); }
-		static Log* Info(const RString<String>& message) { return Create(message, LogLevel::info); }
-		static Log* Debug(const RString<String>& message) { return Create(message, LogLevel::debug); }
-		static Log* Trace(const RString<String>& message) { return Create(message, LogLevel::trace); }
+		static Log* Fatal(const RString<>& message) { return Create(message, LogLevel::fatal); }
+		static Log* Error(const RString<>& message) { return Create(message, LogLevel::error); }
+		static Log* Warning(const RString<>& message) { return Create(message, LogLevel::warning); }
+		static Log* Info(const RString<>& message) { return Create(message, LogLevel::info); }
+		static Log* Debug(const RString<>& message) { return Create(message, LogLevel::debug); }
+		static Log* Trace(const RString<>& message) { return Create(message, LogLevel::trace); }
 		///@}
 
 		static PointerContainer<Log>* GetBuffer() { return &Buffer; }
@@ -103,7 +100,7 @@ namespace Coil
 
 			@return		Log*	pointer to created log
 		*/
-		static Log* Create(const RString<String>& message, LogLevel level);
+		static Log* Create(const RString<>& message, LogLevel level);
 
 	private:
 		static PointerContainer<Log> Buffer;

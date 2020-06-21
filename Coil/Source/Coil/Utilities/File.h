@@ -25,8 +25,8 @@ namespace Coil
 	public:
 		File() = delete;
 
-		[[nodiscard]] static RString<String> Load(const RString<String>& filePath);
+		[[nodiscard]] static RString<> Load(const RString<>& filePath);
 		
-		[[nodiscard]] static Binary LoadBinary(const RString<String>& filePath);
+		[[nodiscard]] static Binary LoadBinary(const RString<>& filePath);
 	};
 }

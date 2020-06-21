@@ -35,7 +35,7 @@ namespace Coil
 
 		static Ref<GUIButton> Button(const std::function<void()>& callback) { return Button({}, callback); }
 
-		static Ref<GUIText> Text(const GUIComponentProps& properties, const RString<String>& stringReference);
+		static Ref<GUIText> Text(const GUIComponentProps& properties, const RString<>& stringReference);
 
 		static Ref<GUITextInput> TextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer = BString(""));
 
@@ -47,7 +47,7 @@ namespace Coil
 
 		static Ref<GUIPlotLine> PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer = std::make_shared<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max());
 
-		static Ref<GUIText> Text(const RString<String>& stringReference) { return Text({}, stringReference); }
+		static Ref<GUIText> Text(const RString<>& stringReference) { return Text({}, stringReference); }
 
 		static Ref<GUITextInput> TextInput(const RString<BString>& inputBuffer = BString("")) { return TextInput({}, inputBuffer); }
 

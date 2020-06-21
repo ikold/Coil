@@ -6,7 +6,7 @@
 
 namespace Coil
 {
-	GUIText::GUIText(const GUIComponentProps& properties, const RString<String>& textBuffer)
+	GUIText::GUIText(const GUIComponentProps& properties, const RString<>& textBuffer)
 		: GUIComponent(properties),
 		  TextBuffer(textBuffer) {}
 

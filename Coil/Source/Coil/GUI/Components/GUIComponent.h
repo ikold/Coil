@@ -5,18 +5,13 @@ namespace Coil
 {
 	struct GUIComponentProps
 	{
-		RString<String> Label;
-		float32 Width;
-		float32 Height;
-		bool SameLine;
+		RString<> Label = "";
+		float32 Width   = 0;
+		float32 Height  = 0;
+		bool SameLine   = false;
 
-		GUIComponentProps(const RString<>& label = "", float32 width = 0, float32 height = 0, bool sameLine = false)
-			: Label(PString("%S##%d", label->CString(), label->GetSize(), LabelID++)),
-			  Width(width),
-			  Height(height),
-			  SameLine(sameLine) {}
 
-		static int32 LabelID;
+		inline static int32 DafaultLabelID = 0;
 	};
 
 

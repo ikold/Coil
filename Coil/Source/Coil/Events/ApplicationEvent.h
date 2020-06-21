@@ -16,7 +16,7 @@ namespace Coil
 		[[nodiscard]] uint32 GetWidth() const { return Width; }
 		[[nodiscard]] uint32 GetHeight() const { return Height; }
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("WindowResizeEvent: %6d, %6d", Width, Height); }
+		[[nodiscard]] RString<> ToString() const override { return PString("WindowResizeEvent: %6d, %6d", Width, Height); }
 
 		EVENT_CLASS_TYPE(WindowResize)
 		EVENT_CLASS_CATEGORY(EventCategory::Application)
@@ -66,7 +66,7 @@ namespace Coil
 		[[nodiscard]] int32 GetPositionX() const { return PositionX; }
 		[[nodiscard]] int32 GetPositionY() const { return PositionY; }
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("WindowMovedEvent: %6d, %6d", PositionX, PositionY); }
+		[[nodiscard]] RString<> ToString() const override { return PString("WindowMovedEvent: %6d, %6d", PositionX, PositionY); }
 
 		EVENT_CLASS_TYPE(WindowMoved)
 		EVENT_CLASS_CATEGORY(EventCategory::Application)

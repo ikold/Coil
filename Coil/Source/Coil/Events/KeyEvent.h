@@ -31,7 +31,7 @@ namespace Coil
 
 		[[nodiscard]] int32 GetRepeatCount() const { return RepeatCount; }
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("KeyPressedEvent: %4d (%4d repeats)", KeyCode, RepeatCount); }
+		[[nodiscard]] RString<> ToString() const override { return PString("KeyPressedEvent: %4d (%4d repeats)", KeyCode, RepeatCount); }
 
 		EVENT_CLASS_TYPE(KeyPressed)
 
@@ -47,7 +47,7 @@ namespace Coil
 			: KeyEvent(keyCode)
 		{}
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("KeyReleasedEvent: %4d", KeyCode); }
+		[[nodiscard]] RString<> ToString() const override { return PString("KeyReleasedEvent: %4d", KeyCode); }
 
 		EVENT_CLASS_TYPE(KeyReleased)
 	};
@@ -60,7 +60,7 @@ namespace Coil
 			: KeyEvent(keyCode)
 		{}
 
-		[[nodiscard]] RString<String> ToString() const override { return PString("KeyTypedEvent: %4d", KeyCode); }
+		[[nodiscard]] RString<> ToString() const override { return PString("KeyTypedEvent: %4d", KeyCode); }
 
 		EVENT_CLASS_TYPE(KeyTyped)
 	};

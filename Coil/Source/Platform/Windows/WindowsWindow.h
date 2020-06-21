@@ -37,7 +37,7 @@ namespace Coil
 
 		struct WindowData
 		{
-			RString<String> Name;
+			RString<> Name;
 			uint32 Width{}, Height{};
 			bool VSync{};
 
