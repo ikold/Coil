@@ -10,8 +10,9 @@ namespace Coil
 		float32 Height  = 0;
 		bool SameLine   = false;
 
+		int32 ID = ++DefaultLabelID;
 
-		inline static int32 DafaultLabelID = 0;
+		inline static int32 DefaultLabelID = 0;
 	};
 
 

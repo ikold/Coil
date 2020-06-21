@@ -12,7 +12,11 @@ namespace Coil
 
 	void GUIButton::Draw() const
 	{
+		ImGui::PushID(Properties.ID);
+
 		if (ImGui::Button(Properties.Label->CString()))
 			Callback();
+
+		ImGui::PopID();
 	}
 }

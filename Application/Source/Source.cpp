@@ -15,7 +15,6 @@ public:
 		  FrameIterator(FrameTimeArray->begin()),
 		  CameraString(Coil::PString("camera x: %6f y: %6f", 0, 0))
 	{
-		Coil::GUI::LogWindow({ "Log##12" })->BindBuffer(Coil::Logger::GetBuffer());
 		Coil::GUI::LogWindow({ "Log" })->BindBuffer(Coil::Logger::GetBuffer());
 
 		Coil::GUI::Overlay({ "frame time" })->BindTextBuffer(FrameTime);
@@ -31,7 +30,7 @@ public:
 		Coil::Logger::Info(multiLineBuffer);
 
 		using Coil::GUI;
-		
+
 		GUI::ComponentWindow({ "Name" }, {
 			GUI::Text("Square Color"),
 			GUI::ColorPicker(SquareColor),
@@ -46,7 +45,7 @@ public:
 			GUI::Button({ "Reset camera position" }, [&] { Camera.SetPosition({ 0.f, 0.f, 0.f }); }),
 			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Second Button pressed!"); }),
 			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Third Button pressed!"); }),
-			GUI::Button({ "Toggle Log window visibility"}, [] { GUI::ToggleWindowVisibility("Log"); }),
+			GUI::Button({ "Toggle Log window visibility" }, [] { GUI::ToggleWindowVisibility("Log"); }),
 		});
 
 		Coil::Logger::Trace(MousePosition);
