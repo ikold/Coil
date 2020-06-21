@@ -28,6 +28,18 @@ namespace Coil
 
 		static GUIComponentWindow* ComponentWindow(const std::vector<Ref<GUIComponent>>& components = {});
 
+		template<typename T = GUIWindow>
+		static T* GetWindow(const RString<>& name)
+		{
+			for (auto window : Container)
+			{
+				if (window->GetProperties().Name == name)
+					return static_cast<T*>(window);
+			}
+
+			return nullptr;
+		}
+		
 
 		static GUIOverlay* Overlay(const GUIWindowProps& properties = {});
 

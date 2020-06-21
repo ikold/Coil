@@ -8,7 +8,7 @@ namespace Coil
 		RString<> Name = PString("Window %d", DefaultNameId++).ToString();
 		int32 Width    = 512;
 		int32 Height   = 256;
-
+		
 
 		inline static int DefaultNameId = 0;
 	};
@@ -22,6 +22,8 @@ namespace Coil
 		virtual ~GUIWindow() = default;
 
 		void OnImGuiRender() const;
+
+		[[nodiscard]] GUIWindowProps& GetProperties() { return Properties; };
 
 	protected:
 		[[nodiscard]] int32 TextTopCulling() const;

@@ -30,24 +30,28 @@ public:
 		Coil::RString multiLineBuffer = Coil::BString("Multiline\nInput\ntest");
 		Coil::Logger::Info(multiLineBuffer);
 
-		Coil::GUI::ComponentWindow({ "Name" }, {
-			Coil::GUI::Text("Square Color"),
-			Coil::GUI::ColorPicker(SquareColor),
-			Coil::GUI::TextInput(buffer),
-			Coil::GUI::MultiLineTextInput({ "", -1.f }, multiLineBuffer),
-			Coil::GUI::Text("Camera Rotation"),
-			Coil::GUI::FloatSlider(CameraRotation, -180.f, 180.f),
-			Coil::GUI::Text("Camera Zoom"),
-			Coil::GUI::FloatSlider(CameraScale, 0.1f, 2.f),
-			Coil::GUI::Text("Frame Time"),
-			Coil::GUI::PlotLine({ "", 0, 32.f }, FrameTimeArray, 0.f, 50.f),
-			Coil::GUI::Button({ "Reset camera position" }, [&] { Camera.SetPosition({ 0.f, 0.f, 0.f }); }),
-			Coil::GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Second Button pressed!"); }),
-			Coil::GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Third Button pressed!"); }),
+		using Coil::GUI;
+		
+		GUI::ComponentWindow({ "Name" }, {
+			GUI::Text("Square Color"),
+			GUI::ColorPicker(SquareColor),
+			GUI::TextInput(buffer),
+			GUI::MultiLineTextInput({ "", -1.f }, multiLineBuffer),
+			GUI::Text("Camera Rotation"),
+			GUI::FloatSlider(CameraRotation, -180.f, 180.f),
+			GUI::Text("Camera Zoom"),
+			GUI::FloatSlider(CameraScale, 0.1f, 2.f),
+			GUI::Text("Frame Time"),
+			GUI::PlotLine({ "", 0, 32.f }, FrameTimeArray, 0.f, 50.f),
+			GUI::Button({ "Reset camera position" }, [&] { Camera.SetPosition({ 0.f, 0.f, 0.f }); }),
+			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Second Button pressed!"); }),
+			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Third Button pressed!"); }),
 		});
 
 		Coil::Logger::Trace(MousePosition);
 		Coil::Logger::Trace(CameraString);
+
+		GUI::GetWindow<Coil::GUIComponentWindow>("Name")->AddComponent(GUI::Text("Component added to retrieved window"));
 
 		{
 			VertexArray = Coil::VertexArray::Create();
