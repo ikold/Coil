@@ -13,8 +13,13 @@ namespace Coil
 	{
 		for (const auto& component : Components)
 		{
+			ImGui::PushID(component->GetProperties().ID);
+
 			component->SetUp();
 			component->Draw();
+
+			ImGui::PopID();
+
 		}
 	}
 }

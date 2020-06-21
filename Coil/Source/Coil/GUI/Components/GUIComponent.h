@@ -24,6 +24,8 @@ namespace Coil
 
 		virtual ~GUIComponent() = default;
 
+		GUIComponentProps& GetProperties() { return Properties; }
+
 		virtual void SetUp() const;
 
 		virtual void Draw() const = 0;
