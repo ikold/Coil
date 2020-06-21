@@ -36,6 +36,58 @@ namespace Coil
 		return ComponentWindow({}, components);
 	}
 
+	void GUI::HideWindow(GUIWindow& window)
+	{
+		window.GetProperties().Visible = false;
+	}
+
+	void GUI::ShowWindow(GUIWindow& window)
+	{
+		window.GetProperties().Visible = true;
+	}
+
+	void GUI::ToggleWindowVisibility(GUIWindow& window)
+	{
+		window.GetProperties().Visible = !(window.GetProperties().Visible);
+	}
+
+	bool GUI::HideWindow(const RString<>& name)
+	{
+		GUIWindow* window = GetWindow(name);
+
+		if (!window)
+			return false;
+
+		HideWindow(*window);
+		
+		return true;
+	}
+
+	bool GUI::ShowWindow(const RString<>& name)
+	{
+		GUIWindow* window = GetWindow(name);
+
+		if (!window)
+			return false;
+
+		ShowWindow(*window);
+
+		return true;
+	}
+
+	bool GUI::ToggleWindowVisibility(const RString<>& name)
+	{
+		GUIWindow* window = GetWindow(name);
+
+		if (!window)
+			return false;
+
+		ToggleWindowVisibility(*window);
+
+		return true;
+	}
+
+
 	GUIOverlay* GUI::Overlay(const GUIWindowProps& properties)
 	{
 		auto* window = new GUIOverlay(properties);

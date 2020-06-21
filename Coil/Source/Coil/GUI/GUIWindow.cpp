@@ -14,6 +14,9 @@ namespace Coil
 		Flags(0) {}
 
 	void GUIWindow::OnImGuiRender() const {
+		if (!Properties.Visible)
+			return;
+		
 		ImGui::SetNextWindowSize(ImVec2(Properties.Width, Properties.Height), ImGuiCond_FirstUseEver);
 
 		SetUp();

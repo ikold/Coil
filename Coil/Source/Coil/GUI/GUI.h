@@ -39,7 +39,19 @@ namespace Coil
 
 			return nullptr;
 		}
-		
+
+		static void HideWindow(GUIWindow& window);
+
+		static void ShowWindow(GUIWindow& window);
+
+		static void ToggleWindowVisibility(GUIWindow& window);
+
+		static bool HideWindow(const RString<>& name);
+
+		static bool ShowWindow(const RString<>& name);
+
+		static bool ToggleWindowVisibility(const RString<>& name);
+
 
 		static GUIOverlay* Overlay(const GUIWindowProps& properties = {});
 

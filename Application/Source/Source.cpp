@@ -46,6 +46,7 @@ public:
 			GUI::Button({ "Reset camera position" }, [&] { Camera.SetPosition({ 0.f, 0.f, 0.f }); }),
 			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Second Button pressed!"); }),
 			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Third Button pressed!"); }),
+			GUI::Button({ "Toggle Log window visibility"}, [] { GUI::ToggleWindowVisibility("Log"); }),
 		});
 
 		Coil::Logger::Trace(MousePosition);

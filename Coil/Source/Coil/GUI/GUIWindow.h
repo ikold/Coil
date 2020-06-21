@@ -8,6 +8,7 @@ namespace Coil
 		RString<> Name = PString("Window %d", DefaultNameId++).ToString();
 		int32 Width    = 512;
 		int32 Height   = 256;
+		bool Visible = true;
 		
 
 		inline static int DefaultNameId = 0;
