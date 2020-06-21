@@ -232,7 +232,7 @@ namespace Coil
 
 		[[nodiscard]] int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; }
 
-		void Set(int32 parameterIndex, char8* text);
+		void Set(int32 parameterIndex, const char8* text);
 		void Set(int32 parameterIndex, int32 value);
 		void Set(int32 parameterIndex, int32 value, int32 base);
 		void Set(int32 parameterIndex, float64 value);
@@ -346,7 +346,7 @@ namespace Coil
 
 		bool operator==(const RString<TString>& string) const
 		{
-			return strcmp(Get()->CString(), string->CString());
+			return strcmp(Get()->CString(), string->CString()) == 0;
 		}
 
 

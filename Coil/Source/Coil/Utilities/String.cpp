@@ -21,7 +21,7 @@ namespace Coil
 
 	String::String(String&& string) noexcept
 		: Data(std::exchange(string.Data, nullptr)),
-		  Length(string.Length)
+		  Length(std::exchange(string.Length, 0))
 	{}
 
 
@@ -104,7 +104,7 @@ namespace Coil
 
 	bool String::operator==(const String& string) const
 	{
-		return strcmp(Data, string.Data);
+		return strcmp(Data, string.Data) == 0;
 	}
 
 
@@ -217,6 +217,11 @@ namespace Coil
 	}
 
 
+	BString::BString()
+		: String(),
+		  Size(0)
+	{}
+
 	BString::BString(const BString& string)
 		: String(string),
 		  Size(Length) {}
@@ -264,6 +269,7 @@ namespace Coil
 	{
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(size) + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
+		
 		if (tmp)
 		{
 			Size = size;
@@ -282,6 +288,7 @@ namespace Coil
 	{
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + size + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
+		
 		if (tmp)
 		{
 			Size += size;
@@ -713,7 +720,7 @@ namespace Coil
 	}
 
 
-	void PString::Set(int32 parameterIndex, char8* text)
+	void PString::Set(int32 parameterIndex, const char8* text)
 	{
 		const int32 size = CStringLength(text);
 
