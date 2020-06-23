@@ -22,29 +22,29 @@ namespace Coil
 
 		static void OnImGuiRender();
 
-		static GUILogWindow* LogWindow(const GUIWindowProps& properties = { "Log" });
+		static Ref<GUILogWindow> LogWindow(const GUIWindowProps& properties = { "Log" });
 
-		static GUIComponentWindow* ComponentWindow(const GUIWindowProps& properties, const std::vector<Ref<GUIComponent>>& components);
+		static Ref<GUIComponentWindow> ComponentWindow(const GUIWindowProps& properties, const std::vector<Ref<GUIComponent>>& components);
 
-		static GUIComponentWindow* ComponentWindow(const std::vector<Ref<GUIComponent>>& components = {});
+		static Ref<GUIComponentWindow> ComponentWindow(const std::vector<Ref<GUIComponent>>& components = {});
 
 		template<typename T = GUIWindow>
-		static T* GetWindow(const RString<>& name)
+		static Ref<T> GetWindow(const RString<>& name)
 		{
 			for (auto window : Container)
 			{
 				if (window->GetProperties().Name == name)
-					return static_cast<T*>(window);
+					return std::static_pointer_cast<T>(window);
 			}
 
 			return nullptr;
 		}
 
-		static void HideWindow(GUIWindow& window);
+		static void HideWindow(const Ref<GUIWindow>& window);
 
-		static void ShowWindow(GUIWindow& window);
+		static void ShowWindow(const Ref<GUIWindow>& window);
 
-		static void ToggleWindowVisibility(GUIWindow& window);
+		static void ToggleWindowVisibility(const Ref<GUIWindow>& window);
 
 		static bool HideWindow(const RString<>& name);
 
@@ -53,7 +53,7 @@ namespace Coil
 		static bool ToggleWindowVisibility(const RString<>& name);
 
 
-		static GUIOverlay* Overlay(const GUIWindowProps& properties = {});
+		static Ref<GUIOverlay> Overlay(const GUIWindowProps& properties = {});
 
 		static Ref<GUIButton> Button(const GUIComponentProps& properties, const std::function<void()>& callback);
 
@@ -84,6 +84,6 @@ namespace Coil
 		static Ref<GUIPlotLine> PlotLine(const Ref<std::vector<float32>>& dataBuffer = std::make_shared<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max()) { return PlotLine({}, dataBuffer, scaleMin, scaleMax); }
 
 	private:
-		static PointerContainer<GUIWindow> Container;
+		static std::vector<Ref<GUIWindow>> Container;
 	};
 }

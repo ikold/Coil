@@ -4,26 +4,26 @@
 
 namespace Coil
 {
-	PointerContainer<GUIWindow> GUI::Container;
+	std::vector<Ref<GUIWindow>> GUI::Container;
 
 
 	void GUI::OnImGuiRender()
 	{
-		for (auto* window : Container)
+		for (const auto& window : Container)
 			window->OnImGuiRender();
 	}
 
-	GUILogWindow* GUI::LogWindow(const GUIWindowProps& properties)
+	Ref<GUILogWindow> GUI::LogWindow(const GUIWindowProps& properties)
 	{
-		auto* window = new GUILogWindow(properties);
-		Container.Push(window);
+		auto window = std::make_shared<GUILogWindow>(properties);
+		Container.push_back(window);
 		return window;
 	}
 
-	GUIComponentWindow* GUI::ComponentWindow(const GUIWindowProps& properties, const std::vector<Ref<GUIComponent>>& components)
+	Ref<GUIComponentWindow> GUI::ComponentWindow(const GUIWindowProps& properties, const std::vector<Ref<GUIComponent>>& components)
 	{
-		auto* window = new GUIComponentWindow(properties);
-		Container.Push(window);
+		auto window = std::make_shared<GUIComponentWindow>(properties);
+		Container.push_back(window);
 
 		for (const auto& component : components)
 			window->AddComponent(component);
@@ -31,67 +31,67 @@ namespace Coil
 		return window;
 	}
 
-	GUIComponentWindow* GUI::ComponentWindow(const std::vector<Ref<GUIComponent>>& components)
+	Ref<GUIComponentWindow> GUI::ComponentWindow(const std::vector<Ref<GUIComponent>>& components)
 	{
 		return ComponentWindow({}, components);
 	}
 
-	void GUI::HideWindow(GUIWindow& window)
+	void GUI::HideWindow(const Ref<GUIWindow>& window)
 	{
-		window.GetProperties().Visible = false;
+		window->GetProperties().Visible = false;
 	}
 
-	void GUI::ShowWindow(GUIWindow& window)
+	void GUI::ShowWindow(const Ref<GUIWindow>& window)
 	{
-		window.GetProperties().Visible = true;
+		window->GetProperties().Visible = true;
 	}
 
-	void GUI::ToggleWindowVisibility(GUIWindow& window)
+	void GUI::ToggleWindowVisibility(const Ref<GUIWindow>& window)
 	{
-		window.GetProperties().Visible = !(window.GetProperties().Visible);
+		window->GetProperties().Visible = !(window->GetProperties().Visible);
 	}
 
 	bool GUI::HideWindow(const RString<>& name)
 	{
-		GUIWindow* window = GetWindow(name);
+		auto window = GetWindow(name);
 
 		if (!window)
 			return false;
 
-		HideWindow(*window);
-		
+		HideWindow(window);
+
 		return true;
 	}
 
 	bool GUI::ShowWindow(const RString<>& name)
 	{
-		GUIWindow* window = GetWindow(name);
+		auto window = GetWindow(name);
 
 		if (!window)
 			return false;
 
-		ShowWindow(*window);
+		ShowWindow(window);
 
 		return true;
 	}
 
 	bool GUI::ToggleWindowVisibility(const RString<>& name)
 	{
-		GUIWindow* window = GetWindow(name);
+		auto window = GetWindow(name);
 
 		if (!window)
 			return false;
 
-		ToggleWindowVisibility(*window);
+		ToggleWindowVisibility(window);
 
 		return true;
 	}
 
 
-	GUIOverlay* GUI::Overlay(const GUIWindowProps& properties)
+	Ref<GUIOverlay> GUI::Overlay(const GUIWindowProps& properties)
 	{
-		auto* window = new GUIOverlay(properties);
-		Container.Push(window);
+		auto window = std::make_shared<GUIOverlay>(properties);
+		Container.push_back(window);
 		return window;
 	}
 

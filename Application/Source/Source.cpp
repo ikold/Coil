@@ -44,8 +44,19 @@ public:
 			GUI::PlotLine({ "", 0, 32.f }, FrameTimeArray, 0.f, 50.f),
 			GUI::Button({ "Reset camera position" }, [&] { Camera.SetPosition({ 0.f, 0.f, 0.f }); }),
 			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Second Button pressed!"); }),
-			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Third Button pressed!"); }),
-			GUI::Button({ "Toggle Log window visibility" }, [] { GUI::ToggleWindowVisibility("Log"); }),
+			GUI::Button({ "Button", 0, 0, true }, [] { Coil::Logger::Info("Third Button pressed!"); })
+		});
+
+
+		auto window         = GUI::GetWindow("Log");
+		bool& logVisibility = GUI::GetWindow("Log")->GetProperties().Visible;
+
+		GUI::ComponentWindow({ "Log Hider", 128, 256 }, {
+			GUI::Button({ "Hide Log" }, [] { GUI::HideWindow("Log"); }),
+			GUI::Button({ "Show Log" }, [] { GUI::ShowWindow("Log"); }),
+			GUI::Button({ "Toggle Log by Window Name" }, [] { GUI::ToggleWindowVisibility("Log"); }),
+			GUI::Button({ "Toggle Log by Property Reference" }, [&] { logVisibility = !logVisibility; }),
+			GUI::Button({ "Toggle Log by Window Reference" }, [=] { GUI::ToggleWindowVisibility(window); })
 		});
 
 		Coil::Logger::Trace(MousePosition);
