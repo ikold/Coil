@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Layer.h"
 
-#include <utility>
-
 
 namespace Coil
 {

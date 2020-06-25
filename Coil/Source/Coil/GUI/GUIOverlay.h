@@ -1,8 +1,5 @@
 #pragma once
 
-#include <utility>
-
-
 #include "GUIWindow.h"
 
 
@@ -18,7 +15,7 @@ namespace Coil
 
 	protected:
 		void SetUp() const override;
-		
+
 		void Draw() const override;
 
 	private:

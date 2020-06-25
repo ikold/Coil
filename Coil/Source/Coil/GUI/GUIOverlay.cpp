@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "GUIOverlay.h"
 
-#include <utility>
-
 #include "imgui.h"
 
 
@@ -21,7 +19,6 @@ namespace Coil
 
 	void GUIOverlay::Draw() const
 	{
-
 		ImGui::TextUnformatted(StringReference->CString());
 	}
 }

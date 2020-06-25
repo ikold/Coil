@@ -15,7 +15,7 @@
 #include "Coil//Renderer/Texture.h"
 #include "Coil/Renderer/VertexArray.h"
 
-#include "Coil/Renderer/OrthographicCamera.h"
+#include "Coil/OrthographicCameraController.h"
 
 
 #include "Coil/EntryPoint.h"
