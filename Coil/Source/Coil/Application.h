@@ -32,7 +32,9 @@ namespace Coil
 
 	private:
 		bool Running;	/*!	Flag responsible of running of main loop */
-
+		
+		bool Minimized = false;
+		
 		std::unique_ptr<Window> AppWindow;
 
 		LayerStack AppLayerStack;

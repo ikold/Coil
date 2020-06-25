@@ -3,6 +3,7 @@
 
 #include "Platform/OpenGL/OpenGLShader.h"
 
+
 namespace Coil
 {
 	Renderer::SceneData* Renderer::sSceneData = new SceneData;
@@ -25,12 +26,17 @@ namespace Coil
 		shader->Bind();
 
 		static RString<> uViewProjection = "uViewProjection";
-		static RString<> uTransform = "uTransform";
-		
+		static RString<> uTransform      = "uTransform";
+
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4(uViewProjection, sSceneData->ViewProjectionMatrix);
 		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4(uTransform, transform);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
+	}
+
+	void Renderer::OnWindowResize(uint32 width, uint32 height)
+	{
+		RenderCommand::SetViewport(0, 0, width, height);
 	}
 }

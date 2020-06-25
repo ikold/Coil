@@ -20,7 +20,7 @@ namespace Coil
 		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
 
 		Renderer::Init();
-		
+
 		PushOverlay(new GUILayer());
 	}
 
@@ -33,8 +33,11 @@ namespace Coil
 			// computing of frame time
 			Time::Tick();
 
-			for (auto* layer : AppLayerStack)
-				layer->OnUpdate();
+			if (!Minimized)
+			{
+				for (auto* layer : AppLayerStack)
+					layer->OnUpdate();
+			}
 
 			for (auto* layer : AppLayerStack)
 				layer->OnImGuiRender();
@@ -67,7 +70,15 @@ namespace Coil
 
 	bool Application::OnWindowResize(WindowResizeEvent& event)
 	{
-		RenderCommand::SetViewport(0, 0, event.GetWidth(), event.GetHeight());
+		if (event.GetWidth() == 0 || event.GetHeight() == 0)
+		{
+			Minimized = true;
+			return false;
+		}
+
+		Minimized = false;
+
+		Renderer::OnWindowResize(event.GetWidth(), event.GetHeight());
 
 		return false;
 	}
