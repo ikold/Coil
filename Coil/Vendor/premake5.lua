@@ -113,7 +113,16 @@ project "ImGui"
 		"ImGui/imgui_rectpack.h",
 		"ImGui/imgui_textedit.h",
 		"ImGui/imgui_truetype.h",
-		"ImGui/imgui_demo.cpp"
+		"ImGui/imgui_demo.cpp",
+		"ImGui/examples/imgui_impl_opengl3.cpp",
+		"ImGui/examples/imgui_impl_glfw.cpp"
+	}
+	
+	includedirs
+	{
+		"ImGui",
+		"GLAD/include",
+		"GLFW/include"
 	}
 
 	filter "system:windows"
