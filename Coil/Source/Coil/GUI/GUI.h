@@ -65,11 +65,11 @@ namespace Coil
 
 		static Ref<GUIMultiLineTextInput> MultiLineTextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer = BString(""));
 
-		static Ref<GUIFloatSlider> FloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef = std::make_shared<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f);
+		static Ref<GUIFloatSlider> FloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef = CreateRef<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f);
 
-		static Ref<GUIColorPicker> ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(0));
+		static Ref<GUIColorPicker> ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref = CreateRef<glm::vec3>(0));
 
-		static Ref<GUIPlotLine> PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer = std::make_shared<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max());
+		static Ref<GUIPlotLine> PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer = CreateRef<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max());
 
 		static Ref<GUIText> Text(const RString<>& stringReference) { return Text({}, stringReference); }
 
@@ -77,11 +77,11 @@ namespace Coil
 
 		static Ref<GUIMultiLineTextInput> MultiLineTextInput(const RString<BString>& inputBuffer = BString("")) { return MultiLineTextInput({}, inputBuffer); }
 
-		static Ref<GUIFloatSlider> FloatSlider(const Ref<float32>& floatRef = std::make_shared<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f) { return FloatSlider({}, floatRef, minValue, maxValue); }
+		static Ref<GUIFloatSlider> FloatSlider(const Ref<float32>& floatRef = CreateRef<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f) { return FloatSlider({}, floatRef, minValue, maxValue); }
 
-		static Ref<GUIColorPicker> ColorPicker(const Ref<glm::vec3>& vec3Ref = std::make_shared<glm::vec3>(0)) { return ColorPicker({}, vec3Ref); }
+		static Ref<GUIColorPicker> ColorPicker(const Ref<glm::vec3>& vec3Ref = CreateRef<glm::vec3>(0)) { return ColorPicker({}, vec3Ref); }
 
-		static Ref<GUIPlotLine> PlotLine(const Ref<std::vector<float32>>& dataBuffer = std::make_shared<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max()) { return PlotLine({}, dataBuffer, scaleMin, scaleMax); }
+		static Ref<GUIPlotLine> PlotLine(const Ref<std::vector<float32>>& dataBuffer = CreateRef<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max()) { return PlotLine({}, dataBuffer, scaleMin, scaleMax); }
 
 	private:
 		static std::vector<Ref<GUIWindow>> Container;

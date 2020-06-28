@@ -13,7 +13,7 @@ public:
 		  CameraController(1280.0f / 720.0f, true),
 		  FrameTime(Coil::PString("%8f ms", 0.f)),
 		  MousePosition(Coil::PString("mouse x: %6d y: %6d", 0, 0)),
-		  SquareColor(std::make_shared<glm::vec3>(0.2f))
+		  SquareColor(Coil::CreateRef<glm::vec3>(0.2f))
 	{
 		Coil::GUI::LogWindow({ "Log" })->BindBuffer(Coil::Logger::GetBuffer());
 
@@ -46,7 +46,7 @@ public:
 
 			uint32 indices[6] = { 0, 1, 2, 0, 2, 3 };
 
-			std::shared_ptr<Coil::IndexBuffer> indexBuffer = Coil::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32));
+			Coil::Ref<Coil::IndexBuffer> indexBuffer = Coil::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32));
 
 			SquareVertexArray->SetIndexBuffer(indexBuffer);
 		}

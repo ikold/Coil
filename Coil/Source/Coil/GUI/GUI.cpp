@@ -15,14 +15,14 @@ namespace Coil
 
 	Ref<GUILogWindow> GUI::LogWindow(const GUIWindowProps& properties)
 	{
-		auto window = std::make_shared<GUILogWindow>(properties);
+		auto window = CreateRef<GUILogWindow>(properties);
 		Container.push_back(window);
 		return window;
 	}
 
 	Ref<GUIComponentWindow> GUI::ComponentWindow(const GUIWindowProps& properties, const std::vector<Ref<GUIComponent>>& components)
 	{
-		auto window = std::make_shared<GUIComponentWindow>(properties);
+		auto window = CreateRef<GUIComponentWindow>(properties);
 		Container.push_back(window);
 
 		for (const auto& component : components)
@@ -90,7 +90,7 @@ namespace Coil
 
 	Ref<GUIOverlay> GUI::Overlay(const GUIWindowProps& properties)
 	{
-		auto window = std::make_shared<GUIOverlay>(properties);
+		auto window = CreateRef<GUIOverlay>(properties);
 		Container.push_back(window);
 		return window;
 	}
@@ -98,36 +98,36 @@ namespace Coil
 
 	Ref<GUIButton> GUI::Button(const GUIComponentProps& properties, const std::function<void()>& callback)
 	{
-		return std::make_shared<GUIButton>(properties, callback);
+		return CreateRef<GUIButton>(properties, callback);
 	}
 
 	Ref<GUIText> GUI::Text(const GUIComponentProps& properties, const RString<>& stringReference)
 	{
-		return std::make_shared<GUIText>(properties, stringReference);
+		return CreateRef<GUIText>(properties, stringReference);
 	}
 
 	Ref<GUITextInput> GUI::TextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer)
 	{
-		return std::make_shared<GUITextInput>(properties, inputBuffer);
+		return CreateRef<GUITextInput>(properties, inputBuffer);
 	}
 
 	Ref<GUIMultiLineTextInput> GUI::MultiLineTextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer)
 	{
-		return std::make_shared<GUIMultiLineTextInput>(properties, inputBuffer);
+		return CreateRef<GUIMultiLineTextInput>(properties, inputBuffer);
 	}
 
 	Ref<GUIFloatSlider> GUI::FloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef, float32 minValue, float32 maxValue)
 	{
-		return std::make_shared<GUIFloatSlider>(properties, floatRef, minValue, maxValue);
+		return CreateRef<GUIFloatSlider>(properties, floatRef, minValue, maxValue);
 	}
 
 	Ref<GUIColorPicker> GUI::ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref)
 	{
-		return std::make_shared<GUIColorPicker>(properties, vec3Ref);
+		return CreateRef<GUIColorPicker>(properties, vec3Ref);
 	}
 
 	Ref<GUIPlotLine> GUI::PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer, float32 scaleMin, float32 scaleMax)
 	{
-		return std::make_shared<GUIPlotLine>(properties, dataBuffer, scaleMin, scaleMax);
+		return CreateRef<GUIPlotLine>(properties, dataBuffer, scaleMin, scaleMax);
 	}
 }

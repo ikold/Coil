@@ -14,7 +14,7 @@ namespace Coil
 		case RendererAPI::API::None: CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
 			return nullptr;
 
-		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLVertexBuffer>(vertices, size);
+		case RendererAPI::API::OpenGL: return CreateRef<OpenGLVertexBuffer>(vertices, size);
 		}
 
 		CL_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -28,7 +28,7 @@ namespace Coil
 		case RendererAPI::API::None: CL_CORE_ASSERT(false, "RenderAPI::None unsupported!");
 			return nullptr;
 
-		case RendererAPI::API::OpenGL: return std::make_shared<OpenGLIndexBuffer>(indices, size);
+		case RendererAPI::API::OpenGL: return CreateRef<OpenGLIndexBuffer>(indices, size);
 		}
 
 		CL_CORE_ASSERT(false, "Unknown RendererAPI!");
