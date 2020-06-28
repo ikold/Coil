@@ -7,11 +7,24 @@ namespace Coil
 	{
 	public:
 		Binary();
+
+		Binary(const Binary& rhs);
+
+		Binary(Binary&& rhs) noexcept;
+
 		Binary(byte** data, int32 size);
 
 		~Binary();
 
-		[[nodiscard]] byte* GetDate() const { return Data; }
+		Binary& operator=(const Binary& rhs);
+
+		Binary& operator=(Binary&& rhs) noexcept;
+
+
+		friend void swap(Binary& left, Binary& right) noexcept;
+
+
+		[[nodiscard]] byte* GetData() const { return Data; }
 		[[nodiscard]] int32 GetSize() const { return Size; }
 
 	private:

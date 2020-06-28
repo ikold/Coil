@@ -12,17 +12,51 @@ namespace Coil
 		  Size(0)
 	{}
 
-	Binary::Binary(byte** data, int32 size)
-		: Data(*data),
-		  Size(size)
+	Binary::Binary(const Binary & rhs)
+		: Size(rhs.Size)
+	{
+		Data = new byte[Size];
+		memcpy(Data, rhs.Data, Size);
+	}
+
+	Binary::Binary(Binary && rhs) noexcept
+		: Data(std::exchange(rhs.Data, nullptr)),
+		Size(std::exchange(rhs.Size, 0))
 	{}
+
+
+	Binary::Binary(byte * *data, int32 size)
+		: Data(*data),
+		Size(size)
+	{}
+
 
 	Binary::~Binary()
 	{
 		delete[] Data;
 	}
 
+	Binary& Binary::operator=(const Binary & rhs)
+	{
+		return *this = Binary(rhs);
+	}
 
+	Binary& Binary::operator=(Binary && rhs) noexcept
+	{
+		swap(*this, rhs);
+		return *this;
+	}
+
+
+	void swap(Binary & left, Binary & right) noexcept
+	{
+		using std::swap;
+
+		swap(left.Data, right.Data);
+		swap(left.Size, right.Size);
+	}
+
+	
 	RString<> File::Load(const RString<>& filePath)
 	{
 		std::ifstream fileStream(filePath->CString());
