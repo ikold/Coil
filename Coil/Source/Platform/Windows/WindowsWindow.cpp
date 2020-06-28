@@ -20,12 +20,12 @@ namespace Coil
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		WindowsWindow::Init(props);
+		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
-		WindowsWindow::Shutdown();
+		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
