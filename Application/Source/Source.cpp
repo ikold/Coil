@@ -35,7 +35,7 @@ public:
 				-0.5f, 0.5f, 0.f, 0.f, 1.f
 			};
 
-			Coil::Ref<Coil::VertexBuffer> vertexBuffer = Coil::VertexBuffer::Create(vertices, sizeof(vertices));
+			Coil::Ref<Coil::VertexBuffer> vertexBuffer = Coil::VertexBuffer::Create(vertices, sizeof vertices);
 
 			vertexBuffer->SetLayout({
 				{ Coil::ShaderDataType::Float3, "position" },
@@ -46,7 +46,7 @@ public:
 
 			uint32 indices[6] = { 0, 1, 2, 0, 2, 3 };
 
-			Coil::Ref<Coil::IndexBuffer> indexBuffer = Coil::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32));
+			Coil::Ref<Coil::IndexBuffer> indexBuffer = Coil::IndexBuffer::Create(indices, sizeof indices / sizeof(uint32));
 
 			SquareVertexArray->SetIndexBuffer(indexBuffer);
 		}
@@ -66,9 +66,9 @@ public:
 
 		CameraController.OnUpdate();
 
-		auto [x, y] = Coil::Input::GetMousePosition();
-		MousePosition->Set(0, static_cast<int32>(x));
-		MousePosition->Set(1, static_cast<int32>(y));
+		auto [mouseX, mouseY] = Coil::Input::GetMousePosition();
+		MousePosition->Set(0, static_cast<int32>(mouseX));
+		MousePosition->Set(1, static_cast<int32>(mouseY));
 
 
 		{
@@ -90,9 +90,9 @@ public:
 			while (TimeIteration > 4.f)
 				TimeIteration -= 4.f;
 
-			for (int32 x = -gridWidth / 2; x < (gridWidth - gridWidth / 2); ++x)
+			for (int32 x = -gridWidth / 2; x < gridWidth - gridWidth / 2; ++x)
 			{
-				for (int32 y = -gridHeight / 2; y < (gridHeight - gridHeight / 2); ++y)
+				for (int32 y = -gridHeight / 2; y < gridHeight - gridHeight / 2; ++y)
 				{
 					static glm::mat4 scale = glm::scale(glm::mat4(1.f), glm::vec3(0.1f));
 
@@ -112,8 +112,6 @@ public:
 
 	void OnEvent(Coil::Event& event) override
 	{
-		Coil::EventDispatcher dispatcher(event);
-
 		CameraController.OnEvent(event);
 	}
 
