@@ -12,6 +12,10 @@ namespace Coil
 
 	void GUIText::Draw() const
 	{
+		ImGui::PushItemWidth(Properties.Width);
+		
 		ImGui::TextUnformatted(TextBuffer->CString());
+
+		ImGui::PopItemWidth();
 	}
 }

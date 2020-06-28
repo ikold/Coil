@@ -12,6 +12,8 @@ namespace Coil
 
 	void GUITextInput::Draw() const
 	{
+		ImGui::PushItemWidth(Properties.Width);
+		
 		ImGui::InputText(Properties.Label->CString(), InputBuffer->GetBuffer(), static_cast<int32>(InputBuffer->GetSize()) + 1, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
 		{
 			auto string = *static_cast<RString<BString>*>(data->UserData);
@@ -29,5 +31,7 @@ namespace Coil
 
 			return 0;
 		}, const_cast<void*>(reinterpret_cast<const void*>(&InputBuffer)));
+
+		ImGui::PopItemWidth();
 	}
 }

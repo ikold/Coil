@@ -13,6 +13,10 @@ namespace Coil
 
 	void GUIColorPicker::Draw() const
 	{
+		ImGui::PushItemWidth(Properties.Width);
+		
 		ImGui::ColorEdit3(Properties.Label->CString(), value_ptr(*Vec3Ref));
+
+		ImGui::PopItemWidth();
 	}
 }
