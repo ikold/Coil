@@ -61,7 +61,7 @@ namespace Coil
 
 			@return		RString	currently in format "[YYYY-MM-DD hh-mm-ss][LogLevel]: Message" (e.g. "[2019-12-25 19:23:03][MESSAGE]: Example message")
 		*/
-		static RString<> Compose(const Log& log);
+		static RString<> ComposeHeader(const Log& log);
 	};
 
 

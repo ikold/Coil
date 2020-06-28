@@ -10,9 +10,7 @@ namespace Coil
 		: Message(Move(message)),
 		  Date(Time::Now()),
 		  Level(level),
-		  Header(PString("[%20s][%8s]",
-			  Time::TimestampToString(GetDate())->CString(),
-			  LogParser::Level(GetLevel())->CString()))
+		  Header(LogParser::ComposeHeader(*this))
 	{}
 
 	RString<> LogParser::Level(LogLevel level)
@@ -31,12 +29,11 @@ namespace Coil
 		return RString("");
 	}
 
-	RString<> LogParser::Compose(const Log& log)
+	RString<> LogParser::ComposeHeader(const Log& log)
 	{
-		return PString("[%20s][%8s]",
-			Time::TimestampToString(log.GetDate())->CString(),
-			Level(log.GetLevel())->CString()
-		);
+		auto timeString = Time::TimestampToString(log.GetDate());
+		auto levelString = Level(log.GetLevel());
+		return PString("[%R][%R]", &timeString, &levelString);
 	}
 
 	Log* Logger::Create(const RString<>& message, LogLevel level)
