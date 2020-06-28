@@ -66,17 +66,11 @@ workspace "Coil"
 
 		defines
 		{
-			"CL_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
 		
 		filter "system:windows"
 			systemversion "latest"
-			
-			defines
-			{
-				"CL_PLATFORM_WINDOWS"
-			}
 			
 		filter "configurations:Debug"
 			runtime "Debug"
@@ -142,11 +136,6 @@ workspace "Coil"
 		
 		filter "system:windows"
 			systemversion "latest"
-			
-			defines
-			{
-				"CL_PLATFORM_WINDOWS"
-			}
 
 		filter "configurations:Debug"
 			runtime "Debug"
