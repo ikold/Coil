@@ -155,7 +155,7 @@ namespace Coil
 		});
 	}
 
-	void WindowsWindow::Shutdown()
+	void WindowsWindow::Shutdown() const
 	{
 		glfwDestroyWindow(WindowInstance);
 	}

@@ -28,7 +28,7 @@ namespace Coil
 
 	private:
 		void Init(const WindowProps& props);
-		void Shutdown();
+		void Shutdown() const;
 
 	private:
 		GLFWwindow* WindowInstance{};

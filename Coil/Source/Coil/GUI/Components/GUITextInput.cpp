@@ -12,7 +12,7 @@ namespace Coil
 
 	void GUITextInput::Draw() const
 	{
-		ImGui::InputText(Properties.Label->CString(), InputBuffer->GetBuffer(), InputBuffer->GetSize() + 1, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
+		ImGui::InputText(Properties.Label->CString(), InputBuffer->GetBuffer(), static_cast<int32>(InputBuffer->GetSize()) + 1, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
 		{
 			auto string = *static_cast<RString<BString>*>(data->UserData);
 

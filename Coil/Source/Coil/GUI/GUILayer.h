@@ -9,13 +9,13 @@ namespace Coil
 	{
 	public:
 		GUILayer();
-		
+
 		void OnAttach() override;
 		void OnDetach() override;
 		void OnImGuiRender() override;
 
 		void OnEvent(Event& event) override;
-		
+
 		static void Begin();
 		static void End();
 	};

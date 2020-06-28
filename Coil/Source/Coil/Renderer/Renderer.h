@@ -12,7 +12,7 @@ namespace Coil
 	{
 	public:
 		static void Init();
-		
+
 		static void OnWindowResize(uint32 width, uint32 height);
 
 		static void BeginScene(const OrthographicCamera& camera);

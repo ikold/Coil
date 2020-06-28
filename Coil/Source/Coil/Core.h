@@ -45,13 +45,12 @@
 #endif // End of platform detection
 
 
-
 #ifdef CL_ENABLE_ASSERTS
-#define CL_ASSERT(x, message) { if (!(x)) { Logger::Error(message); __debugbreak(); } }
-#define CL_CORE_ASSERT(x, message) { if (!(x)) { Logger::Error(message); __debugbreak(); } }
+	#define CL_ASSERT(x, message) { if (!(x)) { Logger::Error(message); __debugbreak(); } }
+	#define CL_CORE_ASSERT(x, message) { if (!(x)) { Logger::Error(message); __debugbreak(); } }
 #else
-#define CL_ASSERT(x, message);
-#define CL_CORE_ASSERT(x, message);
+	#define CL_ASSERT(x, message);
+	#define CL_CORE_ASSERT(x, message);
 #endif
 
 
@@ -65,8 +64,8 @@ namespace Coil
 	{
 		return std::make_unique<T>(std::forward<Args>(args)...);
 	}
-	
-	
+
+
 	template<typename T>
 	using Ref = std::shared_ptr<T>;
 
@@ -75,8 +74,8 @@ namespace Coil
 	{
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
-	
-	
+
+
 	template<typename T>
 	constexpr T&& Move(T& t)
 	{

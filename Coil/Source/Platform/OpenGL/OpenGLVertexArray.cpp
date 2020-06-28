@@ -24,7 +24,7 @@ namespace Coil
 
 		case ShaderDataType::Bool: return GL_BOOL;
 		default:
-			CL_CORE_ASSERT(false, "Unknown ShaderDataType!");
+		CL_CORE_ASSERT(false, "Unknown ShaderDataType!");
 			return 0;
 		}
 	}
@@ -61,11 +61,11 @@ namespace Coil
 		{
 			glEnableVertexAttribArray(VertexBufferIndex);
 			glVertexAttribPointer(VertexBufferIndex,
-								  element.GetComponentCount(),
-								  ShaderDataTypeToOpenGLBaseType(element.Type),
-								  element.Normalized ? GL_TRUE : GL_FALSE,
-								  layout.GetStride(),
-								  reinterpret_cast<const void*>(static_cast<int64>(element.Offset)));
+				element.GetComponentCount(),
+				ShaderDataTypeToOpenGLBaseType(element.Type),
+				element.Normalized ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				reinterpret_cast<const void*>(static_cast<int64>(element.Offset)));
 			++VertexBufferIndex;
 		}
 

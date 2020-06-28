@@ -32,14 +32,14 @@ namespace Coil
 		int32 Size;
 	};
 
-	
+
 	class File
 	{
 	public:
 		File() = delete;
 
 		[[nodiscard]] static RString<> Load(const RString<>& filePath);
-		
+
 		[[nodiscard]] static Binary LoadBinary(const RString<>& filePath);
 	};
 }

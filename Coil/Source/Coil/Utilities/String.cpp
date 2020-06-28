@@ -270,7 +270,7 @@ namespace Coil
 	{
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(size) + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
-		
+
 		if (tmp)
 		{
 			Size = size;
@@ -289,7 +289,7 @@ namespace Coil
 	{
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + size + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
-		
+
 		if (tmp)
 		{
 			Size += size;
@@ -406,6 +406,7 @@ namespace Coil
 			Size = Length + size;
 
 			auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
+			
 			CL_ASSERT(tmp, "Failed to reallocate memory");
 			if (tmp)
 				Data = tmp;
@@ -574,7 +575,7 @@ namespace Coil
 				if (InsertSize.back() == 0)
 					InsertSize.back() = TypeToSize(InsertType.back());
 
-				insertReplace.push_back(InsertIndex.size() - 1);
+				insertReplace.push_back(static_cast<int32>(InsertIndex.size()) - 1);
 
 				insertIndexOffset += InsertSize.back() - insertSymbolSize.back();
 				insert       = false;

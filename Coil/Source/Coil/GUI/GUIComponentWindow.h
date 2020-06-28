@@ -3,6 +3,7 @@
 #include "GUIWindow.h"
 #include "Components/GUIComponent.h"
 
+
 namespace Coil
 {
 	class GUIComponentWindow final : public GUIWindow
@@ -11,7 +12,7 @@ namespace Coil
 		explicit GUIComponentWindow(const GUIWindowProps& properties);
 
 		void AddComponent(const Ref<GUIComponent>& component) { Components.push_back(component); }
-		
+
 	protected:
 		void Draw() const override;
 

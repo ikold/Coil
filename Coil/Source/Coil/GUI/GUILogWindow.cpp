@@ -10,7 +10,8 @@ namespace Coil
 		: GUIWindow(properties),
 		  Buffer(nullptr) {}
 
-	void GUILogWindow::Draw() const {
+	void GUILogWindow::Draw() const
+	{
 		int32 skippedLines      = TextTopCulling();
 		const int32 linesToDraw = WindowSizeInLines();
 

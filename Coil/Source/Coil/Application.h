@@ -32,7 +32,7 @@ namespace Coil
 
 	private:
 		bool Running;	/*!	Flag responsible of running of main loop */
-		
+
 		bool Minimized = false;
 
 		Scope<Window> AppWindow;
