@@ -14,6 +14,6 @@ namespace Coil
 
 	void GUIPlotLine::Draw() const
 	{
-		ImGui::PlotLines(Properties.Label->CString(), DataBuffer->_Unchecked_begin(), DataBuffer->size(), 0, nullptr, ScaleMin, ScaleMax, { Properties.Width, Properties.Height });
+		ImGui::PlotLines(Properties.Label->CString(), DataBuffer->_Unchecked_begin(), static_cast<int32>(DataBuffer->size()), 0, nullptr, ScaleMin, ScaleMax, { Properties.Width, Properties.Height });
 	}
 }

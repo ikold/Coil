@@ -18,7 +18,4 @@
 #include "Coil/OrthographicCameraController.h"
 
 
-#include "Coil/EntryPoint.h"
-
-
 namespace cl = Coil;

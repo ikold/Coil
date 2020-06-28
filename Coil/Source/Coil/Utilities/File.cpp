@@ -72,14 +72,14 @@ namespace Coil
 			buffer[length] = '\0';
 
 
-			String fileContent(&buffer, length); //In case of failed read String deletes buffer
+			String fileContent(&buffer, static_cast<int32>(length)); //In case of failed read String deletes buffer
 
 			fileStream.read(buffer, length);
 
 			return fileContent;
 		}
 
-		CL_CORE_ASSERT(false, PString("Loading of '%S' failed!", filePath->CString(), filePath->GetSize()));
+		CL_CORE_ASSERT(false, PString("Loading of '%R' failed!", &filePath));
 
 		return String("");
 	}
@@ -98,14 +98,14 @@ namespace Coil
 			auto* buffer = new byte[static_cast<size_t>(length) + 1];
 
 
-			Binary fileContent(&buffer, length); //In case of failed read Binary deletes buffer
+			Binary fileContent(&buffer, static_cast<int32>(length)); //In case of failed read Binary deletes buffer
 
 			fileStream.read(reinterpret_cast<char*>(buffer), length);
 
 			return fileContent;
 		}
 
-		CL_CORE_ASSERT(false, PString("Loading of '%S' failed!", filePath->CString(), filePath->GetSize()));
+		CL_CORE_ASSERT(false, PString("Loading of '%S' failed!", &filePath));
 
 		return Binary();
 	}

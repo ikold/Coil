@@ -299,7 +299,7 @@ namespace Coil
 
 	void BString::RecalculateLength()
 	{
-		Length = strlen(Data);
+		Length = static_cast<int32>(strlen(Data));
 	}
 
 

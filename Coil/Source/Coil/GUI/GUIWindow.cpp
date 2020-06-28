@@ -17,7 +17,7 @@ namespace Coil
 			return;
 
 
-		ImGui::SetNextWindowSize(ImVec2(Properties.Width, Properties.Height), ImGuiCond_FirstUseEver);
+		ImGui::SetNextWindowSize(ImVec2(static_cast<float32>(Properties.Width), static_cast<float32>(Properties.Height)), ImGuiCond_FirstUseEver);
 
 		SetUp();
 
