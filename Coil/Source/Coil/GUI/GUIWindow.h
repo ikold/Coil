@@ -27,7 +27,7 @@ namespace Coil
 		void TextBottomCulling(int32 linesTotal) const;
 		[[nodiscard]] int32 WindowSizeInLines() const;
 
-		virtual void SetUp() const = 0;
+		virtual void SetUp() const {}
 		virtual void Draw() const = 0;
 
 	protected:

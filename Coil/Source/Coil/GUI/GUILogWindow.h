@@ -15,8 +15,6 @@ namespace Coil
 
 		void BindBuffer(PointerContainer<Log>* buffer) { Buffer = buffer; }
 
-	protected:
-		void SetUp() const override {};
 	private:
 		PointerContainer<Log>* Buffer;
 	};

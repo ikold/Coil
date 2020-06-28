@@ -15,7 +15,6 @@ namespace Coil
 	protected:
 		void Draw() const override;
 
-		void SetUp() const override {};
 	private:
 		std::vector<Ref<GUIComponent>> Components{};
 	};
