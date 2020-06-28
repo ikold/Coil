@@ -168,7 +168,8 @@ namespace Coil
 			case 15:
 				reverseString << "F";
 				break;
-			default: ;
+			default:
+				CL_ASSERT(false, "Only up to base 16 is covered!");
 			}
 
 			operationalValue /= base;
@@ -566,7 +567,7 @@ namespace Coil
 					InsertSize.back() += va_arg(args, int32);
 					break;
 				default:
-				CL_CORE_ASSERT(false, "Invalid PString format");
+					CL_ASSERT(false, "Unknow PString parameter type!");
 				}
 
 				// if current insert size is 0, assigns default size
@@ -647,7 +648,8 @@ namespace Coil
 			case 'F':
 				Set(i, parameters[i].Float64);
 				break;
-			default: ;
+			default:
+				CL_ASSERT(false, "Unknow PString parameter type!");
 			}
 		}
 	}
@@ -714,6 +716,8 @@ namespace Coil
 		case 'f':
 		case 'F':
 			return 16;
+		default:
+			CL_ASSERT(false, "Unknow PString parameter type!");
 		}
 
 		return 0;
@@ -793,7 +797,8 @@ namespace Coil
 			case 15:
 				*iterator-- = 'F';
 				break;
-			default: ;
+			default:
+				CL_ASSERT(false, "Only up to base 16 is covered!");
 			}
 
 			operationalValue /= base;
@@ -823,7 +828,8 @@ namespace Coil
 		case 'X':
 			Set(parameterIndex, value, 16);
 			break;
-		default: ;
+		default:
+			CL_ASSERT(false, "Unknow PString parameter type!");
 		}
 	}
 

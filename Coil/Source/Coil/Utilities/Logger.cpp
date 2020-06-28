@@ -25,8 +25,10 @@ namespace Coil
 		case LogLevel::info: return RString("INFO");
 		case LogLevel::debug: return RString("DEBUG");
 		case LogLevel::trace: return RString("TRACE");
-		default: return RString("");
+		default: CL_ASSERT(false, "Unknow log level!");
 		}
+
+		return RString("");
 	}
 
 	RString<> LogParser::Compose(const Log& log)

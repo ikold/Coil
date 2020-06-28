@@ -102,6 +102,8 @@ namespace Coil
 				data.EventCallback(event);
 				break;
 			}
+			default:
+				CL_ASSERT(false, "Unknow keyboard action!");
 			}
 		});
 
@@ -131,6 +133,8 @@ namespace Coil
 				data.EventCallback(event);
 				break;
 			}
+			default:
+				CL_ASSERT(false, "Unknow mouse action!");
 			}
 		});
 
