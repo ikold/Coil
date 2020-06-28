@@ -1,10 +1,5 @@
 #pragma once
 
-#include "Coil/Events/Event.h"
-#include "Coil/Events/ApplicationEvent.h"
-#include "Coil/Events/MouseEvent.h"
-#include "Coil/Events/KeyEvent.h"
-
 
 namespace Coil
 {

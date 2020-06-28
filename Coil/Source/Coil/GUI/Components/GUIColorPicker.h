@@ -2,8 +2,6 @@
 
 #include "GUIComponent.h"
 
-#include <glm/glm.hpp>
-
 
 namespace Coil
 {

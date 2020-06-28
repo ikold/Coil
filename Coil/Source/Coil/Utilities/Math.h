@@ -1,5 +1,6 @@
 #pragma once
 
+
 namespace Coil
 {
 	class Math
@@ -22,7 +23,7 @@ namespace Coil
 		{
 			while (value < min)
 				value += cycle;
-			
+
 			while (value > max)
 				value -= cycle;
 

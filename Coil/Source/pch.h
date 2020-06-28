@@ -2,15 +2,20 @@
 
 #include "Coil/Core.h"
 
-#include <vector>
-
-#include <array>
 
 #include <memory>
 
 #include <functional>
 
+#include <vector>
+
+#include <array>
+
 #include <unordered_map>
+
+
+#include <glm/glm.hpp>
+
 
 #include "Coil/Utilities/Types.h"
 
@@ -25,3 +30,17 @@
 #include "Coil/Input.h"
 
 #include "Coil/Utilities/File.h"
+
+
+#include "Coil/KeyCodes.h"
+
+#include "Coil/MouseButtons.h"
+
+
+#include "Coil/Events/Event.h"
+
+#include "Coil/Events/ApplicationEvent.h"
+
+#include "Coil/Events/MouseEvent.h"
+
+#include "Coil/Events/KeyEvent.h"

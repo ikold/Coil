@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Coil/Events/Event.h"
-
 
 namespace Coil
 {

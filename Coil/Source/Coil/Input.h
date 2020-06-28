@@ -1,8 +1,5 @@
 #pragma once
 
-#include "Coil/KeyCodes.h"
-#include "Coil/MouseButtons.h"
-
 
 namespace Coil
 {

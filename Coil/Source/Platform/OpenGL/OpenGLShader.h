@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Coil/Renderer/Shader.h"
-#include <glm/glm.hpp>
 
 
 namespace Coil

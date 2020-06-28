@@ -2,9 +2,6 @@
 
 #include "Coil/Renderer/OrthographicCamera.h"
 
-#include "Coil/Events/MouseEvent.h"
-#include "Coil/Events/ApplicationEvent.h"
-
 
 namespace Coil
 {
