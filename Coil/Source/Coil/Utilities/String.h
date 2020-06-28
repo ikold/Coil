@@ -346,7 +346,7 @@ namespace Coil
 
 		bool operator==(const RString<TString>& string) const
 		{
-			return strcmp(Get()->CString(), string->Get()->CString()) == 0;
+			return strcmp(Get()->CString(), string.Get()->CString()) == 0;
 		}
 
 
