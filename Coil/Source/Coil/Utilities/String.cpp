@@ -567,6 +567,11 @@ namespace Coil
 					parameters.back().Float64 = va_arg(args, float64);
 					InsertSize.back() += va_arg(args, int32);
 					break;
+				case 'R':
+					InsertType.push_back(text[i]);
+					parameters.back().VoidPtr = va_arg(args, void*);
+					InsertSize.back() += static_cast<RString<>*>(parameters.back().VoidPtr)->Get()->GetLength();
+					break;
 				default:
 					CL_ASSERT(false, "Unknow PString parameter type!");
 				}
@@ -637,6 +642,9 @@ namespace Coil
 			case 'S':
 				Set(i, parameters[i].Char8Ptr);
 				break;
+			case 'R':
+				Set(i, *static_cast<RString<>*>(parameters[i].VoidPtr));
+				break;
 			case 'b':
 			case 'B':
 			case 'd':
@@ -705,6 +713,8 @@ namespace Coil
 		case 's':
 		case 'S':
 			return 16;
+		case 'R':
+			return -1;
 		case 'b':
 		case 'B':
 			return 33;
@@ -732,6 +742,15 @@ namespace Coil
 		char8* index = Data + InsertIndex[parameterIndex];
 		memset(index, 127, InsertSize[parameterIndex]);
 		memcpy(index, text, size);
+
+		RecalculateLength();
+	}
+
+	void PString::Set(int32 parameterIndex, const RString<>& string)
+	{
+		char8* index = Data + InsertIndex[parameterIndex];
+		memset(index, 127, InsertSize[parameterIndex]);
+		memcpy(index, string->CString(), string->GetLength());
 
 		RecalculateLength();
 	}

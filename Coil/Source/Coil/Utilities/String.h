@@ -192,65 +192,6 @@ namespace Coil
 	};
 
 
-	class PString final : public String
-	{
-	public:
-		/** Default Constructor */
-		PString();
-
-		/** Copy Constructor */
-		PString(const PString& string);
-
-		/** Move Constructor */
-		PString(PString&& string) noexcept;
-
-		PString(const char8* text...);
-
-
-		/** Destructor */
-		~PString() override = default;
-
-
-		/** Copy assignment operator */
-		PString& operator=(const PString& string);
-
-		/** Move assignment operator */
-		PString& operator=(PString&& string) noexcept;
-
-
-		friend void swap(PString& left, PString& right) noexcept;
-
-
-		[[nodiscard]] int32 GetSize() const override { return Size; }
-
-
-		[[nodiscard]] String ToString() const;
-
-
-		static int32 TypeToSize(char8 type);
-
-
-		[[nodiscard]] int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; }
-
-		void Set(int32 parameterIndex, const char8* text);
-		void Set(int32 parameterIndex, int32 value);
-		void Set(int32 parameterIndex, int32 value, int32 base);
-		void Set(int32 parameterIndex, float64 value);
-
-	private:
-		void RecalculateLength();
-
-	private:
-		int32 Size;
-		// points at the beginning of insert padding
-		std::vector<int32> InsertIndex;
-		// uses characters to denote the types e.g. 'd' for int32
-		std::vector<char8> InsertType;
-		// size of insert padding
-		std::vector<int32> InsertSize;
-	};
-
-
 	template<class TString = String>
 	class RString
 	{
@@ -380,6 +321,66 @@ namespace Coil
 	protected:
 		String* StringPointer;
 		int32* Counter;
+	};
+
+
+	class PString final : public String
+	{
+	public:
+		/** Default Constructor */
+		PString();
+
+		/** Copy Constructor */
+		PString(const PString& string);
+
+		/** Move Constructor */
+		PString(PString&& string) noexcept;
+
+		PString(const char8* text...);
+
+
+		/** Destructor */
+		~PString() override = default;
+
+
+		/** Copy assignment operator */
+		PString& operator=(const PString& string);
+
+		/** Move assignment operator */
+		PString& operator=(PString&& string) noexcept;
+
+
+		friend void swap(PString& left, PString& right) noexcept;
+
+
+		[[nodiscard]] int32 GetSize() const override { return Size; }
+
+
+		[[nodiscard]] String ToString() const;
+
+
+		static int32 TypeToSize(char8 type);
+
+
+		[[nodiscard]] int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; }
+
+		void Set(int32 parameterIndex, const char8* text);
+		void Set(int32 parameterIndex, const RString<>& string);
+		void Set(int32 parameterIndex, int32 value);
+		void Set(int32 parameterIndex, int32 value, int32 base);
+		void Set(int32 parameterIndex, float64 value);
+
+	private:
+		void RecalculateLength();
+
+	private:
+		int32 Size;
+		// points at the beginning of insert padding
+		std::vector<int32> InsertIndex;
+		// uses characters to denote the types e.g. 'd' for int32
+		std::vector<char8> InsertType;
+		// size of insert padding
+		std::vector<int32> InsertSize;
 	};
 }
 
