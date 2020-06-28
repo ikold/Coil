@@ -30,6 +30,6 @@ namespace Coil
 		virtual float32 GetMouseYImpl() = 0;
 
 	private:
-		static Input* Instance;
+		static Scope<Input> Instance;
 	};
 }

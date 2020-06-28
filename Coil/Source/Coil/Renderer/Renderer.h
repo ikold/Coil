@@ -29,6 +29,6 @@ namespace Coil
 		};
 
 
-		static SceneData* sSceneData;
+		static Scope<SceneData> sSceneData;
 	};
 }

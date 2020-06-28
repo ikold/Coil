@@ -32,7 +32,7 @@ namespace Coil
 
 	private:
 		GLFWwindow* WindowInstance{};
-		GraphicsContext* Context{};
+		Scope<GraphicsContext> Context{};
 
 
 		struct WindowData

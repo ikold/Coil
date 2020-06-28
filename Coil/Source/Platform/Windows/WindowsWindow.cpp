@@ -53,7 +53,7 @@ namespace Coil
 		WindowInstance = glfwCreateWindow(static_cast<int32>(Data.Width), static_cast<int32>(Data.Height), Data.Name->CString(), nullptr, nullptr);
 
 
-		Context = new OpenGLContext(WindowInstance);
+		Context = CreateScope<OpenGLContext>(WindowInstance);
 		Context->Init();
 
 		glfwSetWindowUserPointer(WindowInstance, &Data);

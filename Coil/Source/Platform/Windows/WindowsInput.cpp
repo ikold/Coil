@@ -7,7 +7,7 @@
 
 namespace Coil
 {
-	Input* Input::Instance = new WindowsInput();
+	Scope<Input> Input::Instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImpl(int32 keycode)
 	{

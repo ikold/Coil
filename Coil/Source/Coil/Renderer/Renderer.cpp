@@ -6,7 +6,7 @@
 
 namespace Coil
 {
-	Renderer::SceneData* Renderer::sSceneData = new SceneData;
+	Scope<Renderer::SceneData> Renderer::sSceneData = CreateScope<SceneData>();
 
 	void Renderer::Init()
 	{

@@ -16,7 +16,8 @@ namespace Coil
 		static void Clear() { sRendererAPI->Clear(); }
 
 		static void DrawIndexed(const Ref<VertexArray>& vertexArray) { sRendererAPI->DrawIndex(vertexArray); }
+
 	private:
-		static RendererAPI* sRendererAPI;
+		static Scope<RendererAPI> sRendererAPI;
 	};
 }
