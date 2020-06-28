@@ -16,7 +16,14 @@ namespace Coil
 	{
 	public:
 		explicit GUIWindow(GUIWindowProps properties);
+
+		GUIWindow(const GUIWindow& rhs) = default;
+		GUIWindow(GUIWindow&& rhs)      = default;
+
 		virtual ~GUIWindow() = default;
+
+		GUIWindow& operator=(const GUIWindow& rhs) = default;
+		GUIWindow& operator=(GUIWindow&& rhs)      = default;
 
 		void OnImGuiRender() const;
 

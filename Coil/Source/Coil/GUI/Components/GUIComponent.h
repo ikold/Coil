@@ -23,7 +23,13 @@ namespace Coil
 			: Properties(Move(properties))
 		{}
 
+		GUIComponent(const GUIComponent& rhs) = default;
+		GUIComponent(GUIComponent&& rhs)      = default;
+
 		virtual ~GUIComponent() = default;
+
+		GUIComponent& operator=(const GUIComponent& rhs) = default;
+		GUIComponent& operator=(GUIComponent&& rhs)      = default;
 
 		GUIComponentProps& GetProperties() { return Properties; }
 

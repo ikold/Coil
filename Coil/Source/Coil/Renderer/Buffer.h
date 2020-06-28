@@ -135,7 +135,14 @@ namespace Coil
 	class VertexBuffer
 	{
 	public:
+		VertexBuffer()                        = default;
+		VertexBuffer(const VertexBuffer& rhs) = default;
+		VertexBuffer(VertexBuffer&& rhs)      = default;
+
 		virtual ~VertexBuffer() = default;
+
+		VertexBuffer& operator=(const VertexBuffer& rhs) = default;
+		VertexBuffer& operator=(VertexBuffer&& rhs)      = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
@@ -150,7 +157,14 @@ namespace Coil
 	class IndexBuffer
 	{
 	public:
+		IndexBuffer()                       = default;
+		IndexBuffer(const IndexBuffer& rhs) = default;
+		IndexBuffer(IndexBuffer&& rhs)      = default;
+
 		virtual ~IndexBuffer() = default;
+
+		IndexBuffer& operator=(const IndexBuffer& rhs) = default;
+		IndexBuffer& operator=(IndexBuffer&& rhs)      = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;

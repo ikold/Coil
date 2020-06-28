@@ -54,7 +54,15 @@ namespace Coil
 		friend class EventDispatcher;
 
 	public:
+		Event()                 = default;
+		Event(const Event& rhs) = default;
+		Event(Event&& rhs)      = default;
+
 		virtual ~Event() = default;
+
+		Event& operator=(const Event& rhs) = default;
+		Event& operator=(Event&& rhs)      = default;
+
 		[[nodiscard]] virtual EventType GetType() const = 0;
 		[[nodiscard]] virtual RString<> GetName() const = 0;
 		[[nodiscard]] virtual int32 GetCategoryFlags() const = 0;

@@ -6,7 +6,14 @@ namespace Coil
 	class Input
 	{
 	public:
+		Input()                 = default;
+		Input(const Input& rhs) = default;
+		Input(Input&& rhs)      = default;
+
 		virtual ~Input() = default;
+
+		Input& operator=(const Input& rhs) = default;
+		Input& operator=(Input&& rhs)      = default;
 
 		static bool IsKeyPressed(int32 keycode) { return Instance->IsKeyPressedImpl(keycode); }
 

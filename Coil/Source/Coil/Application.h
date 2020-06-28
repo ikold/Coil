@@ -12,7 +12,15 @@ namespace Coil
 	{
 	public:
 		Application();
+
+		Application(const Application& rhs) = delete;
+		Application(Application&& rhs)      = delete;
+
 		virtual ~Application() = default;
+
+		Application& operator=(const Application& rhs) = delete;
+		Application& operator=(Application&& rhs)      = delete;
+
 
 		/*!	Main loop of the application
 		*/

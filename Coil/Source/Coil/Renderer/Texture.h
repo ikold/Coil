@@ -5,7 +5,14 @@ namespace Coil
 	class Texture
 	{
 	public:
+		Texture()                   = default;
+		Texture(const Texture& rhs) = default;
+		Texture(Texture&& rhs)      = default;
+
 		virtual ~Texture() = default;
+
+		Texture& operator=(const Texture& rhs) = default;
+		Texture& operator=(Texture&& rhs)      = default;
 
 		[[nodiscard]] virtual uint32 GetWidth() const = 0;
 		[[nodiscard]] virtual uint32 GetHeight() const = 0;

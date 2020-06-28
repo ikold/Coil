@@ -9,6 +9,7 @@ namespace Coil
 	{
 	public:
 		OpenGLVertexArray();
+		
 		~OpenGLVertexArray() override;
 
 		void Bind() const override;

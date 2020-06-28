@@ -16,7 +16,15 @@ namespace Coil
 
 
 	public:
+		RendererAPI()                       = default;
+		RendererAPI(const RendererAPI& rhs) = default;
+		RendererAPI(RendererAPI&& rhs)      = default;
+
 		virtual ~RendererAPI() = default;
+
+		RendererAPI& operator=(const RendererAPI& rhs) = default;
+		RendererAPI& operator=(RendererAPI&& rhs)      = default;
+
 		virtual void Init() = 0;
 
 		virtual void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height) = 0;

@@ -9,6 +9,7 @@ namespace Coil
 	{
 	public:
 		explicit OpenGLTexture2D(const RString<>& path);
+		
 		~OpenGLTexture2D() override;
 
 		[[nodiscard]] uint32 GetWidth() const override { return Width; }

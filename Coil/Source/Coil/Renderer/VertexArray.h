@@ -8,7 +8,14 @@ namespace Coil
 	class VertexArray
 	{
 	public:
+		VertexArray()                       = default;
+		VertexArray(const VertexArray& rhs) = default;
+		VertexArray(VertexArray&& rhs)      = default;
+
 		virtual ~VertexArray() = default;
+
+		VertexArray& operator=(const VertexArray& rhs) = default;
+		VertexArray& operator=(VertexArray&& rhs)      = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;

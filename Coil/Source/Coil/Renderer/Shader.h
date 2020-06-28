@@ -6,7 +6,14 @@ namespace Coil
 	class Shader
 	{
 	public:
+		Shader()                  = default;
+		Shader(const Shader& rhs) = default;
+		Shader(Shader&& rhs)      = default;
+
 		virtual ~Shader() = default;
+
+		Shader& operator=(const Shader& rhs) = default;
+		Shader& operator=(Shader&& rhs)      = default;
 
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;

@@ -7,7 +7,14 @@ namespace Coil
 	{
 	public:
 		explicit Layer(RString<> name = "Layer");
+
+		Layer(const Layer& rhs) = default;
+		Layer(Layer&& rhs)      = default;
+
 		virtual ~Layer() = default;
+
+		Layer& operator=(const Layer& rhs) = default;
+		Layer& operator=(Layer&& rhs)      = default;
 
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}

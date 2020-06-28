@@ -9,6 +9,7 @@ namespace Coil
 	{
 	public:
 		OpenGLVertexBuffer(float32* vertices, uint32 size);
+		
 		~OpenGLVertexBuffer() override;
 
 		void Bind() const override;
@@ -27,6 +28,7 @@ namespace Coil
 	{
 	public:
 		OpenGLIndexBuffer(uint32* indices, uint32 count);
+		
 		~OpenGLIndexBuffer() override;
 
 		void Bind() const override;

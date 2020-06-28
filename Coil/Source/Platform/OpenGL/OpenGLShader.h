@@ -8,8 +8,8 @@ namespace Coil
 	class OpenGLShader final : public Shader
 	{
 	public:
-		OpenGLShader(RString<> name, const RString<>& vertexSource, const RString<>& fragmentSource);
 		explicit OpenGLShader(const RString<>& filePath);
+		OpenGLShader(RString<> name, const RString<>& vertexSource, const RString<>& fragmentSource);
 
 		~OpenGLShader() override;
 

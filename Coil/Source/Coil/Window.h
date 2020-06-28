@@ -16,7 +16,14 @@ namespace Coil
 	public:
 		using EventCallbackFn = std::function<void(Event&)>;
 
+		Window()                  = default;
+		Window(const Window& rhs) = default;
+		Window(Window&& rhs)      = default;
+
 		virtual ~Window() = default;
+
+		Window& operator=(const Window& rhs) = default;
+		Window& operator=(Window&& rhs)      = default;
 
 		virtual void OnUpdate() = 0;
 

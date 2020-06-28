@@ -12,6 +12,7 @@ namespace Coil
 	{
 	public:
 		explicit WindowsWindow(const WindowProps& props);
+		
 		~WindowsWindow() override;
 
 		void OnUpdate() override;
