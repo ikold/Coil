@@ -29,6 +29,6 @@ namespace Coil
 
 		glm::vec3 CameraPosition       = { 0.0f, 0.0f, 0.0f };
 		float32 CameraRotation         = 0.0f;
-		float32 CameraTranslationSpeed = 5.0f, CameraRotationSpeed = 180.0f;
+		float32 CameraTranslationSpeed = 1.0f, CameraRotationSpeed = 180.0f;
 	};
 }

@@ -13,14 +13,26 @@ namespace Coil
 	void OrthographicCameraController::OnUpdate()
 	{
 		if (Input::IsKeyPressed(CL_KEY_A))
-			CameraPosition.x -= CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+		{
+			CameraPosition.x -= cos(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+			CameraPosition.y -= sin(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+		}
 		else if (Input::IsKeyPressed(CL_KEY_D))
-			CameraPosition.x += CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+		{
+			CameraPosition.x += cos(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+			CameraPosition.y += sin(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+		}
 
 		if (Input::IsKeyPressed(CL_KEY_W))
-			CameraPosition.y += CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+		{
+			CameraPosition.x += -sin(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+			CameraPosition.y += cos(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+		}
 		else if (Input::IsKeyPressed(CL_KEY_S))
-			CameraPosition.y -= CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+		{
+			CameraPosition.x -= -sin(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+			CameraPosition.y -= cos(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
+		}
 
 		if (Rotation)
 		{
