@@ -8,11 +8,10 @@ struct GLFWwindow;
 
 namespace Coil
 {
-	class OpenGLContext : public GraphicsContext
+	class OpenGLContext final : public GraphicsContext
 	{
 	public:
-		OpenGLContext(GLFWwindow* windowHandle);
-		~OpenGLContext() = default;
+		explicit OpenGLContext(GLFWwindow* windowHandle);
 
 		void Init() override;
 		void SwapBuffers() override;

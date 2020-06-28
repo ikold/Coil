@@ -5,7 +5,7 @@
 
 namespace Coil
 {
-	class GUIText : public GUIComponent
+	class GUIText final : public GUIComponent
 	{
 	public:
 		GUIText(const GUIComponentProps& properties, const RString<>& textBuffer);

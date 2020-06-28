@@ -6,10 +6,10 @@
 
 namespace Coil
 {
-	class GUILogWindow : public GUIWindow
+	class GUILogWindow final : public GUIWindow
 	{
 	public:
-		GUILogWindow(const GUIWindowProps& properties);
+		explicit GUILogWindow(const GUIWindowProps& properties);
 
 		void Draw() const override;
 

@@ -19,7 +19,7 @@ namespace Coil
 	class GUIComponent
 	{
 	public:
-		GUIComponent(const GUIComponentProps& properties)
+		explicit GUIComponent(const GUIComponentProps& properties)
 			: Properties(properties) {}
 
 		virtual ~GUIComponent() = default;

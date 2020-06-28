@@ -5,11 +5,11 @@
 
 namespace Coil
 {
-	class OpenGLTexture2D : public Texture2D
+	class OpenGLTexture2D final : public Texture2D
 	{
 	public:
-		OpenGLTexture2D(const RString<>& path);
-		virtual ~OpenGLTexture2D();
+		explicit OpenGLTexture2D(const RString<>& path);
+		~OpenGLTexture2D() override;
 
 		uint32 GetWidth() const override { return Width; }
 		uint32 GetHeight() const override { return Height; }

@@ -5,7 +5,7 @@
 
 namespace Coil
 {
-	class GUITextInput : public GUIComponent
+	class GUITextInput final : public GUIComponent
 	{
 	public:
 		GUITextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer);

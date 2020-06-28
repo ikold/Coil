@@ -60,8 +60,6 @@ public:
 		std::dynamic_pointer_cast<Coil::OpenGLShader>(TextureShader)->UploadUniformInt("uTexture", 0);
 	}
 
-	~ApplicationLayer() = default;
-
 	void OnUpdate() override
 	{
 		FrameTime->Set(0, Coil::Time::DeltaTime());
@@ -141,8 +139,6 @@ public:
 	{
 		PushLayer(new ApplicationLayer());
 	}
-
-	~App() = default;
 };
 
 

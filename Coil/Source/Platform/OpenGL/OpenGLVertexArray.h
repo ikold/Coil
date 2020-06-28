@@ -5,11 +5,11 @@
 
 namespace Coil
 {
-	class OpenGLVertexArray : public VertexArray
+	class OpenGLVertexArray final : public VertexArray
 	{
 	public:
 		OpenGLVertexArray();
-		~OpenGLVertexArray();
+		~OpenGLVertexArray() override;
 
 		void Bind() const override;
 		void Unbind() const override;

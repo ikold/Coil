@@ -5,12 +5,11 @@
 
 namespace Coil
 {
-	class GUILayer : public Layer
+	class GUILayer final : public Layer
 	{
 	public:
 		GUILayer();
-		~GUILayer() = default;
-
+		
 		void OnAttach() override;
 		void OnDetach() override;
 		void OnImGuiRender() override;

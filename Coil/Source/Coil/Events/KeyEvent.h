@@ -13,7 +13,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategory::Keyboard | EventCategory::Input)
 
 	protected:
-		KeyEvent(int32 keyCode)
+		explicit KeyEvent(int32 keyCode)
 			: KeyCode(keyCode)
 		{}
 
@@ -43,7 +43,7 @@ namespace Coil
 	class KeyReleasedEvent final : public KeyEvent
 	{
 	public:
-		KeyReleasedEvent(int32 keyCode)
+		explicit KeyReleasedEvent(int32 keyCode)
 			: KeyEvent(keyCode)
 		{}
 
@@ -56,7 +56,7 @@ namespace Coil
 	class KeyTypedEvent final : public KeyEvent
 	{
 	public:
-		KeyTypedEvent(int32 keyCode)
+		explicit KeyTypedEvent(int32 keyCode)
 			: KeyEvent(keyCode)
 		{}
 

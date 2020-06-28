@@ -10,9 +10,9 @@ namespace Coil
 	{
 	public:
 		OpenGLShader(const RString<>& name, const RString<>& vertexSource, const RString<>& fragmentSource);
-		OpenGLShader(const RString<>& filePath);
+		explicit OpenGLShader(const RString<>& filePath);
 
-		~OpenGLShader();
+		~OpenGLShader() override;
 
 		static std::unordered_map<uint32, RString<>> PreProcess(const RString<>& source);
 

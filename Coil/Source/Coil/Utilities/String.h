@@ -19,7 +19,7 @@ namespace Coil
 
 		String(const char8* text, int32 length);
 
-		String(char8** charPtr);
+		explicit String(char8** charPtr);
 
 		String(char8** charPtr, int32 length);
 
@@ -86,13 +86,13 @@ namespace Coil
 
 		BString(const char8* text, int32 length);
 
-		BString(char8** charPtr);
+		explicit BString(char8** charPtr);
 
 		BString(char8** charPtr, int32 length);
 
 
 		/** Destructor */
-		~BString() = default;
+		~BString() override = default;
 
 
 		/** Copy assignment operator */
@@ -138,13 +138,13 @@ namespace Coil
 
 		SString(const char8* text, int32 length);
 
-		SString(char8** charPtr);
+		explicit SString(char8** charPtr);
 
 		SString(char8** charPtr, int32 length);
 
 
 		/** Destructor */
-		~SString() = default;
+		~SString() override = default;
 
 
 		/** Copy assignment operator */
@@ -208,7 +208,7 @@ namespace Coil
 
 
 		/** Destructor */
-		~PString() = default;
+		~PString() override = default;
 
 
 		/** Copy assignment operator */

@@ -55,7 +55,7 @@ namespace Coil
 		EVENT_CLASS_CATEGORY(EventCategory::Mouse | EventCategory::MouseButton | EventCategory::Input)
 
 	protected:
-		MouseButtonEvent(int32 button)
+		explicit MouseButtonEvent(int32 button)
 			: Button(button)
 		{}
 
@@ -66,7 +66,7 @@ namespace Coil
 	class MouseButtonPressedEvent final : public MouseButtonEvent
 	{
 	public:
-		MouseButtonPressedEvent(int32 button)
+		explicit MouseButtonPressedEvent(int32 button)
 			: MouseButtonEvent(button)
 		{}
 
@@ -79,7 +79,7 @@ namespace Coil
 	class MouseButtonReleasedEvent final : public MouseButtonEvent
 	{
 	public:
-		MouseButtonReleasedEvent(int32 button)
+		explicit MouseButtonReleasedEvent(int32 button)
 			: MouseButtonEvent(button)
 		{}
 

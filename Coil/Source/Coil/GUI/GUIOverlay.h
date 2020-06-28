@@ -8,8 +8,7 @@ namespace Coil
 	class GUIOverlay final : public GUIWindow
 	{
 	public:
-		GUIOverlay(const GUIWindowProps& properties);
-		~GUIOverlay() = default;
+		explicit GUIOverlay(const GUIWindowProps& properties);
 
 		void BindTextBuffer(const RString<>& reference) { StringReference = reference; }
 

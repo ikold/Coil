@@ -11,7 +11,7 @@ namespace Coil
 	class OrthographicCameraController
 	{
 	public:
-		OrthographicCameraController(float32 aspectRatio, bool rotation = false);
+		explicit OrthographicCameraController(float32 aspectRatio, bool rotation = false);
 
 		void OnUpdate();
 		void OnEvent(Event& e);

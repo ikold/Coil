@@ -10,6 +10,7 @@ namespace Coil
 	{
 	public:
 		virtual ~Input() = default;
+		
 		static bool IsKeyPressed(int32 keycode) { return Instance->IsKeyPressedImpl(keycode); }
 
 		static bool IsMouseButtonPressed(int32 button) { return Instance->IsMouseButtonPressedImpl(button); }

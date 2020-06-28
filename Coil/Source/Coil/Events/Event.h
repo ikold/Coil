@@ -76,7 +76,7 @@ namespace Coil
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
 	public:
-		EventDispatcher(Event& event)
+		explicit EventDispatcher(Event& event)
 			: EventToDispatch(event)
 		{}
 

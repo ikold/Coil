@@ -5,11 +5,11 @@
 
 namespace Coil
 {
-	class OpenGLVertexBuffer : public VertexBuffer
+	class OpenGLVertexBuffer final : public VertexBuffer
 	{
 	public:
 		OpenGLVertexBuffer(float32* vertices, uint32 size);
-		virtual ~OpenGLVertexBuffer();
+		~OpenGLVertexBuffer() override;
 
 		void Bind() const override;
 		void Unbind() const override;
@@ -23,11 +23,11 @@ namespace Coil
 	};
 
 
-	class OpenGLIndexBuffer : public IndexBuffer
+	class OpenGLIndexBuffer final : public IndexBuffer
 	{
 	public:
 		OpenGLIndexBuffer(uint32* indices, uint32 count);
-		virtual ~OpenGLIndexBuffer();
+		~OpenGLIndexBuffer() override;
 
 		void Bind() const override;
 		void Unbind() const override;

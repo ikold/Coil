@@ -7,8 +7,6 @@ namespace Coil
 	class PointerContainer
 	{
 	public:
-		PointerContainer() = default;
-
 		~PointerContainer()
 		{
 			for (auto element : Container)

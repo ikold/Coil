@@ -5,7 +5,7 @@
 
 namespace Coil
 {
-	class GUIFloatSlider : public GUIComponent
+	class GUIFloatSlider final : public GUIComponent
 	{
 	public:
 		GUIFloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef, float32 minValue = 0.f, float32 maxValue = 1.f);

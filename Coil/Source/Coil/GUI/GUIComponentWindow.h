@@ -8,7 +8,7 @@ namespace Coil
 	class GUIComponentWindow final : public GUIWindow
 	{
 	public:
-		GUIComponentWindow(const GUIWindowProps& properties);
+		explicit GUIComponentWindow(const GUIWindowProps& properties);
 
 		void AddComponent(const Ref<GUIComponent>& component) { Components.push_back(component); }
 		

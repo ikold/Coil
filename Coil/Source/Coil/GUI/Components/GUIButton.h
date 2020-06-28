@@ -5,7 +5,7 @@
 
 namespace Coil
 {
-	class GUIButton : public GUIComponent
+	class GUIButton final : public GUIComponent
 	{
 	public:
 		GUIButton(const GUIComponentProps& properties, const std::function<void()>& callback);

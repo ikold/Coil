@@ -8,11 +8,11 @@
 
 namespace Coil
 {
-	class WindowsWindow : public Window
+	class WindowsWindow final : public Window
 	{
 	public:
-		WindowsWindow(const WindowProps& props);
-		virtual ~WindowsWindow();
+		explicit WindowsWindow(const WindowProps& props);
+		~WindowsWindow() override;
 
 		void OnUpdate() override;
 
