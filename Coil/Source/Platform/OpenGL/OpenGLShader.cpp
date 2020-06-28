@@ -122,7 +122,7 @@ namespace Coil
 
 		// Note the different functions here: glGetProgram* instead of glGetShader*.
 		GLint isLinked = 0;
-		glGetProgramiv(program, GL_LINK_STATUS, (int32*)&isLinked);
+		glGetProgramiv(program, GL_LINK_STATUS, static_cast<int32*>(&isLinked));
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;

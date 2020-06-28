@@ -351,7 +351,7 @@ namespace Coil
 
 
 		template<class TCast>
-		operator RString<TCast>() const { return (RString<TCast>&)(*this); }
+		operator RString<TCast>() const { return *(reinterpret_cast<const RString<TCast>*>(this)); }
 
 
 		[[nodiscard]] TString* Get() const { return static_cast<TString*>(StringPointer); }

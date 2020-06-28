@@ -66,7 +66,7 @@ namespace Coil
 
 			Binary fileContent(&buffer, length); //In case of failed read Binary deletes buffer
 
-			fileStream.read((char*)buffer, length);
+			fileStream.read(reinterpret_cast<char*>(buffer), length);
 
 			return fileContent;
 		}

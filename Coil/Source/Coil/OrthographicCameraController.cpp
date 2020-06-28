@@ -54,7 +54,7 @@ namespace Coil
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 	{
-		AspectRatio = (float32)e.GetWidth() / (float32)e.GetHeight();
+		AspectRatio = static_cast<float32>(e.GetWidth()) / static_cast<float32>(e.GetHeight());
 		Camera.SetProjection(-AspectRatio * ZoomLevel, AspectRatio * ZoomLevel, -ZoomLevel, ZoomLevel);
 		return false;
 	}

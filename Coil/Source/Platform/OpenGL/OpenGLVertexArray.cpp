@@ -65,7 +65,7 @@ namespace Coil
 								  ShaderDataTypeToOpenGLBaseType(element.Type),
 								  element.Normalized ? GL_TRUE : GL_FALSE,
 								  layout.GetStride(),
-								  (const void*)(int64)element.Offset);
+								  reinterpret_cast<const void*>(static_cast<int64>(element.Offset)));
 			++VertexBufferIndex;
 		}
 

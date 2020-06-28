@@ -28,6 +28,6 @@ namespace Coil
 			data->Buf = string->GetBuffer();
 
 			return 0;
-		}, (void*)&InputBuffer);
+		}, const_cast<void*>(reinterpret_cast<const void*>(&InputBuffer)));
 	}
 }
