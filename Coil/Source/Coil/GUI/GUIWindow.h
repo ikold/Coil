@@ -15,7 +15,7 @@ namespace Coil
 	class GUIWindow
 	{
 	public:
-		explicit GUIWindow(const GUIWindowProps& properties);
+		explicit GUIWindow(GUIWindowProps properties);
 		virtual ~GUIWindow() = default;
 
 		void OnImGuiRender() const;

@@ -6,9 +6,9 @@
 
 namespace Coil
 {
-	GUIButton::GUIButton(const GUIComponentProps& properties, const std::function<void()>& callback)
+	GUIButton::GUIButton(const GUIComponentProps& properties, std::function<void()> callback)
 		: GUIComponent(properties),
-		  Callback(callback) {}
+		  Callback(Move(callback)) {}
 
 	void GUIButton::Draw() const
 	{

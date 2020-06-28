@@ -75,4 +75,11 @@ namespace Coil
 	{
 		return std::make_shared<T>(std::forward<Args>(args)...);
 	}
+	
+
+	template<typename T>
+	constexpr T&& Move(T&& t)
+	{
+		return std::forward<T>(t);
+	}
 }

@@ -6,9 +6,9 @@
 
 namespace Coil
 {
-	GUITextInput::GUITextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer)
+	GUITextInput::GUITextInput(const GUIComponentProps& properties, RString<BString> inputBuffer)
 		: GUIComponent(properties),
-		  InputBuffer(inputBuffer) {}
+		  InputBuffer(Move(inputBuffer)) {}
 
 	void GUITextInput::Draw() const
 	{

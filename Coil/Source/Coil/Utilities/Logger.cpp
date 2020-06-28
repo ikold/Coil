@@ -6,8 +6,8 @@ namespace Coil
 {
 	PointerContainer<Log> Logger::Buffer;
 
-	Log::Log(const RString<>& message, LogLevel level)
-		: Message(message),
+	Log::Log(RString<> message, LogLevel level)
+		: Message(Move(message)),
 		  Date(Time::Now()),
 		  Level(level),
 		  Header(PString("[%20s][%8s]",

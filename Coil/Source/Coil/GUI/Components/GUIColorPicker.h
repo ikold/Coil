@@ -8,7 +8,7 @@ namespace Coil
 	class GUIColorPicker final : public GUIComponent
 	{
 	public:
-		explicit GUIColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref);
+		explicit GUIColorPicker(const GUIComponentProps& properties, Ref<glm::vec3> vec3Ref);
 
 		void Draw() const override;
 

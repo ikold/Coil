@@ -286,7 +286,7 @@ namespace Coil
 		{}
 
 		RString(TString&& string)
-			: StringPointer(new TString(std::move(string))),
+			: StringPointer(new TString(Move(string))),
 			  Counter(new int32(1))
 		{}
 
@@ -325,7 +325,7 @@ namespace Coil
 
 		RString& operator=(TString&& string)
 		{
-			swap(*this, RString(std::move(string)));
+			swap(*this, RString(Move(string)));
 			return *this;
 		}
 

@@ -8,7 +8,7 @@ namespace Coil
 	class GUIButton final : public GUIComponent
 	{
 	public:
-		GUIButton(const GUIComponentProps& properties, const std::function<void()>& callback);
+		GUIButton(const GUIComponentProps& properties, std::function<void()> callback);
 
 		void Draw() const override;
 

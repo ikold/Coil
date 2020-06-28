@@ -23,7 +23,7 @@ namespace Coil
 	struct Log
 	{
 	public:
-		Log(const RString<>& message, LogLevel level);
+		Log(RString<> message, LogLevel level);
 
 		[[nodiscard]] RString<> GetMessage() const { return Message; }
 		[[nodiscard]] Timestamp GetDate() const { return Date; }

@@ -8,7 +8,7 @@ namespace Coil
 	class GUIMultiLineTextInput final : public GUIComponent
 	{
 	public:
-		GUIMultiLineTextInput(const GUIComponentProps& properties, const RString<BString>& inputBuffer);
+		GUIMultiLineTextInput(const GUIComponentProps& properties, RString<BString> inputBuffer);
 
 		void Draw() const override;
 

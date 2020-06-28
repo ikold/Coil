@@ -6,8 +6,8 @@
 
 namespace Coil
 {
-	GUIWindow::GUIWindow(const GUIWindowProps& properties)
-		: Properties(properties),
+	GUIWindow::GUIWindow(GUIWindowProps properties)
+		: Properties(Move(properties)),
 		  OpenFlag(nullptr),
 		  Flags(0) {}
 

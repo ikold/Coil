@@ -6,9 +6,9 @@
 
 namespace Coil
 {
-	GUIText::GUIText(const GUIComponentProps& properties, const RString<>& textBuffer)
+	GUIText::GUIText(const GUIComponentProps& properties, RString<> textBuffer)
 		: GUIComponent(properties),
-		  TextBuffer(textBuffer) {}
+		  TextBuffer(Move(textBuffer)) {}
 
 	void GUIText::Draw() const
 	{

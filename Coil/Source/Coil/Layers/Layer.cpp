@@ -4,7 +4,7 @@
 
 namespace Coil
 {
-	Layer::Layer(const RString<>& name)
-		: DebugName(name)
+	Layer::Layer(RString<> name)
+		: DebugName(Move(name))
 	{}
 }

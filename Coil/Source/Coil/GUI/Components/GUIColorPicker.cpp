@@ -7,9 +7,9 @@
 
 namespace Coil
 {
-	GUIColorPicker::GUIColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref)
+	GUIColorPicker::GUIColorPicker(const GUIComponentProps& properties, Ref<glm::vec3> vec3Ref)
 		: GUIComponent(properties),
-		  Vec3Ref(vec3Ref) {}
+		  Vec3Ref(Move(vec3Ref)) {}
 
 	void GUIColorPicker::Draw() const
 	{

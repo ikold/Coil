@@ -35,8 +35,8 @@ namespace Coil
 		Name           = filepath.substr(lastSlash, count).c_str();
 	}
 
-	OpenGLShader::OpenGLShader(const RString<>& name, const RString<>& vertexSource, const RString<>& fragmentSource)
-		: Name(name)
+	OpenGLShader::OpenGLShader(RString<> name, const RString<>& vertexSource, const RString<>& fragmentSource)
+		: Name(Move(name))
 	{
 		std::unordered_map<GLenum, RString<>> sources;
 		sources[GL_VERTEX_SHADER]   = vertexSource;

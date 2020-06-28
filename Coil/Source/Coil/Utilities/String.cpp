@@ -228,7 +228,7 @@ namespace Coil
 		  Size(Length) {}
 
 	BString::BString(BString&& string) noexcept
-		: String(static_cast<String>(string)),
+		: String(static_cast<String&&>(string)),
 		  Size(Length) {}
 
 	BString::BString(const char8* text)
@@ -433,9 +433,9 @@ namespace Coil
 	PString::PString(PString&& string) noexcept
 		: String(static_cast<String&&>(string)),
 		  Size(string.Size),
-		  InsertIndex(std::move(string.InsertIndex)),
-		  InsertType(std::move(string.InsertType)),
-		  InsertSize(std::move(string.InsertSize))
+		  InsertIndex(Move(string.InsertIndex)),
+		  InsertType(Move(string.InsertType)),
+		  InsertSize(Move(string.InsertSize))
 	{}
 
 	PString::PString(const char8* text ...)

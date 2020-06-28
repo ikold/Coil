@@ -19,8 +19,9 @@ namespace Coil
 	class GUIComponent
 	{
 	public:
-		explicit GUIComponent(const GUIComponentProps& properties)
-			: Properties(properties) {}
+		explicit GUIComponent(GUIComponentProps properties)
+			: Properties(Move(properties))
+		{}
 
 		virtual ~GUIComponent() = default;
 
