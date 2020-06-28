@@ -20,7 +20,7 @@ namespace Coil
 
 		void OnImGuiRender() const;
 
-		[[nodiscard]] GUIWindowProps& GetProperties() { return Properties; };
+		[[nodiscard]] GUIWindowProps& GetProperties() { return Properties; }
 
 	protected:
 		[[nodiscard]] int32 TextTopCulling() const;

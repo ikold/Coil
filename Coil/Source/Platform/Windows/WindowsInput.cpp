@@ -31,10 +31,10 @@ namespace Coil
 	{
 		auto* window = static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow());
 
-		float64 xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
+		float64 xPosition, yPosition;
+		glfwGetCursorPos(window, &xPosition, &yPosition);
 
-		return { static_cast<float32>(xpos), static_cast<float32>(ypos) };
+		return { static_cast<float32>(xPosition), static_cast<float32>(yPosition) };
 	}
 
 	float32 WindowsInput::GetMouseXImpl()

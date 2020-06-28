@@ -11,14 +11,14 @@ namespace Coil
 		explicit OpenGLTexture2D(const RString<>& path);
 		~OpenGLTexture2D() override;
 
-		uint32 GetWidth() const override { return Width; }
-		uint32 GetHeight() const override { return Height; }
+		[[nodiscard]] uint32 GetWidth() const override { return Width; }
+		[[nodiscard]] uint32 GetHeight() const override { return Height; }
 
 		void Bind(uint32 slot = 0) const override;
 
 	private:
 		RString<> Path;
 		uint32 Width, Height;
-		uint32 RendererID;
+		uint32 TextureName{};
 	};
 }

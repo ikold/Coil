@@ -48,12 +48,12 @@ namespace Coil
 
 	void GUI::ToggleWindowVisibility(const Ref<GUIWindow>& window)
 	{
-		window->GetProperties().Visible = !(window->GetProperties().Visible);
+		window->GetProperties().Visible = !window->GetProperties().Visible;
 	}
 
 	bool GUI::HideWindow(const RString<>& name)
 	{
-		auto window = GetWindow(name);
+		const auto window = GetWindow(name);
 
 		if (!window)
 			return false;
@@ -65,7 +65,7 @@ namespace Coil
 
 	bool GUI::ShowWindow(const RString<>& name)
 	{
-		auto window = GetWindow(name);
+		const auto window = GetWindow(name);
 
 		if (!window)
 			return false;
@@ -77,7 +77,7 @@ namespace Coil
 
 	bool GUI::ToggleWindowVisibility(const RString<>& name)
 	{
-		auto window = GetWindow(name);
+		const auto window = GetWindow(name);
 
 		if (!window)
 			return false;

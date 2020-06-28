@@ -6,7 +6,7 @@
 
 namespace Coil
 {
-	GUIPlotLine::GUIPlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>> dataBuffer, float32 scaleMin, float32 scaleMax)
+	GUIPlotLine::GUIPlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer, float32 scaleMin, float32 scaleMax)
 		: GUIComponent(properties),
 		  DataBuffer(dataBuffer),
 		  ScaleMin(scaleMin),

@@ -35,4 +35,4 @@ namespace Coil
 	private:
 		std::unordered_map<RString<>, Ref<Shader>> Shaders;
 	};
-};
+}

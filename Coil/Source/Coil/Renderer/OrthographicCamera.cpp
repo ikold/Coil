@@ -37,7 +37,7 @@ namespace Coil
 		const glm::mat4 translation = glm::translate(glm::mat4(1.f), Position);
 		const glm::mat4 rotation    = glm::rotate(glm::mat4(1.f), glm::radians(Rotation), glm::vec3(0.f, 0.f, 1.f));
 
-		glm::mat4 transform = translation * rotation;
+		const glm::mat4 transform = translation * rotation;
 
 		ViewMatrix           = glm::inverse(transform);
 		ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;

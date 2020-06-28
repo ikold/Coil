@@ -31,7 +31,7 @@ namespace Coil
 		template<typename T = GUIWindow>
 		static Ref<T> GetWindow(const RString<>& name)
 		{
-			for (auto window : Container)
+			for (const auto& window : Container)
 			{
 				if (window->GetProperties().Name == name)
 					return std::static_pointer_cast<T>(window);

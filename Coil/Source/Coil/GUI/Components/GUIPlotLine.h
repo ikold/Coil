@@ -8,7 +8,7 @@ namespace Coil
 	class GUIPlotLine final : public GUIComponent
 	{
 	public:
-		GUIPlotLine(const GUIComponentProps& properties, Ref<std::vector<float32>> dataBuffer, float32 scaleMin, float32 scaleMax);
+		GUIPlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer, float32 scaleMin, float32 scaleMax);
 
 		void Draw() const override;
 

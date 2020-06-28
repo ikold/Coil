@@ -21,7 +21,7 @@ namespace Coil
 		void Unbind() const override;
 
 
-		const RString<>& GetName() const override { return Name; };
+		[[nodiscard]] const RString<>& GetName() const override { return Name; }
 
 
 		void UploadUniformInt(const RString<>& name, int32 value) const;
@@ -35,7 +35,7 @@ namespace Coil
 		void UploadUniformMat4(const RString<>& name, const glm::mat4& matrix) const;
 
 	private:
-		uint32 RendererID;
+		uint32 RendererID{};
 		RString<> Name;
 	};
 }

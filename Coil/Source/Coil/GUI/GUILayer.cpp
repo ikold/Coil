@@ -73,13 +73,13 @@ namespace Coil
 	{
 		EventDispatcher dispatcher(event);
 
-		dispatcher.Dispatch<MouseScrolledEvent>([](MouseScrolledEvent& event) -> bool
+		dispatcher.Dispatch<MouseScrolledEvent>([]([[maybe_unused]] MouseScrolledEvent& event) -> bool
 		{
 			ImGuiIO& io = ImGui::GetIO();
 			return io.WantCaptureMouse;
 		});
 
-		dispatcher.Dispatch<MouseButtonPressedEvent>([](MouseButtonPressedEvent& event) -> bool
+		dispatcher.Dispatch<MouseButtonPressedEvent>([]([[maybe_unused]] MouseButtonPressedEvent& event) -> bool
 		{
 			ImGuiIO& io = ImGui::GetIO();
 			return io.WantCaptureMouse;

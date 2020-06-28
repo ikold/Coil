@@ -266,7 +266,7 @@ namespace Coil
 			: StringPointer(rString.StringPointer),
 			  Counter(rString.Counter)
 		{
-			++(*Counter);
+			++*Counter;
 		}
 
 		/** Move Constructor */
@@ -346,7 +346,7 @@ namespace Coil
 
 		bool operator==(const RString<TString>& string) const
 		{
-			return strcmp(Get()->CString(), string->CString()) == 0;
+			return strcmp(Get()->CString(), string->Get()->CString()) == 0;
 		}
 
 
@@ -370,7 +370,7 @@ namespace Coil
 	protected:
 		void DereferenceString() const
 		{
-			if (Counter && --(*Counter) == 0)
+			if (Counter && --*Counter == 0)
 			{
 				delete StringPointer;
 				delete Counter;
@@ -391,9 +391,9 @@ namespace std
 	{
 		size_t operator()(Coil::String const& s) const noexcept
 		{
-			size_t h1 = std::hash<char8*>{}(s.CString());
-			size_t h2 = std::hash<int32>{}(s.GetLength());
-			return h1 ^ (h2 << 1);
+			const size_t h1 = std::hash<char8*>{}(s.CString());
+			const size_t h2 = std::hash<int32>{}(s.GetLength());
+			return h1 ^ h2 << 1;
 		}
 	};
 
@@ -403,10 +403,10 @@ namespace std
 	{
 		size_t operator()(Coil::SString const& s) const noexcept
 		{
-			size_t h1 = std::hash<char8*>{}(s.CString());
-			size_t h2 = std::hash<int32>{}(s.GetLength());
-			size_t h3 = std::hash<int32>{}(s.GetSize());
-			return h1 ^ (h2 << 1) ^ (h3 << 2);
+			const size_t h1 = std::hash<char8*>{}(s.CString());
+			const size_t h2 = std::hash<int32>{}(s.GetLength());
+			const size_t h3 = std::hash<int32>{}(s.GetSize());
+			return h1 ^ h2 << 1 ^ h3 << 2;
 		}
 	};
 
@@ -416,10 +416,10 @@ namespace std
 	{
 		size_t operator()(Coil::PString const& s) const noexcept
 		{
-			size_t h1 = std::hash<char8*>{}(s.CString());
-			size_t h2 = std::hash<int32>{}(s.GetLength());
-			size_t h3 = std::hash<int32>{}(s.GetSize());
-			return h1 ^ (h2 << 1) ^ (h3 << 2);
+			const size_t h1 = std::hash<char8*>{}(s.CString());
+			const size_t h2 = std::hash<int32>{}(s.GetLength());
+			const size_t h3 = std::hash<int32>{}(s.GetSize());
+			return h1 ^ h2 << 1 ^ h3 << 2;
 		}
 	};
 
@@ -429,10 +429,10 @@ namespace std
 	{
 		size_t operator()(Coil::RString<TString> const& s) const noexcept
 		{
-			size_t h1 = std::hash<char8*>{}(s->CString());
-			size_t h2 = std::hash<int32>{}(s->GetLength());
-			size_t h3 = std::hash<int32>{}(s->GetSize());
-			return h1 ^ (h2 << 1) ^ (h3 << 2);
+			const size_t h1 = std::hash<char8*>{}(s->CString());
+			const size_t h2 = std::hash<int32>{}(s->GetLength());
+			const size_t h3 = std::hash<int32>{}(s->GetSize());
+			return h1 ^ h2 << 1 ^ h3 << 2;
 		}
 	};
 }

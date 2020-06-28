@@ -2,9 +2,8 @@
 
 #ifdef CL_PLATFORM_WINDOWS
 
-extern Coil::Application* Coil::CreateApplication();
 
-int32 main(int32 argc, char8* argv[])
+int32 main([[maybe_unused]] int32 argc, [[maybe_unused]] char8* argv[])
 {
 	Coil::Logger::Info("Creating Application");
 

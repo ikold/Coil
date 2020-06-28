@@ -7,8 +7,8 @@ namespace Coil
 	public:
 		virtual ~Texture() = default;
 
-		virtual uint32 GetWidth() const = 0;
-		virtual uint32 GetHeight() const = 0;
+		[[nodiscard]] virtual uint32 GetWidth() const = 0;
+		[[nodiscard]] virtual uint32 GetHeight() const = 0;
 
 		virtual void Bind(uint32 slot = 0) const = 0;
 	};

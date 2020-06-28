@@ -34,24 +34,24 @@ namespace Coil
 
 		CL_CORE_ASSERT(colorFormat && internalColorFormat, "Color format not supported!");
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &RendererID);
-		glTextureStorage2D(RendererID, 1, internalColorFormat, Width, Height);
+		glCreateTextures(GL_TEXTURE_2D, 1, &TextureName);
+		glTextureStorage2D(TextureName, 1, internalColorFormat, Width, Height);
 
-		glTextureParameteri(RendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(RendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTextureParameteri(TextureName, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTextureParameteri(TextureName, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-		glTextureSubImage2D(RendererID, 0, 0, 0, Width, Height, colorFormat, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(TextureName, 0, 0, 0, Width, Height, colorFormat, GL_UNSIGNED_BYTE, data);
 
 		stbi_image_free(data);
 	}
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
-		glDeleteTextures(1, &RendererID);
+		glDeleteTextures(1, &TextureName);
 	}
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
-		glBindTextureUnit(slot, RendererID);
+		glBindTextureUnit(slot, TextureName);
 	}
 }

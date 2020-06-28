@@ -114,7 +114,7 @@ namespace Coil
 		reverseString.Reserve(20); // 20 - Maximum number of digits in 64 bit int
 
 		// using ~ bitwise operator for getting rid of negative sign
-		uint64 operationalValue = (value > 0) ? value : (1 + static_cast<uint64>(~value));
+		uint64 operationalValue = value > 0 ? value : 1 + static_cast<uint64>(~value);
 
 		do
 		{
@@ -743,7 +743,7 @@ namespace Coil
 		iterator += static_cast<int64>(InsertSize[parameterIndex]) - 1;
 
 		// using ~ bitwise operator for getting rid of negative sign
-		uint64 operationalValue = (value > 0) ? value : (1 + static_cast<uint64>(~value));
+		uint64 operationalValue = value > 0 ? value : 1 + static_cast<uint64>(~value);
 
 		do
 		{

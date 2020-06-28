@@ -47,7 +47,7 @@ namespace Coil
 
 	void ShaderLibrary::Add(const Ref<Shader>& shader)
 	{
-		auto& name = shader->GetName();
+		const auto& name = shader->GetName();
 		Add(name, shader);
 	}
 
