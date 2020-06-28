@@ -1,4 +1,5 @@
 #include "Coil.h"
+#include "Coil/EntryPoint.h"
 
 #include <glm/gtc/matrix_transform.hpp>
 
