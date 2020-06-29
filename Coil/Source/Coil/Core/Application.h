@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Coil/Layers/LayerStack.h"
-#include "Coil/Window.h"
+#include "Coil/Core/Layer/LayerStack.h"
+#include "Coil/Core/Window.h"
 
 
 namespace Coil

@@ -2,8 +2,8 @@
 
 #include "pch.h"
 
-#include "Coil/Application.h"
-#include "Coil/Layers/Layer.h"
+#include "Coil/Core/Application.h"
+#include "Coil/Core/Layer/Layer.h"
 
 #include "Coil/GUI/GUI.h"
 
@@ -15,7 +15,7 @@
 #include "Coil//Renderer/Texture.h"
 #include "Coil/Renderer/VertexArray.h"
 
-#include "Coil/OrthographicCameraController.h"
+#include "Coil/Renderer/OrthographicCameraController.h"
 
 
 namespace cl = Coil;

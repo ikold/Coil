@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "WindowsInput.h"
 
-#include "Coil/Application.h"
+#include "Coil/Core/Application.h"
 #include <GLFW/glfw3.h>
 
 

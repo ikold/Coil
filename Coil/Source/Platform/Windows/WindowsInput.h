@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Coil/Input.h"
+#include "Coil/Core/Input.h"
 
 
 namespace Coil

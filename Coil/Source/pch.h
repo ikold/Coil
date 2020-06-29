@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Coil/Core.h"
+#include "Coil/Core/Core.h"
 
 
 #include <memory>
@@ -27,14 +27,14 @@
 
 #include "Coil/Utilities/Logger.h"
 
-#include "Coil/Input.h"
+#include "Coil/Core/Input.h"
 
 #include "Coil/Utilities/File.h"
 
 
-#include "Coil/KeyCodes.h"
+#include "Coil/Core/KeyCodes.h"
 
-#include "Coil/MouseButtons.h"
+#include "Coil/Core/MouseButtons.h"
 
 
 #include "Coil/Events/Event.h"

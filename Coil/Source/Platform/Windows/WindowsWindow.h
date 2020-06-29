@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Coil/Window.h"
+#include "Coil/Core/Window.h"
 
 #include "Coil/Renderer/GraphicsContext.h"
 #include <GLFW/glfw3.h>
