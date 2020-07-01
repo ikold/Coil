@@ -34,6 +34,7 @@ namespace Coil
 		GUIComponentProps& GetProperties() { return Properties; }
 
 		virtual void SetUp() const;
+		virtual void CleanUp() const;
 
 		virtual void Draw() const = 0;
 

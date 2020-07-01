@@ -17,6 +17,7 @@ namespace Coil
 
 			component->SetUp();
 			component->Draw();
+			component->CleanUp();
 
 			ImGui::PopID();
 		}

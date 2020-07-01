@@ -10,5 +10,12 @@ namespace Coil
 	{
 		if (Properties.SameLine)
 			ImGui::SameLine();
+
+		ImGui::PushItemWidth(Properties.Width);
+	}
+
+	void GUIComponent::CleanUp() const
+	{
+		ImGui::PopItemWidth();
 	}
 }

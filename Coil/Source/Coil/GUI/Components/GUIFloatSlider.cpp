@@ -14,10 +14,6 @@ namespace Coil
 
 	void GUIFloatSlider::Draw() const
 	{
-		ImGui::PushItemWidth(Properties.Width);
-		
 		ImGui::SliderFloat(Properties.Label->CString(), &*FloatRef, MinValue, MaxValue);
-
-		ImGui::PopItemWidth();
 	}
 }
