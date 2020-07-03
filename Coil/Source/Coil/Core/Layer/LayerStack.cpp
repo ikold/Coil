@@ -9,7 +9,10 @@ namespace Coil
 	LayerStack::~LayerStack()
 	{
 		for (auto* layer : Layers)
+		{
+			layer->OnDetach();
 			delete layer;
+		}
 	}
 
 	void LayerStack::PushLayer(Layer* layer)
