@@ -6,5 +6,5 @@
 
 namespace Coil
 {
-	Scope<RendererAPI> RenderCommand::sRendererAPI = CreateScope<OpenGLRendererAPI>();
+	Scope<RendererAPI> RenderCommand::sRendererAPI = RendererAPI::Create();
 }

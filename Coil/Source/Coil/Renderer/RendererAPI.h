@@ -25,6 +25,8 @@ namespace Coil
 		RendererAPI& operator=(const RendererAPI& rhs) = default;
 		RendererAPI& operator=(RendererAPI&& rhs)      = default;
 
+		static Scope<RendererAPI> Create();
+
 		virtual void Init() = 0;
 
 		virtual void SetViewport(uint32 x, uint32 y, uint32 width, uint32 height) = 0;

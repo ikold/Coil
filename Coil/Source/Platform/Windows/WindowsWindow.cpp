@@ -13,9 +13,9 @@ namespace Coil
 		Logger::Error(description);
 	}
 
-	Window* Window::Create(const WindowProps& props)
+	Scope<Window> Window::Create(const WindowProps& props)
 	{
-		return new WindowsWindow(props);
+		return CreateScope<WindowsWindow>(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
@@ -53,7 +53,7 @@ namespace Coil
 		WindowInstance = glfwCreateWindow(static_cast<int32>(Data.Width), static_cast<int32>(Data.Height), Data.Name->CString(), nullptr, nullptr);
 
 
-		Context = CreateScope<OpenGLContext>(WindowInstance);
+		Context = GraphicsContext::Create(WindowInstance);
 		Context->Init();
 
 		glfwSetWindowUserPointer(WindowInstance, &Data);

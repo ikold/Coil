@@ -16,7 +16,7 @@ namespace Coil
 		CL_ASSERT(!Instance, "Application instance already exist!")
 		Instance = this;
 
-		AppWindow = Scope<Window>(Window::Create());
+		AppWindow = Window::Create();
 		AppWindow->SetEventCallback(BIND_EVENT_METHOD(Application::OnEvent));
 
 		Renderer::Init();
