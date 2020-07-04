@@ -8,6 +8,7 @@
 #include "Coil/GUI/GUI.h"
 
 #include "Coil/Renderer/Renderer.h"
+#include "Coil/Renderer/Renderer2D.h"
 #include "Coil/Renderer/RenderCommand.h"
 
 #include "Coil/Renderer/Buffer.h"

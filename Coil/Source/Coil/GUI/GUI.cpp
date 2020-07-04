@@ -121,9 +121,9 @@ namespace Coil
 		return CreateRef<GUIFloatSlider>(properties, floatRef, minValue, maxValue);
 	}
 
-	Ref<GUIColorPicker> GUI::ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref)
+	Ref<GUIColorPicker> GUI::ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec4>& vec4Ref)
 	{
-		return CreateRef<GUIColorPicker>(properties, vec3Ref);
+		return CreateRef<GUIColorPicker>(properties, vec4Ref);
 	}
 
 	Ref<GUIPlotLine> GUI::PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer, float32 scaleMin, float32 scaleMax)

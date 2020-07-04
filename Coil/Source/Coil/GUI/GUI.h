@@ -67,7 +67,7 @@ namespace Coil
 
 		static Ref<GUIFloatSlider> FloatSlider(const GUIComponentProps& properties, const Ref<float32>& floatRef = CreateRef<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f);
 
-		static Ref<GUIColorPicker> ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec3>& vec3Ref = CreateRef<glm::vec3>(0));
+		static Ref<GUIColorPicker> ColorPicker(const GUIComponentProps& properties, const Ref<glm::vec4>& vec4Ref = CreateRef<glm::vec4>(0));
 
 		static Ref<GUIPlotLine> PlotLine(const GUIComponentProps& properties, const Ref<std::vector<float32>>& dataBuffer = CreateRef<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max());
 
@@ -79,7 +79,7 @@ namespace Coil
 
 		static Ref<GUIFloatSlider> FloatSlider(const Ref<float32>& floatRef = CreateRef<float32>(), float32 minValue = 0.f, float32 maxValue = 1.f) { return FloatSlider({}, floatRef, minValue, maxValue); }
 
-		static Ref<GUIColorPicker> ColorPicker(const Ref<glm::vec3>& vec3Ref = CreateRef<glm::vec3>(0)) { return ColorPicker({}, vec3Ref); }
+		static Ref<GUIColorPicker> ColorPicker(const Ref<glm::vec4>& vec4Ref = CreateRef<glm::vec4>(0)) { return ColorPicker({}, vec4Ref); }
 
 		static Ref<GUIPlotLine> PlotLine(const Ref<std::vector<float32>>& dataBuffer = CreateRef<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max()) { return PlotLine({}, dataBuffer, scaleMin, scaleMax); }
 

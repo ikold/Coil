@@ -1,7 +1,6 @@
 #include "ApplicationLayer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
-#include "Platform/OpenGL/OpenGLShader.h"
 
 
 ApplicationLayer::ApplicationLayer()
@@ -9,7 +8,7 @@ ApplicationLayer::ApplicationLayer()
 	  CameraController(1280.0f / 720.0f, true),
 	  FrameTime(Coil::PString("%8f ms", 0.f)),
 	  MousePosition(Coil::PString("mouse x: %6d y: %6d", 0, 0)),
-	  SquareColor(Coil::CreateRef<glm::vec3>(0.2f))
+	  SquareColor(Coil::CreateRef<glm::vec4>(0.2f, 0.2f, 0.2, 1.f))
 {
 	Coil::GUI::LogWindow({ "Log" })->BindBuffer(Coil::Logger::GetBuffer());
 
@@ -21,39 +20,7 @@ ApplicationLayer::ApplicationLayer()
 
 	Coil::Logger::Trace(MousePosition);
 
-	{
-		SquareVertexArray = Coil::VertexArray::Create();
-
-		float32 vertices[4 * 5] = {
-			-0.5f, -0.5f, 0.f, 0.f, 0.f,
-			0.5f, -0.5f, 0.f, 1.f, 0.f,
-			0.5f, 0.5f, 0.f, 1.f, 1.f,
-			-0.5f, 0.5f, 0.f, 0.f, 1.f
-		};
-
-		Coil::Ref<Coil::VertexBuffer> vertexBuffer = Coil::VertexBuffer::Create(vertices, sizeof vertices);
-
-		vertexBuffer->SetLayout({
-			{ Coil::ShaderDataType::Float3, "position" },
-			{ Coil::ShaderDataType::Float2, "TextureCoordinates" }
-		});
-
-		SquareVertexArray->AddVertexBuffer(vertexBuffer);
-
-		uint32 indices[6] = { 0, 1, 2, 0, 2, 3 };
-
-		Coil::Ref<Coil::IndexBuffer> indexBuffer = Coil::IndexBuffer::Create(indices, sizeof indices / sizeof(uint32));
-
-		SquareVertexArray->SetIndexBuffer(indexBuffer);
-	}
-
-	ColorShader   = Coil::Shader::Create("Resources/Shaders/Color.glsl");
-	TextureShader = Coil::Shader::Create("Resources/Shaders/Texture.glsl");
-
 	Texture = Coil::Texture2D::Create("Resources/Textures/Colorgrid.png");
-
-	TextureShader->Bind();
-	std::dynamic_pointer_cast<Coil::OpenGLShader>(TextureShader)->UploadUniformInt("uTexture", 0);
 }
 
 void ApplicationLayer::OnUpdate()
@@ -71,12 +38,7 @@ void ApplicationLayer::OnUpdate()
 		Coil::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
 		Coil::RenderCommand::Clear();
 
-		Coil::Renderer::BeginScene(CameraController.GetCamera());
-
-		static Coil::RString<Coil::String> uColor = "uColor";
-
-		ColorShader->Bind();
-		std::dynamic_pointer_cast<Coil::OpenGLShader>(ColorShader)->UploadUniformFloat3(uColor, *SquareColor);
+		Coil::Renderer2D::BeginScene(CameraController.GetCamera());
 
 		const int32 gridHeight = 20;
 		const int32 gridWidth  = 40;
@@ -85,24 +47,16 @@ void ApplicationLayer::OnUpdate()
 
 		while (TimeIteration > 4.f)
 			TimeIteration -= 4.f;
+		
+		Coil::Renderer2D::DrawQuad(glm::vec3(0.f), TimeIteration / 2 * glm::pi<float32>(), glm::vec2(1.f), Texture);
 
 		for (int32 x = -gridWidth / 2; x < gridWidth - gridWidth / 2; ++x)
 		{
 			for (int32 y = -gridHeight / 2; y < gridHeight - gridHeight / 2; ++y)
-			{
-				static glm::mat4 scale = glm::scale(glm::mat4(1.f), glm::vec3(0.1f));
-
-				glm::mat4 squareTransform = glm::translate(
-					glm::mat4(1.f), glm::vec3((x - TimeIteration) * 0.11f, (y + TimeIteration / 4) * 0.11f, 0.f)) * scale;
-
-				Coil::Renderer::Submit(ColorShader, SquareVertexArray, squareTransform);
-			}
+				Coil::Renderer2D::DrawQuad({ (x - TimeIteration) * 0.11f, (y + TimeIteration / 4) * 0.11f }, 0.f, { 0.1f, 0.1f }, *SquareColor);
 		}
 
-		Texture->Bind();
-		Coil::Renderer::Submit(TextureShader, SquareVertexArray);
-
-		Coil::Renderer::EndScene();
+		Coil::Renderer2D::EndScene();
 	}
 }
 
