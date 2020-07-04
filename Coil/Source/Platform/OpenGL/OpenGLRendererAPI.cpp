@@ -6,8 +6,42 @@
 
 namespace Coil
 {
+	void OpenGLMessageCallback(
+		unsigned source,
+		unsigned type,
+		unsigned id,
+		unsigned severity,
+		int length,
+		const char* message,
+		const void* userParam)
+	{
+		switch (severity)
+		{
+		case GL_DEBUG_SEVERITY_HIGH:
+			Logger::Fatal(message);
+			return;
+		case GL_DEBUG_SEVERITY_MEDIUM:
+			Logger::Error(message);
+			return;
+		case GL_DEBUG_SEVERITY_LOW:
+			Logger::Warning(message);
+			return;
+		case GL_DEBUG_SEVERITY_NOTIFICATION:
+			Logger::Trace(message);
+			return;
+		default:
+			CL_CORE_ASSERT(false, "Unknown severity level!");
+		}
+	}
+	
 	void OpenGLRendererAPI::Init()
 	{
+#ifdef CL_DEBUG
+		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+		glDebugMessageCallback(OpenGLMessageCallback, nullptr);
+#endif
+		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}

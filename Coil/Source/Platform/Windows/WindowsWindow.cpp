@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "WindowsWindow.h"
 
+
 #include "Platform/OpenGL/OpenGLContext.h"
+#include "Coil/Renderer/Renderer.h"
 
 
 namespace Coil
@@ -48,6 +50,12 @@ namespace Coil
 
 			GLFWInitialized = true;
 		}
+		
+#ifdef CL_DEBUG
+		if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
+
 
 		glfwWindowHint(GLFW_SAMPLES, 4);
 		WindowInstance = glfwCreateWindow(static_cast<int32>(Data.Width), static_cast<int32>(Data.Height), Data.Name->CString(), nullptr, nullptr);

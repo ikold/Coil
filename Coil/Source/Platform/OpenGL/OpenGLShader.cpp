@@ -106,7 +106,6 @@ namespace Coil
 
 				glDeleteShader(shader);
 
-				Logger::Error(infoLog.data());
 				CL_CORE_ASSERT(false, "Shader compilation failure!");
 				break;
 			}
@@ -138,7 +137,6 @@ namespace Coil
 			for (auto id : glShaderIDs)
 				glDeleteShader(id);
 
-			Logger::Error(infoLog.data());
 			CL_CORE_ASSERT(false, "Shader link failure!");
 			return;
 		}
