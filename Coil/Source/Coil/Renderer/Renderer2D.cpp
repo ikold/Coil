@@ -27,9 +27,9 @@ namespace Coil
 
 		float32 squareVertices[4 * 5] = {
 			-0.5f, -0.5f, 0.f, 0.f, 0.f,
-			 0.5f, -0.5f, 0.f, 1.f, 0.f,
-			 0.5f,  0.5f, 0.f, 1.f, 1.f,
-			-0.5f,  0.5f, 0.f, 0.f, 1.f
+			0.5f, -0.5f, 0.f, 1.f, 0.f,
+			0.5f, 0.5f, 0.f, 1.f, 1.f,
+			-0.5f, 0.5f, 0.f, 0.f, 1.f
 		};
 
 		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof squareVertices);
@@ -101,7 +101,16 @@ namespace Coil
 		static RString uColor     = "uColor";
 		static RString uTransform = "uTransform";
 
-		glm::mat4 transform = scale(rotate(translate(glm::mat4(1.f), position), rotation, { 0.f, 0.f, 1.f }), { size.x, size.y, 1.f });
+		float32 const c = cos(rotation);
+		float32 const s = sin(rotation);
+
+		glm::mat4 transform = {
+			{ c * size.x,	s * size.x,	0.f,		0.f },
+			{ -s * size.y,	c * size.y,	0.f,		0.f },
+			{ 0.f,			0.f,		1.f,		0.f },
+			{ position.x,	position.y,	position.z,	1.f },
+		};
+		/**/
 
 		Data->ColorTextureShader->SetMat4(uTransform, transform);
 		Data->ColorTextureShader->SetFloat4(uColor, color);
