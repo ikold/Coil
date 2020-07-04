@@ -24,6 +24,7 @@ namespace Coil
 		static void DrawQuad(const glm::vec2& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture);
 		static void DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture);
 
-		static void DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const Ref<Shader>& shader);
+		static void DrawQuad(const glm::vec2& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color);
+		static void DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color);
 	};
 }

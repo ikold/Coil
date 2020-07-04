@@ -12,8 +12,8 @@ namespace Coil
 	struct Renderer2DStorage
 	{
 		Ref<VertexArray> QuadVertexArray;
-		Ref<Shader> ColorShader;
-		Ref<Shader> TextureShader;
+		Ref<Shader> ColorTextureShader;
+		Ref<Texture2D> WhiteTexture;
 	};
 
 
@@ -27,9 +27,9 @@ namespace Coil
 
 		float32 squareVertices[4 * 5] = {
 			-0.5f, -0.5f, 0.f, 0.f, 0.f,
-			0.5f, -0.5f, 0.f, 1.f, 0.f,
-			0.5f, 0.5f, 0.f, 1.f, 1.f,
-			-0.5f, 0.5f, 0.f, 0.f, 1.f
+			 0.5f, -0.5f, 0.f, 1.f, 0.f,
+			 0.5f,  0.5f, 0.f, 1.f, 1.f,
+			-0.5f,  0.5f, 0.f, 0.f, 1.f
 		};
 
 		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof squareVertices);
@@ -41,15 +41,18 @@ namespace Coil
 
 		Data->QuadVertexArray->AddVertexBuffer(squareVB);
 
-		uint32 squareIndices[6]   = { 0, 1, 2, 2, 3, 0 };
-		Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndices, sizeof squareIndices / sizeof uint32);
+		uint32 squareIndices[6]         = { 0, 1, 2, 2, 3, 0 };
+		const Ref<IndexBuffer> squareIB = IndexBuffer::Create(squareIndices, sizeof squareIndices / sizeof uint32);
 		Data->QuadVertexArray->SetIndexBuffer(squareIB);
 
-		Data->ColorShader   = Shader::Create("Resources/Shaders/Color.glsl");
-		Data->TextureShader = Shader::Create("Resources/Shaders/Texture.glsl");
+		Data->ColorTextureShader = Shader::Create("Resources/Shaders/ColorTextureShader.glsl");
 
-		Data->TextureShader->Bind();
-		Data->TextureShader->SetInt("uTexture", 0);
+		Data->ColorTextureShader->Bind();
+		Data->ColorTextureShader->SetInt("uTexture", 0);
+
+		Data->WhiteTexture      = Texture2D::Create(1, 1);
+		uint32 whiteTextureData = 0xffffffff;
+		Data->WhiteTexture->SetData(&whiteTextureData, sizeof uint32);
 	}
 
 	void Renderer2D::ShoutDown()
@@ -61,11 +64,8 @@ namespace Coil
 	{
 		static RString uViewProjection = "uViewProjection";
 
-		Data->ColorShader->Bind();
-		Data->ColorShader->SetMat4(uViewProjection, camera.GetViewProjectionMatrix());
-
-		Data->TextureShader->Bind();
-		Data->TextureShader->SetMat4(uViewProjection, camera.GetViewProjectionMatrix());
+		Data->ColorTextureShader->Bind();
+		Data->ColorTextureShader->SetMat4(uViewProjection, camera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene()
@@ -73,40 +73,39 @@ namespace Coil
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, float32 rotation, const glm::vec2& size, const glm::vec4& color)
 	{
-		DrawQuad({ position.x, position.y, 0.f }, rotation, size, color);
+		DrawQuad({ position.x, position.y, 0.f }, rotation, size, Data->WhiteTexture, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const glm::vec4& color)
 	{
-		static RString uColor = "uColor";
-
-		Data->ColorShader->Bind();
-		Data->ColorShader->SetFloat4(uColor, color);
-
-		DrawQuad(position, rotation, size, Data->ColorShader);
+		DrawQuad(position, rotation, size, Data->WhiteTexture, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture)
 	{
-		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture);
+		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture, glm::vec4(1.f));
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture)
 	{
-		texture->Bind();
-		Data->TextureShader->Bind();
-
-		DrawQuad(position, rotation, size, Data->TextureShader);
+		DrawQuad(position, rotation, size, texture, glm::vec4(1.f));
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const Ref<Shader>& shader)
+	void Renderer2D::DrawQuad(const glm::vec2& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color)
 	{
+		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture, glm::vec4(1.f));
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color)
+	{
+		static RString uColor     = "uColor";
 		static RString uTransform = "uTransform";
 
-		glm::mat4 transform = translate(glm::mat4(1.f), position) * rotate(glm::mat4(1.f), rotation, { 0.f, 0.f, 1.f }) * scale(glm::mat4(1.f), { size.x, size.y, 1.f });
+		glm::mat4 transform = scale(rotate(translate(glm::mat4(1.f), position), rotation, { 0.f, 0.f, 1.f }), { size.x, size.y, 1.f });
 
-		shader->Bind();
-		shader->SetMat4(uTransform, transform);
+		Data->ColorTextureShader->SetMat4(uTransform, transform);
+		Data->ColorTextureShader->SetFloat4(uColor, color);
+		texture->Bind();
 
 		Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(Data->QuadVertexArray);
