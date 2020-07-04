@@ -18,6 +18,18 @@ namespace Coil
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
+
+		virtual void SetInt(const RString<>& name, int32 value) const = 0;
+		virtual void SetFloat(const RString<>& name, float32 value) const = 0;
+
+		virtual void SetFloat2(const RString<>& name, const glm::vec2& vector) const = 0;
+		virtual void SetFloat3(const RString<>& name, const glm::vec3& vector) const = 0;
+		virtual void SetFloat4(const RString<>& name, const glm::vec4& vector) const = 0;
+
+		virtual void SetMat3(const RString<>& name, const glm::mat3& matrix) const = 0;
+		virtual void SetMat4(const RString<>& name, const glm::mat4& matrix) const = 0;
+
+
 		[[nodiscard]] virtual const RString<>& GetName() const = 0;
 
 		static Ref<Shader> Create(const RString<>& filePath);

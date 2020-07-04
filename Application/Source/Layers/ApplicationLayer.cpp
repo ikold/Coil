@@ -1,6 +1,6 @@
 #include "ApplicationLayer.h"
 
-#include <glm/gtc/matrix_transform.hpp>
+#include <glm/ext/scalar_constants.hpp>
 
 
 ApplicationLayer::ApplicationLayer()
@@ -47,7 +47,7 @@ void ApplicationLayer::OnUpdate()
 
 		while (TimeIteration > 4.f)
 			TimeIteration -= 4.f;
-		
+
 		Coil::Renderer2D::DrawQuad(glm::vec3(0.f), TimeIteration / 2 * glm::pi<float32>(), glm::vec2(1.f), Texture);
 
 		for (int32 x = -gridWidth / 2; x < gridWidth - gridWidth / 2; ++x)

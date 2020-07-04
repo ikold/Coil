@@ -24,6 +24,17 @@ namespace Coil
 		[[nodiscard]] const RString<>& GetName() const override { return Name; }
 
 
+		void SetInt(const RString<>& name, int32 value) const override { UploadUniformInt(name, value); }
+		void SetFloat(const RString<>& name, float32 value) const override { UploadUniformFloat(name, value); }
+
+		void SetFloat2(const RString<>& name, const glm::vec2& vector) const override { UploadUniformFloat2(name, vector); }
+		void SetFloat3(const RString<>& name, const glm::vec3& vector) const override { UploadUniformFloat3(name, vector); }
+		void SetFloat4(const RString<>& name, const glm::vec4& vector) const override { UploadUniformFloat4(name, vector); }
+
+		void SetMat3(const RString<>& name, const glm::mat3& matrix) const override { UploadUniformMat3(name, matrix); }
+		void SetMat4(const RString<>& name, const glm::mat4& matrix) const override { UploadUniformMat4(name, matrix); }
+
+
 		void UploadUniformInt(const RString<>& name, int32 value) const;
 		void UploadUniformFloat(const RString<>& name, float32 value) const;
 

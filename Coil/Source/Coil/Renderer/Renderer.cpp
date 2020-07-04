@@ -2,7 +2,6 @@
 #include "Renderer.h"
 
 #include "Renderer2D.h"
-#include "Platform/OpenGL/OpenGLShader.h"
 
 
 namespace Coil
@@ -30,8 +29,8 @@ namespace Coil
 		static RString<> uViewProjection = "uViewProjection";
 		static RString<> uTransform      = "uTransform";
 
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4(uViewProjection, sSceneData->ViewProjectionMatrix);
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4(uTransform, transform);
+		shader->SetMat4(uViewProjection, sSceneData->ViewProjectionMatrix);
+		shader->SetMat4(uTransform, transform);
 
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);

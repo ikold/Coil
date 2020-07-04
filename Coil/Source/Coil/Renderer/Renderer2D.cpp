@@ -4,7 +4,6 @@
 #include "RenderCommand.h"
 #include "VertexArray.h"
 #include "Shader.h"
-#include "Platform/OpenGL/OpenGLShader.h"
 #include <glm/ext/matrix_transform.hpp>
 
 
@@ -50,7 +49,7 @@ namespace Coil
 		Data->TextureShader = Shader::Create("Resources/Shaders/Texture.glsl");
 
 		Data->TextureShader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(Data->TextureShader)->UploadUniformInt("uTexture", 0);
+		Data->TextureShader->SetInt("uTexture", 0);
 	}
 
 	void Renderer2D::ShoutDown()
@@ -63,10 +62,10 @@ namespace Coil
 		static RString uViewProjection = "uViewProjection";
 
 		Data->ColorShader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(Data->ColorShader)->UploadUniformMat4(uViewProjection, camera.GetViewProjectionMatrix());
+		Data->ColorShader->SetMat4(uViewProjection, camera.GetViewProjectionMatrix());
 
 		Data->TextureShader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(Data->TextureShader)->UploadUniformMat4(uViewProjection, camera.GetViewProjectionMatrix());
+		Data->TextureShader->SetMat4(uViewProjection, camera.GetViewProjectionMatrix());
 	}
 
 	void Renderer2D::EndScene()
@@ -82,7 +81,7 @@ namespace Coil
 		static RString uColor = "uColor";
 
 		Data->ColorShader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(Data->ColorShader)->UploadUniformFloat4(uColor, color);
+		Data->ColorShader->SetFloat4(uColor, color);
 
 		DrawQuad(position, rotation, size, Data->ColorShader);
 	}
@@ -107,7 +106,7 @@ namespace Coil
 		glm::mat4 transform = translate(glm::mat4(1.f), position) * rotate(glm::mat4(1.f), rotation, { 0.f, 0.f, 1.f }) * scale(glm::mat4(1.f), { size.x, size.y, 1.f });
 
 		shader->Bind();
-		std::dynamic_pointer_cast<OpenGLShader>(shader)->UploadUniformMat4(uTransform, transform);
+		shader->SetMat4(uTransform, transform);
 
 		Data->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(Data->QuadVertexArray);
