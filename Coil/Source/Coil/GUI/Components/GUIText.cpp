@@ -12,6 +12,8 @@ namespace Coil
 
 	void GUIText::Draw() const
 	{
+		CL_PROFILE_FUNCTION()
+
 		ImGui::TextUnformatted(TextBuffer->CString());
 	}
 }

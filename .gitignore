@@ -383,3 +383,9 @@ imgui.ini
 Application/Resources
 
 *.DotSettings
+
+# Profiler Files
+CoilProfile*
+
+# Eception from Build results "[Dd]ebug/" entry
+!Coil/Source/Coil/Debug/

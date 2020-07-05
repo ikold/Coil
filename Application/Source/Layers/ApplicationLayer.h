@@ -11,6 +11,9 @@ public:
 
 	void OnEvent(Coil::Event& event) override;
 
+	bool OnKeyPressed(Coil::KeyPressedEvent& event) const;
+	bool OnKeyReleased(Coil::KeyReleasedEvent& event) const;
+
 private:
 	Coil::Ref<Coil::Texture2D> Texture;
 

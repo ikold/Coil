@@ -22,14 +22,16 @@ namespace Coil
 
 	void Renderer2D::Init()
 	{
+		CL_PROFILE_FUNCTION()
+
 		Data                  = CreateScope<Renderer2DStorage>();
 		Data->QuadVertexArray = VertexArray::Create();
 
 		float32 squareVertices[4 * 5] = {
 			-0.5f, -0.5f, 0.f, 0.f, 0.f,
-			0.5f, -0.5f, 0.f, 1.f, 0.f,
-			0.5f, 0.5f, 0.f, 1.f, 1.f,
-			-0.5f, 0.5f, 0.f, 0.f, 1.f
+			 0.5f, -0.5f, 0.f, 1.f, 0.f,
+			 0.5f,  0.5f, 0.f, 1.f, 1.f,
+			-0.5f,  0.5f, 0.f, 0.f, 1.f
 		};
 
 		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof squareVertices);
@@ -55,13 +57,17 @@ namespace Coil
 		Data->WhiteTexture->SetData(&whiteTextureData, sizeof uint32);
 	}
 
-	void Renderer2D::ShoutDown()
+	void Renderer2D::ShutDown()
 	{
+		CL_PROFILE_FUNCTION()
+
 		Data.reset();
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
+		CL_PROFILE_FUNCTION()
+
 		static RString uViewProjection = "uViewProjection";
 
 		Data->ColorTextureShader->Bind();
@@ -69,7 +75,9 @@ namespace Coil
 	}
 
 	void Renderer2D::EndScene()
-	{}
+	{
+		CL_PROFILE_FUNCTION()
+	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, float32 rotation, const glm::vec2& size, const glm::vec4& color)
 	{
@@ -98,6 +106,8 @@ namespace Coil
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color)
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		static RString uColor     = "uColor";
 		static RString uTransform = "uTransform";
 
@@ -108,9 +118,8 @@ namespace Coil
 			{ c * size.x,	s * size.x,	0.f,		0.f },
 			{ -s * size.y,	c * size.y,	0.f,		0.f },
 			{ 0.f,			0.f,		1.f,		0.f },
-			{ position.x,	position.y,	position.z,	1.f },
+			{ position.x,	position.y,	position.z,	1.f }
 		};
-		/**/
 
 		Data->ColorTextureShader->SetMat4(uTransform, transform);
 		Data->ColorTextureShader->SetFloat4(uColor, color);

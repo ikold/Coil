@@ -22,16 +22,22 @@ namespace Coil
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		CL_PROFILE_FUNCTION()
+
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		CL_PROFILE_FUNCTION()
+
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		CL_PROFILE_FUNCTION()
+
 		Data.Name   = props.Name;
 		Data.Width  = props.Width;
 		Data.Height = props.Height;
@@ -42,6 +48,8 @@ namespace Coil
 
 		if (!GLFWInitialized)
 		{
+			CL_PROFILE_SCOPE("glfwInit")
+
 			const int32 success = glfwInit();
 
 			CL_CORE_ASSERT(success, "GLFW initialization failed!");
@@ -50,16 +58,18 @@ namespace Coil
 
 			GLFWInitialized = true;
 		}
-		
+
+		{
+			CL_PROFILE_SCOPE("glfwCreateWindow")
+
 #ifdef CL_DEBUG
-		if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
-			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+			if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
+				glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 #endif
 
-
-		glfwWindowHint(GLFW_SAMPLES, 4);
-		WindowInstance = glfwCreateWindow(static_cast<int32>(Data.Width), static_cast<int32>(Data.Height), Data.Name->CString(), nullptr, nullptr);
-
+			glfwWindowHint(GLFW_SAMPLES, 4);
+			WindowInstance = glfwCreateWindow(static_cast<int32>(Data.Width), static_cast<int32>(Data.Height), Data.Name->CString(), nullptr, nullptr);
+		}
 
 		Context = GraphicsContext::Create(WindowInstance);
 		Context->Init();
@@ -77,6 +87,7 @@ namespace Coil
 			WindowResizeEvent event(static_cast<uint32>(width), static_cast<uint32>(height));
 			data.EventCallback(event);
 		});
+
 		glfwSetWindowCloseCallback(WindowInstance, [](GLFWwindow* window)
 		{
 			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
@@ -165,17 +176,23 @@ namespace Coil
 
 	void WindowsWindow::Shutdown() const
 	{
+		CL_PROFILE_FUNCTION()
+
 		glfwDestroyWindow(WindowInstance);
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
+		CL_PROFILE_FUNCTION()
+
 		glfwPollEvents();
 		Context->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enable)
 	{
+		CL_PROFILE_FUNCTION()
+
 		glfwSwapInterval(static_cast<int32>(enable));
 
 		Data.VSync = enable;

@@ -31,26 +31,36 @@ namespace Coil
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		CL_PROFILE_FUNCTION()
+
 		glGenVertexArrays(1, &RendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		CL_PROFILE_FUNCTION()
+
 		glDeleteVertexArrays(1, &RendererID);
 	}
 
 	void OpenGLVertexArray::Bind() const
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		glBindVertexArray(RendererID);
 	}
 
 	void OpenGLVertexArray::Unbind() const
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
+		CL_PROFILE_FUNCTION()
+
 		CL_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
 		glBindVertexArray(RendererID);
@@ -74,6 +84,8 @@ namespace Coil
 
 	void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
 	{
+		CL_PROFILE_FUNCTION()
+
 		glBindVertexArray(RendererID);
 		indexBuffer->Bind();
 

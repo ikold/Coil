@@ -12,8 +12,12 @@ namespace Coil
 
 	void GUITextInput::Draw() const
 	{
+		CL_PROFILE_FUNCTION()
+
 		ImGui::InputText(Properties.Label->CString(), InputBuffer->GetBuffer(), static_cast<int32>(InputBuffer->GetSize()) + 1, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
 		{
+			CL_PROFILE_FUNCTION()
+
 			auto string = *static_cast<RString<BString>*>(data->UserData);
 
 			const int32 length = data->BufTextLen;

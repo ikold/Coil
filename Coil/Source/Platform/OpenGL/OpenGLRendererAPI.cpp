@@ -33,18 +33,20 @@ namespace Coil
 			CL_CORE_ASSERT(false, "Unknown severity level!");
 		}
 	}
-	
+
 	void OpenGLRendererAPI::Init()
 	{
+		CL_PROFILE_FUNCTION()
+
 #ifdef CL_DEBUG
 		glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLMessageCallback, nullptr);
 #endif
-		
+
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
+
 		glEnable(GL_DEPTH_TEST);
 	}
 

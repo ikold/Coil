@@ -12,6 +12,8 @@ namespace Coil
 
 	void OrthographicCameraController::OnUpdate()
 	{
+		CL_PROFILE_FUNCTION()
+
 		if (Input::IsKeyPressed(CL_KEY_A))
 		{
 			CameraPosition.x -= cos(glm::radians(CameraRotation)) * CameraTranslationSpeed * Time::DeltaTime() / 1000.f;
@@ -51,6 +53,8 @@ namespace Coil
 
 	void OrthographicCameraController::OnEvent(Event& e)
 	{
+		CL_PROFILE_FUNCTION()
+
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_METHOD(OrthographicCameraController::OnMouseScrolled));
 		dispatcher.Dispatch<WindowResizeEvent>(BIND_EVENT_METHOD(OrthographicCameraController::OnWindowResized));
@@ -58,6 +62,8 @@ namespace Coil
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
+		CL_PROFILE_FUNCTION()
+
 		ZoomLevel -= e.GetYOffset() * 0.25f;
 		ZoomLevel = std::max(ZoomLevel, 0.25f);
 		Camera.SetProjection(-AspectRatio * ZoomLevel, AspectRatio * ZoomLevel, -ZoomLevel, ZoomLevel);
@@ -66,6 +72,8 @@ namespace Coil
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 	{
+		CL_PROFILE_FUNCTION()
+
 		AspectRatio = static_cast<float32>(e.GetWidth()) / static_cast<float32>(e.GetHeight());
 		Camera.SetProjection(-AspectRatio * ZoomLevel, AspectRatio * ZoomLevel, -ZoomLevel, ZoomLevel);
 		return false;

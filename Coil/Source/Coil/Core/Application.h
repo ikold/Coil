@@ -16,7 +16,7 @@ namespace Coil
 		Application(const Application& rhs) = delete;
 		Application(Application&& rhs)      = delete;
 
-		virtual ~Application() = default;
+		virtual ~Application();
 
 		Application& operator=(const Application& rhs) = delete;
 		Application& operator=(Application&& rhs)      = delete;

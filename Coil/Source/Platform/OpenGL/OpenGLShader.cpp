@@ -20,6 +20,8 @@ namespace Coil
 
 	OpenGLShader::OpenGLShader(const RString<>& filePath)
 	{
+		CL_PROFILE_FUNCTION()
+
 		const RString<> source   = File::Load(filePath);
 		const auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
@@ -38,6 +40,8 @@ namespace Coil
 	OpenGLShader::OpenGLShader(RString<> name, const RString<>& vertexSource, const RString<>& fragmentSource)
 		: Name(Move(name))
 	{
+		CL_PROFILE_FUNCTION()
+
 		std::unordered_map<GLenum, RString<>> sources;
 		sources[GL_VERTEX_SHADER]   = vertexSource;
 		sources[GL_FRAGMENT_SHADER] = fragmentSource;
@@ -46,11 +50,15 @@ namespace Coil
 
 	OpenGLShader::~OpenGLShader()
 	{
+		CL_PROFILE_FUNCTION()
+
 		glDeleteProgram(RendererID);
 	}
 
 	std::unordered_map<uint32, RString<>> OpenGLShader::PreProcess(const RString<>& source)
 	{
+		CL_PROFILE_FUNCTION()
+
 		std::unordered_map<uint32, RString<>> shaderSources;
 
 		// TODO Implement this for RString
@@ -77,6 +85,8 @@ namespace Coil
 
 	void OpenGLShader::Compile(const std::unordered_map<uint32, RString<>>& shaderSources)
 	{
+		CL_PROFILE_FUNCTION()
+
 		const GLuint program = glCreateProgram();
 		CL_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
 		std::array<GLenum, 2> glShaderIDs{};
@@ -147,12 +157,65 @@ namespace Coil
 
 	void OpenGLShader::Bind() const
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		glUseProgram(RendererID);
 	}
 
 	void OpenGLShader::Unbind() const
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		glUseProgram(0);
+	}
+
+	void OpenGLShader::SetInt(const RString<>& name, int32 value) const
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		UploadUniformInt(name, value);
+	}
+
+	void OpenGLShader::SetFloat(const RString<>& name, float32 value) const
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		UploadUniformFloat(name, value);
+	}
+
+	void OpenGLShader::SetFloat2(const RString<>& name, const glm::vec2& vector) const
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		UploadUniformFloat2(name, vector);
+	}
+
+	void OpenGLShader::SetFloat3(const RString<>& name, const glm::vec3& vector) const
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		UploadUniformFloat3(name, vector);
+	}
+
+	void OpenGLShader::SetFloat4(const RString<>& name, const glm::vec4& vector) const
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		UploadUniformFloat4(name, vector);
+	}
+
+	void OpenGLShader::SetMat3(const RString<>& name, const glm::mat3& matrix) const
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		UploadUniformMat3(name, matrix);
+	}
+
+	void OpenGLShader::SetMat4(const RString<>& name, const glm::mat4& matrix) const
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		UploadUniformMat4(name, matrix);
 	}
 
 

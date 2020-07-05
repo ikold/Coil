@@ -15,6 +15,8 @@ namespace Coil
 
 	void OpenGLContext::Init()
 	{
+		CL_PROFILE_FUNCTION()
+
 		glfwMakeContextCurrent(WindowHandle);
 		const int32 status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
 		CL_CORE_ASSERT(status, "GLAD initialization failed!");
@@ -37,6 +39,8 @@ namespace Coil
 
 	void OpenGLContext::SwapBuffers()
 	{
+		CL_PROFILE_FUNCTION()
+
 		glfwSwapBuffers(WindowHandle);
 	}
 }

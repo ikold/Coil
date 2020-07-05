@@ -14,6 +14,8 @@ namespace Coil
 
 	void GUIFloatSlider::Draw() const
 	{
+		CL_PROFILE_FUNCTION()
+
 		ImGui::SliderFloat(Properties.Label->CString(), &*FloatRef, MinValue, MaxValue);
 	}
 }

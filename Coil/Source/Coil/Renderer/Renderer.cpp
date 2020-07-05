@@ -10,20 +10,33 @@ namespace Coil
 
 	void Renderer::Init()
 	{
+		CL_PROFILE_FUNCTION()
+
 		RenderCommand::Init();
 		Renderer2D::Init();
 	}
 
+	void Renderer::ShutDown()
+	{
+		Renderer2D::ShutDown();
+	}
+
 	void Renderer::BeginScene(const OrthographicCamera& camera)
 	{
+		CL_PROFILE_FUNCTION()
+
 		sSceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
 	}
 
 	void Renderer::EndScene()
-	{}
+	{
+		CL_PROFILE_FUNCTION()
+	}
 
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
+		CL_PROFILE_FUNCTION()
+
 		shader->Bind();
 
 		static RString<> uViewProjection = "uViewProjection";

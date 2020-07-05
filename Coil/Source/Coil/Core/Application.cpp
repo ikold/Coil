@@ -13,6 +13,8 @@ namespace Coil
 	Application::Application()
 		: Running(true)
 	{
+		CL_PROFILE_FUNCTION()
+
 		CL_ASSERT(!Instance, "Application instance already exist!")
 		Instance = this;
 
@@ -24,23 +26,39 @@ namespace Coil
 		PushOverlay(new GUILayer());
 	}
 
+	Application::~Application()
+	{
+		CL_PROFILE_FUNCTION()
+
+		Renderer::ShutDown();
+	}
+
 	void Application::Run()
 	{
+		CL_PROFILE_FUNCTION()
+
 		Logger::Info("Running Application");
 
 		while (Running)
 		{
+			CL_PROFILE_SCOPE("Main Loop")
 			// computing of frame time
 			Time::Tick();
 
 			if (!Minimized)
 			{
+				CL_PROFILE_SCOPE("LayerStack OnUpdate")
+
 				for (auto* layer : AppLayerStack)
 					layer->OnUpdate();
 			}
 
-			for (auto* layer : AppLayerStack)
-				layer->OnImGuiRender();
+			{
+				CL_PROFILE_SCOPE("LayerStack OnImGuiRender")
+
+				for (auto* layer : AppLayerStack)
+					layer->OnImGuiRender();
+			}
 
 			AppWindow->OnUpdate();
 		}
@@ -48,6 +66,8 @@ namespace Coil
 
 	void Application::OnEvent(Event& event)
 	{
+		CL_PROFILE_FUNCTION()
+
 		EventDispatcher dispatcher(event);
 
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_METHOD(Application::OnWindowClosed));
@@ -70,6 +90,8 @@ namespace Coil
 
 	bool Application::OnWindowResize(WindowResizeEvent& event)
 	{
+		CL_PROFILE_FUNCTION()
+
 		if (event.GetWidth() == 0 || event.GetHeight() == 0)
 		{
 			Minimized = true;
@@ -85,11 +107,15 @@ namespace Coil
 
 	void Application::PushLayer(Layer* layer)
 	{
+		CL_PROFILE_FUNCTION()
+
 		AppLayerStack.PushLayer(layer);
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
+		CL_PROFILE_FUNCTION()
+
 		AppLayerStack.PushOverlay(overlay);
 	}
 }

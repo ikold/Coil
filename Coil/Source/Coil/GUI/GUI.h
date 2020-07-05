@@ -31,6 +31,8 @@ namespace Coil
 		template<typename T = GUIWindow>
 		static Ref<T> GetWindow(const RString<>& name)
 		{
+			CL_PROFILE_FUNCTION()
+
 			for (const auto& window : Container)
 			{
 				if (window->GetProperties().Name == name)

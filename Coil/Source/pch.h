@@ -31,6 +31,8 @@
 
 #include "Coil/Utilities/File.h"
 
+#include "Coil/Debug/Instrumentor.h"
+
 
 #include "Coil/Core/KeyCodes.h"
 

@@ -5,9 +5,8 @@
 
 int32 main([[maybe_unused]] int32 argc, [[maybe_unused]] char8* argv[])
 {
-	Coil::Logger::Info("Creating Application");
-
 	auto* app = Coil::CreateApplication();
+
 	app->Run();
 
 	delete app;

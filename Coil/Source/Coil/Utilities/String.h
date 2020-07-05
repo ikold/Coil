@@ -39,6 +39,9 @@ namespace Coil
 		String& operator=(char8** charPtr);
 
 
+		bool operator==(const String& string) const;
+
+
 		friend void swap(String& left, String& right) noexcept;
 
 
@@ -51,8 +54,7 @@ namespace Coil
 
 		void Reverse() const;
 
-
-		bool operator==(const String& string) const;
+		void Replace(char8 oldValue, char8 newValue);
 
 
 		static String Convert(float64 value, int32 fractionLength);

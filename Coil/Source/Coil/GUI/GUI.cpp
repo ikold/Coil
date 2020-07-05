@@ -9,6 +9,8 @@ namespace Coil
 
 	void GUI::OnImGuiRender()
 	{
+		CL_PROFILE_FUNCTION()
+
 		for (const auto& window : Container)
 			window->OnImGuiRender();
 	}

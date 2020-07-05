@@ -79,6 +79,7 @@ workspace "Coil"
 			defines
 			{
 				"CL_DEBUG",
+				"CL_PROFILE",
 				"CL_ENABLE_ASSERTS"
 			}
 			
@@ -144,6 +145,7 @@ workspace "Coil"
 			defines
 			{
 				"CL_DEBUG",
+				"CL_PROFILE",
 				"CL_ENABLE_ASSERTS"
 			}
 			

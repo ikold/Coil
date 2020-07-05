@@ -79,6 +79,12 @@ namespace Coil
 	}
 
 
+	bool String::operator==(const String& string) const
+	{
+		return strcmp(Data, string.Data) == 0;
+	}
+
+
 	void swap(String& left, String& right) noexcept
 	{
 		using std::swap;
@@ -102,9 +108,14 @@ namespace Coil
 		}
 	}
 
-	bool String::operator==(const String& string) const
+	void String::Replace(char8 oldValue, char8 newValue)
 	{
-		return strcmp(Data, string.Data) == 0;
+		char8* itr = Data - 1;
+		while (*++itr != '\0')
+		{
+			if (*itr == oldValue)
+				*itr = newValue;
+		}
 	}
 
 
@@ -406,7 +417,7 @@ namespace Coil
 			Size = Length + size;
 
 			auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
-			
+
 			CL_ASSERT(tmp, "Failed to reallocate memory");
 			if (tmp)
 				Data = tmp;
