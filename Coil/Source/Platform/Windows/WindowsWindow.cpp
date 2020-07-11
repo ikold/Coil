@@ -22,21 +22,21 @@ namespace Coil
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		Data.Name   = props.Name;
 		Data.Width  = props.Width;
@@ -48,7 +48,7 @@ namespace Coil
 
 		if (!GLFWInitialized)
 		{
-			CL_PROFILE_SCOPE("glfwInit")
+			CL_PROFILE_SCOPE_HIGH("glfwInit")
 
 			const int32 success = glfwInit();
 
@@ -60,7 +60,7 @@ namespace Coil
 		}
 
 		{
-			CL_PROFILE_SCOPE("glfwCreateWindow")
+			CL_PROFILE_SCOPE_HIGH("glfwCreateWindow")
 
 #ifdef CL_DEBUG
 			if (Renderer::GetAPI() == RendererAPI::API::OpenGL)
@@ -176,14 +176,14 @@ namespace Coil
 
 	void WindowsWindow::Shutdown() const
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		glfwDestroyWindow(WindowInstance);
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		glfwPollEvents();
 		Context->SwapBuffers();
@@ -191,7 +191,7 @@ namespace Coil
 
 	void WindowsWindow::SetVSync(bool enable)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		glfwSwapInterval(static_cast<int32>(enable));
 

@@ -31,6 +31,8 @@ namespace Coil
 		 */
 		[[nodiscard]] static RString<> TimestampToString(const Timestamp& timestamp);
 
+		static RString<> NowString() { return TimestampToString(Now()); }
+
 
 		/*!	Method for calculating frame time
 			Should be called on begging of every frame

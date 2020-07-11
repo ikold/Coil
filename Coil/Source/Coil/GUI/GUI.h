@@ -31,7 +31,7 @@ namespace Coil
 		template<typename T = GUIWindow>
 		static Ref<T> GetWindow(const RString<>& name)
 		{
-			CL_PROFILE_FUNCTION()
+			CL_PROFILE_FUNCTION_HIGH()
 
 			for (const auto& window : Container)
 			{

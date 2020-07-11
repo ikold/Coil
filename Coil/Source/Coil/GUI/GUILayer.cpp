@@ -21,7 +21,7 @@ namespace Coil
 
 	void GUILayer::OnAttach()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		IMGUI_CHECKVERSION();
 
@@ -55,7 +55,7 @@ namespace Coil
 
 	void GUILayer::OnDetach()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
@@ -92,7 +92,7 @@ namespace Coil
 
 	void GUILayer::Begin()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
@@ -101,7 +101,7 @@ namespace Coil
 
 	void GUILayer::End()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		ImGuiIO& io      = ImGui::GetIO();
 		Application& app = Application::Get();

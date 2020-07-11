@@ -13,7 +13,7 @@ namespace Coil
 		  InternalColorFormat(GL_RGBA8),
 		  ColorFormat(GL_RGBA)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		glCreateTextures(GL_TEXTURE_2D, 1, &TextureName);
 		glTextureStorage2D(TextureName, 1, InternalColorFormat, Width, Height);
@@ -30,7 +30,7 @@ namespace Coil
 		  InternalColorFormat(0),
 		  ColorFormat(0)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		int width, height, channels;
 		stbi_set_flip_vertically_on_load(1);
@@ -65,14 +65,14 @@ namespace Coil
 
 	OpenGLTexture2D::~OpenGLTexture2D()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		glDeleteTextures(1, &TextureName);
 	}
 
 	void OpenGLTexture2D::SetData(void* data, uint32 size)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		uint32_t bpp = ColorFormat == GL_RGBA ? 4 : 3;
 		CL_CORE_ASSERT(size == Width * Height * bpp, "Data must be entire texture!");

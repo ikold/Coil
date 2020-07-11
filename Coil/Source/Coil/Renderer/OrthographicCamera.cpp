@@ -11,7 +11,7 @@ namespace Coil
 		  Position(0.f, 0.f, 0.f),
 		  Rotation(0.f)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		RecalculateViewMatrix();
 	}
@@ -30,7 +30,7 @@ namespace Coil
 
 	void OrthographicCamera::SetProjection(float32 left, float32 right, float32 bottom, float32 top)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		ProjectionMatrix     = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 		ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;
@@ -38,7 +38,7 @@ namespace Coil
 
 	void OrthographicCamera::RecalculateViewMatrix()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		const float32 c = cos(glm::radians(Rotation));
 		const float32 s = sin(glm::radians(Rotation));

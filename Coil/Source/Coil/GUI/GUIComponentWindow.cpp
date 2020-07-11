@@ -11,6 +11,8 @@ namespace Coil
 
 	void GUIComponentWindow::Draw() const
 	{
+		CL_PROFILE_FUNCTION_MEDIUM()
+		
 		for (const auto& component : Components)
 		{
 			ImGui::PushID(component->GetProperties().ID);

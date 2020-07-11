@@ -22,7 +22,7 @@ namespace Coil
 
 	void Renderer2D::Init()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		Data                  = CreateScope<Renderer2DStorage>();
 		Data->QuadVertexArray = VertexArray::Create();
@@ -59,14 +59,14 @@ namespace Coil
 
 	void Renderer2D::ShutDown()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		Data.reset();
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		static RString uViewProjection = "uViewProjection";
 
@@ -76,7 +76,7 @@ namespace Coil
 
 	void Renderer2D::EndScene()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, float32 rotation, const glm::vec2& size, const glm::vec4& color)

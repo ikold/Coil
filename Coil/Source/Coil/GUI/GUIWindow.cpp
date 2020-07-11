@@ -13,6 +13,8 @@ namespace Coil
 
 	void GUIWindow::OnImGuiRender() const
 	{
+		CL_PROFILE_FUNCTION_MEDIUM()
+		
 		if (!Properties.Visible)
 			return;
 
@@ -28,6 +30,8 @@ namespace Coil
 
 	int32 GUIWindow::TextTopCulling() const
 	{
+		CL_PROFILE_FUNCTION_MEDIUM()
+		
 		const auto skippedLines = static_cast<int32>(ImGui::GetScrollY() / FontHeight);
 
 		const float32 topDummy = FontHeight * skippedLines - DummyDefaultOffset;
@@ -40,6 +44,8 @@ namespace Coil
 
 	void GUIWindow::TextBottomCulling(int32 linesTotal) const
 	{
+		CL_PROFILE_FUNCTION_MEDIUM()
+		
 		const float32 windowBottom = ImGui::GetScrollY() + ImGui::GetWindowSize().y;
 
 		const float32 bottomDummy = FontHeight * (linesTotal + 1.f - windowBottom / FontHeight);

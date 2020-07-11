@@ -36,7 +36,7 @@ namespace Coil
 
 	void OpenGLRendererAPI::Init()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 #ifdef CL_DEBUG
 		glEnable(GL_DEBUG_OUTPUT);
@@ -52,21 +52,29 @@ namespace Coil
 
 	void OpenGLRendererAPI::SetViewport(uint32 x, uint32 y, uint32 width, uint32 height)
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+		
 		glViewport(x, y, width, height);
 	}
 
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+
 		glClearColor(color.r, color.g, color.b, color.a);
 	}
 
 	void OpenGLRendererAPI::Clear()
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGLRendererAPI::DrawIndex(const Ref<VertexArray>& vertexArray)
 	{
+		CL_PROFILE_FUNCTION_LOW()
+		
 		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 	}
 }

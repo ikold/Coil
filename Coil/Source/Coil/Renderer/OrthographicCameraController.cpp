@@ -12,7 +12,7 @@ namespace Coil
 
 	void OrthographicCameraController::OnUpdate()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		if (Input::IsKeyPressed(CL_KEY_A))
 		{
@@ -53,7 +53,7 @@ namespace Coil
 
 	void OrthographicCameraController::OnEvent(Event& e)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseScrolledEvent>(BIND_EVENT_METHOD(OrthographicCameraController::OnMouseScrolled));
@@ -62,7 +62,7 @@ namespace Coil
 
 	bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		ZoomLevel -= e.GetYOffset() * 0.25f;
 		ZoomLevel = std::max(ZoomLevel, 0.25f);
@@ -72,7 +72,7 @@ namespace Coil
 
 	bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		AspectRatio = static_cast<float32>(e.GetWidth()) / static_cast<float32>(e.GetHeight());
 		Camera.SetProjection(-AspectRatio * ZoomLevel, AspectRatio * ZoomLevel, -ZoomLevel, ZoomLevel);

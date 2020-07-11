@@ -12,7 +12,7 @@ namespace Coil
 
 	void GUIButton::Draw() const
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		if (ImGui::Button(Properties.Label->CString(), ImVec2(Properties.Width, Properties.Height)))
 			Callback();

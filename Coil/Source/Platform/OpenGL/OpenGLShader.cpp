@@ -20,7 +20,7 @@ namespace Coil
 
 	OpenGLShader::OpenGLShader(const RString<>& filePath)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		const RString<> source   = File::Load(filePath);
 		const auto shaderSources = PreProcess(source);
@@ -40,7 +40,7 @@ namespace Coil
 	OpenGLShader::OpenGLShader(RString<> name, const RString<>& vertexSource, const RString<>& fragmentSource)
 		: Name(Move(name))
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		std::unordered_map<GLenum, RString<>> sources;
 		sources[GL_VERTEX_SHADER]   = vertexSource;
@@ -50,14 +50,14 @@ namespace Coil
 
 	OpenGLShader::~OpenGLShader()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		glDeleteProgram(RendererID);
 	}
 
 	std::unordered_map<uint32, RString<>> OpenGLShader::PreProcess(const RString<>& source)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		std::unordered_map<uint32, RString<>> shaderSources;
 
@@ -85,7 +85,7 @@ namespace Coil
 
 	void OpenGLShader::Compile(const std::unordered_map<uint32, RString<>>& shaderSources)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		const GLuint program = glCreateProgram();
 		CL_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");

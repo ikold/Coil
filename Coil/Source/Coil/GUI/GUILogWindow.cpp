@@ -12,6 +12,8 @@ namespace Coil
 
 	void GUILogWindow::Draw() const
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+		
 		int32 skippedLines      = TextTopCulling();
 		const int32 linesToDraw = WindowSizeInLines();
 

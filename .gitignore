@@ -385,6 +385,7 @@ Application/Resources
 *.DotSettings
 
 # Profiler Files
+*.prof
 CoilProfile*
 
 # Eception from Build results "[Dd]ebug/" entry

@@ -13,7 +13,7 @@ namespace Coil
 	Application::Application()
 		: Running(true)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		CL_ASSERT(!Instance, "Application instance already exist!")
 		Instance = this;
@@ -28,33 +28,33 @@ namespace Coil
 
 	Application::~Application()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		Renderer::ShutDown();
 	}
 
 	void Application::Run()
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		Logger::Info("Running Application");
 
 		while (Running)
 		{
-			CL_PROFILE_SCOPE("Main Loop")
+			CL_PROFILE_SCOPE_HIGH("Main Loop")
 			// computing of frame time
 			Time::Tick();
 
 			if (!Minimized)
 			{
-				CL_PROFILE_SCOPE("LayerStack OnUpdate")
+				CL_PROFILE_SCOPE_HIGH("LayerStack OnUpdate")
 
 				for (auto* layer : AppLayerStack)
 					layer->OnUpdate();
 			}
 
 			{
-				CL_PROFILE_SCOPE("LayerStack OnImGuiRender")
+				CL_PROFILE_SCOPE_HIGH("LayerStack OnImGuiRender")
 
 				for (auto* layer : AppLayerStack)
 					layer->OnImGuiRender();
@@ -66,7 +66,7 @@ namespace Coil
 
 	void Application::OnEvent(Event& event)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		EventDispatcher dispatcher(event);
 
@@ -90,7 +90,7 @@ namespace Coil
 
 	bool Application::OnWindowResize(WindowResizeEvent& event)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		if (event.GetWidth() == 0 || event.GetHeight() == 0)
 		{
@@ -107,14 +107,14 @@ namespace Coil
 
 	void Application::PushLayer(Layer* layer)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		AppLayerStack.PushLayer(layer);
 	}
 
 	void Application::PushOverlay(Layer* overlay)
 	{
-		CL_PROFILE_FUNCTION()
+		CL_PROFILE_FUNCTION_HIGH()
 
 		AppLayerStack.PushOverlay(overlay);
 	}
