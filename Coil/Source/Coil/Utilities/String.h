@@ -49,12 +49,18 @@ namespace Coil
 
 		[[nodiscard]] int32 GetLength() const { return Length; }
 
-		[[nodiscard]] virtual int32 GetSize() const { return Length; }
+		[[nodiscard]] int32 GetSize() const { return Size; }
 
 
 		void Reverse() const;
 
 		void Replace(char8 oldValue, char8 newValue);
+
+		// TODO void Replace(char8* oldValue, char8* newValue);
+
+		int32 FirstMatch(const char8* phrase) const;
+		
+		void Remove(const char8* phrase);
 
 
 		static String Convert(float64 value, int32 fractionLength);
@@ -69,6 +75,7 @@ namespace Coil
 	protected:
 		char8* Data;
 		int32 Length;
+		int32 Size;
 	};
 
 
@@ -114,13 +121,7 @@ namespace Coil
 
 		void RecalculateLength();
 
-		[[nodiscard]] int32 GetSize() const override { return Size; }
-
 		[[nodiscard]] char8* GetBuffer() const { return Data; }
-
-
-	private:
-		int32 Size;
 	};
 
 
@@ -182,14 +183,10 @@ namespace Coil
 
 
 		void SetFractionLength(int32 value) { FractionLength = value; }
-
-		[[nodiscard]] int32 GetSize() const override { return Size; }
-
+		
 	private:
 		void Append(const char8* string, int32 size);
 
-	private:
-		int32 Size;
 		int32 FractionLength = 3;
 	};
 
@@ -355,9 +352,6 @@ namespace Coil
 		friend void swap(PString& left, PString& right) noexcept;
 
 
-		[[nodiscard]] int32 GetSize() const override { return Size; }
-
-
 		[[nodiscard]] String ToString() const;
 
 
@@ -376,7 +370,6 @@ namespace Coil
 		void RecalculateLength();
 
 	private:
-		int32 Size;
 		// points at the beginning of insert padding
 		std::vector<int32> InsertIndex;
 		// uses characters to denote the types e.g. 'd' for int32

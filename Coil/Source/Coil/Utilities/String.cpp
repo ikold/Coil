@@ -9,46 +9,49 @@ namespace Coil
 {
 	String::String()
 		: Data(nullptr),
-		  Length(0)
-	{}
+		  Length(0),
+		  Size(Length)	{}
 
 	String::String(const String& string)
-		: Length(string.Length)
+		: Length(string.Length),
+		  Size(Length)
 	{
-		Data = new char[static_cast<size_t>(Length) + 1];
-		memcpy(Data, string.Data, static_cast<size_t>(Length) + 1);
+		Data = new char[static_cast<size_t>(Size) + 1];
+		memcpy(Data, string.Data, static_cast<size_t>(Size) + 1);
 	}
 
 	String::String(String&& string) noexcept
 		: Data(std::exchange(string.Data, nullptr)),
-		  Length(std::exchange(string.Length, 0))
-	{}
+		  Length(std::exchange(string.Length, 0)),
+		  Size(std::exchange(string.Size, 0))	{}
 
 
 	String::String(const char8* text)
-		: Length(CStringLength(text))
+		: Length(CStringLength(text)),
+		  Size(Length)
 	{
-		Data = new char[static_cast<size_t>(Length) + 1];
-		memcpy(Data, text, static_cast<size_t>(Length) + 1);
+		Data = new char[static_cast<size_t>(Size) + 1];
+		memcpy(Data, text, static_cast<size_t>(Size) + 1);
 	}
 
 	String::String(const char8* text, int32 length)
-		: Length(length)
+		: Length(length),
+		  Size(Length)
 	{
-		Data = new char[static_cast<size_t>(Length) + 1];
-		memcpy(Data, text, static_cast<size_t>(Length));
+		Data = new char[static_cast<size_t>(Size) + 1];
+		memcpy(Data, text, static_cast<size_t>(Size));
 		Data[Length] = '\0';
 	}
 
 	String::String(char8** charPtr)
 		: Data(*charPtr),
-		  Length(CStringLength(*charPtr))
-	{}
+		  Length(CStringLength(*charPtr)),
+		  Size(Length)	{}
 
 	String::String(char8** charPtr, int32 length)
 		: Data(*charPtr),
-		  Length(length)
-	{}
+		  Length(length),
+		  Size(Length)	{}
 
 
 	String::~String()
@@ -91,6 +94,7 @@ namespace Coil
 
 		swap(left.Data, right.Data);
 		swap(left.Length, right.Length);
+		swap(left.Size, right.Size);
 	}
 
 
@@ -115,6 +119,46 @@ namespace Coil
 		{
 			if (*itr == oldValue)
 				*itr = newValue;
+		}
+	}
+
+	int32 String::FirstMatch(const char8* phrase) const
+	{
+		char8* itr               = Data - 1;
+		const int32 phraseLength = CStringLength(phrase);
+		while (*++itr != '\0' && itr - Data + phraseLength <= Length)
+		{
+			char8* compareIterator      = itr;
+			const char8* phraseIterator = phrase;
+			while (*compareIterator++ == *phraseIterator++)
+			{
+				if (*phraseIterator == '\0')
+					return itr - Data;
+			}
+		}
+
+		return -1;
+	}
+
+	void String::Remove(const char8* phrase)
+	{
+		int32 index;
+		const int32 phraseLength = CStringLength(phrase);
+		int32 numberOfRemoved    = 0;
+		while ((index = FirstMatch(phrase)) != -1)
+		{
+			strcpy_s(Data + index, Length - index - phraseLength + 1, Data + index + phraseLength);
+			++numberOfRemoved;
+		}
+
+		// TODO fix for child classes
+		Length -= numberOfRemoved * phraseLength;
+		Size = Length;
+		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
+		CL_ASSERT(tmp, "Failed to reallocate memory");
+		if (tmp)
+		{
+			Data = tmp;
 		}
 	}
 
@@ -180,7 +224,7 @@ namespace Coil
 				reverseString << "F";
 				break;
 			default:
-				CL_ASSERT(false, "Only up to base 16 is covered!");
+			CL_ASSERT(false, "Only up to base 16 is covered!");
 			}
 
 			operationalValue /= base;
@@ -230,33 +274,25 @@ namespace Coil
 
 
 	BString::BString()
-		: String(),
-		  Size(0)
-	{}
+		: String()	{}
 
 	BString::BString(const BString& string)
-		: String(string),
-		  Size(Length) {}
+		: String(string) {}
 
 	BString::BString(BString&& string) noexcept
-		: String(static_cast<String&&>(string)),
-		  Size(Length) {}
+		: String(static_cast<String&&>(string)) {}
 
 	BString::BString(const char8* text)
-		: String(text),
-		  Size(Length) {}
+		: String(text) {}
 
 	BString::BString(const char8* text, int32 length)
-		: String(text, length),
-		  Size(Length) {}
+		: String(text, length)	{}
 
 	BString::BString(char8** charPtr)
-		: String(charPtr),
-		  Size(Length) {}
+		: String(charPtr) {}
 
 	BString::BString(char8** charPtr, int32 length)
-		: String(charPtr, length),
-		  Size(Length) {}
+		: String(charPtr, length) {}
 
 	BString& BString::operator=(const BString& string)
 	{
@@ -274,7 +310,6 @@ namespace Coil
 		using std::swap;
 
 		swap(static_cast<String&>(left), static_cast<String&>(right));
-		swap(left.Size, right.Size);
 	}
 
 	void BString::SetSize(int32 size)
@@ -315,40 +350,28 @@ namespace Coil
 
 
 	SString::SString()
-		: Size(Length)
 	{}
 
 	SString::SString(const SString& string)
-		: String(string.Data, string.Size),
-		  Size(string.Size)
+		: String(string.Data, string.Size)
 	{
 		Length = string.Length;
 	}
 
 	SString::SString(SString&& string) noexcept
-		: String(static_cast<String&&>(string)),
-		  Size(string.Size)
-	{}
+		: String(static_cast<String&&>(string))	{}
 
 	SString::SString(const char8* text)
-		: String(text),
-		  Size(Length)
-	{}
+	: String(text)	{}
 
 	SString::SString(const char8* text, int32 length)
-		: String(text, length),
-		  Size(Length)
-	{}
+		: String(text, length)	{}
 
 	SString::SString(char8** charPtr)
-		: String(charPtr),
-		  Size(Length)
-	{}
+		: String(charPtr)	{}
 
 	SString::SString(char8** charPtr, int32 length)
-		: String(charPtr, length),
-		  Size(Length)
-	{}
+		: String(charPtr, length)	{}
 
 
 	SString& SString::operator=(const SString& string)
@@ -367,7 +390,6 @@ namespace Coil
 		using std::swap;
 
 		swap(static_cast<String&>(left), static_cast<String&>(right));
-		swap(left.Size, right.Size);
 	}
 
 	void SString::Reserve(int32 size)
@@ -429,12 +451,10 @@ namespace Coil
 
 
 	PString::PString()
-		: Size(Length)
 	{}
 
 	PString::PString(const PString& string)
 		: String(string.Data, string.Size),
-		  Size(string.Size),
 		  InsertIndex(string.InsertIndex),
 		  InsertType(string.InsertType),
 		  InsertSize(string.InsertSize)
@@ -444,7 +464,6 @@ namespace Coil
 
 	PString::PString(PString&& string) noexcept
 		: String(static_cast<String&&>(string)),
-		  Size(string.Size),
 		  InsertIndex(Move(string.InsertIndex)),
 		  InsertType(Move(string.InsertType)),
 		  InsertSize(Move(string.InsertSize))
@@ -584,7 +603,7 @@ namespace Coil
 					InsertSize.back() += static_cast<RString<>*>(parameters.back().VoidPtr)->Get()->GetLength();
 					break;
 				default:
-					CL_ASSERT(false, "Unknow PString parameter type!");
+				CL_ASSERT(false, "Unknow PString parameter type!");
 				}
 
 				// if current insert size is 0, assigns default size
@@ -669,9 +688,11 @@ namespace Coil
 				Set(i, parameters[i].Float64);
 				break;
 			default:
-				CL_ASSERT(false, "Unknow PString parameter type!");
+			CL_ASSERT(false, "Unknow PString parameter type!");
 			}
 		}
+
+		RecalculateLength();
 	}
 
 
@@ -692,7 +713,6 @@ namespace Coil
 		using std::swap;
 
 		swap(static_cast<String&>(left), static_cast<String&>(right));
-		swap(left.Size, right.Size);
 		swap(left.InsertIndex, right.InsertIndex);
 		swap(left.InsertType, right.InsertType);
 		swap(left.InsertSize, right.InsertSize);
@@ -739,7 +759,7 @@ namespace Coil
 		case 'F':
 			return 16;
 		default:
-			CL_ASSERT(false, "Unknow PString parameter type!");
+		CL_ASSERT(false, "Unknow PString parameter type!");
 		}
 
 		return 0;
@@ -829,7 +849,7 @@ namespace Coil
 				*iterator-- = 'F';
 				break;
 			default:
-				CL_ASSERT(false, "Only up to base 16 is covered!");
+			CL_ASSERT(false, "Only up to base 16 is covered!");
 			}
 
 			operationalValue /= base;
@@ -860,7 +880,7 @@ namespace Coil
 			Set(parameterIndex, value, 16);
 			break;
 		default:
-			CL_ASSERT(false, "Unknow PString parameter type!");
+		CL_ASSERT(false, "Unknow PString parameter type!");
 		}
 	}
 
