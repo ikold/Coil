@@ -17,6 +17,8 @@
 
 #include <unordered_map>
 
+#include <numeric>
+
 
 #include <glm/glm.hpp>
 
