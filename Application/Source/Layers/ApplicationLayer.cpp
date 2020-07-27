@@ -6,10 +6,10 @@
 ApplicationLayer::ApplicationLayer()
 	: Layer("Application"),
 	  CameraController(1280.0f / 720.0f, true),
-	  FrameTime(Coil::PString("%8f ms", 0.f)),
+	FrameTime(Coil::PString("%{.3}8f ms", 0.f)),
 	  MousePosition(Coil::PString("mouse x: %6d y: %6d", 0, 0)),
 	  SquareColor(Coil::CreateRef<glm::vec4>(0.2f, 0.2f, 0.2, 1.f)),
-	  TimerString(Coil::PString("%8f seconds remains", 0.f))
+	TimerString(Coil::PString("%{.2}8f seconds remains", 0.f))
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
@@ -65,8 +65,8 @@ void ApplicationLayer::OnUpdate()
 	TimerString->Set(0, Timer);
 
 	auto [mouseX, mouseY] = Coil::Input::GetMousePosition();
-	MousePosition->Set(0, static_cast<int32>(mouseX));
-	MousePosition->Set(1, static_cast<int32>(mouseY));
+	MousePosition->Set(0, static_cast<int64>(mouseX));
+	MousePosition->Set(1, static_cast<int64>(mouseY));
 
 	{
 		CL_PROFILE_SCOPE_HIGH("Rendering")

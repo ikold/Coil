@@ -190,7 +190,7 @@ namespace Coil
 
 			ProfileResult profile{};
 
-			static PString profilingEntry(R"({"ph":"X","pid":0,"tid":%d,"name":"%S","cat":"function","ts":%d.%d,"dur":%d.%d},)", 0, "", longestNameLength, 0, 0, 0, 0);
+			PString profilingEntry(R"({"ph":"X","pid":0,"tid":%d,"name":"%S","cat":"function","ts":%24{.3}d,"dur":%{.3}d},)", 0, "", longestNameLength, 0, 0, 0, 0);
 
 			while (++processedProfiles <= numberOfProfiles)
 			{
@@ -198,10 +198,8 @@ namespace Coil
 
 				profilingEntry.Set(0, static_cast<int32>(profile.ThreadID));
 				profilingEntry.Set(1, fileTimerNames.at(profile.NameID)->CString());
-				profilingEntry.Set(2, static_cast<int32>(profile.Start / 1000));
-				profilingEntry.Set(3, static_cast<int32>(profile.Start % 1000));
-				profilingEntry.Set(4, static_cast<int32>((profile.End - profile.Start) / 1000));
-				profilingEntry.Set(5, static_cast<int32>((profile.End - profile.Start) % 1000));
+				profilingEntry.Set(2, profile.Start);
+				profilingEntry.Set(3, profile.End - profile.Start);
 
 				outputStream << profilingEntry.ToString().CString();
 

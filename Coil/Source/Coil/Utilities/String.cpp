@@ -10,7 +10,8 @@ namespace Coil
 	String::String()
 		: Data(nullptr),
 		  Length(0),
-		  Size(Length)	{}
+		  Size(Length)
+	{}
 
 	String::String(const String& string)
 		: Length(string.Length),
@@ -23,7 +24,8 @@ namespace Coil
 	String::String(String&& string) noexcept
 		: Data(std::exchange(string.Data, nullptr)),
 		  Length(std::exchange(string.Length, 0)),
-		  Size(std::exchange(string.Size, 0))	{}
+		  Size(std::exchange(string.Size, 0))
+	{}
 
 
 	String::String(const char8* text)
@@ -46,12 +48,14 @@ namespace Coil
 	String::String(char8** charPtr)
 		: Data(*charPtr),
 		  Length(CStringLength(*charPtr)),
-		  Size(Length)	{}
+		  Size(Length)
+	{}
 
 	String::String(char8** charPtr, int32 length)
 		: Data(*charPtr),
 		  Length(length),
-		  Size(Length)	{}
+		  Size(Length)
+	{}
 
 
 	String::~String()
@@ -122,11 +126,27 @@ namespace Coil
 		}
 	}
 
-	int32 String::FirstMatch(const char8* phrase) const
+	int32 String::Replace(const char8* oldPhrase, const char8* newPhrase)
 	{
-		char8* itr               = Data - 1;
+		const int32 oldPhraseLength = CStringLength(oldPhrase);
+		const int32 newPhraseLength = CStringLength(newPhrase);
+		const int32 sizeDifference  = newPhraseLength - oldPhraseLength;
+
+		if (sizeDifference < 0)
+			return ReplaceWithShorter(oldPhrase, newPhrase, oldPhraseLength, newPhraseLength, sizeDifference);
+
+		if (sizeDifference == 0)
+			return ReplaceWithEqual(oldPhrase, newPhrase, oldPhraseLength);
+
+		return ReplaceWithLonger(oldPhrase, newPhrase, oldPhraseLength, newPhraseLength, sizeDifference);
+	}
+
+	int32 String::FirstMatch(const char8* phrase, int32 start, int32 end) const
+	{
+		char8* itr               = Data + start - 1;
 		const int32 phraseLength = CStringLength(phrase);
-		while (*++itr != '\0' && itr - Data + phraseLength <= Length)
+		char8* itrEnd            = end < 0 ? Data + Length - phraseLength : Data + end - phraseLength;
+		while (++itr <= itrEnd)
 		{
 			char8* compareIterator      = itr;
 			const char8* phraseIterator = phrase;
@@ -140,6 +160,21 @@ namespace Coil
 		return -1;
 	}
 
+	int32 String::CountOccurence(const char8* phrase) const
+	{
+		int32 index;
+		int32 searchIndex        = 0;
+		const int32 phraseLength = CStringLength(phrase);
+		int32 numberOfOccurence  = 0;
+		while ((index = FirstMatch(phrase, searchIndex)) != -1)
+		{
+			searchIndex = index + phraseLength;
+			++numberOfOccurence;
+		}
+
+		return numberOfOccurence;
+	}
+
 	void String::Remove(const char8* phrase)
 	{
 		int32 index;
@@ -147,97 +182,19 @@ namespace Coil
 		int32 numberOfRemoved    = 0;
 		while ((index = FirstMatch(phrase)) != -1)
 		{
-			strcpy_s(Data + index, Length - index - phraseLength + 1, Data + index + phraseLength);
+			strcpy_s(Data + index, static_cast<size_t>(Length) - index - phraseLength + 1, Data + index + phraseLength);
 			++numberOfRemoved;
 		}
 
 		// TODO fix for child classes
 		Length -= numberOfRemoved * phraseLength;
-		Size = Length;
+		Size      = Length;
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
 		{
 			Data = tmp;
 		}
-	}
-
-
-	String String::Convert(int64 value, int32 base)
-	{
-		SString reverseString;
-		reverseString.Reserve(20); // 20 - Maximum number of digits in 64 bit int
-
-		// using ~ bitwise operator for getting rid of negative sign
-		uint64 operationalValue = value > 0 ? value : 1 + static_cast<uint64>(~value);
-
-		do
-		{
-			switch (operationalValue % base)
-			{
-			case 0:
-				reverseString << "0";
-				break;
-			case 1:
-				reverseString << "1";
-				break;
-			case 2:
-				reverseString << "2";
-				break;
-			case 3:
-				reverseString << "3";
-				break;
-			case 4:
-				reverseString << "4";
-				break;
-			case 5:
-				reverseString << "5";
-				break;
-			case 6:
-				reverseString << "6";
-				break;
-			case 7:
-				reverseString << "7";
-				break;
-			case 8:
-				reverseString << "8";
-				break;
-			case 9:
-				reverseString << "9";
-				break;
-			case 10:
-				reverseString << "A";
-				break;
-			case 11:
-				reverseString << "B";
-				break;
-			case 12:
-				reverseString << "C";
-				break;
-			case 13:
-				reverseString << "D";
-				break;
-			case 14:
-				reverseString << "E";
-				break;
-			case 15:
-				reverseString << "F";
-				break;
-			default:
-			CL_ASSERT(false, "Only up to base 16 is covered!");
-			}
-
-			operationalValue /= base;
-		} while (operationalValue);
-
-		// Adding '-' if needed, at end of string before reversing
-		if (value < 0)
-			reverseString << "-";
-
-		reverseString.Shrink();
-
-		reverseString.Reverse();
-		return reverseString;
 	}
 
 	String String::Convert(float64 value, int32 fractionLength)
@@ -262,6 +219,28 @@ namespace Coil
 		return formattedAddress << addressString;
 	}
 
+	int32 String::ParseInt(const char8* source, int32 size)
+	{
+		int32 value     = 0;
+		char8* iterator = const_cast<char8*>(source) - 1;
+		char8* end      = const_cast<char8*>(source) + size;
+
+		if (*source == '-')
+			++iterator;
+
+		while (++iterator != end)
+		{
+			int32 number = *iterator - '0';
+			CL_ASSERT(0 <= number && number <= 9, "None numerical vaulue in source for ParseInt");
+			value = value * 10 + number;
+		}
+
+		if (*source == '-')
+			value = -value;
+
+		return value;
+	}
+
 
 	int32 String::CStringLength(const char8* string)
 	{
@@ -272,27 +251,101 @@ namespace Coil
 		return length;
 	}
 
+	int32 String::ReplaceWithShorter(const char8* oldPhrase, const char8* newPhrase, int32 oldSize, int32 newSize, int32 difference)
+	{
+		int32 numberOfReplaced = 0;
+		int32 searchIndex      = 0;
+		int32 index;
+		while ((index = FirstMatch(oldPhrase, searchIndex)) != -1)
+		{
+			memmove(Data + index + newSize, Data + index + oldSize, static_cast<size_t>(Length) - index - oldSize + 1);
+			memcpy(Data + index, newPhrase, newSize);
+			searchIndex = index + oldSize - 1;
+			++numberOfReplaced;
+		}
+
+		Length += numberOfReplaced * difference;
+		Size      = Length;
+		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
+		CL_ASSERT(tmp, "Failed to reallocate memory");
+		if (tmp)
+		{
+			Data = tmp;
+		}
+
+		return numberOfReplaced;
+	}
+
+
+	int32 String::ReplaceWithEqual(const char8* oldPhrase, const char8* newPhrase, int32 size)
+	{
+		int32 numberOfReplaced = 0;
+		int32 searchIndex      = 0;
+		int32 index;
+		while ((index = FirstMatch(oldPhrase, searchIndex)) != -1)
+		{
+			memcpy(Data + index, newPhrase, size);
+			searchIndex = index + size - 1;
+			++numberOfReplaced;
+		}
+
+		return numberOfReplaced;
+	}
+
+	int32 String::ReplaceWithLonger(const char8* oldPhrase, const char8* newPhrase, int32 oldSize, int32 newSize, int32 difference)
+	{
+		int32 numberOfReplaced = CountOccurence(oldPhrase);
+
+		Length += numberOfReplaced * difference;
+		Size      = Length;
+		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
+		CL_ASSERT(tmp, "Failed to reallocate memory");
+		if (tmp)
+		{
+			Data = tmp;
+		}
+
+		int32 searchIndex = 0;
+		int32 index;
+		while ((index = FirstMatch(oldPhrase, searchIndex)) != -1)
+		{
+			memmove(Data + index + newSize, Data + index + oldSize, static_cast<size_t>(Length) - index - newSize + 1);
+			memcpy(Data + index, newPhrase, newSize);
+			searchIndex = index + newSize;
+			++numberOfReplaced;
+		}
+
+		return numberOfReplaced;
+	}
+
 
 	BString::BString()
-		: String()	{}
+		: String()
+	{}
 
 	BString::BString(const BString& string)
-		: String(string) {}
+		: String(string)
+	{}
 
 	BString::BString(BString&& string) noexcept
-		: String(static_cast<String&&>(string)) {}
+		: String(static_cast<String&&>(string))
+	{}
 
 	BString::BString(const char8* text)
-		: String(text) {}
+		: String(text)
+	{}
 
 	BString::BString(const char8* text, int32 length)
-		: String(text, length)	{}
+		: String(text, length)
+	{}
 
 	BString::BString(char8** charPtr)
-		: String(charPtr) {}
+		: String(charPtr)
+	{}
 
 	BString::BString(char8** charPtr, int32 length)
-		: String(charPtr, length) {}
+		: String(charPtr, length)
+	{}
 
 	BString& BString::operator=(const BString& string)
 	{
@@ -359,19 +412,24 @@ namespace Coil
 	}
 
 	SString::SString(SString&& string) noexcept
-		: String(static_cast<String&&>(string))	{}
+		: String(static_cast<String&&>(string))
+	{}
 
 	SString::SString(const char8* text)
-	: String(text)	{}
+		: String(text)
+	{}
 
 	SString::SString(const char8* text, int32 length)
-		: String(text, length)	{}
+		: String(text, length)
+	{}
 
 	SString::SString(char8** charPtr)
-		: String(charPtr)	{}
+		: String(charPtr)
+	{}
 
 	SString::SString(char8** charPtr, int32 length)
-		: String(charPtr, length)	{}
+		: String(charPtr, length)
+	{}
 
 
 	SString& SString::operator=(const SString& string)
@@ -450,14 +508,12 @@ namespace Coil
 	}
 
 
-	PString::PString()
-	{}
-
 	PString::PString(const PString& string)
 		: String(string.Data, string.Size),
 		  InsertIndex(string.InsertIndex),
 		  InsertType(string.InsertType),
-		  InsertSize(string.InsertSize)
+		  InsertSize(string.InsertSize),
+		  InsertSettings(string.InsertSettings)
 	{
 		Length = string.Length;
 	}
@@ -466,11 +522,14 @@ namespace Coil
 		: String(static_cast<String&&>(string)),
 		  InsertIndex(Move(string.InsertIndex)),
 		  InsertType(Move(string.InsertType)),
-		  InsertSize(Move(string.InsertSize))
+		  InsertSize(Move(string.InsertSize)),
+		  InsertSettings(Move(string.InsertSettings))
 	{}
 
 	PString::PString(const char8* text ...)
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		std::vector<Ambiguous> parameters;
 		std::vector<int32> insertSymbolSize;
 		std::vector<int32> insertSymbolIndex;
@@ -558,14 +617,17 @@ namespace Coil
 
 				case '{':
 					++insertSymbolSize.back();
-					settingIndex = i;
+					settingIndex = i + 1;
 					continue;
 				case '}':
+				{
 					++insertSymbolSize.back();
-					// TO-DO pass settings and context
+					Settings settings = ParseSettings(text + settingIndex, i - settingIndex);
+
+					InsertSettings.push_back(settings);
 					settingIndex = -1;
 					continue;
-
+				}
 				case 's':
 					InsertType.push_back(text[i]);
 					parameters.back().Char8Ptr = va_arg(args, char8*);
@@ -606,9 +668,12 @@ namespace Coil
 				CL_ASSERT(false, "Unknow PString parameter type!");
 				}
 
-				// if current insert size is 0, assigns default size
+				// If current insert size is 0, assigns default size
 				if (InsertSize.back() == 0)
 					InsertSize.back() = TypeToSize(InsertType.back());
+
+				if (InsertType.size() != InsertSettings.size())
+					InsertSettings.emplace_back();
 
 				insertReplace.push_back(static_cast<int32>(InsertIndex.size()) - 1);
 
@@ -716,11 +781,14 @@ namespace Coil
 		swap(left.InsertIndex, right.InsertIndex);
 		swap(left.InsertType, right.InsertType);
 		swap(left.InsertSize, right.InsertSize);
+		swap(left.InsertSettings, right.InsertSettings);
 	}
 
 
 	String PString::ToString() const
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		const int32 length = GetLength();
 		auto* newData      = new char8[static_cast<int64>(Length) + 1];
 
@@ -748,13 +816,13 @@ namespace Coil
 			return -1;
 		case 'b':
 		case 'B':
-			return 33;
+			return 34;
 		case 'd':
 		case 'D':
-			return 11;
+			return 12;
 		case 'x':
 		case 'X':
-			return 9;
+			return 10;
 		case 'f':
 		case 'F':
 			return 16;
@@ -768,6 +836,8 @@ namespace Coil
 
 	void PString::Set(int32 parameterIndex, const char8* text)
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		const int32 size = CStringLength(text);
 
 		char8* index = Data + InsertIndex[parameterIndex];
@@ -779,6 +849,8 @@ namespace Coil
 
 	void PString::Set(int32 parameterIndex, const RString<>& string)
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		char8* index = Data + InsertIndex[parameterIndex];
 		memset(index, 127, InsertSize[parameterIndex]);
 		memcpy(index, string->CString(), string->GetLength());
@@ -786,18 +858,27 @@ namespace Coil
 		RecalculateLength();
 	}
 
-	void PString::Set(int32 parameterIndex, int32 value, int32 base)
+	void PString::Set(int32 parameterIndex, int64 value, int32 base)
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		char8* iterator = Data + InsertIndex[parameterIndex];
 		memset(iterator, 127, InsertSize[parameterIndex]);
 
+		CL_ASSERT(InsertSize[parameterIndex] < 1000, "out of bounds");
+
 		iterator += static_cast<int64>(InsertSize[parameterIndex]) - 1;
 
-		// using ~ bitwise operator for getting rid of negative sign
+		// Using ~ bitwise operator to get rid of negative sign
 		uint64 operationalValue = value > 0 ? value : 1 + static_cast<uint64>(~value);
+
+		int32 decimalPoint = InsertSettings[parameterIndex].DecimalPoint + 1;
 
 		do
 		{
+			if (--decimalPoint == 0)
+				*iterator-- = '.';
+
 			switch (operationalValue % base)
 			{
 			case 0:
@@ -855,6 +936,16 @@ namespace Coil
 			operationalValue /= base;
 		} while (operationalValue);
 
+
+		while (--decimalPoint > 0)
+			*iterator-- = '0';
+
+		if (decimalPoint == 0)
+		{
+			*iterator-- = '.';
+			*iterator-- = '0';
+		}
+
 		if (value < 0)
 		{
 			*iterator = '-';
@@ -863,7 +954,7 @@ namespace Coil
 		RecalculateLength();
 	}
 
-	void PString::Set(int32 parameterIndex, int32 value)
+	void PString::Set(int32 parameterIndex, int64 value)
 	{
 		switch (InsertType[parameterIndex])
 		{
@@ -886,10 +977,19 @@ namespace Coil
 
 	void PString::Set(int32 parameterIndex, float64 value)
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		char8* index = Data + InsertIndex[parameterIndex];
 		memset(index, 127, static_cast<size_t>(InsertSize[parameterIndex]));
 
-		d2fixed_buffered_n(value, 3, index);
+		int32 decimalPoint = InsertSettings[parameterIndex].DecimalPoint;
+		if (decimalPoint < 0)
+			decimalPoint = 0;
+
+		index += d2fixed_buffered_n(value, decimalPoint, index);
+
+		if (InsertSettings[parameterIndex].DecimalPoint == 0)
+			*index = '.';
 
 		RecalculateLength();
 	}
@@ -897,6 +997,8 @@ namespace Coil
 
 	void PString::RecalculateLength()
 	{
+		CL_PROFILE_FUNCTION_LOW()
+
 		Length          = Size;
 		char8* iterator = Data;
 		do
@@ -904,5 +1006,56 @@ namespace Coil
 			if (*iterator == 127)
 				--Length;
 		} while (*iterator++);
+	}
+
+	PString::Settings PString::ParseSettings(const char8* source, int32 size)
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		Settings settings;
+
+		enum class ParseState
+		{
+			None,
+			DecimalPoint
+		} state = ParseState::None;
+
+		char8* stateBegging = nullptr;
+
+		char8* iterator = const_cast<char8*>(source) - 1;
+		char8* end      = const_cast<char8*>(source) + size;
+		while (++iterator != end)
+		{
+			switch (state)
+			{
+			case ParseState::None:
+				if (*iterator != '.')
+					break;
+
+				state        = ParseState::DecimalPoint;
+				stateBegging = iterator + 1;
+				break;
+
+			case ParseState::DecimalPoint:
+				if ('0' > *iterator || *iterator > '9')
+					settings.DecimalPoint = ParseInt(stateBegging, iterator - stateBegging);
+
+				break;
+			default: ;
+			}
+		}
+
+		switch (state)
+		{
+		case ParseState::None:
+			break;
+
+		case ParseState::DecimalPoint:
+			settings.DecimalPoint = ParseInt(stateBegging, iterator - stateBegging);
+			break;
+		default: ;
+		}
+
+		return settings;
 	}
 }
