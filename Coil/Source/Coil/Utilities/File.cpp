@@ -59,6 +59,8 @@ namespace Coil
 
 	RString<> File::Load(const RString<>& filePath)
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+
 		std::ifstream fileStream(filePath->CString());
 
 		if (fileStream)
@@ -71,8 +73,8 @@ namespace Coil
 			auto* buffer   = new char8[static_cast<size_t>(length) + 1];
 			buffer[length] = '\0';
 
-
-			String fileContent(&buffer, static_cast<int32>(length)); //In case of failed read String deletes buffer
+			// Binding buffer before reading in case of failure, to prevent memory leak
+			String fileContent(&buffer, static_cast<int32>(length));
 
 			fileStream.read(buffer, length);
 
@@ -86,7 +88,9 @@ namespace Coil
 
 	Binary File::LoadBinary(const RString<>& filePath)
 	{
-		std::ifstream fileStream(filePath->CString(), std::ios::in | std::ios::binary | std::ios::ate);
+		CL_PROFILE_FUNCTION_HIGH()
+
+		std::ifstream fileStream(filePath->CString(), std::ios::in | std::ios::binary);
 
 		if (fileStream)
 		{
@@ -97,8 +101,8 @@ namespace Coil
 
 			auto* buffer = new byte[static_cast<size_t>(length) + 1];
 
-
-			Binary fileContent(&buffer, static_cast<int32>(length)); //In case of failed read Binary deletes buffer
+			// Binding buffer before reading in case of failure, to prevent memory leak
+			Binary fileContent(&buffer, static_cast<int32>(length));
 
 			fileStream.read(reinterpret_cast<char*>(buffer), length);
 
