@@ -16,8 +16,7 @@
 namespace Coil
 {
 	GUILayer::GUILayer()
-		: Layer("GUILayer")
-	{}
+		: Layer("GUILayer") {}
 
 	void GUILayer::OnAttach()
 	{
@@ -25,32 +24,49 @@ namespace Coil
 
 		IMGUI_CHECKVERSION();
 
-		ImGui::CreateContext();
-
-		ImGuiIO& io = ImGui::GetIO();
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-		io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-
-		//Loads font with "zero-width space" in place of "return" character
-		io.Fonts->AddFontFromFileTTF("Resources/Fonts/ProggyClean_ZeroWidthReturn.ttf", 13.0f);
-		io.Fonts->AddFontFromFileTTF("Resources/Fonts/ProggyClean_ZeroWidthReturn_Debug.ttf", 13.0f);
-
-		ImGui::StyleColorsDark();
-
-		ImGuiStyle& style = ImGui::GetStyle();
-		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
-			style.WindowRounding              = 0.0f;
-			style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+			CL_PROFILE_SCOPE_MEDIUM("Creating ImGui Context")
+
+			ImGui::CreateContext();
 		}
 
-		Application& app = Application::Get();
-		auto* window     = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
+		ImGuiIO& io = ImGui::GetIO();
 
-		ImGui_ImplGlfw_InitForOpenGL(window, true);
-		ImGui_ImplOpenGL3_Init("#version 410");
+		{
+			CL_PROFILE_SCOPE_MEDIUM("Loading Fonts")
+
+			// Loads font with "zero-width space" in place of "return" character
+			io.Fonts->AddFontFromFileTTF("Resources/Fonts/ProggyClean_ZeroWidthReturn.ttf", 13.0f);
+			io.Fonts->AddFontFromFileTTF("Resources/Fonts/ProggyClean_ZeroWidthReturn_Debug.ttf", 13.0f);
+		}
+
+		{
+			CL_PROFILE_SCOPE_MEDIUM("Setting ImGui Flags")
+
+			io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+			io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+			io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+			io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+			ImGui::StyleColorsDark();
+
+			ImGuiStyle& style = ImGui::GetStyle();
+			if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+			{
+				style.WindowRounding              = 0.0f;
+				style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+			}
+		}
+
+		{
+			CL_PROFILE_SCOPE_MEDIUM("Initializating ImGui for OpengGL")
+
+			Application& app = Application::Get();
+			auto* window     = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
+
+			ImGui_ImplGlfw_InitForOpenGL(window, true);
+			ImGui_ImplOpenGL3_Init("#version 410");
+		}
 	}
 
 	void GUILayer::OnDetach()
@@ -64,6 +80,8 @@ namespace Coil
 
 	void GUILayer::OnImGuiRender()
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+
 		Begin();
 
 		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
@@ -75,6 +93,8 @@ namespace Coil
 
 	void GUILayer::OnEvent(Event& event)
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+
 		EventDispatcher dispatcher(event);
 
 		dispatcher.Dispatch<MouseScrolledEvent>([]([[maybe_unused]] MouseScrolledEvent& event) -> bool

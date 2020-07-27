@@ -10,8 +10,7 @@ namespace Coil
 	public:
 		MouseMovedEvent(float32 x, float32 y)
 			: MouseX(x),
-			  MouseY(y)
-		{}
+			  MouseY(y) {}
 
 		[[nodiscard]] float32 GetX() const { return MouseX; }
 		[[nodiscard]] float32 GetY() const { return MouseY; }
@@ -31,8 +30,7 @@ namespace Coil
 	public:
 		MouseScrolledEvent(float32 x, float32 y)
 			: XOffset(x),
-			  YOffset(y)
-		{}
+			  YOffset(y) {}
 
 		[[nodiscard]] float32 GetXOffset() const { return XOffset; }
 		[[nodiscard]] float32 GetYOffset() const { return YOffset; }
@@ -56,8 +54,7 @@ namespace Coil
 
 	protected:
 		explicit MouseButtonEvent(int32 button)
-			: Button(button)
-		{}
+			: Button(button) {}
 
 		int32 Button;
 	};
@@ -67,8 +64,7 @@ namespace Coil
 	{
 	public:
 		explicit MouseButtonPressedEvent(int32 button)
-			: MouseButtonEvent(button)
-		{}
+			: MouseButtonEvent(button) {}
 
 		[[nodiscard]] RString<> ToString() const override { return PString("MouseButtonPressedEvent: %5d", Button); }
 
@@ -80,8 +76,7 @@ namespace Coil
 	{
 	public:
 		explicit MouseButtonReleasedEvent(int32 button)
-			: MouseButtonEvent(button)
-		{}
+			: MouseButtonEvent(button) {}
 
 		[[nodiscard]] RString<> ToString() const override { return PString("MouseButtonReleasedEvent: %5d", Button); }
 

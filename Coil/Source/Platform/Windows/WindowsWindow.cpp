@@ -77,101 +77,105 @@ namespace Coil
 		glfwSetWindowUserPointer(WindowInstance, &Data);
 		SetVSync(Data.VSync);
 
-		glfwSetWindowSizeCallback(WindowInstance, [](GLFWwindow* window, int32 width, int32 height)
 		{
-			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+			CL_PROFILE_SCOPE_LOW("glfw Callback setup")
 
-			data.Width  = static_cast<uint32>(width);
-			data.Height = static_cast<uint32>(height);
-
-			WindowResizeEvent event(static_cast<uint32>(width), static_cast<uint32>(height));
-			data.EventCallback(event);
-		});
-
-		glfwSetWindowCloseCallback(WindowInstance, [](GLFWwindow* window)
-		{
-			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-			WindowCloseEvent event;
-			data.EventCallback(event);
-		});
-
-		static int32 keyRepeatCounter = 0;
-
-		glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int32 key, [[maybe_unused]] int32 scancode, int32 action, [[maybe_unused]] int32 mods)
-		{
-			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-
-			switch (action)
+			glfwSetWindowSizeCallback(WindowInstance, [](GLFWwindow* window, int32 width, int32 height)
 			{
-			case GLFW_PRESS:
-			{
-				KeyPressedEvent event(key, keyRepeatCounter = 0);
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				data.Width  = static_cast<uint32>(width);
+				data.Height = static_cast<uint32>(height);
+
+				WindowResizeEvent event(static_cast<uint32>(width), static_cast<uint32>(height));
 				data.EventCallback(event);
-				break;
-			}
-			case GLFW_RELEASE:
+			});
+
+			glfwSetWindowCloseCallback(WindowInstance, [](GLFWwindow* window)
 			{
-				KeyReleasedEvent event(key);
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+				WindowCloseEvent event;
 				data.EventCallback(event);
-				break;
-			}
-			case GLFW_REPEAT:
+			});
+
+			static int32 keyRepeatCounter = 0;
+
+			glfwSetKeyCallback(WindowInstance, [](GLFWwindow* window, int32 key, [[maybe_unused]] int32 scancode, int32 action, [[maybe_unused]] int32 mods)
 			{
-				KeyPressedEvent event(key, ++keyRepeatCounter);
-				data.EventCallback(event);
-				break;
-			}
-			default:
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				switch (action)
+				{
+				case GLFW_PRESS:
+				{
+					KeyPressedEvent event(key, keyRepeatCounter = 0);
+					data.EventCallback(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					KeyReleasedEvent event(key);
+					data.EventCallback(event);
+					break;
+				}
+				case GLFW_REPEAT:
+				{
+					KeyPressedEvent event(key, ++keyRepeatCounter);
+					data.EventCallback(event);
+					break;
+				}
+				default:
 				CL_ASSERT(false, "Unknow keyboard action!");
-			}
-		});
+				}
+			});
 
-		glfwSetCharCallback(WindowInstance, [](GLFWwindow* window, uint32 keycode)
-		{
-			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-
-			KeyTypedEvent event(keycode);
-			data.EventCallback(event);
-		});
-
-		glfwSetMouseButtonCallback(WindowInstance, [](GLFWwindow* window, int32 button, int32 action, [[maybe_unused]] int32 mods)
-		{
-			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
-
-			switch (action)
+			glfwSetCharCallback(WindowInstance, [](GLFWwindow* window, uint32 keycode)
 			{
-			case GLFW_PRESS:
-			{
-				MouseButtonPressedEvent event(button);
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				KeyTypedEvent event(keycode);
 				data.EventCallback(event);
-				break;
-			}
-			case GLFW_RELEASE:
+			});
+
+			glfwSetMouseButtonCallback(WindowInstance, [](GLFWwindow* window, int32 button, int32 action, [[maybe_unused]] int32 mods)
 			{
-				MouseButtonReleasedEvent event(button);
-				data.EventCallback(event);
-				break;
-			}
-			default:
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+
+				switch (action)
+				{
+				case GLFW_PRESS:
+				{
+					MouseButtonPressedEvent event(button);
+					data.EventCallback(event);
+					break;
+				}
+				case GLFW_RELEASE:
+				{
+					MouseButtonReleasedEvent event(button);
+					data.EventCallback(event);
+					break;
+				}
+				default:
 				CL_ASSERT(false, "Unknow mouse action!");
-			}
-		});
+				}
+			});
 
-		glfwSetScrollCallback(WindowInstance, [](GLFWwindow* window, float64 xOffset, float64 yOffset)
-		{
-			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+			glfwSetScrollCallback(WindowInstance, [](GLFWwindow* window, float64 xOffset, float64 yOffset)
+			{
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			MouseScrolledEvent event(static_cast<float32>(xOffset), static_cast<float32>(yOffset));
-			data.EventCallback(event);
-		});
+				MouseScrolledEvent event(static_cast<float32>(xOffset), static_cast<float32>(yOffset));
+				data.EventCallback(event);
+			});
 
-		glfwSetCursorPosCallback(WindowInstance, [](GLFWwindow* window, float64 xPos, float64 yPos)
-		{
-			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+			glfwSetCursorPosCallback(WindowInstance, [](GLFWwindow* window, float64 xPos, float64 yPos)
+			{
+				WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
 
-			MouseMovedEvent event(static_cast<float32>(xPos), static_cast<float32>(yPos));
-			data.EventCallback(event);
-		});
+				MouseMovedEvent event(static_cast<float32>(xPos), static_cast<float32>(yPos));
+				data.EventCallback(event);
+			});
+		}
 	}
 
 	void WindowsWindow::Shutdown() const
@@ -185,8 +189,8 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_HIGH()
 
-		glfwPollEvents();
 		Context->SwapBuffers();
+		glfwPollEvents();
 	}
 
 	void WindowsWindow::SetVSync(bool enable)

@@ -44,8 +44,8 @@ namespace Coil
 		void Add(const RString<>& name, const Ref<Shader>& shader);
 		void Add(const Ref<Shader>& shader);
 
-		Ref<Shader> Load(const RString<>& filepath);
-		Ref<Shader> Load(const RString<>& name, const RString<>& filepath);
+		Ref<Shader> Load(const RString<>& filePath);
+		Ref<Shader> Load(const RString<>& name, const RString<>& filePath);
 
 		Ref<Shader> Get(const RString<>& name);
 

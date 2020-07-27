@@ -51,16 +51,16 @@ namespace Coil
 		Add(name, shader);
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const RString<>& filepath)
+	Ref<Shader> ShaderLibrary::Load(const RString<>& filePath)
 	{
-		auto shader = Shader::Create(filepath);
+		auto shader = Shader::Create(filePath);
 		Add(shader);
 		return shader;
 	}
 
-	Ref<Shader> ShaderLibrary::Load(const RString<>& name, const RString<>& filepath)
+	Ref<Shader> ShaderLibrary::Load(const RString<>& name, const RString<>& filePath)
 	{
-		auto shader = Shader::Create(filepath);
+		auto shader = Shader::Create(filePath);
 		Add(name, shader);
 		return shader;
 	}

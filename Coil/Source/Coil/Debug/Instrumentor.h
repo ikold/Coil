@@ -65,8 +65,7 @@ namespace Coil
 	{
 	public:
 		Instrumentor()
-			: CurrentSession(nullptr)
-		{}
+			: CurrentSession(nullptr) {}
 
 		/**
 		 * @brief Starts instrumentation session.
@@ -407,56 +406,56 @@ namespace Coil
 
 
 #ifdef CL_PROFILE
-#define TOKENPASTE_IMPL(x, y) x ## y
-#define TOKENPASTE(x, y) TOKENPASTE_IMPL(x, y)
+	#define TOKENPASTE_IMPL(x, y) x ## y
+	#define TOKENPASTE(x, y) TOKENPASTE_IMPL(x, y)
 
-#define CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::High, filePath);
+	#define CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::High, filePath);
 
-#define CL_PROFILE_BEGIN_SESSION(name, filePath)		CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath);
+	#define CL_PROFILE_BEGIN_SESSION(name, filePath)		CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath);
 
-#define CL_PROFILE_END_SESSION()						::Coil::Instrumentor::Get().EndSession();
+	#define CL_PROFILE_END_SESSION()						::Coil::Instrumentor::Get().EndSession();
 
-#define CL_PROFILE_SCOPE_IMPL(name, level)				static int32 TOKENPASTE(_nameID_, __LINE__) = Coil::Instrumentor::Get().RegisterName(name);\
-																		::Coil::InstrumentationTimer TOKENPASTE(_timer_, __LINE__)(TOKENPASTE(_nameID_, __LINE__), level);
+	#define CL_PROFILE_SCOPE_IMPL(name, level)				static int32 TOKENPASTE(_nameID_, __LINE__) = Coil::Instrumentor::Get().RegisterName(name);\
+																			::Coil::InstrumentationTimer TOKENPASTE(_timer_, __LINE__)(TOKENPASTE(_nameID_, __LINE__), level);
 
-#define CL_PROFILE_SCOPE_HIGH(name)						CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::High)
+	#define CL_PROFILE_SCOPE_HIGH(name)						CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::High)
 
-#define CL_PROFILE_SCOPE(name)							CL_PROFILE_SCOPE_HIGH(name)
+	#define CL_PROFILE_SCOPE(name)							CL_PROFILE_SCOPE_HIGH(name)
 
-#define CL_PROFILE_FUNCTION_HIGH()						CL_PROFILE_SCOPE_HIGH(__FUNCSIG__)
+	#define CL_PROFILE_FUNCTION_HIGH()						CL_PROFILE_SCOPE_HIGH(__FUNCSIG__)
 
-#define CL_PROFILE_FUNCTION()							CL_PROFILE_FUNCTION_HIGH()
-#else
-#define CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath)
-#define CL_PROFILE_BEGIN_SESSION(name, filePath)
-#define CL_PROFILE_END_SESSION()
-#define CL_PROFILE_SCOPE_IMPL(name, level)
-#define CL_PROFILE_SCOPE_HIGH(name)
-#define CL_PROFILE_SCOPE(name)
-#define CL_PROFILE_FUNCTION_HIGH()
-#define CL_PROFILE_FUNCTION()
+	#define CL_PROFILE_FUNCTION()							CL_PROFILE_FUNCTION_HIGH()
+	#else
+	#define CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath)
+	#define CL_PROFILE_BEGIN_SESSION(name, filePath)
+	#define CL_PROFILE_END_SESSION()
+	#define CL_PROFILE_SCOPE_IMPL(name, level)
+	#define CL_PROFILE_SCOPE_HIGH(name)
+	#define CL_PROFILE_SCOPE(name)
+	#define CL_PROFILE_FUNCTION_HIGH()
+	#define CL_PROFILE_FUNCTION()
 #endif
 
 #if CL_PROFILE > 1
-#define CL_PROFILE_BEGIN_SESSION_MEDIUM(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::Medium, filePath);
+	#define CL_PROFILE_BEGIN_SESSION_MEDIUM(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::Medium, filePath);
 
-#define CL_PROFILE_SCOPE_MEDIUM(name)					CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::Medium)
+	#define CL_PROFILE_SCOPE_MEDIUM(name)					CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::Medium)
 
-#define CL_PROFILE_FUNCTION_MEDIUM()					CL_PROFILE_SCOPE_MEDIUM(__FUNCSIG__)
+	#define CL_PROFILE_FUNCTION_MEDIUM()					CL_PROFILE_SCOPE_MEDIUM(__FUNCSIG__)
 #else
-#define CL_PROFILE_BEGIN_SESSION_MEDIUM(name, filePath)
-#define CL_PROFILE_SCOPE_MEDIUM(name)
-#define CL_PROFILE_FUNCTION_MEDIUM()
+	#define CL_PROFILE_BEGIN_SESSION_MEDIUM(name, filePath)
+	#define CL_PROFILE_SCOPE_MEDIUM(name)
+	#define CL_PROFILE_FUNCTION_MEDIUM()
 #endif
 
 #if CL_PROFILE > 2
-#define CL_PROFILE_BEGIN_SESSION_LOW(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::Low, filePath);
+	#define CL_PROFILE_BEGIN_SESSION_LOW(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::Low, filePath);
 
-#define CL_PROFILE_SCOPE_LOW(name)						CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::Low)
+	#define CL_PROFILE_SCOPE_LOW(name)						CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::Low)
 
-#define CL_PROFILE_FUNCTION_LOW()						CL_PROFILE_SCOPE_LOW(__FUNCSIG__)
+	#define CL_PROFILE_FUNCTION_LOW()						CL_PROFILE_SCOPE_LOW(__FUNCSIG__)
 #else
-#define CL_PROFILE_BEGIN_SESSION_LOW(name, filePath)
-#define CL_PROFILE_SCOPE_LOW(name)
-#define CL_PROFILE_FUNCTION_LOW()
+	#define CL_PROFILE_BEGIN_SESSION_LOW(name, filePath)
+	#define CL_PROFILE_SCOPE_LOW(name)
+	#define CL_PROFILE_FUNCTION_LOW()
 #endif

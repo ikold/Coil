@@ -33,9 +33,16 @@ namespace Coil
 		CL_PROFILE_FUNCTION_HIGH()
 
 		int width, height, channels;
-		stbi_set_flip_vertically_on_load(1);
-		stbi_uc* data = stbi_load(path->CString(), &width, &height, &channels, 0);
-		CL_CORE_ASSERT(data, "Failed to load image!");
+		stbi_uc* data;
+
+		{
+			CL_PROFILE_SCOPE_MEDIUM("Loading Texture")
+
+			stbi_set_flip_vertically_on_load(1);
+			data = stbi_load(path->CString(), &width, &height, &channels, 0);
+			CL_CORE_ASSERT(data, "Failed to load image!");
+		}
+
 		Width  = width;
 		Height = height;
 
@@ -52,13 +59,17 @@ namespace Coil
 
 		CL_CORE_ASSERT(ColorFormat && InternalColorFormat, "Color format not supported!");
 
-		glCreateTextures(GL_TEXTURE_2D, 1, &TextureName);
-		glTextureStorage2D(TextureName, 1, InternalColorFormat, Width, Height);
+		{
+			CL_PROFILE_SCOPE_MEDIUM("Creating Texture")
 
-		glTextureParameteri(TextureName, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTextureParameteri(TextureName, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glCreateTextures(GL_TEXTURE_2D, 1, &TextureName);
+			glTextureStorage2D(TextureName, 1, InternalColorFormat, Width, Height);
 
-		glTextureSubImage2D(TextureName, 0, 0, 0, Width, Height, ColorFormat, GL_UNSIGNED_BYTE, data);
+			glTextureParameteri(TextureName, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTextureParameteri(TextureName, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			glTextureSubImage2D(TextureName, 0, 0, 0, Width, Height, ColorFormat, GL_UNSIGNED_BYTE, data);
+		}
 
 		stbi_image_free(data);
 	}

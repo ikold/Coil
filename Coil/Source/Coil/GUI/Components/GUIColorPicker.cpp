@@ -13,7 +13,7 @@ namespace Coil
 
 	void GUIColorPicker::Draw() const
 	{
-		CL_PROFILE_FUNCTION_HIGH()
+		CL_PROFILE_FUNCTION_MEDIUM()
 
 		ImGui::ColorEdit4(Properties.Label->CString(), value_ptr(*Vec4Ref));
 	}

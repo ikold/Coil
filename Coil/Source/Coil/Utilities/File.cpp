@@ -9,8 +9,7 @@ namespace Coil
 {
 	Binary::Binary()
 		: Data(nullptr),
-		  Size(0)
-	{}
+		  Size(0) {}
 
 	Binary::Binary(const Binary& rhs)
 		: Size(rhs.Size)
@@ -21,14 +20,12 @@ namespace Coil
 
 	Binary::Binary(Binary&& rhs) noexcept
 		: Data(std::exchange(rhs.Data, nullptr)),
-		  Size(std::exchange(rhs.Size, 0))
-	{}
+		  Size(std::exchange(rhs.Size, 0)) {}
 
 
 	Binary::Binary(byte* * data, int32 size)
 		: Data(*data),
-		  Size(size)
-	{}
+		  Size(size) {}
 
 
 	Binary::~Binary()

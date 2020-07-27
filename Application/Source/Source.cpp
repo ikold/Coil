@@ -8,6 +8,8 @@ class App final : public cl::Application
 public:
 	App()
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+
 		PushLayer(new ApplicationLayer());
 	}
 };

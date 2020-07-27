@@ -57,16 +57,14 @@ namespace Coil
 			  Type(ShaderDataType::None),
 			  Size(0),
 			  Offset(0),
-			  Normalized(false)
-		{}
+			  Normalized(false) {}
 
 		BufferElement(ShaderDataType type, RString<> name, bool normalized = false)
 			: Name(Move(name)),
 			  Type(type),
 			  Size(ShaderDataTypeSize(type)),
 			  Offset(0),
-			  Normalized(normalized)
-		{}
+			  Normalized(normalized) {}
 
 		[[nodiscard]] uint32 GetComponentCount() const
 		{

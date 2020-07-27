@@ -10,8 +10,7 @@ namespace Coil
 	String::String()
 		: Data(nullptr),
 		  Length(0),
-		  Size(Length)
-	{}
+		  Size(Length) {}
 
 	String::String(const String& string)
 		: Length(string.Length),
@@ -24,8 +23,7 @@ namespace Coil
 	String::String(String&& string) noexcept
 		: Data(std::exchange(string.Data, nullptr)),
 		  Length(std::exchange(string.Length, 0)),
-		  Size(std::exchange(string.Size, 0))
-	{}
+		  Size(std::exchange(string.Size, 0)) {}
 
 
 	String::String(const char8* text)
@@ -48,14 +46,12 @@ namespace Coil
 	String::String(char8** charPtr)
 		: Data(*charPtr),
 		  Length(CStringLength(*charPtr)),
-		  Size(Length)
-	{}
+		  Size(Length) {}
 
 	String::String(char8** charPtr, int32 length)
 		: Data(*charPtr),
 		  Length(length),
-		  Size(Length)
-	{}
+		  Size(Length) {}
 
 
 	String::~String()
@@ -320,32 +316,25 @@ namespace Coil
 
 
 	BString::BString()
-		: String()
-	{}
+		: String() {}
 
 	BString::BString(const BString& string)
-		: String(string)
-	{}
+		: String(string) {}
 
 	BString::BString(BString&& string) noexcept
-		: String(static_cast<String&&>(string))
-	{}
+		: String(static_cast<String&&>(string)) {}
 
 	BString::BString(const char8* text)
-		: String(text)
-	{}
+		: String(text) {}
 
 	BString::BString(const char8* text, int32 length)
-		: String(text, length)
-	{}
+		: String(text, length) {}
 
 	BString::BString(char8** charPtr)
-		: String(charPtr)
-	{}
+		: String(charPtr) {}
 
 	BString::BString(char8** charPtr, int32 length)
-		: String(charPtr, length)
-	{}
+		: String(charPtr, length) {}
 
 	BString& BString::operator=(const BString& string)
 	{
@@ -402,8 +391,7 @@ namespace Coil
 	}
 
 
-	SString::SString()
-	{}
+	SString::SString() {}
 
 	SString::SString(const SString& string)
 		: String(string.Data, string.Size)
@@ -412,24 +400,19 @@ namespace Coil
 	}
 
 	SString::SString(SString&& string) noexcept
-		: String(static_cast<String&&>(string))
-	{}
+		: String(static_cast<String&&>(string)) {}
 
 	SString::SString(const char8* text)
-		: String(text)
-	{}
+		: String(text) {}
 
 	SString::SString(const char8* text, int32 length)
-		: String(text, length)
-	{}
+		: String(text, length) {}
 
 	SString::SString(char8** charPtr)
-		: String(charPtr)
-	{}
+		: String(charPtr) {}
 
 	SString::SString(char8** charPtr, int32 length)
-		: String(charPtr, length)
-	{}
+		: String(charPtr, length) {}
 
 
 	SString& SString::operator=(const SString& string)
@@ -523,8 +506,7 @@ namespace Coil
 		  InsertIndex(Move(string.InsertIndex)),
 		  InsertType(Move(string.InsertType)),
 		  InsertSize(Move(string.InsertSize)),
-		  InsertSettings(Move(string.InsertSettings))
-	{}
+		  InsertSettings(Move(string.InsertSettings)) {}
 
 	PString::PString(const char8* text ...)
 	{

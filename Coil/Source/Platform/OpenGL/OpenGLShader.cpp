@@ -27,14 +27,14 @@ namespace Coil
 		Compile(shaderSources);
 
 		// TODO Implement this for RString
-		const std::string filepath = filePath->CString();
+		const std::string filePathString = filePath->CString();
 
-		// Extract name from filepath
-		auto lastSlash     = filepath.find_last_of("/\\");
+		// Extracts name from filePath
+		auto lastSlash     = filePathString.find_last_of("/\\");
 		lastSlash          = lastSlash == std::string::npos ? 0 : lastSlash + 1;
-		const auto lastDot = filepath.rfind('.');
-		const auto count   = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
-		Name               = filepath.substr(lastSlash, count).c_str();
+		const auto lastDot = filePathString.rfind('.');
+		const auto count   = lastDot == std::string::npos ? filePathString.size() - lastSlash : lastDot - lastSlash;
+		Name               = filePathString.substr(lastSlash, count).c_str();
 	}
 
 	OpenGLShader::OpenGLShader(RString<> name, const RString<>& vertexSource, const RString<>& fragmentSource)
@@ -126,10 +126,8 @@ namespace Coil
 
 		RendererID = program;
 
-		// Link our program
 		glLinkProgram(program);
 
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
 		GLint isLinked = 0;
 		glGetProgramiv(program, GL_LINK_STATUS, static_cast<int32*>(&isLinked));
 		if (isLinked == GL_FALSE)
@@ -141,7 +139,6 @@ namespace Coil
 			std::vector<GLchar> infoLog(maxLength);
 			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
 
-			// We don't need the program anymore.
 			glDeleteProgram(program);
 
 			for (auto id : glShaderIDs)

@@ -8,7 +8,7 @@ namespace Coil
 {
 	void GUIComponent::SetUp() const
 	{
-		CL_PROFILE_FUNCTION_HIGH()
+		CL_PROFILE_FUNCTION_MEDIUM()
 
 		if (Properties.SameLine)
 			ImGui::SameLine();
@@ -18,7 +18,7 @@ namespace Coil
 
 	void GUIComponent::CleanUp() const
 	{
-		CL_PROFILE_FUNCTION_HIGH()
+		CL_PROFILE_FUNCTION_MEDIUM()
 
 		ImGui::PopItemWidth();
 	}

@@ -7,8 +7,7 @@ namespace Coil
 	OrthographicCameraController::OrthographicCameraController(float32 aspectRatio, bool rotation)
 		: AspectRatio(aspectRatio),
 		  Camera(-AspectRatio * ZoomLevel, AspectRatio * ZoomLevel, -ZoomLevel, ZoomLevel),
-		  Rotation(rotation)
-	{}
+		  Rotation(rotation) {}
 
 	void OrthographicCameraController::OnUpdate()
 	{

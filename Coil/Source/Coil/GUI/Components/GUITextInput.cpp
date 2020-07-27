@@ -12,11 +12,11 @@ namespace Coil
 
 	void GUITextInput::Draw() const
 	{
-		CL_PROFILE_FUNCTION_HIGH()
+		CL_PROFILE_FUNCTION_MEDIUM()
 
 		ImGui::InputText(Properties.Label->CString(), InputBuffer->GetBuffer(), static_cast<int32>(InputBuffer->GetSize()) + 1, ImGuiInputTextFlags_CallbackResize, [](ImGuiInputTextCallbackData* data) -> int
 		{
-			CL_PROFILE_FUNCTION_HIGH()
+			CL_PROFILE_FUNCTION_MEDIUM()
 
 			auto string = *static_cast<RString<BString>*>(data->UserData);
 

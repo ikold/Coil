@@ -29,9 +29,9 @@ namespace Coil
 
 		float32 squareVertices[4 * 5] = {
 			-0.5f, -0.5f, 0.f, 0.f, 0.f,
-			 0.5f, -0.5f, 0.f, 1.f, 0.f,
-			 0.5f,  0.5f, 0.f, 1.f, 1.f,
-			-0.5f,  0.5f, 0.f, 0.f, 1.f
+			0.5f, -0.5f, 0.f, 1.f, 0.f,
+			0.5f, 0.5f, 0.f, 1.f, 1.f,
+			-0.5f, 0.5f, 0.f, 0.f, 1.f
 		};
 
 		Ref<VertexBuffer> squareVB = VertexBuffer::Create(squareVertices, sizeof squareVertices);
@@ -101,7 +101,7 @@ namespace Coil
 
 	void Renderer2D::DrawQuad(const glm::vec2& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color)
 	{
-		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture, glm::vec4(1.f));
+		DrawQuad({ position.x, position.y, 0.f }, rotation, size, texture, color);
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& position, float32 rotation, const glm::vec2& size, const Ref<Texture2D>& texture, const glm::vec4& color)
@@ -111,14 +111,14 @@ namespace Coil
 		static RString uColor     = "uColor";
 		static RString uTransform = "uTransform";
 
-		float32 const c = cos(rotation);
-		float32 const s = sin(rotation);
+		float32 const c = rotation ? cos(rotation) : 1.f;
+		float32 const s = rotation ? sin(rotation) : 0.f;
 
 		glm::mat4 transform = {
-			{ c * size.x,	s * size.x,	0.f,		0.f },
-			{ -s * size.y,	c * size.y,	0.f,		0.f },
-			{ 0.f,			0.f,		1.f,		0.f },
-			{ position.x,	position.y,	position.z,	1.f }
+			{ c * size.x, s * size.x, 0.f, 0.f },
+			{ -s * size.y, c * size.y, 0.f, 0.f },
+			{ 0.f, 0.f, 1.f, 0.f },
+			{ position.x, position.y, position.z, 1.f }
 		};
 
 		Data->ColorTextureShader->SetMat4(uTransform, transform);

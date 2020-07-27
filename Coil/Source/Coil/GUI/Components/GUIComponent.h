@@ -20,8 +20,7 @@ namespace Coil
 	{
 	public:
 		explicit GUIComponent(GUIComponentProps properties)
-			: Properties(Move(properties))
-		{}
+			: Properties(Move(properties)) {}
 
 		GUIComponent(const GUIComponent& rhs) = default;
 		GUIComponent(GUIComponent&& rhs)      = default;

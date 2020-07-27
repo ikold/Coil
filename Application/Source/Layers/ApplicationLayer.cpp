@@ -6,10 +6,10 @@
 ApplicationLayer::ApplicationLayer()
 	: Layer("Application"),
 	  CameraController(1280.0f / 720.0f, true),
-	FrameTime(Coil::PString("%{.3}8f ms", 0.f)),
+	  FrameTime(Coil::PString("%{.3}8f ms", 0.f)),
 	  MousePosition(Coil::PString("mouse x: %6d y: %6d", 0, 0)),
 	  SquareColor(Coil::CreateRef<glm::vec4>(0.2f, 0.2f, 0.2, 1.f)),
-	TimerString(Coil::PString("%{.2}8f seconds remains", 0.f))
+	  TimerString(Coil::PString("%{.2}8f seconds remains", 0.f))
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
@@ -21,19 +21,17 @@ ApplicationLayer::ApplicationLayer()
 	Coil::GUI::ComponentWindow({ "Name" }, {
 		Coil::GUI::Text("Square Color"),
 		Coil::GUI::ColorPicker({ "", -1 }, SquareColor),
-		Coil::GUI::Button({ "Profile (High)" }, [&]
+		Coil::GUI::Button({ "Profile (High) 5 seconds" }, [&]
 		{
-			Timer          = 60.f;
-			auto timestamp = Coil::Time::NowString();
-			timestamp->Replace(':', '_');
-			CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh1m-Runtime %R.json", &timestamp));
+			Timer     = 5.f;
+			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+			CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh5s-Runtime %R.json", &time));
 		}),
-		Coil::GUI::Button({ "Profile (Low)" }, [&]
+		Coil::GUI::Button({ "Profile (Low) 5 seconds" }, [&]
 		{
-			Timer          = 60.f;
-			auto timestamp = Coil::Time::NowString();
-			timestamp->Replace(':', '_');
-			CL_PROFILE_BEGIN_SESSION_LOW("High Profiling", Coil::PString("Profiling/CoilProfileLow1m-Runtime %R.json", &timestamp));
+			Timer     = 5.f;
+			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+			CL_PROFILE_BEGIN_SESSION_LOW("High Profiling", Coil::PString("Profiling/CoilProfileLow5s-Runtime %R.json", &time));
 		})
 	});
 
@@ -118,15 +116,13 @@ bool ApplicationLayer::OnKeyPressed(Coil::KeyPressedEvent& event) const
 	{
 		if (Coil::Input::IsKeyPressed(CL_KEY_LEFT_CONTROL))
 		{
-			auto timestamp = Coil::Time::NowString();
-			timestamp->Replace(':', '_');
-			CL_PROFILE_BEGIN_SESSION_LOW("Low Profiling", Coil::PString("Profiling/CoilProfileLow-Runtime %R.json", &timestamp));
+			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+			CL_PROFILE_BEGIN_SESSION_LOW("Low Profiling", Coil::PString("Profiling/CoilProfileLow-Runtime %R.json", &time));
 		}
 		else
 		{
-			auto timestamp = Coil::Time::NowString();
-			timestamp->Replace(':', '_');
-			CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh-Runtime %R.json", &timestamp));
+			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+			CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh-Runtime %R.json", &time));
 		}
 	}
 

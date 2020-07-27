@@ -14,8 +14,7 @@ namespace Coil
 
 	protected:
 		explicit KeyEvent(int32 keyCode)
-			: KeyCode(keyCode)
-		{}
+			: KeyCode(keyCode) {}
 
 		int32 KeyCode;
 	};
@@ -26,8 +25,7 @@ namespace Coil
 	public:
 		KeyPressedEvent(int32 keyCode, int32 repeatCount)
 			: KeyEvent(keyCode),
-			  RepeatCount(repeatCount)
-		{}
+			  RepeatCount(repeatCount) {}
 
 		[[nodiscard]] int32 GetRepeatCount() const { return RepeatCount; }
 
@@ -44,8 +42,7 @@ namespace Coil
 	{
 	public:
 		explicit KeyReleasedEvent(int32 keyCode)
-			: KeyEvent(keyCode)
-		{}
+			: KeyEvent(keyCode) {}
 
 		[[nodiscard]] RString<> ToString() const override { return PString("KeyReleasedEvent: %4d", KeyCode); }
 
@@ -57,8 +54,7 @@ namespace Coil
 	{
 	public:
 		explicit KeyTypedEvent(int32 keyCode)
-			: KeyEvent(keyCode)
-		{}
+			: KeyEvent(keyCode) {}
 
 		[[nodiscard]] RString<> ToString() const override { return PString("KeyTypedEvent: %4d", KeyCode); }
 

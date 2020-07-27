@@ -5,8 +5,9 @@
 
 namespace Coil
 {
-	/*!	Log level flags used for creating and filtering of logs
-	*/
+	/**
+	 * @brief Log level flags used for creating and filtering of logs
+	 */
 	enum class LogLevel
 	{
 		fatal = 1 << 0,
@@ -18,8 +19,9 @@ namespace Coil
 	};
 
 
-	/*!	Struct for Logging system
-	*/
+	/**
+	 * @brief Struct for Logging system
+	 */
 	struct Log
 	{
 	public:
@@ -33,54 +35,60 @@ namespace Coil
 
 	private:
 		const RString<> Message;
-		const Timestamp Date;	/*!	Date of creation of log */
-		const LogLevel Level;	/*!	Type of log */
+		/** Creation timestamp */
+		const Timestamp Date;
+		const LogLevel Level;
 
+		/** Cached header containing Date and Level */
 		const RString<> Header;
 	};
 
 
-	/*!	Class responsible for log formatting
-
-		@todo pattern system
-	*/
+	/**
+	 * @brief Class responsible for log formatting
+	 * 
+	 * @todo pattern system
+	 */
 	class LogParser
 	{
 	public:
-		/*!	Parser for LogLevel
-
-			@param[in]	level		Coil::LogLevel object to be parsed
-
-			@return		RString	LogLevel formatted in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
-		*/
+		/**
+		 * @brief Parser for LogLevel
+		 * 
+		 * @param[in]	level		Coil::LogLevel object to be parsed
+		 * 
+		 * @return		RString	LogLevel formatted in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
+		 */
 		static RString<> Level(LogLevel level);
 
-		/*!	Creates console ready string from passed Log
-
-			@param[in]	log
-
-			@return		RString	currently in format "[YYYY-MM-DD hh-mm-ss][LogLevel]: Message" (e.g. "[2019-12-25 19:23:03][MESSAGE]: Example message")
-		*/
+		/**
+		 * @brief Creates console ready string from passed Log
+		 * 
+		 * @param[in]	log
+		 * 
+		 * @return		RString	currently in format "[YYYY-MM-DD hh-mm-ss][LogLevel]: Message" (e.g. "[2019-12-25 19:23:03][MESSAGE]: Example message")
+		 */
 		static RString<> ComposeHeader(const Log& log);
 	};
 
 
-	/*!	Interface for creating and retrieving Logs
-	*/
+	/**
+	 * @brief Interface for creating and retrieving Logs
+	 */
 	class Logger
 	{
 	public:
 		Logger() = delete;
 
-		/*!	@defgroup	Logging methods
-			@brief		Methods pass parameters to Container.Create(message, level) to create and store new Log
-
-			@param[in]	message
-
-			@return		Log*	pointer to created Log
-
-			@todo parameters passing
-		*/
+		/**
+		 * @name Logging methods
+		 * 
+		 * @brief Wrappers for private method Create(const RString<>&, LogLevel)
+		 * 
+		 * @param[in]	message
+		 * 
+		 * @return		Pointer to created Log
+		 */
 		///@{
 		static Log* Fatal(const RString<>& message) { return Create(message, LogLevel::fatal); }
 		static Log* Error(const RString<>& message) { return Create(message, LogLevel::error); }
@@ -93,13 +101,14 @@ namespace Coil
 		static PointerContainer<Log>* GetBuffer() { return &Buffer; }
 
 	private:
-		/*!	Creates new Log and push it on Container
-
-			@param[in]	message
-			@param[in]	level
-
-			@return		Log*	pointer to created log
-		*/
+		/**
+		 * @brief Creates new Log and push it on Container
+		 * 
+		 * @param[in]	message
+		 * @param[in]	level
+		 * 
+		 * @return		Pointer to created log
+		 */
 		static Log* Create(const RString<>& message, LogLevel level);
 
 	private:

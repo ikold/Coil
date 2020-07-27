@@ -42,19 +42,20 @@ namespace Coil
 		while (Running)
 		{
 			CL_PROFILE_SCOPE_HIGH("Main Loop")
-			// computing of frame time
+
+			// Computing frame time
 			Time::Tick();
 
 			if (!Minimized)
 			{
-				CL_PROFILE_SCOPE_HIGH("LayerStack OnUpdate")
+				CL_PROFILE_SCOPE_HIGH("AppLayerStack->OnUpdate()")
 
 				for (auto* layer : AppLayerStack)
 					layer->OnUpdate();
 			}
 
 			{
-				CL_PROFILE_SCOPE_HIGH("LayerStack OnImGuiRender")
+				CL_PROFILE_SCOPE_HIGH("AppLayerStack->OnImGuiRender()")
 
 				for (auto* layer : AppLayerStack)
 					layer->OnImGuiRender();
@@ -83,6 +84,8 @@ namespace Coil
 
 	bool Application::OnWindowClosed([[maybe_unused]] WindowCloseEvent& event)
 	{
+		CL_PROFILE_FUNCTION_HIGH()
+
 		Logger::Info("Closing Application");
 		Running = false;
 		return true;
