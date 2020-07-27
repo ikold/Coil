@@ -3,6 +3,10 @@
 #include "Coil/Core/Core.h"
 
 
+#ifdef CL_PLATFORM_WINDOWS
+#include <windows.h>
+#endif
+
 #include <memory>
 
 #include <functional>

@@ -9,53 +9,93 @@ namespace Coil
 	typedef std::time_t Timestamp;
 
 
-	/*!
-		Static class responsible for all time operations
+	/**
+	 * @brief Utility class for time related operations
 	 */
 	class Time
 	{
-	private:
-		Time() = default;
-
 	public:
-		/*!	Method for getting current timestamp
+		Time() = delete;
 
-			@return Timestamp	Timestamp with current date
-		*/
+		/**
+		 * @brief Method for getting current timestamp
+		 *
+		 * @return	Timestamp with current date
+		 */
 		static Timestamp Now() { return std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()); }
 
-		/*!	Formats string from timestamp
-			@param[in]	timestamp	Timestamp to be parsed to string
-
-			@return		RString	Formatted string
+		/**
+		 * @brief Get steady clock high resolution timestamp
+		 *
+		 * @return	Local high resolution timestamp in counts
+		 *
+		 * @note To get time in seconds, divide result by Time::QueryFrequency()
+		 * @todo Implement for different platforms
 		 */
-		[[nodiscard]] static RString<> TimestampToString(const Timestamp& timestamp);
+		static int64 Query();
 
-		static RString<> NowString() { return TimestampToString(Now()); }
+		/**
+		 * @brief Getter for counters frequency
+		 *
+		 * @return	Counters frequency in counts per second
+		 *
+		 * @todo Implement for different platforms
+		 */
+		static int64 QueryFrequency();
+
+		/**
+		 * @brief Parses Timestamp to String
+		 *
+		 * @param[in]	timestamp	Timestamp to be parsed to string
+		 * @param[out]	format		Format in which string should be constructed
+		 *
+		 * @return		Formatted String
+		 */
+		[[nodiscard]] static RString<> TimestampToString(const Timestamp& timestamp, const RString<>& format = "%Y-%m-%d %H:%M:%S");
+
+		/**
+		 * @brief Creates string of current time in specified format
+		 *
+		 * @param[in]	format		Format in which string should be constructed
+		 *
+		 * @return		Formatted String
+		 */
+		static RString<> NowString(const RString<>& format = "%Y-%m-%d %H:%M:%S") { return TimestampToString(Now(), format); }
 
 
-		/*!	Method for calculating frame time
-			Should be called on begging of every frame
-		*/
+		/**
+		 * @brief Method for calculating frame time
+		 *
+		 * Should be called on begging of every frame
+		 */
 		static void Tick();
 
-		/*!	Get interface for delta time
-
-			@return		float32	precalculated delta time in ms
-		*/
+		/**
+		 * @brief Get interface for delta time
+		 *
+		 * @return	Precalculated delta time in ms
+		 */
 		static float32 DeltaTime() { return DeltaTimeV; }
 
-		/*!	Get interface for fps
-
-			@return		float32	precalculated fps
-		*/
+		/**
+		 * @brief Get interface for fps
+		 *
+		 * @return	Precalculated fps
+		 */
 		static float32 Fps() { return FpsV; }
 
 	private:
-		static std::chrono::time_point<std::chrono::steady_clock> LastFrameTime;		/*!	Corresponds to the time point on the begging of last frame */
-		static std::chrono::time_point<std::chrono::steady_clock> CurrentFrameTime;		/*!	Corresponds to the time point on the begging of current frame */
+		static int64 QueryFrequencyImpl();
 
-		static float32 DeltaTimeV;	/*!	Precalculated time in ms between frames */
-		static float32 FpsV;		/*!	For benchmarking purpose */
+	private:
+		/** Corresponds to the time point on the begging of last frame */
+		static int64 LastFrameTime;
+		/** Corresponds to the time point on the begging of current frame */
+		static int64 CurrentFrameTime;
+
+		/** Precalculated frame time in milliseconds */
+		static float32 DeltaTimeV;
+		/** Precalculated fps */
+		static float32 FpsV;
 	};
 }
