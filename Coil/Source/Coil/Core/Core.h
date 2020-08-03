@@ -5,9 +5,9 @@
 
 // Platform detection using predefined macros
 #ifdef _WIN32
-	/* Windows x64/x86 */
+/* Windows x64/x86 */
 	#ifdef _WIN64
-		/* Windows x64  */
+/* Windows x64  */
 		#define CL_PLATFORM_WINDOWS
 	#else
 		/* Windows x86 */
@@ -46,11 +46,11 @@
 
 
 #ifdef CL_ENABLE_ASSERTS
-	#define CL_ASSERT(x, message) { if (!(x)) { ::Coil::Logger::Error(message); __debugbreak(); } }
-	#define CL_CORE_ASSERT(x, message) { if (!(x)) { Logger::Error(message); __debugbreak(); } }
+	#define CL_ASSERT(x, ...) { if (!(x)) { ::Coil::Logger::Error(__VA_ARGS__); __debugbreak(); } }
+	#define CL_CORE_ASSERT(x, ...) { if (!(x)) { Logger::Error(__VA_ARGS__); __debugbreak(); } }
 #else
-	#define CL_ASSERT(x, message);
-	#define CL_CORE_ASSERT(x, message);
+	#define CL_ASSERT(x, ...);
+	#define CL_CORE_ASSERT(x, ...);
 #endif
 
 

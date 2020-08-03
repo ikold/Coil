@@ -342,7 +342,7 @@ namespace Coil
 				parsingProgression->Set(2, "[Deleted]");
 			}
 
-			Logger::Trace(PString("Parsing profiles took %d ms", (Time::Query() - start) * 1000 / Time::QueryFrequency()));
+			Logger::Trace("Parsing profiles took %d ms", (Time::Query() - start) * 1000 / Time::QueryFrequency());
 		}
 
 		static Instrumentor& Get()

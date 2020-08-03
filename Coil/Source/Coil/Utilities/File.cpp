@@ -78,7 +78,7 @@ namespace Coil
 			return fileContent;
 		}
 
-		CL_CORE_ASSERT(false, PString("Loading of '%R' failed!", &filePath));
+		CL_CORE_ASSERT(false, "Loading of '%R' failed!", &filePath);
 
 		return String("");
 	}
@@ -106,7 +106,7 @@ namespace Coil
 			return fileContent;
 		}
 
-		CL_CORE_ASSERT(false, PString("Loading of '%S' failed!", &filePath));
+		CL_CORE_ASSERT(false, "Loading of '%S' failed!", &filePath);
 
 		return Binary();
 	}

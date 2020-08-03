@@ -25,7 +25,7 @@ namespace Coil
 		const RString<> renderer = String(reinterpret_cast<const char8*>(glGetString(GL_RENDERER)));
 		const RString<> version  = String(reinterpret_cast<const char8*>(glGetString(GL_VERSION)));
 
-		Logger::Info(PString("OpenGL Info:\n\tVendor: %R\n\tRenderer: %R\n\tVersion: %R", &vendor, &renderer, &version));
+		Logger::Info("OpenGL Info:\n\tVendor: %R\n\tRenderer: %R\n\tVersion: %R", &vendor, &renderer, &version);
 
 #ifdef CL_ENABLE_ASSERTS
 		int versionMajor;

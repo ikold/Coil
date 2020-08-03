@@ -17,12 +17,13 @@ typedef uint64_t		uint64;
 
 typedef float			float32;
 typedef double			float64;
-typedef long double		float128;
 
 union Ambiguous
 {
+	bool		Bool;
+	
 	byte		Byte;
-
+	
 	char8		Char8;
 	uchar8		Uchar8;
 
@@ -37,13 +38,14 @@ union Ambiguous
 
 	float32		Float32;
 	float64		Float64;
-	float128	Float128;
 
 
 	void*		VoidPtr;
 
+	bool*		BoolPtr;
+	
 	byte*		BytePtr;
-
+	
 	char8*		Char8Ptr;
 	uchar8*		Uchar8Ptr;
 
@@ -58,5 +60,4 @@ union Ambiguous
 
 	float32*	Float32Ptr;
 	float64*	Float64Ptr;
-	float128*	Float128Ptr;
 };
