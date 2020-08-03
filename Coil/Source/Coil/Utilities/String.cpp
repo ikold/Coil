@@ -203,16 +203,13 @@ namespace Coil
 
 	String String::Convert(void* address)
 	{
-		const String addressString = Convert(int64(address), 16);
+		auto* addressString = new char8[19]{"0x0000000000000000"};
+		
+		const int32 size = IntRepresentationLength(int64(address), 16);
 
-		SString formattedAddress;
-		formattedAddress.Reserve(18);
-		formattedAddress << "0x";
-
-		for (int32 i = 16 - addressString.GetLength(); i > 0; --i)
-			formattedAddress << "0";
-
-		return formattedAddress << addressString;
+		Convert(addressString + 17 - size, size, int64(address), 16);
+		
+		return String(&addressString);
 	}
 
 	int32 String::ParseInt(const char8* source, int32 size)
@@ -388,106 +385,6 @@ namespace Coil
 	void BString::RecalculateLength()
 	{
 		Length = static_cast<int32>(strlen(Data));
-	}
-
-
-	SString::SString() {}
-
-	SString::SString(const SString& string)
-		: String(string.Data, string.Size)
-	{
-		Length = string.Length;
-	}
-
-	SString::SString(SString&& string) noexcept
-		: String(static_cast<String&&>(string)) {}
-
-	SString::SString(const char8* text)
-		: String(text) {}
-
-	SString::SString(const char8* text, int32 length)
-		: String(text, length) {}
-
-	SString::SString(char8** charPtr)
-		: String(charPtr) {}
-
-	SString::SString(char8** charPtr, int32 length)
-		: String(charPtr, length) {}
-
-
-	SString& SString::operator=(const SString& string)
-	{
-		return *this = SString(string);
-	}
-
-	SString& SString::operator=(SString&& string) noexcept
-	{
-		swap(*this, string);
-		return *this;
-	}
-
-	void swap(SString& left, SString& right) noexcept
-	{
-		using std::swap;
-
-		swap(static_cast<String&>(left), static_cast<String&>(right));
-	}
-
-	void SString::Reserve(int32 size)
-	{
-		Size      = size;
-		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
-
-		CL_ASSERT(tmp, "Failed to reallocate memory");
-		if (tmp)
-			Data = tmp;
-	}
-
-	void SString::Shrink()
-	{
-		if (Length == Size)
-			return;
-
-		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Length) + 1));
-
-		CL_ASSERT(tmp, "Failed to reallocate memory");
-		if (tmp)
-			Data = tmp;
-
-		Size = Length;
-	}
-
-
-	SString& SString::operator<<(const char8* string)
-	{
-		Append(string, CStringLength(string));
-		return *this;
-	}
-
-	SString& SString::operator<<(const String& string)
-	{
-		Append(string.CString(), string.GetLength());
-		return *this;
-	}
-
-
-	void SString::Append(const char8* string, int32 size)
-	{
-		if (Length + size <= Size)
-			memcpy(Data + Length, string, static_cast<size_t>(size) + 1);
-		else
-		{
-			Size = Length + size;
-
-			auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
-
-			CL_ASSERT(tmp, "Failed to reallocate memory");
-			if (tmp)
-				Data = tmp;
-
-			memcpy(Data + Length, string, static_cast<size_t>(size) + 1);
-		}
-		Length += size;
 	}
 
 

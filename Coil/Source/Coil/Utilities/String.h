@@ -166,72 +166,6 @@ namespace Coil
 	};
 
 
-	class SString final : public String
-	{
-	public:
-		/** Default Constructor */
-		SString();
-
-		/** Copy Constructor */
-		SString(const SString& string);
-
-		/** Move Constructor */
-		SString(SString&& string) noexcept;
-
-		SString(const char8* text);
-
-		SString(const char8* text, int32 length);
-
-		explicit SString(char8** charPtr);
-
-		SString(char8** charPtr, int32 length);
-
-
-		/** Destructor */
-		~SString() override = default;
-
-
-		/** Copy assignment operator */
-		SString& operator=(const SString& string);
-
-		/** Move assignment operator */
-		SString& operator=(SString&& string) noexcept;
-
-
-		friend void swap(SString& left, SString& right) noexcept;
-
-
-		void Reserve(int32 size);
-
-		void Shrink();
-
-
-		SString& operator<<(const char8* string);
-		SString& operator<<(const String& string);
-
-		//SString& operator<<(int8 value) { return *this << Convert(static_cast<int64>(value)); }
-		//SString& operator<<(uint8 value) { return *this << Convert(static_cast<int64>(value)); }
-		//SString& operator<<(int16 value) { return *this << Convert(static_cast<int64>(value)); }
-		//SString& operator<<(uint16 value) { return *this << Convert(static_cast<int64>(value)); }
-		//SString& operator<<(int32 value) { return *this << Convert(static_cast<int64>(value)); }
-		//SString& operator<<(uint32 value) { return *this << Convert(static_cast<int64>(value)); }
-		//SString& operator<<(int64 value) { return *this << Convert(static_cast<int64>(value)); }
-
-		SString& operator<<(float32 value) { return *this << Convert(value, 3); }
-		SString& operator<<(float64 value) { return *this << Convert(value, 3); }
-
-		SString& operator<<(void* address) { return *this << Convert(address); }
-
-
-		void SetFractionLength(int32 value) { FractionLength = value; }
-
-	private:
-		void Append(const char8* string, int32 size);
-
-		int32 FractionLength = 3;
-	};
-
-
 	template<class TString = String>
 	class RString
 	{
@@ -445,19 +379,6 @@ namespace std
 			const size_t h1 = std::hash<char8*>{}(s.CString());
 			const size_t h2 = std::hash<int32>{}(s.GetLength());
 			return h1 ^ h2 << 1;
-		}
-	};
-
-
-	template<>
-	struct hash<Coil::SString>
-	{
-		size_t operator()(Coil::SString const& s) const noexcept
-		{
-			const size_t h1 = std::hash<char8*>{}(s.CString());
-			const size_t h2 = std::hash<int32>{}(s.GetLength());
-			const size_t h3 = std::hash<int32>{}(s.GetSize());
-			return h1 ^ h2 << 1 ^ h3 << 2;
 		}
 	};
 
