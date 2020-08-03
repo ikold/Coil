@@ -27,7 +27,10 @@
 
 #include "Coil/Utilities/Math.h"
 
-#include "Coil/Utilities/String.h"
+#include "Coil/Utilities/String/String.h"
+#include "Coil/Utilities/String/BString.h"
+#include "Coil/Utilities/String/PString.h"
+#include "Coil/Utilities/String/RString.h"
 
 #include "Coil/Utilities/Time.h"
 
