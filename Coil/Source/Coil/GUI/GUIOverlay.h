@@ -5,6 +5,9 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Gui overlay for drawing bound text
+	 */
 	class GUIOverlay final : public GUIWindow
 	{
 	public:

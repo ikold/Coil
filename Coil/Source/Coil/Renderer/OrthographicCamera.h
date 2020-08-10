@@ -3,6 +3,9 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Orthographic camera for drawing 2D scenes
+	 */
 	class OrthographicCamera
 	{
 	public:

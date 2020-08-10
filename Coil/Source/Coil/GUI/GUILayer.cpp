@@ -84,8 +84,10 @@ namespace Coil
 
 		Begin();
 
+		// Makes whole application window transparent dock for ImGui windows to latch on
 		ImGui::DockSpaceOverViewport(nullptr, ImGuiDockNodeFlags_PassthruCentralNode);
 
+		// Draws GUI windows in static class GUI
 		GUI::OnImGuiRender();
 
 		End();
@@ -97,6 +99,8 @@ namespace Coil
 
 		EventDispatcher dispatcher(event);
 
+		// If ImGui wants to handle these events, marking them as dispatched to prevent further propagation
+		
 		dispatcher.Dispatch<MouseScrolledEvent>([]([[maybe_unused]] MouseScrolledEvent& event) -> bool
 		{
 			ImGuiIO& io = ImGui::GetIO();

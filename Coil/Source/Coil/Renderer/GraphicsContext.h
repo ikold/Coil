@@ -2,6 +2,9 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Base class for
+	 */
 	class GraphicsContext
 	{
 	public:

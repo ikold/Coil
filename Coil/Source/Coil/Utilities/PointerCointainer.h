@@ -3,6 +3,15 @@
 
 namespace Coil
 {
+	/**
+	 * @brief 
+	 *
+	 * @tparam[in]	T	
+	 *
+	 * @return		
+	 *
+	 * @todo Write a documentation
+	 */
 	template<typename T>
 	class PointerContainer
 	{

@@ -20,6 +20,13 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief Lookup for ShaderDataType size
+	 *
+	 * @param[in]	type	
+	 *
+	 * @return		Size in bytes
+	 */
 	static uint32 ShaderDataTypeSize(ShaderDataType type)
 	{
 		switch (type)
@@ -44,6 +51,11 @@ namespace Coil
 	}
 
 
+	/**
+	 * @brief Stores uniform data for shaders
+	 * 
+	 * @todo Write a documentation
+	 */
 	struct BufferElement
 	{
 		RString<> Name;
@@ -52,6 +64,7 @@ namespace Coil
 		uint32 Offset;
 		bool Normalized;
 
+		
 		BufferElement()
 			: Name(""),
 			  Type(ShaderDataType::None),
@@ -66,6 +79,11 @@ namespace Coil
 			  Offset(0),
 			  Normalized(normalized) {}
 
+		/**
+		 * @brief Lookup for number of components in BufferElement
+		 *
+		 * @return		Number of elements
+		 */
 		[[nodiscard]] uint32 GetComponentCount() const
 		{
 			switch (Type)
@@ -91,6 +109,11 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief Layout of uniforms
+	 *
+	 * @todo Write a documentation
+	 */
 	class BufferLayout
 	{
 	public:
@@ -130,6 +153,11 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief Vertex buffer
+	 *
+	 * @todo Write a documentation
+	 */
 	class VertexBuffer
 	{
 	public:
@@ -152,6 +180,11 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief Index Buffer
+	 *
+	 * @todo Write a documentation
+	 */
 	class IndexBuffer
 	{
 	public:

@@ -5,6 +5,12 @@
 
 namespace Coil
 {
+	/**
+	 * @brief GUI Single line text input
+	 *
+	 * @note Text is stored in bound RString<BString>
+	 * @see GUIMultiLineTextInput
+	 */
 	class GUITextInput final : public GUIComponent
 	{
 	public:
@@ -14,7 +20,6 @@ namespace Coil
 
 
 		void BindInputBuffer(const RString<BString>& inputBuffer) { InputBuffer = inputBuffer; }
-
 		[[nodiscard]] const RString<BString>& RetrieveInputBuffer() const { return InputBuffer; }
 
 	private:

@@ -3,6 +3,16 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Properties for GUI window
+	 *
+	 * @param	Name		
+	 * @param	Width		
+	 * @param	Height		
+	 * @param	Visible		Determinates if window should be drawn
+	 *
+	 * @todo System for handling same names for different windows
+	 */
 	struct GUIWindowProps
 	{
 		RString<> Name = "";
@@ -12,6 +22,9 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief Base class for GUI Windows
+	 */
 	class GUIWindow
 	{
 	public:
@@ -30,7 +43,15 @@ namespace Coil
 		[[nodiscard]] GUIWindowProps& GetProperties() { return Properties; }
 
 	protected:
+		/**
+		 * @brief Draws empty element for occluded lines above displayed text
+		 *
+		 * @return	Number of culled lines
+		 */
 		[[nodiscard]] int32 TextTopCulling() const;
+		/**
+		 * @brief Draws empty element for occluded lines below displayed text
+		 */
 		void TextBottomCulling(int32 linesTotal) const;
 		[[nodiscard]] int32 WindowSizeInLines() const;
 

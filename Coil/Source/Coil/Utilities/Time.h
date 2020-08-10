@@ -11,6 +11,8 @@ namespace Coil
 
 	/**
 	 * @brief Utility class for time related operations
+	 *
+	 * @todo Parser class for Query results
 	 */
 	class Time
 	{

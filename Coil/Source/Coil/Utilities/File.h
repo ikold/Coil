@@ -3,6 +3,9 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Stores binary
+	 */
 	class Binary
 	{
 	public:
@@ -33,6 +36,11 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief File controller
+	 *
+	 * @todo Methods for saving to file
+	 */
 	class File
 	{
 	public:

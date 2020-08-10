@@ -16,11 +16,21 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Utility class for creating GUI elements
+	 *
+	 * @todo Restructure storing and creation of the GUI
+	 */
 	class GUI
 	{
 	public:
 
+		/**
+		 * @brief Draws all windows
+		 */
 		static void OnImGuiRender();
+
+		//----------------- Window creation methods ------------------------//
 
 		static Ref<GUILogWindow> LogWindow(const GUIWindowProps& properties = { "Log" });
 
@@ -28,6 +38,18 @@ namespace Coil
 
 		static Ref<GUIComponentWindow> ComponentWindow(const std::vector<Ref<GUIComponent>>& components = {});
 
+		//------------------------------------------------------------------//
+
+		/**
+		 * @brief Retrieve Window with given name
+		 *
+		 * @tparam[in]	T		Window type, default GUIWindow
+		 * @param[in]	name	Window name
+		 *
+		 * @return		Window cast to T type
+		 *
+		 * @note Leave T at default value if you only need base functionality of the GUIWindow
+		 */
 		template<typename T = GUIWindow>
 		static Ref<T> GetWindow(const RString<>& name)
 		{
@@ -42,6 +64,8 @@ namespace Coil
 			return nullptr;
 		}
 
+		//----------------- Window controlling methods ---------------------//
+
 		static void HideWindow(const Ref<GUIWindow>& window);
 
 		static void ShowWindow(const Ref<GUIWindow>& window);
@@ -54,6 +78,10 @@ namespace Coil
 
 		static bool ToggleWindowVisibility(const RString<>& name);
 
+		//------------------------------------------------------------------//
+
+
+		//----------------- Component creation methods ---------------------//
 
 		static Ref<GUIOverlay> Overlay(const GUIWindowProps& properties = {});
 
@@ -84,6 +112,8 @@ namespace Coil
 		static Ref<GUIColorPicker> ColorPicker(const Ref<glm::vec4>& vec4Ref = CreateRef<glm::vec4>(0)) { return ColorPicker({}, vec4Ref); }
 
 		static Ref<GUIPlotLine> PlotLine(const Ref<std::vector<float32>>& dataBuffer = CreateRef<std::vector<float32>>(), float32 scaleMin = 0.f, float32 scaleMax = std::numeric_limits<float32>::max()) { return PlotLine({}, dataBuffer, scaleMin, scaleMax); }
+
+		//------------------------------------------------------------------//
 
 	private:
 		static std::vector<Ref<GUIWindow>> Container;

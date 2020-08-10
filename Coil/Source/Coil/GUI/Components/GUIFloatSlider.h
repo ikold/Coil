@@ -5,6 +5,12 @@
 
 namespace Coil
 {
+	/**
+	 * @brief GUI Float slider
+	 *
+	 * @note Component is bound with Ref<float32>
+	 * @note Values are in range <MinValue, MaxValue>
+	 */
 	class GUIFloatSlider final : public GUIComponent
 	{
 	public:
@@ -14,6 +20,9 @@ namespace Coil
 
 		void SetMinValue(float32 value) { MinValue = value; }
 		void SetMaxValue(float32 value) { MaxValue = value; }
+
+		[[nodiscard]] float32 GetMinValue() const { return MinValue; }
+		[[nodiscard]] float32 GetMaxValue() const { return MaxValue; }
 
 		void BindFloatRef(const Ref<float32>& floatRef) { FloatRef = floatRef; }
 		[[nodiscard]] const Ref<float32>& RetrieveFloatRef() const { return FloatRef; }

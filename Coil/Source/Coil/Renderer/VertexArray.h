@@ -5,6 +5,9 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Base class for Vertex Array
+	 */
 	class VertexArray
 	{
 	public:

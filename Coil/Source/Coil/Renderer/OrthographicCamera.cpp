@@ -44,10 +44,10 @@ namespace Coil
 		const float32 s = sin(glm::radians(Rotation));
 
 		const glm::mat4 transform = {
-			{ c, s, 0.f, 0.f },
-			{ -s, c, 0.f, 0.f },
-			{ 0.f, 0.f, 1.f, 0.f },
-			{ Position.x, Position.y, Position.z, 1.f },
+			{ c,			s,			0.f,		0.f },
+			{ -s,			c,			0.f,		0.f },
+			{ 0.f,			0.f,		1.f,		0.f },
+			{ Position.x,	Position.y,	Position.z,	1.f },
 		};
 
 		ViewMatrix           = inverse(transform);

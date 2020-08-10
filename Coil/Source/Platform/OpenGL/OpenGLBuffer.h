@@ -5,6 +5,14 @@
 
 namespace Coil
 {
+	/**
+	 * @brief 
+	 *
+	 *
+	 * @return		
+	 *
+	 * @todo Write a documentation
+	 */
 	class OpenGLVertexBuffer final : public VertexBuffer
 	{
 	public:
@@ -24,6 +32,14 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief 
+	 *
+	 *
+	 * @return		
+	 *
+	 * @todo Write a documentation
+	 */
 	class OpenGLIndexBuffer final : public IndexBuffer
 	{
 	public:

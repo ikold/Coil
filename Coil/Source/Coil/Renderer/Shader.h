@@ -3,6 +3,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Base class for shader
+	 *
+	 * @todo Write a documentation
+	 */
 	class Shader
 	{
 	public:
@@ -38,6 +43,11 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief Loads and stores shader for easier use
+	 *
+	 * @todo Write a documentation
+	 */
 	class ShaderLibrary
 	{
 	public:

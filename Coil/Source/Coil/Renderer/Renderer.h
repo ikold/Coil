@@ -8,6 +8,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief 3D renderer
+	 *
+	 * @todo Write a documentation
+	 */
 	class Renderer
 	{
 	public:

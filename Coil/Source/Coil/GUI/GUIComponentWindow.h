@@ -6,6 +6,15 @@
 
 namespace Coil
 {
+	/**
+	 * @brief GUI window for drawing components
+	 *
+	 * @note Example of simplifier creation defined in GUI utility class: \n
+	 * GUI::ComponentWindow({ "Window name" }, {\n
+	 *   GUI::Text("Example text component"),\n
+	 *   GUI::ColorPicker({ "", -1 }, Vec4Ref)\n
+	 * }
+	 */
 	class GUIComponentWindow final : public GUIWindow
 	{
 	public:

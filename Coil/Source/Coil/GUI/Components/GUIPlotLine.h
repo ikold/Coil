@@ -5,6 +5,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief GUI Plot line
+	 *
+	 * @note Plots line from Ref<std::vector<float32>> in range <ScaleMin, ScaleMax>
+	 */
 	class GUIPlotLine final : public GUIComponent
 	{
 	public:
@@ -14,7 +19,6 @@ namespace Coil
 
 
 		void BindDataBuffer(const Ref<std::vector<float32>>& dataBuffer) { DataBuffer = dataBuffer; }
-
 		[[nodiscard]] const Ref<std::vector<float32>>& RetrieveDataBuffer() const { return DataBuffer; }
 
 	private:

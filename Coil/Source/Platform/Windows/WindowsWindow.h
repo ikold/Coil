@@ -8,6 +8,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Windows specific window
+	 *
+	 * @todo Write a documentation
+	 */
 	class WindowsWindow final : public Window
 	{
 	public:

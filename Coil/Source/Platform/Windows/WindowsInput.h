@@ -5,6 +5,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Windows specific Input class
+	 *
+	 * @see Coil::Input for details about the methods
+	 */
 	class WindowsInput final : public Input
 	{
 	protected:

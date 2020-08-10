@@ -6,6 +6,9 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Specialized GUI window for drawing logs
+	 */
 	class GUILogWindow final : public GUIWindow
 	{
 	public:

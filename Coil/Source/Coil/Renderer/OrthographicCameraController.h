@@ -5,6 +5,9 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Event base orthographic camera controller
+	 */
 	class OrthographicCameraController
 	{
 	public:

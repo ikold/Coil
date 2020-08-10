@@ -14,19 +14,25 @@ ApplicationLayer::ApplicationLayer()
 	CL_PROFILE_FUNCTION_HIGH()
 
 	//Coil::Application::Get().GetWindow().SetVSync(false);
+
+	// Creating and binding Log window
 	Coil::GUI::LogWindow({ "Log" })->BindBuffer(Coil::Logger::GetBuffer());
 
+	// Creating overlay for displaying frame time
 	Coil::GUI::Overlay({ "frame time" })->BindTextBuffer(FrameTime);
 
 	Coil::GUI::ComponentWindow({ "Name" }, {
 		Coil::GUI::Text("Square Color"),
+		// Allows for changing color of squares in the background
 		Coil::GUI::ColorPicker({ "", -1 }, SquareColor),
+		// Will profile next five seconds on High level 
 		Coil::GUI::Button({ "Profile (High) 5 seconds" }, [&]
 		{
 			Timer     = 5.f;
 			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
 			CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh5s-Runtime %R.json", &time));
 		}),
+		// Will profile next five seconds on Low level 
 		Coil::GUI::Button({ "Profile (Low) 5 seconds" }, [&]
 		{
 			Timer     = 5.f;
@@ -35,6 +41,7 @@ ApplicationLayer::ApplicationLayer()
 		})
 	});
 
+	// Display dynamically updated mouse position
 	Coil::Logger::Trace(MousePosition);
 	Coil::Logger::Trace(TimerString);
 
@@ -45,10 +52,12 @@ void ApplicationLayer::OnUpdate()
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
+	// Updates frame time overlay
 	FrameTime->Set(0, Coil::Time::DeltaTime());
 
 	CameraController.OnUpdate();
 
+	// Timer for the profiling
 	if (Timer > 0.f)
 	{
 		Timer -= Coil::Time::DeltaTime() / 1000.f;
@@ -60,8 +69,10 @@ void ApplicationLayer::OnUpdate()
 		}
 	}
 
+	// Updates frame time overlay
 	TimerString->Set(0, Timer);
 
+	// Updates mouse position log
 	auto [mouseX, mouseY] = Coil::Input::GetMousePosition();
 	MousePosition->Set(0, static_cast<int64>(mouseX));
 	MousePosition->Set(1, static_cast<int64>(mouseY));
@@ -77,15 +88,20 @@ void ApplicationLayer::OnUpdate()
 		const int32 gridHeight = 20;
 		const int32 gridWidth  = 40;
 
+		// Increments iterator by half of frame time in seconds
 		TimeIteration += Coil::Time::DeltaTime() / 1000.f * 0.5f;
 
+		// Keeps iterator in range (0.f, 4.f>
 		while (TimeIteration > 4.f)
 			TimeIteration -= 4.f;
 
+		// Draws main square
 		Coil::Renderer2D::DrawQuad(glm::vec3(0.f), TimeIteration / 2 * glm::pi<float32>(), glm::vec2(1.f), Texture);
 
 		{
 			CL_PROFILE_SCOPE_HIGH("Grid rendering")
+
+			// Draws background squares offset by TimeIteration to simulate endlessly moving background
 			for (int32 x = -gridWidth / 2; x < gridWidth - gridWidth / 2; ++x)
 			{
 				for (int32 y = -gridHeight / 2; y < gridHeight - gridHeight / 2; ++y)
@@ -101,6 +117,7 @@ void ApplicationLayer::OnEvent(Coil::Event& event)
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
+	// Passes the event to camera controller
 	CameraController.OnEvent(event);
 
 	Coil::EventDispatcher dispatcher(event);
@@ -112,6 +129,7 @@ bool ApplicationLayer::OnKeyPressed(Coil::KeyPressedEvent& event) const
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
+	// Starts profiling High profiling for P key and Low profiling for Ctrl + P key
 	if (event.GetKeyCode() == CL_KEY_P && event.GetRepeatCount() == 0)
 	{
 		if (Coil::Input::IsKeyPressed(CL_KEY_LEFT_CONTROL))
@@ -133,6 +151,7 @@ bool ApplicationLayer::OnKeyReleased(Coil::KeyReleasedEvent& event) const
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
+	// Stops profiling
 	if (event.GetKeyCode() == CL_KEY_P)
 		CL_PROFILE_END_SESSION()
 

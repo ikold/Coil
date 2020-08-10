@@ -5,6 +5,14 @@
 
 namespace Coil
 {
+	/**
+	 * @brief 
+	 *
+	 *
+	 * @return		
+	 *
+	 * @todo Write a documentation
+	 */
 	class OpenGLRendererAPI final : public RendererAPI
 	{
 	public:

@@ -3,6 +3,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Base String
+	 *
+	 * @todo Write a documentation
+	 */
 	class String
 	{
 	public:
@@ -19,8 +24,19 @@ namespace Coil
 
 		String(const char8* text, int32 length);
 
+		/**
+		 * @brief Takes ownership of the passed pointer
+		 *
+		 * @param[in]	charPtr	
+		 */
 		explicit String(char8** charPtr);
 
+		/**
+		 * @brief Takes ownership of the passed pointer
+		 *
+		 * @param[in]	charPtr
+		 * @param[in]	length
+		 */
 		String(char8** charPtr, int32 length);
 
 
@@ -128,6 +144,7 @@ namespace std
 	{
 		size_t operator()(Coil::String const& s) const noexcept
 		{
+			// BUG hashes String Data address instead of the characters 
 			const size_t h1 = std::hash<char8*>{}(s.CString());
 			const size_t h2 = std::hash<int32>{}(s.GetLength());
 			return h1 ^ h2 << 1;

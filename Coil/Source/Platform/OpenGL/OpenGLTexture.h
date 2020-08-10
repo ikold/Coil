@@ -6,6 +6,14 @@
 
 namespace Coil
 {
+	/**
+	 * @brief 
+	 *
+	 *
+	 * @return		
+	 *
+	 * @todo Write a documentation
+	 */
 	class OpenGLTexture2D final : public Texture2D
 	{
 	public:

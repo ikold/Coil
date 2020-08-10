@@ -3,17 +3,29 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Base class for game layers
+	 */
 	class Layer
 	{
 	public:
+		/**
+		 * @brief Default constructor
+		 *
+		 * @param[in]	name	Debug name
+		 */
 		explicit Layer(RString<> name = "Layer");
 
+		/** Copy constructor */
 		Layer(const Layer& rhs) = default;
+		/** Move constructor */
 		Layer(Layer&& rhs)      = default;
 
 		virtual ~Layer() = default;
 
+		/** Copy assignment operator */
 		Layer& operator=(const Layer& rhs) = default;
+		/** Move assignment operator */
 		Layer& operator=(Layer&& rhs)      = default;
 
 		virtual void OnAttach() {}

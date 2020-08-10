@@ -7,6 +7,7 @@
 
 namespace Coil
 {
+	// static assign binding WindowsInput implementation methods with static methods in base Input class
 	Scope<Input> Input::Instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressedImpl(int32 keycode)

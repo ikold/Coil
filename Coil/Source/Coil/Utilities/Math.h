@@ -3,6 +3,9 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Math utility
+	 */
 	class Math
 	{
 	public:

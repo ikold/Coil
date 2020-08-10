@@ -47,7 +47,7 @@ namespace Coil
 
 	/**
 	 * @brief Class responsible for log formatting
-	 * 
+	 *
 	 * @todo pattern system
 	 */
 	class LogParser
@@ -55,18 +55,18 @@ namespace Coil
 	public:
 		/**
 		 * @brief Parser for LogLevel
-		 * 
+		 *
 		 * @param[in]	level		Coil::LogLevel object to be parsed
-		 * 
+		 *
 		 * @return		RString	LogLevel formatted in uppercase string (e.g. "ERROR"), in case of invalid Data empty string is returned
 		 */
 		static RString<> Level(LogLevel level);
 
 		/**
 		 * @brief Creates console ready string from passed Log
-		 * 
+		 *
 		 * @param[in]	log
-		 * 
+		 *
 		 * @return		RString	currently in format "[YYYY-MM-DD hh-mm-ss][LogLevel]: Message" (e.g. "[2019-12-25 19:23:03][MESSAGE]: Example message")
 		 */
 		static RString<> ComposeHeader(const Log& log);
@@ -76,6 +76,7 @@ namespace Coil
 	/**
 	 * @brief Interface for creating and retrieving Logs
 	 *
+	 * @todo Change raw pointers to Ref
 	 * @bug Might throw exception if buffer is modified at the same time as reading or iterating on another thread
 	 */
 	class Logger
@@ -85,11 +86,11 @@ namespace Coil
 
 		/**
 		 * @name Logging methods
-		 * 
+		 *
 		 * @brief Wrappers for private method Create(const RString<>&, LogLevel)
-		 * 
+		 *
 		 * @param[in]	message
-		 * 
+		 *
 		 * @return		Pointer to created Log
 		 */
 		///@{
@@ -140,10 +141,10 @@ namespace Coil
 	private:
 		/**
 		 * @brief Creates new Log and push it on Container
-		 * 
+		 *
 		 * @param[in]	message
 		 * @param[in]	level
-		 * 
+		 *
 		 * @return		Pointer to created log
 		 */
 		static Log* Create(const RString<>& message, LogLevel level);

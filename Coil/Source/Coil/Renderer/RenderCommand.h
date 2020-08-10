@@ -5,6 +5,14 @@
 
 namespace Coil
 {
+	/**
+	 * @brief 
+	 *
+	 *
+	 * @return		
+	 *
+	 * @todo Write a documentation
+	 */
 	class RenderCommand
 	{
 	public:

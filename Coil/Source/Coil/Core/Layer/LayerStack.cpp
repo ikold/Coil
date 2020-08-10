@@ -30,7 +30,7 @@ namespace Coil
 
 	void LayerStack::PopLayer(Layer* layer)
 	{
-		const auto it = std::find(Layers.begin(), Layers.end(), layer);
+		const auto it = std::find(Layers.begin(), Layers.begin() + LayerInsertIndex, layer);
 		if (it != Layers.begin() + LayerInsertIndex)
 		{
 			layer->OnDetach();

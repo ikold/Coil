@@ -166,6 +166,8 @@ namespace Coil
 		glUseProgram(0);
 	}
 
+	const RString<>& OpenGLShader::GetName() const { return Name; }
+
 	void OpenGLShader::SetInt(const RString<>& name, int32 value) const
 	{
 		CL_PROFILE_FUNCTION_LOW()

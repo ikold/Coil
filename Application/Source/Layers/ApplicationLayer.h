@@ -2,6 +2,9 @@
 #include "Coil.h"
 
 
+/**
+ * @brief Demo layer for testing the Coil engine functionality
+ */
 class ApplicationLayer final : public Coil::Layer
 {
 public:

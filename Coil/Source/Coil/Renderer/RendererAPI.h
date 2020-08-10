@@ -5,6 +5,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief API for renderer
+	 *
+	 * @todo Write a documentation
+	 */
 	class RendererAPI
 	{
 	public:

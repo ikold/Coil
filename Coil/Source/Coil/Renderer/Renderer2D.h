@@ -9,6 +9,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Quad base 2D renderer
+	 *
+	 * @todo Write a documentation
+	 */
 	class Renderer2D
 	{
 	public:

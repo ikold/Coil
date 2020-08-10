@@ -57,9 +57,9 @@ namespace Coil
 		bool DeleteProfilingBinary = true;
 	};
 
-
+	
 	/**
-	 * @brief Simpleton responsible for gathering, parsing and saving profiling data.
+	 * @brief Simpleton responsible for gathering, parsing and saving profiling data
 	 */
 	class Instrumentor
 	{
@@ -68,7 +68,11 @@ namespace Coil
 			: CurrentSession(nullptr) {}
 
 		/**
-		 * @brief Starts instrumentation session.
+		 * @brief Starts instrumentation session
+		 *
+		 * @param[in]	name		Session name
+		 * @param[in]	profile		Level of profiling
+		 * @param[in]	filePath	File path for parsed profiling file
 		 *
 		 * @note If called during another session, results are integrated to new session, old session is not saved to file
 		 */
@@ -122,9 +126,11 @@ namespace Coil
 		 *
 		 * @param[in]	name	Name to be cached
 		 *
-		 * @return				ID of the cached timer name
+		 * @return		ID of the cached timer name
 		 *
 		 * @note Name is reformatted for better readability
+		 *
+		 * @todo check for existing names and return their ID instead of creating duplicate
 		 */
 		int32 RegisterName(const char* name)
 		{
@@ -133,7 +139,6 @@ namespace Coil
 			TimerNames.back()->Replace('"', '\'');
 
 			TimerNames.back()->Remove("void ");
-			TimerNames.back()->Remove("void");
 			TimerNames.back()->Remove("__cdecl ");
 			TimerNames.back()->Remove("Coil::");
 			TimerNames.back()->Remove("struct ");
@@ -177,7 +182,7 @@ namespace Coil
 		 *
 		 * @param[in]	profile		Level of session
 		 *
-		 * @return					True if in session of equal or greater level
+		 * @return		True if in session of equal or greater level
 		 */
 		[[nodiscard]] bool InSession(SessionProfile profile = SessionProfile::High) const
 		{
@@ -204,8 +209,8 @@ namespace Coil
 		 * |  [Timer name length] Bytes - Timer name as uncompressed non-zero terminated string\n
 		 * [number of profiles] x [ProfileResult struct size] Bytes - Raw binary of profiling data
 		 *
-		 * @todo Ensure path creation if does not exist
-		 * @todo Save Time::countersFrequency() to file
+		 * @todo Ensure path creation if it does not exist
+		 * @todo Save Time::countersFrequency() to file and use it instead of calling it during parsing (possibly different values if parsed on different machine)
 		 */
 		void SaveProfiling(const RString<>& filePath)
 		{
@@ -371,9 +376,7 @@ namespace Coil
 		InstrumentationTimer(uint32 nameID, SessionProfile sessionProfile)
 		{
 			// If not in session no additional instructions are executed to minimize overhead of inactive timers
-			Stopped = !Instrumentor::Get().InSession(sessionProfile);
-
-			if (Stopped)
+			if ((Stopped = !Instrumentor::Get().InSession(sessionProfile)))
 				return;
 
 			NameID         = nameID;
@@ -409,21 +412,74 @@ namespace Coil
 	#define TOKENPASTE_IMPL(x, y) x ## y
 	#define TOKENPASTE(x, y) TOKENPASTE_IMPL(x, y)
 
+	/**
+	 * @brief Creates new high level profiling sessions
+	 *
+	 * @param[in]	name		Session name
+	 * @param[in]	filePath	File path for parsed profiling file
+	 *
+	 * @note Should not be called during session as this is undefined behavior
+	 */
 	#define CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::High, filePath);
 
+	/**
+	 * @brief Creates new high level profiling sessions
+	 *
+	 * @param[in]	name		Session name
+	 * @param[in]	filePath	File path for parsed profiling file
+	 */
 	#define CL_PROFILE_BEGIN_SESSION(name, filePath)		CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath);
 
+	/**
+	 * @brief Ends currently running profiling session
+	 */
 	#define CL_PROFILE_END_SESSION()						::Coil::Instrumentor::Get().EndSession();
 
+	/**
+	 * @brief Profiling timer implementation
+	 *
+	 * @param[in]	name	Timer name
+	 * @param[in]	level	Profiling level associated with the timer
+	 *
+	 * @note Timer is RAII controlled (starts at the creation and stops when goes out of scope)
+	 * @note Timer is static created on the first pass of the macro, where it registers timer name and retrieves it's ID for future use
+	 * @note Each call creates new InstrumentationTimer with ID
+	 * @note InstrumentationTimer has minimal overhead when not in profiling session
+	 * @note Timer name is reformatted during registration (for function signatures to be more readable)
+	 */
 	#define CL_PROFILE_SCOPE_IMPL(name, level)				static int32 TOKENPASTE(_nameID_, __LINE__) = Coil::Instrumentor::Get().RegisterName(name);\
-																			::Coil::InstrumentationTimer TOKENPASTE(_timer_, __LINE__)(TOKENPASTE(_nameID_, __LINE__), level);
+															::Coil::InstrumentationTimer TOKENPASTE(_timer_, __LINE__)(TOKENPASTE(_nameID_, __LINE__), level);
 
+	/**
+	 * @brief Creates high level profiling timer
+	 *
+	 * @param[in]	name	Timer name
+	 *
+	 * @see CL_PROFILE_SCOPE_IMPL(name, level) for more details
+	 */
 	#define CL_PROFILE_SCOPE_HIGH(name)						CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::High)
 
+	/**
+	 * @brief Creates high level profiling timer
+	 *
+	 * @param[in]	name	Timer name
+	 *
+	 * @see CL_PROFILE_SCOPE_IMPL(name, level) for more details
+	 */
 	#define CL_PROFILE_SCOPE(name)							CL_PROFILE_SCOPE_HIGH(name)
 
+	/**
+	 * @brief Creates high level profiling timer with function signature as it's name
+	 *
+	 * @see CL_PROFILE_SCOPE_IMPL(name, level) for more details
+	 */
 	#define CL_PROFILE_FUNCTION_HIGH()						CL_PROFILE_SCOPE_HIGH(__FUNCSIG__)
 
+	/**
+	 * @brief Creates high level profiling timer with function signature as it's name
+	 *
+	 * @see CL_PROFILE_SCOPE_IMPL(name, level) for more details
+	 */
 	#define CL_PROFILE_FUNCTION()							CL_PROFILE_FUNCTION_HIGH()
 	#else
 	#define CL_PROFILE_BEGIN_SESSION_HIGH(name, filePath)
@@ -437,10 +493,30 @@ namespace Coil
 #endif
 
 #if CL_PROFILE > 1
+	/**
+	 * @brief Creates new medium level profiling sessions
+	 *
+	 * @param[in]	name		Session name
+	 * @param[in]	filePath	File path for parsed profiling file
+	 *
+	 * @note Should not be called during session as this is undefined behavior
+	 */
 	#define CL_PROFILE_BEGIN_SESSION_MEDIUM(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::Medium, filePath);
 
+	/**
+	 * @brief  @brief Creates medium level profiling timer
+	 *
+	 * @param[in]	name	Timer name
+	 *
+	 * @see CL_PROFILE_SCOPE_IMPL(name, level) for more details
+	 */
 	#define CL_PROFILE_SCOPE_MEDIUM(name)					CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::Medium)
 
+	 /**
+	  * @brief Creates medium level profiling timer with function signature as it's name
+	  *
+	  * @see CL_PROFILE_SCOPE_IMPL(name, level) for more details
+	  */
 	#define CL_PROFILE_FUNCTION_MEDIUM()					CL_PROFILE_SCOPE_MEDIUM(__FUNCSIG__)
 #else
 	#define CL_PROFILE_BEGIN_SESSION_MEDIUM(name, filePath)
@@ -449,10 +525,30 @@ namespace Coil
 #endif
 
 #if CL_PROFILE > 2
+	/**
+	 * @brief Creates new low level profiling sessions
+	 *
+	 * @param[in]	name		Session name
+	 * @param[in]	filePath	File path for parsed profiling file
+	 *
+	 * @note Should not be called during session as this is undefined behavior
+	 */
 	#define CL_PROFILE_BEGIN_SESSION_LOW(name, filePath)	::Coil::Instrumentor::Get().BeginSession(name, Coil::SessionProfile::Low, filePath);
 
+	/**
+	 * @brief  @brief Creates low level profiling timer
+	 *
+	 * @param[in]	name	Timer name
+	 *
+	 * @see CL_PROFILE_SCOPE_IMPL(name, level) for more details
+	 */
 	#define CL_PROFILE_SCOPE_LOW(name)						CL_PROFILE_SCOPE_IMPL(name, Coil::SessionProfile::Low)
 
+	/**
+	 * @brief Creates low level profiling timer with function signature as it's name
+	 *
+	 * @see CL_PROFILE_SCOPE_IMPL(name, level) for more details
+	 */
 	#define CL_PROFILE_FUNCTION_LOW()						CL_PROFILE_SCOPE_LOW(__FUNCSIG__)
 #else
 	#define CL_PROFILE_BEGIN_SESSION_LOW(name, filePath)

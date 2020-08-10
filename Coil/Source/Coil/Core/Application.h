@@ -46,6 +46,7 @@ namespace Coil
 
 		bool Minimized = false;
 
+		/** Main window of the application */
 		Scope<Window> AppWindow;
 
 		LayerStack AppLayerStack;
@@ -64,7 +65,7 @@ namespace Coil
 
 
 /**
- * @brief Creates declaration of Coil::CreateApplication()
+ * @brief Creates declaration of Coil::Application* Coil::CreateApplication()
  *
  * @param app	child class of Coil::Application
  *

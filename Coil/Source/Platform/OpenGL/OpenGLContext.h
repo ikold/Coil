@@ -8,6 +8,14 @@ struct GLFWwindow;
 
 namespace Coil
 {
+	/**
+	 * @brief 
+	 *
+	 *
+	 * @return		
+	 *
+	 * @todo Write a documentation
+	 */
 	class OpenGLContext final : public GraphicsContext
 	{
 	public:

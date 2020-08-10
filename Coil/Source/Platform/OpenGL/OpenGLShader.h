@@ -5,6 +5,14 @@
 
 namespace Coil
 {
+	/**
+	 * @brief 
+	 *
+	 *
+	 * @return		
+	 *
+	 * @todo Write a documentation
+	 */
 	class OpenGLShader final : public Shader
 	{
 	public:
@@ -21,7 +29,7 @@ namespace Coil
 		void Unbind() const override;
 
 
-		[[nodiscard]] const RString<>& GetName() const override { return Name; }
+		[[nodiscard]] const RString<>& GetName() const override;
 
 
 		void SetInt(const RString<>& name, int32 value) const override;

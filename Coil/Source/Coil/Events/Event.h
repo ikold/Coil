@@ -49,6 +49,9 @@ namespace Coil
 #define EVENT_CLASS_CATEGORY(category) virtual int32 GetCategoryFlags() const override { return category; }
 
 
+	/**
+	 * @brief Base event class
+	 */
 	class Event
 	{
 		friend class EventDispatcher;
@@ -73,24 +76,45 @@ namespace Coil
 		[[nodiscard]] bool IsHandled() const { return Handled; }
 
 	protected:
+		/** Controls propagation of the event */
 		bool Handled = false;
 	};
 
 
+	/**
+	 * @brief Dispatches event to the function
+	 */
 	class EventDispatcher
 	{
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
 	public:
+		/**
+		 * @brief Creates dispatcher for given event
+		 *
+		 * @param[in]	event	Event to dispatch
+		 */
 		explicit EventDispatcher(Event& event)
 			: EventToDispatch(event) {}
 
-		template<typename T>
-		bool Dispatch(EventFn<T> func)
+		/**
+		 * @brief Dispatches event to the function
+		 *
+		 * @tparam[in]	TEvent	Event class that should be dispatched
+		 * @param[in]	func	Function that returns bool and takes TEvent reference as the only parameter (e.g. bool function(TEvent& event))
+		 *
+		 * @return		true if event were dispatch
+		 *
+		 * @note Event is dispatched only if it type is the same as the TEvent
+		 * @note If event was dispatch, Handled flag is set with the returned value of the function
+		 * @note Dispatcher does not check if event is already handled
+		 */
+		template<typename TEvent>
+		bool Dispatch(EventFn<TEvent> func)
 		{
-			if (EventToDispatch.GetType() == T::GetStaticType())
+			if (EventToDispatch.GetType() == TEvent::GetStaticType())
 			{
-				EventToDispatch.Handled = func(*static_cast<T*>(&EventToDispatch));
+				EventToDispatch.Handled = func(*static_cast<TEvent*>(&EventToDispatch));
 				return true;
 			}
 			return false;
@@ -102,5 +126,20 @@ namespace Coil
 }
 
 
-#define BIND_EVENT_FN(fn) std::bind(&fn, std::placeholders::_1)
-#define BIND_EVENT_METHOD(fn) std::bind(&fn, this, std::placeholders::_1)
+/**
+ * @brief Bind macro for the EventDispatcher
+ *
+ * @param[in]	function	Function to bind that returns bool and takes TEvent reference as the only parameter (e.g. bool function(TEvent& event))
+ *
+ * @note Usage example DispatcherObject.Dispatch<KeyPressedEvent>(BIND_EVENT_FN(OnKeyPressedFunction));
+ */
+#define BIND_EVENT_FN(function) std::bind(&function, std::placeholders::_1)
+
+/**
+ * @brief Bind macro for the EventDispatcher
+ *
+ * @param[in]	method	Method to bind that returns bool and takes TEvent reference as the only parameter (e.g. bool Class::Method(TEvent& event))
+ *
+ * @note Usage example DispatcherObject.Dispatch<KeyPressedEvent>(BIND_EVENT_METHOD(Class::OnKeyPressedF));
+ */
+#define BIND_EVENT_METHOD(method) std::bind(&method, this, std::placeholders::_1)

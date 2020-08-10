@@ -2,6 +2,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Base class for Texture
+	 *
+	 * @todo Write a documentation
+	 */
 	class Texture
 	{
 	public:
@@ -23,6 +28,9 @@ namespace Coil
 	};
 
 
+	/**
+	 * @brief Base class for specialize 2D Texture
+	 */
 	class Texture2D : public Texture
 	{
 	public:

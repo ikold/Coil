@@ -6,6 +6,9 @@
 
 namespace Coil
 {
+	GUIComponent::GUIComponent(GUIComponentProps properties)
+		: Properties(Move(properties)) {}
+
 	void GUIComponent::SetUp() const
 	{
 		CL_PROFILE_FUNCTION_MEDIUM()

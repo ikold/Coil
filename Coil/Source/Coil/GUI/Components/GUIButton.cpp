@@ -14,6 +14,7 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_MEDIUM()
 
+		// Draw button and if pressed call callback function
 		if (ImGui::Button(Properties.Label->CString(), ImVec2(Properties.Width, Properties.Height)))
 			Callback();
 	}

@@ -18,6 +18,9 @@ typedef uint64_t		uint64;
 typedef float			float32;
 typedef double			float64;
 
+/**
+ * @brief Union of all default types and pointers to default types 
+ */
 union Ambiguous
 {
 	bool		Bool;

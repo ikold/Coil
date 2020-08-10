@@ -4,6 +4,13 @@
 
 namespace Coil
 {
+	/**
+	 * @brief Specialize reference counter for strings
+	 *
+	 * @tparam[in]	TString		String type
+	 *
+	 * @todo Write a documentation
+	 */
 	template<class TString = String>
 	class RString
 	{
@@ -139,6 +146,7 @@ namespace std
 	{
 		size_t operator()(Coil::RString<TString> const& s) const noexcept
 		{
+			// TODO use String hash by casting TString to base String
 			const size_t h1 = std::hash<char8*>{}(s->CString());
 			const size_t h2 = std::hash<int32>{}(s->GetLength());
 			const size_t h3 = std::hash<int32>{}(s->GetSize());

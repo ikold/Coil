@@ -5,6 +5,11 @@
 
 namespace Coil
 {
+	/**
+	 * @brief GUI Button with callback functionality
+	 *
+	 * @note Callback format: void func(void)
+	 */
 	class GUIButton final : public GUIComponent
 	{
 	public:
@@ -13,7 +18,6 @@ namespace Coil
 		void Draw() const override;
 
 		void BindCallback(const std::function<void()>& callback) { Callback = callback; }
-
 		[[nodiscard]] const std::function<void()>& RetrieveCallback() const { return Callback; }
 
 	private:
