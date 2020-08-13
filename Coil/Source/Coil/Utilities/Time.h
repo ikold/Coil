@@ -11,8 +11,6 @@ namespace Coil
 
 	/**
 	 * @brief Utility class for time related operations
-	 *
-	 * @todo Parser class for Query results
 	 */
 	class Time
 	{
@@ -86,18 +84,61 @@ namespace Coil
 		 */
 		static float32 Fps() { return FpsV; }
 
+
+		enum class Unit
+		{
+			Second = 1,
+			Millisecond = 1000,
+			Microsecond = 1000000,
+			Nanosecond = 1000000000
+		};
+
+
+		/**
+		 * @brief Converts query result to given unit
+		 *
+		 * @tparam[in]	T	Returned type
+		 */
+		template<typename T = int64>
+		struct QueryConverter
+		{
+			/** Target unit divided by it and frequency greatest common divisor */
+			const T UnitsInSecondGDC;
+			/** Frequency divided by it and target unit greatest common divisor */
+			const T FrequencyGDC;
+
+			/**
+			 * @param[in]	targetUnit	Unit to convert to
+			 * @param[in]	frequency	Frequency of the queries
+			 */
+			explicit constexpr QueryConverter(Unit targetUnit = Unit::Millisecond, int64 frequency = QueryFrequency())
+				: UnitsInSecondGDC(T(targetUnit) / std::gcd(int64(targetUnit), frequency)),
+				  FrequencyGDC(T(frequency) / std::gcd(int64(targetUnit), frequency)) {}
+
+			/**
+			 * @param[in]	queryResult	
+			 *
+			 * @return		Converted value in targeted units
+			 */
+			constexpr T operator()(int64 queryResult) const
+			{
+				return queryResult * UnitsInSecondGDC / FrequencyGDC;
+			}
+		};
+
+
 	private:
 		static int64 QueryFrequencyImpl();
 
 	private:
 		/** Corresponds to the time point on the begging of last frame */
-		static int64 LastFrameTime;
+		inline static int64 LastFrameTime = Query();
 		/** Corresponds to the time point on the begging of current frame */
-		static int64 CurrentFrameTime;
+		inline static int64 CurrentFrameTime;
 
 		/** Precalculated frame time in milliseconds */
-		static float32 DeltaTimeV;
+		inline static float32 DeltaTimeV;
 		/** Precalculated fps */
-		static float32 FpsV;
+		inline static float32 FpsV;
 	};
 }

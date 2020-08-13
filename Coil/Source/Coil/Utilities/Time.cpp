@@ -7,13 +7,6 @@
 
 namespace Coil
 {
-	// Initialization of last frame time point with current time, resulting in first frame time being time from start of program to first call of Time::Tick()
-	int64 Time::LastFrameTime = Query();
-	int64 Time::CurrentFrameTime;
-
-	float32 Time::DeltaTimeV;
-	float32 Time::FpsV;
-
 	int64 Time::Query()
 	{
 #ifdef CL_PLATFORM_WINDOWS
@@ -49,10 +42,11 @@ namespace Coil
 		// Updating current frame time
 		CurrentFrameTime = Query();
 
-		// Calculating time in microseconds
-		DeltaTimeV = (CurrentFrameTime - LastFrameTime) * 1000000 / QueryFrequency();
-		// Division to get milliseconds
-		DeltaTimeV /= 1000.f;
+		// Creating converter for tick queries
+		static auto queryToMilliseconds = QueryConverter<float32>(Unit::Millisecond);
+		
+		// Converting to milliseconds
+		DeltaTimeV = queryToMilliseconds(CurrentFrameTime - LastFrameTime);
 
 		FpsV = 1000.f / DeltaTimeV;
 
