@@ -142,12 +142,17 @@ namespace std
 	template<>
 	struct hash<Coil::String>
 	{
-		size_t operator()(Coil::String const& s) const noexcept
+		size_t operator()(Coil::String const& string) const noexcept
 		{
-			// BUG hashes String Data address instead of the characters 
-			const size_t h1 = std::hash<char8*>{}(s.CString());
-			const size_t h2 = std::hash<int32>{}(s.GetLength());
-			return h1 ^ h2 << 1;
+			// sdbm hashing algorithm
+			char8* cstring = string.CString();
+			uint64 hash    = 0;
+			uint64 character;
+
+			while ((character = uint64(uchar8(*cstring++))))
+				hash          = character + (hash << 6) + (hash << 16) - hash;
+
+			return hash;
 		}
 	};
 }

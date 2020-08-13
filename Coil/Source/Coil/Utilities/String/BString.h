@@ -26,6 +26,8 @@ namespace Coil
 
 		BString(const char8* text, int32 length);
 
+		explicit BString(int32 length);
+
 		/**
 		 * @see String(char**)
 		 */
@@ -62,11 +64,11 @@ namespace Coil
 		 * @brief Reallocates Data with Size increased by passed value
 		 *
 		 * @param[in]	size	Number of bytes to expand BString
-		 * 
+		 *
 		 * @see SetSize(size)
 		 */
 		void Expand(uint32 size);
-		
+
 		void SetLength(int32 length) { Length = length; }
 
 		/**
@@ -75,5 +77,18 @@ namespace Coil
 		void RecalculateLength();
 
 		[[nodiscard]] char8* GetBuffer() const { return Data; }
+	};
+}
+
+
+namespace std
+{
+	template<>
+	struct hash<Coil::BString>
+	{
+		size_t operator()(const Coil::BString& string) const noexcept
+		{
+			return std::hash<Coil::String>{}(string);
+		}
 	};
 }

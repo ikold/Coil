@@ -19,6 +19,9 @@ namespace Coil
 	BString::BString(const char8* text, int32 length)
 		: String(text, length) {}
 
+	BString::BString(int32 length)
+		: String(new char8[length]{}, length) {}
+
 	BString::BString(char8** charPtr)
 		: String(charPtr) {}
 

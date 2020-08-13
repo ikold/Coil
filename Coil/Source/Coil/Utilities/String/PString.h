@@ -124,13 +124,9 @@ namespace std
 	template<>
 	struct hash<Coil::PString>
 	{
-		size_t operator()(Coil::PString const& s) const noexcept
+		size_t operator()(const Coil::PString& string) const noexcept
 		{
-			// TODO use String hash by casting to base String
-			const size_t h1 = std::hash<char8*>{}(s.CString());
-			const size_t h2 = std::hash<int32>{}(s.GetLength());
-			const size_t h3 = std::hash<int32>{}(s.GetSize());
-			return h1 ^ h2 << 1 ^ h3 << 2;
+			return std::hash<Coil::String>{}(string);
 		}
 	};
 }
