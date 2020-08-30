@@ -159,19 +159,19 @@ namespace Coil
 		return -1;
 	}
 
-	int32 String::CountOccurence(const char8* phrase) const
+	int32 String::CountOccurrence(const char8* phrase) const
 	{
 		int32 index;
 		int32 searchIndex        = 0;
 		const int32 phraseLength = CStringLength(phrase);
-		int32 numberOfOccurence  = 0;
+		int32 numberOfOccurrence  = 0;
 		while ((index = FirstMatch(phrase, searchIndex)) != -1)
 		{
 			searchIndex = index + phraseLength;
-			++numberOfOccurence;
+			++numberOfOccurrence;
 		}
 
-		return numberOfOccurence;
+		return numberOfOccurrence;
 	}
 
 	void String::Remove(const char8* phrase)
@@ -290,7 +290,7 @@ namespace Coil
 
 	int32 String::ReplaceWithLonger(const char8* oldPhrase, const char8* newPhrase, int32 oldSize, int32 newSize, int32 difference)
 	{
-		int32 numberOfReplaced = CountOccurence(oldPhrase);
+		int32 numberOfReplaced = CountOccurrence(oldPhrase);
 
 		Length += numberOfReplaced * difference;
 		Size      = Length;

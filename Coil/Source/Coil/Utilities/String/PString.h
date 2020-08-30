@@ -24,7 +24,7 @@ namespace Coil
 	 * @note Parameters are denoted by prefixing it with % (e.g. "number %d")\n
 	 * 
 	 * @note Size of the parameter (how much space is reserved in the PString) can be provided by inserting number between % and denoting character (e.g. "number %4d")\n
-	 * Except for R all of the parameters have upper case equivalent that accepts size as second parameter (after the value of the parameter), if size is defined in source string end result is sum of the two values (e.g. PString("number %2D" -10, 2) is one parameter of size 4 and value of -10 and would be displayed as "number 10")\n
+	 * Except for R all of the parameters have upper case equivalent that accepts size as second parameter (after the value of the parameter), if size is defined in source string end result is sum of the two values (e.g. PString("number %2D" -10, 2) is one parameter of size 4 and value of -10 and would be displayed as "number -10")\n
 	 * 
 	 * @note Additional settings can be provided in the source string by inserting them between % and denoting character in the curve brackets (e.g. "number %4{.2}d"), options should not split size number (treated as undefined behavior)
 	 *
@@ -44,6 +44,7 @@ namespace Coil
 		struct Settings
 		{
 			int32 DecimalPoint = -1;
+			RString<> Key      = "";
 		};
 
 
@@ -87,19 +88,29 @@ namespace Coil
 
 		[[nodiscard]] int32 GetParameterSize(int32 insertIndex) const { return InsertSize[insertIndex]; }
 
-		void Set(int32 parameterIndex, const char8* text);
-		void Set(int32 parameterIndex, const RString<>& string);
+		void SetIndex(int32 parameterIndex, const char8* text);
+		void SetIndex(int32 parameterIndex, const RString<>& string);
 
-		void Set(int32 parameterIndex, int64 value);
-		void Set(int32 parameterIndex, int64 value, int32 base);
-		void Set(int32 parameterIndex, int32 value) { Set(parameterIndex, static_cast<int64>(value)); }
-		void Set(int32 parameterIndex, int32 value, int32 base) { Set(parameterIndex, static_cast<int64>(value), base); }
-		void Set(int32 parameterIndex, uint32 value) { Set(parameterIndex, static_cast<int64>(value)); }
-		void Set(int32 parameterIndex, uint32 value, int32 base) { Set(parameterIndex, static_cast<int64>(value), base); }
-		void Set(int32 parameterIndex, uint64 value) { Set(parameterIndex, static_cast<int64>(value)); }
-		void Set(int32 parameterIndex, uint64 value, int32 base) { Set(parameterIndex, static_cast<int64>(value), base); }
+		void SetIndex(int32 parameterIndex, int64 value);
+		void SetIndex(int32 parameterIndex, int64 value, int32 base);
+		void SetIndex(int32 parameterIndex, int32 value) { SetIndex(parameterIndex, static_cast<int64>(value)); }
+		void SetIndex(int32 parameterIndex, int32 value, int32 base) { SetIndex(parameterIndex, static_cast<int64>(value), base); }
+		void SetIndex(int32 parameterIndex, uint32 value) { SetIndex(parameterIndex, static_cast<int64>(value)); }
+		void SetIndex(int32 parameterIndex, uint32 value, int32 base) { SetIndex(parameterIndex, static_cast<int64>(value), base); }
+		void SetIndex(int32 parameterIndex, uint64 value) { SetIndex(parameterIndex, static_cast<int64>(value)); }
+		void SetIndex(int32 parameterIndex, uint64 value, int32 base) { SetIndex(parameterIndex, static_cast<int64>(value), base); }
 
-		void Set(int32 parameterIndex, float64 value);
+		void SetIndex(int32 parameterIndex, float64 value);
+
+		template<typename T>
+		void Set(const RString<>& key, T value)
+		{
+			for (int32 i = 0; i < InsertSettings.size(); ++i)
+			{
+				if (key == InsertSettings[i].Key)
+					SetIndex(i, value);
+			}
+		}
 
 	private:
 		void RecalculateLength();

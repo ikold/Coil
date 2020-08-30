@@ -6,14 +6,14 @@
 ApplicationLayer::ApplicationLayer()
 	: Layer("Application"),
 	  CameraController(1280.0f / 720.0f, true),
-	  FrameTime(Coil::PString("%{.3}8f ms", 0.f)),
-	  MousePosition(Coil::PString("mouse x: %6d y: %6d", 0, 0)),
+	  FrameTime(Coil::PString("%{#frame time.3}16f ms", 0)),
+	  MousePosition(Coil::PString("mouse x: %{#X}6d y: %{#Y}6d", 0, 0)),
 	  SquareColor(Coil::CreateRef<glm::vec4>(0.2f, 0.2f, 0.2, 1.f)),
-	  TimerString(Coil::PString("%{.2}8f seconds remains", 0.f))
+	  TimerString(Coil::PString("%{.2}8f seconds remains", 0))
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
-	//Coil::Application::Get().GetWindow().SetVSync(false);
+	Coil::Application::Get().GetWindow().SetVSync(false);
 
 	// Creating and binding Log window
 	Coil::GUI::LogWindow({ "Log" })->BindBuffer(Coil::Logger::GetBuffer());
@@ -53,7 +53,8 @@ void ApplicationLayer::OnUpdate()
 	CL_PROFILE_FUNCTION_HIGH()
 
 	// Updates frame time overlay
-	FrameTime->Set(0, Coil::Time::DeltaTime());
+	FrameTime->Set("frame time", Coil::Time::DeltaTime());
+	FrameTime->SetIndex(0, Coil::Time::DeltaTime());
 
 	CameraController.OnUpdate();
 
@@ -69,13 +70,10 @@ void ApplicationLayer::OnUpdate()
 		}
 	}
 
-	// Updates frame time overlay
-	TimerString->Set(0, Timer);
-
 	// Updates mouse position log
 	auto [mouseX, mouseY] = Coil::Input::GetMousePosition();
-	MousePosition->Set(0, static_cast<int64>(mouseX));
-	MousePosition->Set(1, static_cast<int64>(mouseY));
+	MousePosition->Set("X", static_cast<int64>(mouseX));
+	MousePosition->Set("Y", static_cast<int64>(mouseY));
 
 	{
 		CL_PROFILE_SCOPE_HIGH("Rendering")
@@ -85,7 +83,7 @@ void ApplicationLayer::OnUpdate()
 
 		Coil::Renderer2D::BeginScene(CameraController.GetCamera());
 
-		const int32 gridHeight = 20;
+		const int32 gridHeight = 200;
 		const int32 gridWidth  = 40;
 
 		// Increments iterator by half of frame time in seconds

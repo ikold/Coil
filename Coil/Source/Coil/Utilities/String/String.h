@@ -76,7 +76,7 @@ namespace Coil
 
 		int32 FirstMatch(const char8* phrase, int32 start = 0, int32 end = -1) const;
 
-		int32 CountOccurence(const char8* phrase) const;
+		int32 CountOccurrence(const char8* phrase) const;
 
 		void Remove(const char8* phrase);
 

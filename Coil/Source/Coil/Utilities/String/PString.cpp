@@ -231,10 +231,14 @@ namespace Coil
 			{
 			case 's':
 			case 'S':
-				Set(i, parameters[i].Char8Ptr);
+				if (parameters[i].Int64 == 0)
+					continue;
+				SetIndex(i, parameters[i].Char8Ptr);
 				break;
 			case 'R':
-				Set(i, *static_cast<RString<>*>(parameters[i].VoidPtr));
+				if (parameters[i].Int64 == 0)
+					continue;
+				SetIndex(i, *static_cast<RString<>*>(parameters[i].VoidPtr));
 				break;
 			case 'b':
 			case 'B':
@@ -242,11 +246,11 @@ namespace Coil
 			case 'D':
 			case 'x':
 			case 'X':
-				Set(i, parameters[i].Int32);
+				SetIndex(i, parameters[i].Int32);
 				break;
 			case 'f':
 			case 'F':
-				Set(i, parameters[i].Float64);
+				SetIndex(i, parameters[i].Float64);
 				break;
 			default:
 			CL_ASSERT(false, "Unknow PString parameter type!");
@@ -297,7 +301,8 @@ namespace Coil
 				*iteratorDst = *iteratorSrc;
 				++iteratorDst;
 			}
-		} while (*iteratorSrc++);
+		}
+		while (*iteratorSrc++);
 		return String(&newData, length);
 	}
 
@@ -330,7 +335,7 @@ namespace Coil
 	}
 
 
-	void PString::Set(int32 parameterIndex, const char8* text)
+	void PString::SetIndex(int32 parameterIndex, const char8* text)
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
@@ -343,7 +348,7 @@ namespace Coil
 		RecalculateLength();
 	}
 
-	void PString::Set(int32 parameterIndex, const RString<>& string)
+	void PString::SetIndex(int32 parameterIndex, const RString<>& string)
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
@@ -354,7 +359,7 @@ namespace Coil
 		RecalculateLength();
 	}
 
-	void PString::Set(int32 parameterIndex, int64 value, int32 base)
+	void PString::SetIndex(int32 parameterIndex, int64 value, int32 base)
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
@@ -430,7 +435,8 @@ namespace Coil
 			}
 
 			operationalValue /= base;
-		} while (operationalValue);
+		}
+		while (operationalValue);
 
 
 		while (--decimalPoint > 0)
@@ -450,28 +456,28 @@ namespace Coil
 		RecalculateLength();
 	}
 
-	void PString::Set(int32 parameterIndex, int64 value)
+	void PString::SetIndex(int32 parameterIndex, int64 value)
 	{
 		switch (InsertType[parameterIndex])
 		{
 		case 'b':
 		case 'B':
-			Set(parameterIndex, value, 2);
+			SetIndex(parameterIndex, value, 2);
 			break;
 		case 'd':
 		case 'D':
-			Set(parameterIndex, value, 10);
+			SetIndex(parameterIndex, value, 10);
 			break;
 		case 'x':
 		case 'X':
-			Set(parameterIndex, value, 16);
+			SetIndex(parameterIndex, value, 16);
 			break;
 		default:
 		CL_ASSERT(false, "Unknow PString parameter type!");
 		}
 	}
 
-	void PString::Set(int32 parameterIndex, float64 value)
+	void PString::SetIndex(int32 parameterIndex, float64 value)
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
@@ -501,7 +507,8 @@ namespace Coil
 		{
 			if (*iterator == 127)
 				--Length;
-		} while (*iterator++);
+		}
+		while (*iterator++);
 	}
 
 	PString::Settings PString::ParseSettings(const char8* source, int32 size)
@@ -513,43 +520,62 @@ namespace Coil
 		enum class ParseState
 		{
 			None,
+			End,
+			Key,
 			DecimalPoint
-		} state = ParseState::None;
+		};
 
-		char8* stateBegging = nullptr;
+		ParseState state = ParseState::None;
+		ParseState newState;
+
+		char8* stateBegging    = nullptr;
+		char8* newStateBegging = nullptr;
 
 		char8* iterator = const_cast<char8*>(source) - 1;
-		char8* end      = const_cast<char8*>(source) + size;
+		char8* end      = const_cast<char8*>(source) + size + 1;
+
 		while (++iterator != end)
 		{
-			switch (state)
+			switch (*iterator)
 			{
-			case ParseState::None:
-				if (*iterator != '.')
-					break;
-
-				state        = ParseState::DecimalPoint;
-				stateBegging = iterator + 1;
+			case '#':
+				newState = ParseState::Key;
+				newStateBegging = iterator + 1;
 				break;
-
-			case ParseState::DecimalPoint:
-				if ('0' > *iterator || *iterator > '9')
-					settings.DecimalPoint = ParseInt(stateBegging, iterator - stateBegging);
-
+			case '.':
+				newState = ParseState::DecimalPoint;
+				newStateBegging = iterator + 1;
 				break;
-			default: ;
+			case '}':
+				newState = ParseState::End;
+				break;
+			default:
+				newState = ParseState::None;
+				break;
 			}
-		}
 
-		switch (state)
-		{
-		case ParseState::None:
-			break;
+			if (newState != ParseState::None)
+			{
+				switch (state)
+				{
+				case ParseState::None:
+					break;
+				case ParseState::Key:
+				{
+					const int32 keySize = iterator - stateBegging;
+					auto* key           = new char8[static_cast<uint64>(keySize) + 1]{};
+					memcpy(key, stateBegging, keySize);
+					settings.Key = String(&key, keySize);
+					break;
+				}
+				case ParseState::DecimalPoint:
+					settings.DecimalPoint = ParseInt(stateBegging, iterator - stateBegging);
+					break;
+				}
 
-		case ParseState::DecimalPoint:
-			settings.DecimalPoint = ParseInt(stateBegging, iterator - stateBegging);
-			break;
-		default: ;
+				state        = newState;
+				stateBegging = newStateBegging;
+			}
 		}
 
 		return settings;

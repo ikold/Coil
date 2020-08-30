@@ -264,7 +264,7 @@ namespace Coil
 		{
 			const int64 start = Time::Query();
 
-			RString parsingProgression = PString("Parsing profiling file to json %4d%% done\nSource:      %R %s\nDestination: %R", 0, &sourcePath, "", &destPath);
+			RString parsingProgression = PString("Parsing profiling file to json %4d%% done\nSource:      %R %{#deleted}s\nDestination: %R", 0, &sourcePath, "", &destPath);
 			Logger::Trace(parsingProgression);
 
 			std::ifstream inputStream(sourcePath->CString(), std::ios::binary | std::ios::in);
@@ -316,22 +316,22 @@ namespace Coil
 			Time::QueryConverter queryToNanoseconds(Time::Unit::Nanosecond, frequency);
 
 			// Profiling entry template
-			PString profilingEntry(R"({"ph":"X","pid":0,"tid":%d,"name":"%S","cat":"function","ts":%24{.3}d,"dur":%{.3}d},)", 0, "", longestNameLength, 0, 0, 0, 0);
+			PString profilingEntry(R"({"ph":"X","pid":0,"tid":%d,"name":"%S","cat":"function","ts":%24{.3}d,"dur":%{.3}d},)", 0, 0, longestNameLength, 0, 0, 0, 0);
 
 			while (++processedProfiles <= numberOfProfiles)
 			{
 				inputStream.read(reinterpret_cast<char8*>(&profile), sizeof ProfileResult);
 
 				// Filling profiling entry template
-				profilingEntry.Set(0, profile.ThreadID);
-				profilingEntry.Set(1, fileTimerNames.at(profile.NameID)->CString());
-				profilingEntry.Set(2, queryToNanoseconds(profile.Start));
-				profilingEntry.Set(3, queryToNanoseconds(profile.End - profile.Start));
+				profilingEntry.SetIndex(0, profile.ThreadID);
+				profilingEntry.SetIndex(1, fileTimerNames.at(profile.NameID)->CString());
+				profilingEntry.SetIndex(2, queryToNanoseconds(profile.Start));
+				profilingEntry.SetIndex(3, queryToNanoseconds(profile.End - profile.Start));
 
 				outputStream << profilingEntry.ToString().CString();
 
 				// Updating progress information
-				parsingProgression->Set(0, processedProfiles * 100 / numberOfProfiles);
+				parsingProgression->SetIndex(0, processedProfiles * 100 / numberOfProfiles);
 			}
 
 			outputStream << R"({}]})";
@@ -341,7 +341,7 @@ namespace Coil
 			if (deleteSource)
 			{
 				remove(sourcePath->CString());
-				parsingProgression->Set(2, "[Deleted]");
+				parsingProgression->Set("deleted", "[Deleted]");
 			}
 
 			Logger::Trace("Parsing profiles took %d ms", Time::QueryConverter(Time::Unit::Millisecond)(Time::Query() - start));
