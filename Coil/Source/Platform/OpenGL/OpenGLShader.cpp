@@ -175,6 +175,13 @@ namespace Coil
 		UploadUniformInt(name, value);
 	}
 
+	void OpenGLShader::SetIntArray(const RString<>& name, int32* data, uint32 count) const
+	{
+		CL_PROFILE_FUNCTION_LOW()
+
+		UploadUniformIntArray(name, data, count);
+	}
+
 	void OpenGLShader::SetFloat(const RString<>& name, float32 value) const
 	{
 		CL_PROFILE_FUNCTION_LOW()
@@ -222,6 +229,12 @@ namespace Coil
 	{
 		const GLint location = glGetUniformLocation(RendererID, name->CString());
 		glUniform1i(location, value);
+	}
+
+	void OpenGLShader::UploadUniformIntArray(const RString<>& name, int32* data, uint32 count) const
+	{
+		const GLint location = glGetUniformLocation(RendererID, name->CString());
+		glUniform1iv(location, count, data);
 	}
 
 	void OpenGLShader::UploadUniformFloat(const RString<>& name, float32 value) const

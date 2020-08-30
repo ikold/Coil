@@ -81,6 +81,11 @@ namespace Coil
 		glDeleteTextures(1, &TextureName);
 	}
 
+	bool OpenGLTexture2D::operator==(const Texture& other) const
+	{
+		return TextureName == dynamic_cast<const OpenGLTexture2D&>(other).TextureName;
+	}
+
 	void OpenGLTexture2D::SetData(void* data, uint32 size)
 	{
 		CL_PROFILE_FUNCTION_HIGH()

@@ -22,6 +22,8 @@ namespace Coil
 
 		~OpenGLTexture2D() override;
 
+		bool operator==(const Texture& other) const override;
+
 		[[nodiscard]] uint32 GetWidth() const override { return Width; }
 		[[nodiscard]] uint32 GetHeight() const override { return Height; }
 

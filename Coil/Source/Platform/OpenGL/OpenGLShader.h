@@ -33,8 +33,9 @@ namespace Coil
 
 
 		void SetInt(const RString<>& name, int32 value) const override;
+		void SetIntArray(const RString<>& name, int32* data, uint32 count) const override;
 		void SetFloat(const RString<>& name, float32 value) const override;
-
+		
 		void SetFloat2(const RString<>& name, const glm::vec2& vector) const override;
 		void SetFloat3(const RString<>& name, const glm::vec3& vector) const override;
 		void SetFloat4(const RString<>& name, const glm::vec4& vector) const override;
@@ -44,6 +45,7 @@ namespace Coil
 
 
 		void UploadUniformInt(const RString<>& name, int32 value) const;
+		void UploadUniformIntArray(const RString<>& name, int32* data, uint32 count) const;
 		void UploadUniformFloat(const RString<>& name, float32 value) const;
 
 		void UploadUniformFloat2(const RString<>& name, const glm::vec2& vector) const;

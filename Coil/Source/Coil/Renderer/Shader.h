@@ -25,6 +25,7 @@ namespace Coil
 
 
 		virtual void SetInt(const RString<>& name, int32 value) const = 0;
+		virtual void SetIntArray(const RString<>& name, int32* data, uint32 count) const = 0;
 		virtual void SetFloat(const RString<>& name, float32 value) const = 0;
 
 		virtual void SetFloat2(const RString<>& name, const glm::vec2& vector) const = 0;

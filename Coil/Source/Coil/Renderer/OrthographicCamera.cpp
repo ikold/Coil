@@ -18,19 +18,23 @@ namespace Coil
 
 	void OrthographicCamera::SetPosition(const glm::vec3& position)
 	{
+		CL_PROFILE_FUNCTION_MEDIUM()
+		
 		Position = position;
 		RecalculateViewMatrix();
 	}
 
 	void OrthographicCamera::SetRotation(float32 rotation)
 	{
+		CL_PROFILE_FUNCTION_MEDIUM()
+		
 		Rotation = rotation;
 		RecalculateViewMatrix();
 	}
 
 	void OrthographicCamera::SetProjection(float32 left, float32 right, float32 bottom, float32 top)
 	{
-		CL_PROFILE_FUNCTION_HIGH()
+		CL_PROFILE_FUNCTION_MEDIUM()
 
 		ProjectionMatrix     = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
 		ViewProjectionMatrix = ProjectionMatrix * ViewMatrix;

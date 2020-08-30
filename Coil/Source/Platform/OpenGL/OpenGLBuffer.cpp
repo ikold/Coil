@@ -6,6 +6,15 @@
 
 namespace Coil
 {
+	OpenGLVertexBuffer::OpenGLVertexBuffer(uint32 size)
+	{
+		CL_PROFILE_FUNCTION_HIGH()
+
+		glCreateBuffers(1, &RendererID);
+		glBindBuffer(GL_ARRAY_BUFFER, RendererID);
+		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_STATIC_DRAW);
+	}
+
 	OpenGLVertexBuffer::OpenGLVertexBuffer(float32* vertices, uint32 size)
 	{
 		CL_PROFILE_FUNCTION_HIGH()
@@ -34,6 +43,12 @@ namespace Coil
 		CL_PROFILE_FUNCTION_HIGH()
 
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	void OpenGLVertexBuffer::SetData(const void* data, uint32 size)
+	{
+		glBindBuffer(GL_ARRAY_BUFFER, RendererID);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 	}
 
 

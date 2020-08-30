@@ -27,9 +27,8 @@ private:
 	Coil::Ref<glm::vec4> SquareColor;
 
 	float32 Timer{};
-	Coil::RString<Coil::PString> TimerString;
-	
-	Coil::RString<Coil::PString> InstrumentorStatisticsString;
+
+	Coil::RString<Coil::PString> RendererStatisticsString, InstrumentorStatisticsString;
 
 	float32 TimeIteration = 0.f;
 };

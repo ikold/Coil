@@ -23,6 +23,6 @@ namespace Coil
 		void SetClearColor(const glm::vec4& color) override;
 		void Clear() override;
 
-		void DrawIndex(const Ref<VertexArray>& vertexArray) override;
+		void DrawIndex(const Ref<VertexArray>& vertexArray, uint32 indexCount = 0) override;
 	};
 }

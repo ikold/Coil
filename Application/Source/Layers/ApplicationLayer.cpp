@@ -9,7 +9,7 @@ ApplicationLayer::ApplicationLayer()
 	  FrameTime(Coil::PString("%{#frame time.3}16f ms", 0)),
 	  MousePosition(Coil::PString("mouse x: %{#X}6d y: %{#Y}6d", 0, 0)),
 	  SquareColor(Coil::CreateRef<glm::vec4>(0.2f, 0.2f, 0.2, 1.f)),
-	  TimerString(Coil::PString("%{.2}8f seconds remains", 0)),
+	  RendererStatisticsString(Coil::PString("Draw Calls: %{#draw calls}d\nQuads: %{#quads}d\nVertices: %{#vertices}d\nIndices: %{#indices}d\nMemory Used: %8{#memory used.1}f %{#memory unit}16s", 0, 0, 0, 0, 0, 0)),
 	  InstrumentorStatisticsString(Coil::PString("Profiling %16{#level}s\nProfiles: %{#profiles}d\nMemory Used/Reserved: %8{#memory used.1}f/%8{#memory reserved.1}f %{#memory unit}16s\nElapsed Time: %{#elapsed time}f ms", 0, 0, 0, 0, 0, 0))
 {
 	CL_PROFILE_FUNCTION_HIGH()
@@ -50,6 +50,11 @@ ApplicationLayer::ApplicationLayer()
 	});
 
 
+	Coil::GUI::ComponentWindow({ "Renderer2D Statistics" }, {
+		Coil::GUI::Text(RendererStatisticsString)
+	});
+
+
 	Coil::GUI::ComponentWindow({ "Profiling Statistics" }, {
 		Coil::GUI::Text(InstrumentorStatisticsString)
 	});
@@ -57,7 +62,6 @@ ApplicationLayer::ApplicationLayer()
 
 	// Display dynamically updated mouse position
 	Coil::Logger::Trace(MousePosition);
-	Coil::Logger::Trace(TimerString);
 
 	Texture = Coil::Texture2D::Create("Resources/Textures/Colorgrid.png");
 }
@@ -90,78 +94,135 @@ void ApplicationLayer::OnUpdate()
 	MousePosition->Set("Y", static_cast<int64>(mouseY));
 
 	{
-		CL_PROFILE_SCOPE_HIGH("Rendering")
-
-		Coil::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
-		Coil::RenderCommand::Clear();
-
-		Coil::Renderer2D::BeginScene(CameraController.GetCamera());
-
-		const int32 gridHeight = 200;
-		const int32 gridWidth  = 40;
-
-		// Increments iterator by half of frame time in seconds
-		TimeIteration += Coil::Time::DeltaTime() / 1000.f * 0.5f;
-
-		// Keeps iterator in range (0.f, 4.f>
-		while (TimeIteration > 4.f)
-			TimeIteration -= 4.f;
-
-		// Draws main square
-		Coil::Renderer2D::DrawQuad(glm::vec3(0.f), TimeIteration / 2 * glm::pi<float32>(), glm::vec2(1.f), Texture);
-
 		{
-			CL_PROFILE_SCOPE_HIGH("Grid rendering")
+			CL_PROFILE_SCOPE_HIGH("Rendering")
 
-			// Draws background squares offset by TimeIteration to simulate endlessly moving background
-			for (int32 x = -gridWidth / 2; x < gridWidth - gridWidth / 2; ++x)
+			Coil::Renderer2D::ResetStatistics();
+
+			Coil::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
+			Coil::RenderCommand::Clear();
+
+			Coil::Renderer2D::BeginScene(CameraController.GetCamera());
+
+			const int32 gridHeight = 40;
+			const int32 gridWidth  = 60;
+
+			// Increments iterator by half of frame time in seconds
+			TimeIteration += Coil::Time::DeltaTime() / 1000.f * 0.5f;
+
+			// Keeps iterator in range (0.f, 4.f>
+			while (TimeIteration > 4.f)
+				TimeIteration -= 4.f;
+
+			Coil::Renderer2D::DrawQuad({ 0.f, 0.f, 0.1f }, glm::vec2(1.f), Texture, { 1.f, 1.f, 1.f, 1.f });
+
 			{
-				for (int32 y = -gridHeight / 2; y < gridHeight - gridHeight / 2; ++y)
-					Coil::Renderer2D::DrawQuad({ (x - TimeIteration) * 0.11f, (y + TimeIteration / 4) * 0.11f }, 0.f, { 0.1f, 0.1f }, *SquareColor);
+				CL_PROFILE_SCOPE_HIGH("Grid rendering")
+
+				auto quadBuilder = Coil::Renderer2D::QuadBuilder();
+
+				quadBuilder.SetColor(*SquareColor);
+				quadBuilder.SetScale({ 0.1f, 0.1f });
+				quadBuilder.SetRotation(TimeIteration / 2 * glm::pi<float32>());
+
+				// Draws background squares offset by TimeIteration to simulate endlessly moving background
+				for (int32 x = 0; x < gridWidth; ++x)
+				{
+					CL_PROFILE_SCOPE_LOW("Draw collumn")
+
+					quadBuilder.SetPosition({
+						(-gridWidth / 2.f - TimeIteration + x) * 0.11f,
+						(-gridHeight / 2.f + TimeIteration / 4.f) * 0.11f
+					});
+
+					for (int32 y = 0; y < gridHeight; ++y)
+					{
+						CL_PROFILE_SCOPE_LOW("Draw cell")
+
+						quadBuilder.Draw();
+
+						quadBuilder.Move({ 0.f, 0.11f });
+					}
+				}
 			}
+
+			Coil::Renderer2D::EndScene();
 		}
 
-		Coil::Renderer2D::EndScene();
-	}
-
-	{
-		CL_PROFILE_SCOPE_HIGH("Profiling stats")
-
-		const auto profilingStats = Coil::Instrumentor::Get().GetStatistics();
-
-		InstrumentorStatisticsString->Set("level", ProfilingLevelToString(profilingStats.ProfilingLevel)->CString());
-		InstrumentorStatisticsString->Set("profiles", profilingStats.NumberOfProfiles);
-
-		auto usedMemory     = static_cast<float32>(profilingStats.MemoryUsed);
-		auto reservedMemory = static_cast<float32>(profilingStats.MemoryReserved);
-
-		InstrumentorStatisticsString->Set("memory unit", "Bytes");
-		if (usedMemory / 1024.f > 1.f)
 		{
-			usedMemory /= 1024.f;
-			reservedMemory /= 1024.f;
-			InstrumentorStatisticsString->Set("memory unit", "KB");
+			CL_PROFILE_SCOPE_HIGH("Rendering stats")
+
+			const auto renderingStats = Coil::Renderer2D::GetStatistics();
+
+			RendererStatisticsString->Set("draw calls", renderingStats.DrawCalls);
+			RendererStatisticsString->Set("quads", renderingStats.QuadCount);
+			RendererStatisticsString->Set("vertices", renderingStats.GetTotalVertexCount());
+			RendererStatisticsString->Set("indices", renderingStats.GetTotalIndexCount());
+
+			float32 usedMemory = static_cast<float32>(renderingStats.QuadCount) * Coil::Renderer2D::GetSizeOfQuad();
+
+			RendererStatisticsString->Set("memory unit", "Bytes");
+			if (usedMemory / 1024.f > 1.f)
+			{
+				usedMemory /= 1024.f;
+				RendererStatisticsString->Set("memory unit", "KB");
+			}
+
+			if (usedMemory / 1024.f > 1.f)
+			{
+				usedMemory /= 1024.f;
+				RendererStatisticsString->Set("memory unit", "MB");
+			}
+
+			if (usedMemory / 1024.f > 1.f)
+			{
+				usedMemory /= 1024.f;
+				RendererStatisticsString->Set("memory unit", "GB");
+			}
+
+
+			RendererStatisticsString->Set("memory used", usedMemory);
 		}
 
-		if (usedMemory / 1024.f > 1.f)
 		{
-			usedMemory /= 1024.f;
-			reservedMemory /= 1024.f;
-			InstrumentorStatisticsString->Set("memory unit", "MB");
+			CL_PROFILE_SCOPE_HIGH("Profiling stats")
+
+			const auto profilingStats = Coil::Instrumentor::Get().GetStatistics();
+
+			InstrumentorStatisticsString->Set("level", ProfilingLevelToString(profilingStats.ProfilingLevel)->CString());
+			InstrumentorStatisticsString->Set("profiles", profilingStats.NumberOfProfiles);
+
+			auto usedMemory     = static_cast<float32>(profilingStats.MemoryUsed);
+			auto reservedMemory = static_cast<float32>(profilingStats.MemoryReserved);
+
+			InstrumentorStatisticsString->Set("memory unit", "Bytes");
+			if (usedMemory / 1024.f > 1.f)
+			{
+				usedMemory /= 1024.f;
+				reservedMemory /= 1024.f;
+				InstrumentorStatisticsString->Set("memory unit", "KB");
+			}
+
+			if (usedMemory / 1024.f > 1.f)
+			{
+				usedMemory /= 1024.f;
+				reservedMemory /= 1024.f;
+				InstrumentorStatisticsString->Set("memory unit", "MB");
+			}
+
+			if (usedMemory / 1024.f > 1.f)
+			{
+				usedMemory /= 1024.f;
+				reservedMemory /= 1024.f;
+				InstrumentorStatisticsString->Set("memory unit", "GB");
+			}
+
+
+			InstrumentorStatisticsString->Set("memory used", usedMemory);
+			InstrumentorStatisticsString->Set("memory reserved", reservedMemory);
+
+			InstrumentorStatisticsString->Set("elapsed time", Coil::Time::QueryConverter<float32>(Coil::Time::Unit::Millisecond)(profilingStats.ElapsedTime));
 		}
-
-		if (usedMemory / 1024.f > 1.f)
-		{
-			usedMemory /= 1024.f;
-			reservedMemory /= 1024.f;
-			InstrumentorStatisticsString->Set("memory unit", "GB");
-		}
-
-
-		InstrumentorStatisticsString->Set("memory used", usedMemory);
-		InstrumentorStatisticsString->Set("memory reserved", reservedMemory);
-
-		InstrumentorStatisticsString->Set("elapsed time", Coil::Time::QueryConverter<float32>(Coil::Time::Unit::Millisecond)(profilingStats.ElapsedTime));
 	}
 }
 

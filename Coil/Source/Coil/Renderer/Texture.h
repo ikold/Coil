@@ -19,6 +19,8 @@ namespace Coil
 		Texture& operator=(const Texture& rhs) = default;
 		Texture& operator=(Texture&& rhs)      = default;
 
+		virtual bool operator==(const Texture& other) const = 0;
+
 		[[nodiscard]] virtual uint32 GetWidth() const = 0;
 		[[nodiscard]] virtual uint32 GetHeight() const = 0;
 

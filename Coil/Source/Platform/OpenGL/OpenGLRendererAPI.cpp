@@ -30,7 +30,7 @@ namespace Coil
 			Logger::Trace(message);
 			return;
 		default:
-			CL_CORE_ASSERT(false, "Unknown severity level!");
+		CL_CORE_ASSERT(false, "Unknown severity level!");
 		}
 	}
 
@@ -53,7 +53,7 @@ namespace Coil
 	void OpenGLRendererAPI::SetViewport(uint32 x, uint32 y, uint32 width, uint32 height)
 	{
 		CL_PROFILE_FUNCTION_HIGH()
-		
+
 		glViewport(x, y, width, height);
 	}
 
@@ -71,10 +71,12 @@ namespace Coil
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void OpenGLRendererAPI::DrawIndex(const Ref<VertexArray>& vertexArray)
+	void OpenGLRendererAPI::DrawIndex(const Ref<VertexArray>& vertexArray, uint32 indexCount)
 	{
 		CL_PROFILE_FUNCTION_LOW()
-		
-		glDrawElements(GL_TRIANGLES, vertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+		const uint32 count = indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
+
+		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	}
 }

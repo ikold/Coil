@@ -16,12 +16,15 @@ namespace Coil
 	class OpenGLVertexBuffer final : public VertexBuffer
 	{
 	public:
+		explicit OpenGLVertexBuffer(uint32 size);
 		OpenGLVertexBuffer(float32* vertices, uint32 size);
-		
+
 		~OpenGLVertexBuffer() override;
 
 		void Bind() const override;
 		void Unbind() const override;
+
+		void SetData(const void* data, uint32 size) override;
 
 		void SetLayout(const BufferLayout& layout) override { Layout = layout; }
 		[[nodiscard]] const BufferLayout& GetLayout() const override { return Layout; }
@@ -44,7 +47,7 @@ namespace Coil
 	{
 	public:
 		OpenGLIndexBuffer(uint32* indices, uint32 count);
-		
+
 		~OpenGLIndexBuffer() override;
 
 		void Bind() const override;
