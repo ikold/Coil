@@ -253,6 +253,9 @@ namespace Coil
 
 			int32 dataOffset = outputStream.tellp();
 
+			// Reversing profile due to chrome://tracing issue where events that starts at the same time are draw incorrectly if first event ended before the second
+			std::reverse(Profiles.begin(), Profiles.end());
+
 			outputStream.write(reinterpret_cast<char8*>(&Profiles[0]), numberOfProfiles * sizeof ProfileResult);
 
 			// Overriding unused higher bytes of numberOfNames
