@@ -28,6 +28,8 @@ private:
 
 	float32 Timer{};
 	Coil::RString<Coil::PString> TimerString;
+	
+	Coil::RString<Coil::PString> InstrumentorStatisticsString;
 
 	float32 TimeIteration = 0.f;
 };

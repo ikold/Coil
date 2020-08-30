@@ -9,7 +9,8 @@ ApplicationLayer::ApplicationLayer()
 	  FrameTime(Coil::PString("%{#frame time.3}16f ms", 0)),
 	  MousePosition(Coil::PString("mouse x: %{#X}6d y: %{#Y}6d", 0, 0)),
 	  SquareColor(Coil::CreateRef<glm::vec4>(0.2f, 0.2f, 0.2, 1.f)),
-	  TimerString(Coil::PString("%{.2}8f seconds remains", 0))
+	  TimerString(Coil::PString("%{.2}8f seconds remains", 0)),
+	  InstrumentorStatisticsString(Coil::PString("Profiling %16{#level}s\nProfiles: %{#profiles}d\nMemory Used/Reserved: %8{#memory used.1}f/%8{#memory reserved.1}f %{#memory unit}16s\nElapsed Time: %{#elapsed time}f ms", 0, 0, 0, 0, 0, 0))
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
@@ -32,6 +33,13 @@ ApplicationLayer::ApplicationLayer()
 			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
 			CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh5s-Runtime %R.json", &time));
 		}),
+		// Will profile next five seconds on Medium level 
+		Coil::GUI::Button({ "Profile (Medium) 5 seconds" }, [&]
+		{
+			Timer     = 5.f;
+			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+			CL_PROFILE_BEGIN_SESSION_MEDIUM("High Profiling", Coil::PString("Profiling/CoilProfileMedium5s-Runtime %R.json", &time));
+		}),
 		// Will profile next five seconds on Low level 
 		Coil::GUI::Button({ "Profile (Low) 5 seconds" }, [&]
 		{
@@ -40,6 +48,12 @@ ApplicationLayer::ApplicationLayer()
 			CL_PROFILE_BEGIN_SESSION_LOW("High Profiling", Coil::PString("Profiling/CoilProfileLow5s-Runtime %R.json", &time));
 		})
 	});
+
+
+	Coil::GUI::ComponentWindow({ "Profiling Statistics" }, {
+		Coil::GUI::Text(InstrumentorStatisticsString)
+	});
+
 
 	// Display dynamically updated mouse position
 	Coil::Logger::Trace(MousePosition);
@@ -108,6 +122,46 @@ void ApplicationLayer::OnUpdate()
 		}
 
 		Coil::Renderer2D::EndScene();
+	}
+
+	{
+		CL_PROFILE_SCOPE_HIGH("Profiling stats")
+
+		const auto profilingStats = Coil::Instrumentor::Get().GetStatistics();
+
+		InstrumentorStatisticsString->Set("level", ProfilingLevelToString(profilingStats.ProfilingLevel)->CString());
+		InstrumentorStatisticsString->Set("profiles", profilingStats.NumberOfProfiles);
+
+		auto usedMemory     = static_cast<float32>(profilingStats.MemoryUsed);
+		auto reservedMemory = static_cast<float32>(profilingStats.MemoryReserved);
+
+		InstrumentorStatisticsString->Set("memory unit", "Bytes");
+		if (usedMemory / 1024.f > 1.f)
+		{
+			usedMemory /= 1024.f;
+			reservedMemory /= 1024.f;
+			InstrumentorStatisticsString->Set("memory unit", "KB");
+		}
+
+		if (usedMemory / 1024.f > 1.f)
+		{
+			usedMemory /= 1024.f;
+			reservedMemory /= 1024.f;
+			InstrumentorStatisticsString->Set("memory unit", "MB");
+		}
+
+		if (usedMemory / 1024.f > 1.f)
+		{
+			usedMemory /= 1024.f;
+			reservedMemory /= 1024.f;
+			InstrumentorStatisticsString->Set("memory unit", "GB");
+		}
+
+
+		InstrumentorStatisticsString->Set("memory used", usedMemory);
+		InstrumentorStatisticsString->Set("memory reserved", reservedMemory);
+
+		InstrumentorStatisticsString->Set("elapsed time", Coil::Time::QueryConverter<float32>(Coil::Time::Unit::Millisecond)(profilingStats.ElapsedTime));
 	}
 }
 
