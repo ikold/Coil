@@ -7,26 +7,26 @@ namespace Coil
 {
 	PString::PString(const PString& string)
 		: String(string.Data, string.Size),
-		  InsertIndex(string.InsertIndex),
-		  InsertType(string.InsertType),
-		  InsertSize(string.InsertSize),
-		  InsertSettings(string.InsertSettings)
+		InsertIndex(string.InsertIndex),
+		InsertType(string.InsertType),
+		InsertSize(string.InsertSize),
+		InsertSettings(string.InsertSettings)
 	{
 		Length = string.Length;
 	}
 
 	PString::PString(PString&& string) noexcept
 		: String(static_cast<String&&>(string)),
-		  InsertIndex(Move(string.InsertIndex)),
-		  InsertType(Move(string.InsertType)),
-		  InsertSize(Move(string.InsertSize)),
-		  InsertSettings(Move(string.InsertSettings)) {}
+		InsertIndex(Move(string.InsertIndex)),
+		InsertType(Move(string.InsertType)),
+		InsertSize(Move(string.InsertSize)),
+		InsertSettings(Move(string.InsertSettings)) {}
 
 	PString::PString(const char8* text ...)
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		std::vector<Ambiguous> parameters;
+			std::vector<Ambiguous> parameters;
 		std::vector<int32> insertSymbolSize;
 		std::vector<int32> insertSymbolIndex;
 		std::vector<int32> insertReplace;
@@ -85,7 +85,7 @@ namespace Coil
 					parameters.push_back({});
 					insert = true;
 					break;
-				default: ;
+				default:;
 				}
 			}
 			else
@@ -161,7 +161,7 @@ namespace Coil
 					InsertSize.back() += static_cast<RString<>*>(parameters.back().VoidPtr)->Get()->GetLength();
 					break;
 				default:
-				CL_ASSERT(false, "Unknow PString parameter type!");
+					CL_ASSERT(false, "Unknow PString parameter type!");
 				}
 
 				// If current insert size is 0, assigns default size
@@ -174,7 +174,7 @@ namespace Coil
 				insertReplace.push_back(static_cast<int32>(InsertIndex.size()) - 1);
 
 				insertIndexOffset += InsertSize.back() - insertSymbolSize.back();
-				insert       = false;
+				insert = false;
 				settingIndex = -1;
 			}
 		}
@@ -202,10 +202,10 @@ namespace Coil
 
 
 		auto insertSymbolIndexItr = insertSymbolIndex.begin();
-		auto insertSymbolSizeItr  = insertSymbolSize.begin();
-		auto insertReplaceItr     = insertReplace.begin();
+		auto insertSymbolSizeItr = insertSymbolSize.begin();
+		auto insertReplaceItr = insertReplace.begin();
 
-		int32 dataOffset   = 0;
+		int32 dataOffset = 0;
 		int32 sourceOffset = 0;
 
 		for (uint32 i = 0; i < insertSymbolIndex.size(); ++i)
@@ -253,7 +253,7 @@ namespace Coil
 				SetIndex(i, parameters[i].Float64);
 				break;
 			default:
-			CL_ASSERT(false, "Unknow PString parameter type!");
+				CL_ASSERT(false, "Unknow PString parameter type!");
 			}
 		}
 
@@ -289,8 +289,8 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		const int32 length = GetLength();
-		auto* newData      = new char8[static_cast<int64>(Length) + 1];
+			const int32 length = GetLength();
+		auto* newData = new char8[static_cast<int64>(Length) + 1];
 
 		char8* iteratorSrc = Data;
 		char8* iteratorDst = newData;
@@ -301,8 +301,7 @@ namespace Coil
 				*iteratorDst = *iteratorSrc;
 				++iteratorDst;
 			}
-		}
-		while (*iteratorSrc++);
+		} while (*iteratorSrc++);
 		return String(&newData, length);
 	}
 
@@ -328,7 +327,7 @@ namespace Coil
 		case 'F':
 			return 16;
 		default:
-		CL_ASSERT(false, "Unknow PString parameter type!");
+			CL_ASSERT(false, "Unknow PString parameter type!");
 		}
 
 		return 0;
@@ -339,7 +338,7 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		const int32 size = CStringLength(text);
+			const int32 size = CStringLength(text);
 
 		char8* index = Data + InsertIndex[parameterIndex];
 		memset(index, 127, InsertSize[parameterIndex]);
@@ -352,7 +351,7 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		char8* index = Data + InsertIndex[parameterIndex];
+			char8* index = Data + InsertIndex[parameterIndex];
 		memset(index, 127, InsertSize[parameterIndex]);
 		memcpy(index, string->CString(), string->GetLength());
 
@@ -363,7 +362,7 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		char8* iterator = Data + InsertIndex[parameterIndex];
+			char8* iterator = Data + InsertIndex[parameterIndex];
 		memset(iterator, 127, InsertSize[parameterIndex]);
 
 		CL_ASSERT(InsertSize[parameterIndex] < 1000, "out of bounds");
@@ -380,63 +379,11 @@ namespace Coil
 			if (--decimalPoint == 0)
 				*iterator-- = '.';
 
-			switch (operationalValue % base)
-			{
-			case 0:
-				*iterator-- = '0';
-				break;
-			case 1:
-				*iterator-- = '1';
-				break;
-			case 2:
-				*iterator-- = '2';
-				break;
-			case 3:
-				*iterator-- = '3';
-				break;
-			case 4:
-				*iterator-- = '4';
-				break;
-			case 5:
-				*iterator-- = '5';
-				break;
-			case 6:
-				*iterator-- = '6';
-				break;
-			case 7:
-				*iterator-- = '7';
-				break;
-			case 8:
-				*iterator-- = '8';
-				break;
-			case 9:
-				*iterator-- = '9';
-				break;
-			case 10:
-				*iterator-- = 'A';
-				break;
-			case 11:
-				*iterator-- = 'B';
-				break;
-			case 12:
-				*iterator-- = 'C';
-				break;
-			case 13:
-				*iterator-- = 'D';
-				break;
-			case 14:
-				*iterator-- = 'E';
-				break;
-			case 15:
-				*iterator-- = 'F';
-				break;
-			default:
-			CL_ASSERT(false, "Only up to base 16 is covered!");
-			}
+			const auto charValue = static_cast<char8>(operationalValue % base);
 
-			operationalValue /= base;
-		}
-		while (operationalValue);
+			*iterator-- = ('0' + charValue) + (charValue >= 10 ? 'A' - '9' - 1 : 0);
+		} while (operationalValue /= base);
+
 
 
 		while (--decimalPoint > 0)
@@ -473,7 +420,7 @@ namespace Coil
 			SetIndex(parameterIndex, value, 16);
 			break;
 		default:
-		CL_ASSERT(false, "Unknow PString parameter type!");
+			CL_ASSERT(false, "Unknow PString parameter type!");
 		}
 	}
 
@@ -481,7 +428,7 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		char8* index = Data + InsertIndex[parameterIndex];
+			char8* index = Data + InsertIndex[parameterIndex];
 		memset(index, 127, static_cast<size_t>(InsertSize[parameterIndex]));
 
 		int32 decimalPoint = InsertSettings[parameterIndex].DecimalPoint;
@@ -501,21 +448,53 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		Length          = Size;
+			Length = Size;
 		char8* iterator = Data;
 		do
 		{
 			if (*iterator == 127)
 				--Length;
+		} while (*iterator++);
+	}
+
+	void PString::ResizeParameter(int32 index, int32 size)
+	{
+		const int64 resize = size - InsertSize[index];
+
+
+		if (resize > 0)
+		{
+			Data = static_cast<char8*>(realloc(Data, Size + resize));
+
+			const auto parameterEndpoint = Data + InsertIndex[index] + InsertSize[index];
+
+			memmove(Data + InsertIndex[index] + size, parameterEndpoint, 1 + Size - InsertIndex[index] - InsertSize[index]);
+
+			memset(parameterEndpoint, 127, resize);
 		}
-		while (*iterator++);
+		else if (resize < 0)
+		{
+			const auto parameterEndpoint = Data + InsertIndex[index] + InsertSize[index];
+
+			memmove(Data + InsertIndex[index] + size, parameterEndpoint, 1 + Size - InsertIndex[index] - InsertSize[index]);
+
+			Data = static_cast<char8*>(realloc(Data, Size + resize));
+		}
+		Size += resize;
+
+		InsertSize[index] = size;
+
+		for (int32 i = index + 1; i < InsertIndex.size(); ++i)
+			InsertIndex[i] += resize;
+
+		RecalculateLength();
 	}
 
 	PString::Settings PString::ParseSettings(const char8* source, int32 size)
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		Settings settings;
+			Settings settings;
 
 		enum class ParseState
 		{
@@ -528,11 +507,11 @@ namespace Coil
 		ParseState state = ParseState::None;
 		ParseState newState;
 
-		char8* stateBegging    = nullptr;
+		char8* stateBegging = nullptr;
 		char8* newStateBegging = nullptr;
 
 		char8* iterator = const_cast<char8*>(source) - 1;
-		char8* end      = const_cast<char8*>(source) + size + 1;
+		char8* end = const_cast<char8*>(source) + size + 1;
 
 		while (++iterator != end)
 		{
@@ -563,17 +542,17 @@ namespace Coil
 				case ParseState::Key:
 				{
 					const int32 keySize = iterator - stateBegging;
-					auto* key           = new char8[static_cast<uint64>(keySize) + 1]{};
+					auto* key = new char8[static_cast<uint64>(keySize) + 1]{};
 					memcpy(key, stateBegging, keySize);
 					settings.Key = String(&key, keySize);
 					break;
 				}
 				case ParseState::DecimalPoint:
-					settings.DecimalPoint = ParseInt(stateBegging, iterator - stateBegging);
+					settings.DecimalPoint = ParseInt(stateBegging, static_cast<int32>(iterator - stateBegging));
 					break;
 				}
 
-				state        = newState;
+				state = newState;
 				stateBegging = newStateBegging;
 			}
 		}

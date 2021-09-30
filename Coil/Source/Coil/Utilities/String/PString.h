@@ -17,15 +17,15 @@ namespace Coil
 	 * R - RString<>\n
 	 *
 	 * @note Constructor accepts only written types, but Set() methods are defined for wide range of types (int64, float32 etc.)
-	 * 
-	 * @note PString uses zero-width spaces for reserving size for parameters, for font to be compatible it has to have zero-width space on 127 character (return - normally unused in displaying text)
-	 * @note If used with unsupported font, ToString() is provided to create copy without return character (127 character used for zero-width space)\n
-	 * 
+	 *
+	 * @note PString uses zero-width spaces for reserving size for parameters, for font to be compatible it has to have zero-width space on 127 character (delete control character - normally unused in displaying text)
+	 * @note If used with unsupported font, ToString() is provided to create copy without zero-width spaces\n
+	 *
 	 * @note Parameters are denoted by prefixing it with % (e.g. "number %d")\n
-	 * 
+	 *
 	 * @note Size of the parameter (how much space is reserved in the PString) can be provided by inserting number between % and denoting character (e.g. "number %4d")\n
 	 * Except for R all of the parameters have upper case equivalent that accepts size as second parameter (after the value of the parameter), if size is defined in source string end result is sum of the two values (e.g. PString("number %2D" -10, 2) is one parameter of size 4 and value of -10 and would be displayed as "number -10")\n
-	 * 
+	 *
 	 * @note Additional settings can be provided in the source string by inserting them between % and denoting character in the curve brackets (e.g. "number %4{.2}d"), options should not split size number (treated as undefined behavior)
 	 *
 	 * @todo Allow resizing (reallocation) of reserved space for the parameters
@@ -44,7 +44,7 @@ namespace Coil
 		struct Settings
 		{
 			int32 DecimalPoint = -1;
-			RString<> Key      = "";
+			RString<> Key = "";
 		};
 
 
@@ -112,6 +112,7 @@ namespace Coil
 			}
 		}
 
+		void ResizeParameter(int32 index, int32 size);
 	private:
 		void RecalculateLength();
 
