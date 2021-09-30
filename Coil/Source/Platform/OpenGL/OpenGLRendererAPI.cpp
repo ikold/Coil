@@ -27,10 +27,11 @@ namespace Coil
 			Logger::Warning(message);
 			return;
 		case GL_DEBUG_SEVERITY_NOTIFICATION:
-			Logger::Trace(message);
+			// TODO suppress excessive tracing logs
+			//Logger::Trace(message);
 			return;
 		default:
-		CL_CORE_ASSERT(false, "Unknown severity level!");
+			CL_CORE_ASSERT(false, "Unknown severity level!");
 		}
 	}
 
@@ -39,7 +40,7 @@ namespace Coil
 		CL_PROFILE_FUNCTION_HIGH()
 
 #ifdef CL_DEBUG
-		glEnable(GL_DEBUG_OUTPUT);
+			glEnable(GL_DEBUG_OUTPUT);
 		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(OpenGLMessageCallback, nullptr);
 #endif
@@ -54,28 +55,28 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_HIGH()
 
-		glViewport(x, y, width, height);
+			glViewport(x, y, width, height);
 	}
 
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
 	{
 		CL_PROFILE_FUNCTION_HIGH()
 
-		glClearColor(color.r, color.g, color.b, color.a);
+			glClearColor(color.r, color.g, color.b, color.a);
 	}
 
 	void OpenGLRendererAPI::Clear()
 	{
 		CL_PROFILE_FUNCTION_HIGH()
 
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
 	void OpenGLRendererAPI::DrawIndex(const Ref<VertexArray>& vertexArray, uint32 indexCount)
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		const uint32 count = indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
+			const uint32 count = indexCount ? indexCount : vertexArray->GetIndexBuffer()->GetCount();
 
 		glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
 	}
