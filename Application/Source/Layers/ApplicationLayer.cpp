@@ -5,16 +5,16 @@
 
 ApplicationLayer::ApplicationLayer()
 	: Layer("Application"),
-	  CameraController(1280.0f / 720.0f, true),
-	  FrameTime(Coil::PString("%{#frame time.3}16f ms", 0)),
-	  MousePosition(Coil::PString("mouse x: %{#X}6d y: %{#Y}6d", 0, 0)),
-	  SquareColor(Coil::CreateRef<glm::vec4>(0.2f, 0.2f, 0.2, 1.f)),
-	  RendererStatisticsString(Coil::PString("Draw Calls: %{#draw calls}d\nQuads: %{#quads}d\nVertices: %{#vertices}d\nIndices: %{#indices}d\nMemory Used: %8{#memory used.1}f %{#memory unit}16s", 0, 0, 0, 0, 0, 0)),
-	  InstrumentorStatisticsString(Coil::PString("Profiling %16{#level}s\nProfiles: %{#profiles}d\nMemory Used/Reserved: %8{#memory used.1}f/%8{#memory reserved.1}f %{#memory unit}16s\nElapsed Time: %{#elapsed time}f ms", 0, 0, 0, 0, 0, 0))
+	CameraController(1280.0f / 720.0f, true),
+	FrameTime(Coil::PString("%{#frame time.3}16f ms", 0)),
+	MousePosition(Coil::PString("mouse x: %{#X}6d y: %{#Y}6d", 0, 0)),
+	SquareColor(Coil::CreateRef<glm::vec4>(0.2f, 0.2f, 0.2, 1.f)),
+	RendererStatisticsString(Coil::PString("Draw Calls: %{#draw calls}d\nQuads: %{#quads}d\nVertices: %{#vertices}d\nIndices: %{#indices}d\nMemory Used: %8{#memory used.1}f %{#memory unit}16s", 0, 0, 0, 0, 0, 0)),
+	InstrumentorStatisticsString(Coil::PString("Profiling %16{#level}s\nProfiles: %{#profiles}d\nMemory Used/Reserved: %8{#memory used.1}f/%8{#memory reserved.1}f %{#memory unit}16s\nElapsed Time: %{#elapsed time}f ms", 0, 0, 0, 0, 0, 0))
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
-	Coil::Application::Get().GetWindow().SetVSync(false);
+		Coil::Application::Get().GetWindow().SetVSync(true);
 
 	// Creating and binding Log window
 	Coil::GUI::LogWindow({ "Log" })->BindBuffer(Coil::Logger::GetBuffer());
@@ -29,35 +29,38 @@ ApplicationLayer::ApplicationLayer()
 		// Will profile next five seconds on High level 
 		Coil::GUI::Button({ "Profile (High) 5 seconds" }, [&]
 		{
-			Timer     = 5.f;
 			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
 			CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh5s-Runtime %R.json", &time));
+
+			CL_PROFILE_END_SESSION_TIMER(5000)
 		}),
 		// Will profile next five seconds on Medium level 
 		Coil::GUI::Button({ "Profile (Medium) 5 seconds" }, [&]
 		{
-			Timer     = 5.f;
 			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
 			CL_PROFILE_BEGIN_SESSION_MEDIUM("High Profiling", Coil::PString("Profiling/CoilProfileMedium5s-Runtime %R.json", &time));
+
+			CL_PROFILE_END_SESSION_TIMER(5000)
 		}),
-		// Will profile next five seconds on Low level 
-		Coil::GUI::Button({ "Profile (Low) 5 seconds" }, [&]
-		{
-			Timer     = 5.f;
-			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
-			CL_PROFILE_BEGIN_SESSION_LOW("High Profiling", Coil::PString("Profiling/CoilProfileLow5s-Runtime %R.json", &time));
-		})
-	});
+				// Will profile next five seconds on Low level 
+				Coil::GUI::Button({ "Profile (Low) 5 seconds" }, [&]
+				{
+					auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+					CL_PROFILE_BEGIN_SESSION_LOW("High Profiling", Coil::PString("Profiling/CoilProfileLow5s-Runtime %R.json", &time));
+
+					CL_PROFILE_END_SESSION_TIMER(5000)
+				})
+		});
 
 
 	Coil::GUI::ComponentWindow({ "Renderer2D Statistics" }, {
 		Coil::GUI::Text(RendererStatisticsString)
-	});
+		});
 
 
 	Coil::GUI::ComponentWindow({ "Profiling Statistics" }, {
 		Coil::GUI::Text(InstrumentorStatisticsString)
-	});
+		});
 
 
 	// Display dynamically updated mouse position
@@ -70,23 +73,11 @@ void ApplicationLayer::OnUpdate()
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
-	// Updates frame time overlay
-	FrameTime->Set("frame time", Coil::Time::DeltaTime());
+		// Updates frame time overlay
+		FrameTime->Set("frame time", Coil::Time::DeltaTime());
 	FrameTime->SetIndex(0, Coil::Time::DeltaTime());
 
 	CameraController.OnUpdate();
-
-	// Timer for the profiling
-	if (Timer > 0.f)
-	{
-		Timer -= Coil::Time::DeltaTime() / 1000.f;
-
-		if (Timer <= 0.f)
-		{
-			Timer = 0.f;
-			CL_PROFILE_END_SESSION()
-		}
-	}
 
 	// Updates mouse position log
 	auto [mouseX, mouseY] = Coil::Input::GetMousePosition();
@@ -97,7 +88,7 @@ void ApplicationLayer::OnUpdate()
 		{
 			CL_PROFILE_SCOPE_HIGH("Rendering")
 
-			Coil::Renderer2D::ResetStatistics();
+				Coil::Renderer2D::ResetStatistics();
 
 			Coil::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.f });
 			Coil::RenderCommand::Clear();
@@ -105,7 +96,7 @@ void ApplicationLayer::OnUpdate()
 			Coil::Renderer2D::BeginScene(CameraController.GetCamera());
 
 			const int32 gridHeight = 40;
-			const int32 gridWidth  = 60;
+			const int32 gridWidth = 60;
 
 			// Increments iterator by half of frame time in seconds
 			TimeIteration += Coil::Time::DeltaTime() / 1000.f * 0.5f;
@@ -119,7 +110,7 @@ void ApplicationLayer::OnUpdate()
 			{
 				CL_PROFILE_SCOPE_HIGH("Grid rendering")
 
-				auto quadBuilder = Coil::Renderer2D::QuadBuilder();
+					auto quadBuilder = Coil::Renderer2D::QuadBuilder();
 
 				quadBuilder.SetColor(*SquareColor);
 				quadBuilder.SetScale({ 0.1f, 0.1f });
@@ -130,16 +121,16 @@ void ApplicationLayer::OnUpdate()
 				{
 					CL_PROFILE_SCOPE_LOW("Draw collumn")
 
-					quadBuilder.SetPosition({
-						(-gridWidth / 2.f - TimeIteration + x) * 0.11f,
-						(-gridHeight / 2.f + TimeIteration / 4.f) * 0.11f
-					});
+						quadBuilder.SetPosition({
+							(-gridWidth / 2.f - TimeIteration + x) * 0.11f,
+							(-gridHeight / 2.f + TimeIteration / 4.f) * 0.11f
+							});
 
 					for (int32 y = 0; y < gridHeight; ++y)
 					{
 						CL_PROFILE_SCOPE_LOW("Draw cell")
 
-						quadBuilder.Draw();
+							quadBuilder.Draw();
 
 						quadBuilder.Move({ 0.f, 0.11f });
 					}
@@ -152,7 +143,7 @@ void ApplicationLayer::OnUpdate()
 		{
 			CL_PROFILE_SCOPE_HIGH("Rendering stats")
 
-			const auto renderingStats = Coil::Renderer2D::GetStatistics();
+				const auto renderingStats = Coil::Renderer2D::GetStatistics();
 
 			RendererStatisticsString->Set("draw calls", renderingStats.DrawCalls);
 			RendererStatisticsString->Set("quads", renderingStats.QuadCount);
@@ -187,12 +178,12 @@ void ApplicationLayer::OnUpdate()
 		{
 			CL_PROFILE_SCOPE_HIGH("Profiling stats")
 
-			const auto profilingStats = Coil::Instrumentor::Get().GetStatistics();
+				const auto profilingStats = Coil::Instrumentor::GetStatistics();
 
-			InstrumentorStatisticsString->Set("level", ProfilingLevelToString(profilingStats.ProfilingLevel)->CString());
+			InstrumentorStatisticsString->Set("level", Coil::Instrumentor::ProfilingLevelToString(profilingStats.ProfilingLevel)->CString());
 			InstrumentorStatisticsString->Set("profiles", profilingStats.NumberOfProfiles);
 
-			auto usedMemory     = static_cast<float32>(profilingStats.MemoryUsed);
+			auto usedMemory = static_cast<float32>(profilingStats.MemoryUsed);
 			auto reservedMemory = static_cast<float32>(profilingStats.MemoryReserved);
 
 			InstrumentorStatisticsString->Set("memory unit", "Bytes");
@@ -230,8 +221,8 @@ void ApplicationLayer::OnEvent(Coil::Event& event)
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
-	// Passes the event to camera controller
-	CameraController.OnEvent(event);
+		// Passes the event to camera controller
+		CameraController.OnEvent(event);
 
 	Coil::EventDispatcher dispatcher(event);
 	dispatcher.Dispatch<Coil::KeyPressedEvent>(BIND_EVENT_METHOD(ApplicationLayer::OnKeyPressed));
@@ -242,20 +233,25 @@ bool ApplicationLayer::OnKeyPressed(Coil::KeyPressedEvent& event) const
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
-	// Starts profiling High profiling for P key and Low profiling for Ctrl + P key
-	if (event.GetKeyCode() == CL_KEY_P && event.GetRepeatCount() == 0)
-	{
-		if (Coil::Input::IsKeyPressed(CL_KEY_LEFT_CONTROL))
+		// Starts profiling High profiling for P key, Medium profiling for Shift + P key and Low profiling for Ctrl + P key
+		if (event.GetKeyCode() == CL_KEY_P && event.GetRepeatCount() == 0)
 		{
-			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
-			CL_PROFILE_BEGIN_SESSION_LOW("Low Profiling", Coil::PString("Profiling/CoilProfileLow-Runtime %R.json", &time));
+			if (Coil::Input::IsKeyPressed(CL_KEY_LEFT_CONTROL))
+			{
+				auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+				CL_PROFILE_BEGIN_SESSION_LOW("Low Profiling", Coil::PString("Profiling/CoilProfileLow-Runtime %R.json", &time));
+			}
+			else if (Coil::Input::IsKeyPressed(CL_KEY_LEFT_SHIFT))
+			{
+				auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+				CL_PROFILE_BEGIN_SESSION_MEDIUM("Medium Profiling", Coil::PString("Profiling/CoilProfileMedium-Runtime %R.json", &time));
+			}
+			else
+			{
+				auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
+				CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh-Runtime %R.json", &time));
+			}
 		}
-		else
-		{
-			auto time = Coil::Time::NowString("%Y-%m-%d %H_%M_%S");
-			CL_PROFILE_BEGIN_SESSION_HIGH("High Profiling", Coil::PString("Profiling/CoilProfileHigh-Runtime %R.json", &time));
-		}
-	}
 
 	return false;
 }
@@ -264,9 +260,9 @@ bool ApplicationLayer::OnKeyReleased(Coil::KeyReleasedEvent& event) const
 {
 	CL_PROFILE_FUNCTION_HIGH()
 
-	// Stops profiling
-	if (event.GetKeyCode() == CL_KEY_P)
-		CL_PROFILE_END_SESSION()
+		// Stops profiling
+		if (event.GetKeyCode() == CL_KEY_P)
+			CL_PROFILE_END_SESSION()
 
-	return false;
+			return false;
 }
