@@ -6,6 +6,7 @@ workspace "Coil"
 	{
 		"Debug",
 		"Release",
+		"Release-Profiler",
 		"Distribution"
 	}
 	
@@ -92,6 +93,16 @@ workspace "Coil"
 				"CL_RELEASE"
 			}
 			
+		filter "configurations:Release-Profiler"
+			runtime "Release"
+			optimize "On"
+			
+			defines
+			{
+				"CL_RELEASE",
+				"CL_PROFILE=3"
+			}
+			
 		filter "configurations:Distribution"
 			runtime "Release"
 			optimize "On"
@@ -156,6 +167,16 @@ workspace "Coil"
 			defines
 			{
 				"CL_RELEASE"
+			}
+			
+		filter "configurations:Release-Profiler"
+			runtime "Release"
+			optimize "On"
+			
+			defines
+			{
+				"CL_RELEASE",
+				"CL_PROFILE=3"
 			}
 			
 		filter "configurations:Distribution"

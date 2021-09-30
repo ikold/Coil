@@ -8,13 +8,13 @@ namespace Coil
 {
 	String::String()
 		: Data(nullptr),
-		  Length(0),
-		  Size(Length)
+		Length(0),
+		Size(Length)
 	{}
 
 	String::String(const String& string)
 		: Length(string.Length),
-		  Size(Length)
+		Size(Length)
 	{
 		Data = new char[static_cast<size_t>(Size) + 1];
 		memcpy(Data, string.Data, static_cast<size_t>(Size) + 1);
@@ -22,14 +22,14 @@ namespace Coil
 
 	String::String(String&& string) noexcept
 		: Data(std::exchange(string.Data, nullptr)),
-		  Length(std::exchange(string.Length, 0)),
-		  Size(std::exchange(string.Size, 0))
+		Length(std::exchange(string.Length, 0)),
+		Size(std::exchange(string.Size, 0))
 	{}
 
 
 	String::String(const char8* text)
 		: Length(CStringLength(text)),
-		  Size(Length)
+		Size(Length)
 	{
 		Data = new char[static_cast<size_t>(Size) + 1];
 		memcpy(Data, text, static_cast<size_t>(Size) + 1);
@@ -37,7 +37,7 @@ namespace Coil
 
 	String::String(const char8* text, int32 length)
 		: Length(length),
-		  Size(Length)
+		Size(Length)
 	{
 		Data = new char[static_cast<size_t>(Size) + 1];
 		memcpy(Data, text, static_cast<size_t>(Size));
@@ -46,14 +46,14 @@ namespace Coil
 
 	String::String(char8** charPtr)
 		: Data(*charPtr),
-		  Length(CStringLength(*charPtr)),
-		  Size(Length)
+		Length(CStringLength(*charPtr)),
+		Size(Length)
 	{}
 
 	String::String(char8** charPtr, int32 length)
 		: Data(*charPtr),
-		  Length(length),
-		  Size(Length)
+		Length(length),
+		Size(Length)
 	{}
 
 
@@ -103,12 +103,12 @@ namespace Coil
 
 	void String::Reverse() const
 	{
-		char8* forwardIterator  = Data;
+		char8* forwardIterator = Data;
 		char8* backwardIterator = Data + Length - 1;
 		while (forwardIterator < backwardIterator)
 		{
-			const char8 tmp   = *forwardIterator;
-			*forwardIterator  = *backwardIterator;
+			const char8 tmp = *forwardIterator;
+			*forwardIterator = *backwardIterator;
 			*backwardIterator = tmp;
 			++forwardIterator;
 			--backwardIterator;
@@ -129,7 +129,7 @@ namespace Coil
 	{
 		const int32 oldPhraseLength = CStringLength(oldPhrase);
 		const int32 newPhraseLength = CStringLength(newPhrase);
-		const int32 sizeDifference  = newPhraseLength - oldPhraseLength;
+		const int32 sizeDifference = newPhraseLength - oldPhraseLength;
 
 		if (sizeDifference < 0)
 			return ReplaceWithShorter(oldPhrase, newPhrase, oldPhraseLength, newPhraseLength, sizeDifference);
@@ -142,17 +142,17 @@ namespace Coil
 
 	int32 String::FirstMatch(const char8* phrase, int32 start, int32 end) const
 	{
-		char8* itr               = Data + start - 1;
+		char8* itr = Data + start - 1;
 		const int32 phraseLength = CStringLength(phrase);
-		char8* itrEnd            = end < 0 ? Data + Length - phraseLength : Data + end - phraseLength;
+		char8* itrEnd = end < 0 ? Data + Length - phraseLength : Data + end - phraseLength;
 		while (++itr <= itrEnd)
 		{
-			char8* compareIterator      = itr;
+			char8* compareIterator = itr;
 			const char8* phraseIterator = phrase;
 			while (*compareIterator++ == *phraseIterator++)
 			{
 				if (*phraseIterator == '\0')
-					return itr - Data;
+					return static_cast<int32>(itr - Data);
 			}
 		}
 
@@ -162,9 +162,9 @@ namespace Coil
 	int32 String::CountOccurrence(const char8* phrase) const
 	{
 		int32 index;
-		int32 searchIndex        = 0;
+		int32 searchIndex = 0;
 		const int32 phraseLength = CStringLength(phrase);
-		int32 numberOfOccurrence  = 0;
+		int32 numberOfOccurrence = 0;
 		while ((index = FirstMatch(phrase, searchIndex)) != -1)
 		{
 			searchIndex = index + phraseLength;
@@ -178,7 +178,7 @@ namespace Coil
 	{
 		int32 index;
 		const int32 phraseLength = CStringLength(phrase);
-		int32 numberOfRemoved    = 0;
+		int32 numberOfRemoved = 0;
 		while ((index = FirstMatch(phrase)) != -1)
 		{
 			strcpy_s(Data + index, static_cast<size_t>(Length) - index - phraseLength + 1, Data + index + phraseLength);
@@ -187,7 +187,7 @@ namespace Coil
 
 		// TODO fix for child classes
 		Length -= numberOfRemoved * phraseLength;
-		Size      = Length;
+		Size = Length;
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
@@ -217,9 +217,9 @@ namespace Coil
 
 	int32 String::ParseInt(const char8* source, int32 size)
 	{
-		int32 value     = 0;
+		int32 value = 0;
 		char8* iterator = const_cast<char8*>(source) - 1;
-		char8* end      = const_cast<char8*>(source) + size;
+		char8* end = const_cast<char8*>(source) + size;
 
 		if (*source == '-')
 			++iterator;
@@ -250,7 +250,7 @@ namespace Coil
 	int32 String::ReplaceWithShorter(const char8* oldPhrase, const char8* newPhrase, int32 oldSize, int32 newSize, int32 difference)
 	{
 		int32 numberOfReplaced = 0;
-		int32 searchIndex      = 0;
+		int32 searchIndex = 0;
 		int32 index;
 		while ((index = FirstMatch(oldPhrase, searchIndex)) != -1)
 		{
@@ -261,7 +261,7 @@ namespace Coil
 		}
 
 		Length += numberOfReplaced * difference;
-		Size      = Length;
+		Size = Length;
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)
@@ -276,7 +276,7 @@ namespace Coil
 	int32 String::ReplaceWithEqual(const char8* oldPhrase, const char8* newPhrase, int32 size)
 	{
 		int32 numberOfReplaced = 0;
-		int32 searchIndex      = 0;
+		int32 searchIndex = 0;
 		int32 index;
 		while ((index = FirstMatch(oldPhrase, searchIndex)) != -1)
 		{
@@ -293,7 +293,7 @@ namespace Coil
 		int32 numberOfReplaced = CountOccurrence(oldPhrase);
 
 		Length += numberOfReplaced * difference;
-		Size      = Length;
+		Size = Length;
 		auto* tmp = static_cast<char8*>(realloc(Data, static_cast<size_t>(Size) + 1));
 		CL_ASSERT(tmp, "Failed to reallocate memory");
 		if (tmp)

@@ -10,7 +10,7 @@ namespace Coil
 	int64 Time::Query()
 	{
 #ifdef CL_PLATFORM_WINDOWS
-		LARGE_INTEGER timeQuery;
+		thread_local LARGE_INTEGER timeQuery;
 		// QueryPerformanceCounter returns value in counts
 		QueryPerformanceCounter(&timeQuery);
 		return timeQuery.QuadPart;
@@ -30,7 +30,7 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_LOW()
 
-		std::stringstream ss;
+			std::stringstream ss;
 		ss << std::put_time(std::localtime(&timestamp), format->CString());
 		return ss.str().c_str();
 	}
@@ -39,12 +39,12 @@ namespace Coil
 	{
 		CL_PROFILE_FUNCTION_HIGH()
 
-		// Updating current frame time
-		CurrentFrameTime = Query();
+			// Updating current frame time
+			CurrentFrameTime = Query();
 
 		// Creating converter for tick queries
 		static auto queryToMilliseconds = QueryConverter<float32>(Unit::Millisecond);
-		
+
 		// Converting to milliseconds
 		DeltaTimeV = queryToMilliseconds(CurrentFrameTime - LastFrameTime);
 

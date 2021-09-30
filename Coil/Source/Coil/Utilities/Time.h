@@ -103,26 +103,27 @@ namespace Coil
 		struct QueryConverter
 		{
 			/** Target unit divided by it and frequency greatest common divisor */
-			const T UnitsInSecondGDC;
+			const T UnitsInSecondGCD;
 			/** Frequency divided by it and target unit greatest common divisor */
-			const T FrequencyGDC;
+			const T FrequencyGCD;
 
 			/**
 			 * @param[in]	targetUnit	Unit to convert to
 			 * @param[in]	frequency	Frequency of the queries
 			 */
 			explicit constexpr QueryConverter(Unit targetUnit = Unit::Millisecond, int64 frequency = QueryFrequency())
-				: UnitsInSecondGDC(T(targetUnit) / std::gcd(int64(targetUnit), frequency)),
-				  FrequencyGDC(T(frequency) / std::gcd(int64(targetUnit), frequency)) {}
+				: UnitsInSecondGCD(T(targetUnit) / std::gcd(static_cast<int64>(targetUnit), frequency)),
+				FrequencyGCD(T(frequency) / std::gcd(static_cast<int64>(targetUnit), frequency))
+			{}
 
 			/**
-			 * @param[in]	queryResult	
+			 * @param[in]	queryResult
 			 *
 			 * @return		Converted value in targeted units
 			 */
 			constexpr T operator()(int64 queryResult) const
 			{
-				return queryResult * UnitsInSecondGDC / FrequencyGDC;
+				return static_cast<T>(queryResult) * UnitsInSecondGCD / FrequencyGCD;
 			}
 		};
 

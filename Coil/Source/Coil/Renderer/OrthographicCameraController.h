@@ -16,7 +16,7 @@ namespace Coil
 		void OnUpdate();
 		void OnEvent(Event& e);
 
-		OrthographicCamera& GetCamera() { return Camera; }
+		[[nodiscard]] OrthographicCamera& GetCamera() { return Camera; }
 		[[nodiscard]] const OrthographicCamera& GetCamera() const { return Camera; }
 
 	private:
@@ -30,8 +30,8 @@ namespace Coil
 
 		bool Rotation;
 
-		glm::vec3 CameraPosition       = { 0.0f, 0.0f, 0.0f };
-		float32 CameraRotation         = 0.0f;
+		glm::vec3 CameraPosition = { 0.0f, 0.0f, 0.0f };
+		float32 CameraRotation = 0.0f;
 		float32 CameraTranslationSpeed = 1.0f, CameraRotationSpeed = 180.0f;
 	};
 }
